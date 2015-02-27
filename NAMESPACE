@@ -1,0 +1,53 @@
+import(
+  raster,
+  sp, 
+  rgdal,
+  rootSolve,
+  methods
+  )
+importFrom("signal", sgolay)
+importFrom("signal", sgolayfilt)
+
+useDynLib(hsdar)
+
+exportPattern("^[[:alpha:]]+")
+exportMethods(
+    "apply",
+    "attribute",
+    "as.array",
+    "as.matrix",
+    "[<-",
+    "[",
+    "$",
+    "cor.test",
+    "dim",
+    "distMat3D",
+    "get_reflectance",
+    "getValuesBlock",
+    "HyperSpecRaster",
+    "initialize",
+    "mask<-",
+    "merge",
+    "ncol",
+    "nrow",
+    "plot",
+    "print",
+    "show",
+    "speclib",
+    "spectra<-",
+    "spectra",
+    "subset",
+    "t.test",
+    "wavelength<-",
+    "wavelength",
+    "writeStart",
+    "writeValues" 
+)
+exportClasses(
+    "Clman",
+     "DistMat3D",
+     "HyperSpecRaster",
+     "Nri",
+     "Specfeat",
+     "Speclib" 
+)

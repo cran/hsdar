@@ -1,0 +1,7 @@
+all: $(SHLIB) 
+
+PRO4SAIL.o: PRO4SAIL.f90 dataSpec_P5B_PROSAIL.o MODULE_PRO4SAIL.o
+	$(FC) -fpic -O3 -pipe  -g -c PRO4SAIL.f90
+
+clean:
+	rm *.o *.mod *.so

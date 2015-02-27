@@ -1,0 +1,67 @@
+Copyrights of files in package "hsdar"
+--------------------------------------
+
+Various files in this package have different copyrights.
+
+1. Spectral response functions
+------------------------------
+
+  a) RapidEye:
+     
+     data/RapidEye_response.csv.gz
+     
+       Copyright by RapidEye AG 
+       Kurfürstendamm 22 
+       10719 Berlin
+       Germany
+  
+  b) WorldView-2
+     
+     data/WV_2_8_response.csv.gz
+     
+       © DigitalGlobe, Inc. All Rights Reserved
+       1601 Dry Creek Drive, Suite 260
+       Longmont, CO 80503
+       USA
+     
+  c) Quickbird
+     
+     data/Quickbird_response.csv.gz
+     
+       © DigitalGlobe, Inc. All Rights Reserved
+       1601 Dry Creek Drive, Suite 260
+       Longmont, CO 80503
+       USA
+     
+
+2. Source code used in the package
+----------------------------------
+
+  a) The PROSPECT and PROSAIL models were written by 
+     Jean-Baptiste FERET, Stéphane JACQUEMOUD, 
+     Christophe FRANCOIS, Wout VERHOEF and *...*.
+
+     PROSAIL:
+       scr/dataSpec_P5B_PROSAIL.f90 
+       scr/dladgen.f 
+       scr/LIDF.f90  
+       scr/main_PROSAIL.f90 
+       scr/MODULE_PRO4SAIL.f90 
+       scr/PRO4SAIL.f90 
+       scr/volscatt.f90
+
+     PROSPECT:
+       scr/dataSpec_P5B_PROSPECT.f90 
+       scr/main_PROSPECT.f90  
+      
+     Files used in both:
+       scr/prospect_5B.f90
+       scr/tav_abs.f90
+
+
+  b) The unmixing routine is based on code originally
+     written by Markus NETELER for Grass GIS Version 5 
+       
+       scr/unmix.c
+
+     Copyright 1999-2012 (C) by the GRASS Development Team
