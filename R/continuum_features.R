@@ -359,32 +359,7 @@ setMethod("plot", signature(x = "Specfeat"),
     legend(x=p[2]+(p[2]-p[1])*0.01,y=p[4],legend=lev,col=changecol, lty=changetype)
   }
 }
-)
-
-
-area.specfeat <- function(
-                          x
-                         ) 
-{
-  if (class(x)!="Specfeat") 
-    stop("x must be of class 'Specfeat'")
-  
-  x <- x@features
-  
-  Area <- matrix(ncol=length(x[[1]]),nrow=length(names(x)))
-  
-  for (i in 1:length(names(x)))
-  {
-    for (k in 1:length(x[[1]])) 
-    {
-      Area[i,k] <- as.numeric(sum(x[[i]][[k]]$y))
-    }
-  }
-  
-  rownames(Area) <- names(x)[1:length(names(x))]
-  colnames(Area) <- names(x[[i]])
-  return(Area)
-}   
+) 
 
 bdri <- function(
                  x,

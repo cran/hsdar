@@ -53,6 +53,7 @@ Unmixing code is based on "i.spec.unmix" for GRASS 5 written by Markus Neteler (
 }
 
 \examples{
+\dontrun{
 data(spectral_data)
 data(endmember_spectra)
 
@@ -67,5 +68,7 @@ spectra(endmember_spectra) <- spectra(endmember_spectra)/100
 ## Perform unmixing for spectra from Kailash-site
 unmix_fractions <- unmix(subset(spectral_data, Site == "Kailash"), 
                          subset(endmember_spectra, Site == "Kailash"))
+
+}
 }
 \keyword{multivariate}

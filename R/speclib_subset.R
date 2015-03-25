@@ -56,10 +56,16 @@ setMethod("subset", signature(x = "Speclib"),
   spectra(x) <- if (sum(r) == 1) matrix(data=spectra(x)[r,], nrow=1) else spectra(x)[r,]
   
   idSpeclib(x) <- as.character(idSpeclib(x)[r])
-  
+
   if (nrow(attribute(x)) == nrow(target))
-    attribute(x) <- attribute(x)[r,]
-    
+    attribute(x) <- attribute(x)[r,] 
+  e_str <- gsub("\"", "'", as.character(paste(enquote(e)))[2])
+  if (length(e_str) == 1)
+  {
+    usagehistory(x) <- paste("Subset of spectra (", e_str, ")", sep = "")  
+  } else {
+    usagehistory(x) <- "Subset of spectra"
+  }
   return(x)
 }
 

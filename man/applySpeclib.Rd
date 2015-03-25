@@ -20,7 +20,7 @@ Object of class \code{Speclib}
 Function to be applied. Matched with \code{\link{match.fun}}.
 }
   \item{byattributes}{
-Currently not implemeted
+Character string giving the name of the column in the attributes to be used as subsets to apply function FUN on.
 }
 \item{...}{
 Further arguments passed to FUN.
@@ -41,8 +41,14 @@ Lukas Lehnert
 \examples{
 data(spectral_data)
 
-mean <- apply(spectral_data, FUN=mean)
-plot(mean)
+mean_spectrum <- apply(spectral_data, FUN = mean)
+plot(mean_spectrum)
+
+## Same as above but seperately for both sites
+mean_spectra <- apply(spectral_data, FUN = mean, byattributes = "Site")
+plot(mean_spectra, FUN = 1, ylim = c(0,50))
+plot(mean_spectra, FUN = 2, new = FALSE)
+attribute(mean_spectra)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

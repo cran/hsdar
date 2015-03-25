@@ -34,6 +34,17 @@ setReplaceMethod("mask", signature(object = "Speclib", value = "data.frame"),
 }
 )
 
+setReplaceMethod("mask", signature(object = "Speclib", value = "matrix"), 
+                 definition = function(object, value)
+{
+  if (ncol(value)!=2)
+    stop("In case of mask being a data.frame it must contain exactly two columns")
+  lb <- value[,1]
+  ub <- value[,2]
+  return(maskSpeclib(object, lb, ub))
+}
+)
+
 maskSpeclib <- function(object, lb, ub)
 {
   range_of_wl <- if (length(object@fwhm)==1) rep.int(object@fwhm, nbands(object)) else object@fwhm

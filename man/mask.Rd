@@ -6,6 +6,7 @@
 \alias{mask<-,Speclib,data.frame-method}
 \alias{mask<-,Speclib,list-method}
 \alias{mask<-,Speclib,numeric-method}
+\alias{mask<-,Speclib,matrix-method}
 \alias{interpolate.mask}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{

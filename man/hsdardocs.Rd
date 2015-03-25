@@ -24,13 +24,13 @@ Lukas Lehnert
 
 
 \examples{
-% \dontrun{
+\dontrun{
 ## Open references of hyperspectral vegetation indices (PDF-file)
 hsdardocs("References.pdf")
 
 ## See copyrights of routines and data used in hsdar-package (ascii-file)
 hsdardocs("Copyright")
-% }
+}
 }
 \keyword{ utilities }
 \keyword{ documentation }

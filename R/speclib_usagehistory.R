@@ -6,7 +6,7 @@ usagehistory <- function (x)
   xx <- x
   if (is.null(value))
   {
-    xx@usagehistory <- NULL
+    xx@usagehistory <- character()
   } else {
     xx@usagehistory <- if (is.null(xx@usagehistory)) value else c(xx@usagehistory, value)
   }

@@ -315,7 +315,7 @@ setMethod("initialize", signature(.Object = "Speclib"),
   object@attributes          <- attributes
   object@usagehistory        <- usagehistory
   object@wlunit              <- wlunit
-  object@xlabel              <- ylabel
+  object@xlabel              <- xlabel
   object@ylabel              <- ylabel
   return(object)
 }

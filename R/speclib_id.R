@@ -2,7 +2,9 @@ idSpeclib <- function(x)
 {
 if (!is.speclib(x))
   stop("Class of x must be Speclib")
-return(if (length(x@ID) == 0) c(1:nspectra(x)) else x@ID)
+ids <- x@ID
+
+return(if (any(c(length(x@ID) != nspectra(x), anyDuplicated(ids)))) c(1:nspectra(x)) else ids)
 }
 
 "idSpeclib<-" <- function(x, value)

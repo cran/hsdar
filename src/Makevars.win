@@ -2,8 +2,17 @@ PKG_LIBS = $(BLAS_LIBS)
 
 all: $(SHLIB)
 
-PRO4SAIL.o: PRO4SAIL.f90 dataSpec_P5B_PROSAIL.o MODULE_PRO4SAIL.o
-	$(FC) -fpic -O3 -pipe  -g -c PRO4SAIL.f90
+main_PROSAIL.o: PRO4SAIL.o MODULE_PRO4SAIL.o dataSpec_P5B_PROSAIL.o
+
+main_PROSPECT.o: dataSpec_P5B_PROSPECT.o
+
+PRO4SAIL.o: MODULE_PRO4SAIL.o dataSpec_P5B_PROSAIL.o
+
+prospect_5B.o: dataSpec_P5B_PROSPECT.o
+
+volscatt.o: MODULE_PRO4SAIL.o
+
+tav_abs.o: dataSpec_P5B_PROSPECT.o
 
 clean:
 	rm *.o *.mod *.dll

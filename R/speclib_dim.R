@@ -16,4 +16,5 @@ nbands <- function(x)
 
 
 is.speclib <- function(x)
-  class(x) == "Speclib"
+  any(c(class(x) == "Speclib",
+        class(x) == "Specfeat"))

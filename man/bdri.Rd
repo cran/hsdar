@@ -32,7 +32,7 @@ bdri(x, fnumber, index = "ndbi")
   Method \code{"bna"} calculates the band depth normalised to band area as
    \deqn{bna=\frac{BD}{Da},}
     where \eqn{Da} is the area of the absorption feature (see 
-   \code{\link{area.specfeat}}). For further information see Mutanga and Skidmore(2004).
+   \code{\link{feature_properties}}). For further information see Mutanga and Skidmore(2004).
 }
 \references{
 Mutanga, O. and Skidmore, A. (2004): Hyperspectral band depth analysis for a better estimation of grass biomass (\var{Cenchrus ciliaris}) measured under controlled laboratory conditions. International Journal of applied Earth Observation and Geoinformation, 5, 87-96
