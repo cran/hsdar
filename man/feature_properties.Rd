@@ -5,7 +5,7 @@
 Calculation of properties of features
 }
 \description{
-Function calculates feature properties such as the area, the position of the maximum and several other parameters.
+Function to calculate feature properties such as the area, the position of the maximum and several other parameters.
 }
 \usage{
 feature_properties(x)
@@ -13,16 +13,26 @@ feature_properties(x)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-Object of class 'specfeat'
+Object of class \code{Specfeat}
 }
 }
 \details{
 The function calculates several parameters:
 \itemize{
-  \item{area: }{The feature area is calculated by 
-\deqn{area_{F_{i}}=\sum^{max(\lambda)}_{k=min(\lambda)} BD\lambda,}
-with \eqn{area_{F_{i}}} is the area of the feature i, \eqn{min(\lambda)} is the minimum wavelength of the spectrum, 
-\eqn{max(\lambda)} is the maximum wavelength of the spectrum and \eqn{BD} is the band depth.}
+  \item{\emph{area}: }{The feature area is calculated by 
+    \deqn{area_{F_{i}}=\sum^{max(\lambda)}_{k=min(\lambda)} BD\lambda,}
+    with \eqn{area_{F_{i}}} is the area of the feature i, \eqn{min(\lambda)} is the minimum wavelength of the spectrum, 
+    \eqn{max(\lambda)} is the maximum wavelength of the spectrum and \eqn{BD} is the band depth.
+  }
+  \item{\emph{max}: }{Wavelength position of the maximum value observed in the feature.}
+  \item{Parameters based on half-max values: }{
+    \itemize{
+      \item{\emph{lo} and \emph{up}: }{Wavelength position of the \emph{lo}wer and \emph{up}per half-max value.}
+      \item{\emph{width}: }{Difference between wavelength positions of \emph{up}per and \emph{lo}wer half-max values.}        
+      \item{\emph{gauss_lo}: }{Similarity of the Gauss distribution function and the feature values between the \emph{lo}wer half-max and the \emph{max}imum position. As similarity measurement, the root mean square error is calculated.}
+      \item{\emph{gauss_up}: }{Same as above but for feature values between the \emph{max}imum position and the \emph{up}per half-max.}
+    }
+  }
 }
 }
 

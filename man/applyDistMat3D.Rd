@@ -28,7 +28,11 @@ Further arguments passed to FUN.
 }
 
 \details{
-  The specified function is either applied to the distances of all samples (MARGIN = 1) or to all distances for each sample (MARGIN = 3). In the first case, if X would be replaced by an array of same dimensions the return value would be equal if the following code is applied: \code{apply(X, MARGIN = c(1,2), FUN)}, where X is an array (see examples).
+  The specified function is either applied to the distances of all samples (MARGIN = 1) or to all distances for each sample (MARGIN = 3). In the first case, if X would be replaced by an array of same dimensions the return value would be equal if the following code is applied: 
+  
+  \code{apply(X, MARGIN = c(1,2), FUN)}, 
+  
+  where X is an array (see examples).
 }
 \value{
 Depending on the length of the return value of the specified function, objects of classes numeric or matrix are returned. 

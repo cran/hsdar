@@ -5,7 +5,7 @@
 Definition of absorption features
 }
 \description{
-Function sets the range of absorption features.
+Function sets the spectral range of absorption features.
 }
 \usage{
 define.features(x, tol = 1.0e-7, FWL = NULL)
@@ -26,8 +26,8 @@ Optional. If passed, result is directly converted into \code{\linkS4class{Specfe
 }
 \details{
 Absorption features are defined as the area between local maxima in the reflectance spectra. 
-This function adds the information of the feature limits to the speclib. 
-Thus it is a pre-processing step in order to isolate features.
+This function adds the information of the feature limits to the \code{Speclib}. 
+Thus, it is a pre-processing step to isolate features.
 }
 \value{
 The updated \code{\linkS4class{Speclib}} containing additional information about the feature limits. If \code{FWL} is not \code{NULL}, result will be of class \code{\linkS4class{Specfeat}}.

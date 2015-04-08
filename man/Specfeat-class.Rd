@@ -15,6 +15,9 @@ Class extends \code{Speclib}-class and adds two additional slots:
   \item{featureLimits: }{List containing limits of features defined by \code{\link{define.features}}.}
 }
 }
+\note{
+See figure in \code{\link{hsdar-package}} for an overview of classes in hsdar.
+}
 
 \author{
 Lukas Lehnert

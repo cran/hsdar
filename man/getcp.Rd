@@ -16,7 +16,7 @@ getcp(x, ispec, subset = NULL)
     Object of class \code{Clman}.
 }
   \item{ispec}{
-    Name or index of spectrum to be analysed.
+    ID or index of spectrum to be analysed.
 }
   \item{subset}{
     Vector of \code{length = 2} giving the lower and upper limit of spectral range.

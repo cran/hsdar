@@ -36,6 +36,9 @@ An object of class \code{Speclib} contains the following slots:
 }
 }
 }
+\note{
+See figure in \code{\link{hsdar-package}} for an overview of classes in hsdar.
+}
 
 \author{
 Lukas Lehnert

@@ -3,7 +3,7 @@
 \alias{plot,Specfeat-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-* Specfeat class
+Function to isolate spectral features
 }
 \description{
 Function isolates specified absorption features previously identified by \code{\link{define.features}}.
@@ -54,7 +54,7 @@ Hanna Meyer and Lukas Lehnert
 }
 
 \seealso{
-\code{\link{define.features}}, \code{\link{cut_specfeat}}
+\code{\link{define.features}}, \code{\link{cut_specfeat}}, \linkS4class{Specfeat}
 }
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 \examples{

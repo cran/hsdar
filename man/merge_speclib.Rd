@@ -5,7 +5,7 @@
 Merge speclibs
 }
 \description{
-Merge 2 speclibs and their attributes data 
+Merge 2 \code{Speclib}s and their attributes data 
 }
 \usage{
 \S4method{merge}{Speclib,Speclib}(x, y, ...)
@@ -13,10 +13,10 @@ Merge 2 speclibs and their attributes data
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-Object of class \code{Speclib}.
+1st Object of class \code{Speclib} to be merged.
 }
   \item{y}{
-Object of class \code{Speclib}. Speclib to add
+2nd Object of class \code{Speclib} to be merged.
 }
   \item{...}{
 Further arguments passed to generic functions. Currently ignored.
@@ -24,7 +24,7 @@ Further arguments passed to generic functions. Currently ignored.
 }
 
 \value{
-Object of class Speclib.
+Object of class \code{Speclib}.
 }
 \author{
 Lukas Lehnert

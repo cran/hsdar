@@ -5,7 +5,7 @@ unmix <- function(spectra, endmember, returnHCR = "auto", ...
   if (!all(c(is.speclib(spectra), is.speclib(endmember))))
     stop("Spectra and endmember must be of class 'speclib'")
   if (returnHCR == "auto")
-    returnHCR <- !is.null(attr(spectra, "rastermeta"))
+    returnHCR <- .is.rastermeta(spectra)
   if (dim(endmember)[2]!=dim(spectra)[2])
     stop("Number of bands in spectra must be equal to number of bands in endmember")
   if (dim(endmember)[1] > dim(endmember)[2])
@@ -55,9 +55,9 @@ unmix <- function(spectra, endmember, returnHCR = "auto", ...
   {
     spec <- as.data.frame(t(as.matrix(rbind(fractions, error))))
     names(spec)[ncol(spec)] <- "error"
-    spec <- speclib(spec, c(1:ncol(spec)))
-    if (!is.null(attr(spectra, "rastermeta")))
-      attr(spec, "rastermeta") <- attr(spectra, "rastermeta")
+    spec <- speclib(spec, c(1:ncol(spec)),
+                    rastermeta = if (.is.rastermeta(spectra)) spectra@rastermeta else list())
+
     spec <- HyperSpecRaster(spec, ...)
     return(spec)
   } else {

@@ -37,6 +37,11 @@ images through the interface of \pkg{raster}.
 
 } 
 }
+
+Several classes are defined and used in \pkg{hsdar}. Most of the classes are used and respective objects are created internally. However, the following figure gives an overview which class is used at which stage of processing.
+\if{html}{\figure{classes.png}{width="35\%" alt="Figure: classes.png"}}
+\if{latex}{\figure{classes.pdf}{options: width=10cm}}
+
 To see the preferable citation of the package, type
 \code{citation("hsdar")}.  
 }

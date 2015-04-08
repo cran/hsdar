@@ -56,7 +56,7 @@ Methods to create and handle objects of class HyperSpecRaster
   \item{wavelength}{Vector containing wavelength for each band}
   \item{fwhm}{Optional vector containing full-width-half-max values. If length == 1 the same value is assumed for each band. Note that function does not check the integrity of the values}
   \item{attributes}{Optional data.frame containing attributes data}
-  \item{nrow}{Optional. Number of rows in HyperspecRaster. If omitted, it is tried to get the information from the attributes in Speclib (\code{attr(x, "rastermeta")})}
+  \item{nrow}{Optional. Number of rows in HyperspecRaster. If omitted, function will try to get the information from the attributes in Speclib (\code{attr(x, "rastermeta")})}
   \item{ncol}{Optional. Number of colums in HyperspecRaster. See nrow above.}
   \item{xmn}{Optional. Minimum coordiante in x-dimension. See nrow above.}
   \item{xmx}{Optional. Maximum coordiante in x-dimension. See nrow above.}
@@ -67,7 +67,6 @@ Methods to create and handle objects of class HyperSpecRaster
   \item{filename}{Name of file to create}
   \item{v}{Speclib or matrix of values}
   \item{start}{Integer. Row number (counting starts at 1) from where to start writing \code{v}}
-
 }
 
 \author{

@@ -116,65 +116,65 @@ setMethod('HyperSpecRaster', signature(x = 'Speclib'),
  {
    if (missing(nrow))
    {
-     if (is.null(attr(x, "rastermeta")))
+     if (!.is.rastermeta(x))
      {
        stop("nrow missing")
      } else {
-       nrow <- attr(x, "rastermeta")[[1]][1]
+       nrow <- x@rastermeta[[1]][1]
      }
    }
    if (missing(ncol))
    {
-     if (is.null(attr(x, "rastermeta")))
+     if (!.is.rastermeta(x))
      {
        stop("ncol missing")
      } else {
-       ncol <- attr(x, "rastermeta")[[1]][2]
+       ncol <- x@rastermeta[[1]][2]
      }
    }
    if (missing(xmn))
    {
-     if (is.null(attr(x, "rastermeta")))
+     if (!.is.rastermeta(x))
      {
        xmn <- 0 
      } else {
-       xmn <- attr(x, "rastermeta")[[2]]@xmin
+       xmn <- x@rastermeta[[2]]@xmin
      }
    }
    if (missing(xmx))
    {
-     if (is.null(attr(x, "rastermeta")))
+     if (!.is.rastermeta(x))
      {
        xmx <- 1 
      } else {
-       xmx <- attr(x, "rastermeta")[[2]]@xmax
+       xmx <- x@rastermeta[[2]]@xmax
      }
    }
    if (missing(ymn))
    {
-     if (is.null(attr(x, "rastermeta")))
+     if (!.is.rastermeta(x))
      {
        ymn <- 0 
      } else {
-       ymn <- attr(x, "rastermeta")[[2]]@ymin
+       ymn <- x@rastermeta[[2]]@ymin
      }
    }
    if (missing(ymx))
    {
-     if (is.null(attr(x, "rastermeta")))
+     if (!.is.rastermeta(x))
      {
        ymx <- 1
      } else {
-       ymx <- attr(x, "rastermeta")[[2]]@ymax
+       ymx <- x@rastermeta[[2]]@ymax
      }
    }
    if (missing(crs))
    {
-     if (is.null(attr(x, "rastermeta")))
+     if (!.is.rastermeta(x))
      {
        crs <- NA
      } else {
-       crs <- attr(x, "rastermeta")[[3]]
+       crs <- x@rastermeta[[3]]
      }
    }
    

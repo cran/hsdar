@@ -38,7 +38,7 @@ return_index <- function(x)
   if (eval.parent(convertSpatialGrid))
   {
     spec <- speclib(x, 1)
-    attr(spec, "rastermeta") <- gridMeta
+    spec@rastermeta <- gridMeta
     result <- HyperSpecRaster(spec)
   }
   return (x)
@@ -54,12 +54,16 @@ if (!is.speclib(x))
 if (!x@continuousdata)
   stop("x does not contain continuous spectra")
 if (returnHCR == "auto")
-  returnHCR <- !is.null(attr(x, "rastermeta"))
+  returnHCR <- .is.rastermeta(x)
 
 convertSpatialGrid <- returnHCR
-gridMeta <- attr(x,"rastermeta")
-if (returnHCR & !is.null(attr(x, "rastermeta")))
-  stop("If returnHCR, x must contain meta information")
+gridMeta <- x@rastermeta
+
+if (returnHCR)
+{
+  if (!.is.rastermeta(x))
+    stop("If returnHCR, x must contain meta information")
+}
 
 if (length(index)>1)
 {
@@ -85,8 +89,8 @@ if (length(index)>1)
   if (returnHCR)
   {
     spec <- speclib(result, c(1:ncol(result)))
-    if (!is.null(attr(x, "rastermeta")))
-      attr(spec, "rastermeta") <- attr(x, "rastermeta")
+    if (.is.rastermeta(x))
+      spec@rastermeta <- x@rastermeta
     result <- HyperSpecRaster(spec)
   }
   return(result)

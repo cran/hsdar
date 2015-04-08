@@ -1,4 +1,4 @@
-\name{cor.test.nri}
+\name{cor.test}
 \alias{cor.test.nri}
 \alias{cor.test,Nri-method}
 %\alias{print.cortestnri}
@@ -30,7 +30,7 @@ Further arguments passed to \code{\link{cor.test}}
   NRI-values may be used as x and/or as y variable. If x and y are NRI-values the number of samples in both datasets must be equal. For additional information on correlation tests see details in \code{\link{cor.test}}.
 }
 \value{
-  A list of class \code{\linkS4class{Nri}}
+  Object of class \code{\linkS4class{Nri}}
 }
 
 \author{

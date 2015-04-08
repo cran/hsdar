@@ -16,7 +16,7 @@ addcp(x, ispec, cpadd)
     Object of class Clman.
 }
   \item{ispec}{
-    Name or index of spectrum to be modified.
+    ID or index of spectrum to be modified.
 }
   \item{cpadd}{
     Single value or vector of wavelength containing new fix points.
@@ -26,10 +26,12 @@ addcp(x, ispec, cpadd)
 Lukas Lehnert and Hanna Meyer
 }
 \value{
-  Object of class \code{clman} containing the updated version of x.
+  Object of class \code{Clman} containing the updated version of x.
 }
 \seealso{
-\code{\link{transform_speclib}}, \code{\link{deletecp}}, \code{\link{getcp}}, \code{\link{checkhull}}, \code{\link{makehull}}, \code{\link{updatecl}}
+\code{\link{transform_speclib}}, \code{\link{deletecp}}, \code{\link{getcp}}, \code{\link{checkhull}}, \code{\link{makehull}}, \code{\link{updatecl}}, 
+
+\code{\link{idSpeclib}}
 }
 
 \examples{

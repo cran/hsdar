@@ -16,10 +16,10 @@ deletecp(x, ispec, cpdelete)
     Object of class \code{Clman}.
 }
   \item{ispec}{
-    Name or index of spectrum to be modified.
+    ID or index of spectrum to be modified.
 }
   \item{cpdelete}{
-    Single value or vector of wavelength containing fix points to be deleted.
+    Single value or vector of wavelength containing fix point(s) to be deleted.
 }
 }
 \author{

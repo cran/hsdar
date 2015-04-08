@@ -69,10 +69,8 @@ setMethod("speclib", signature(spectra = "HyperSpecRaster"),
     v <- getValues(spectra)
     
     res <- speclib(v, spectra@wavelength, fwhm = if (length(spectra@fwhm) > 0) spectra@fwhm else NULL, 
-                   attributes = if (nrow(spectra@attributes) > 0) spectra@attributes else NULL)
-    attr(res, "rastermeta") <- list(dim = c(nrow(spectra), ncol(spectra)),
-                                    ext = extent(spectra),
-                                    crs = crs(spectra))
+                   attributes = if (nrow(spectra@attributes) > 0) spectra@attributes else NULL, 
+                   rastermeta = rastermeta(spectra))
     return(res)                                    
   }
 )
@@ -95,7 +93,7 @@ createspeclib <- function (spectra,
                            wlunit = "nm",
                            xlabel = "Wavelength",
                            ylabel = "Reflectance",
-                           gridMeta = NULL
+                           rastermeta = NULL
                           )
 {
   
@@ -194,6 +192,9 @@ createspeclib <- function (spectra,
   
   if (is.null(transformation))   
     transformation <- character()
+    
+  if (is.null(rastermeta))   
+    rastermeta <- list()
   
   result <- new("Speclib", 
                 spectra = spectra, 
@@ -206,7 +207,8 @@ createspeclib <- function (spectra,
                 usagehistory = usagehistory,
                 wlunit = wlunit,
                 xlabel = xlabel,
-                ylabel = ylabel                
+                ylabel = ylabel,
+                rastermeta = rastermeta                
                )
   idSpeclib(result) <- rn
   bandnames(result) <- cn
@@ -304,6 +306,13 @@ setMethod("initialize", signature(.Object = "Speclib"),
     ylabel <- "Reflectance"
   }
   
+  if (any(names(dots) == "rastermeta"))
+  {
+    rastermeta <- dots$rastermeta
+  } else {
+    rastermeta <- list()
+  }
+  
   object <- .Object
   
   object@spectra             <- spectra
@@ -317,6 +326,7 @@ setMethod("initialize", signature(.Object = "Speclib"),
   object@wlunit              <- wlunit
   object@xlabel              <- xlabel
   object@ylabel              <- ylabel
+  object@rastermeta          <- rastermeta
   return(object)
 }
 )

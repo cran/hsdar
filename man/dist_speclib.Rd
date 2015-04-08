@@ -8,7 +8,7 @@
 Distance between spectra
 }
 \description{
-Calculation of distance matrix by using the various distance measure to compute the distances between the spectra in Speclib. Spectral Angle Mapper (SAM) is calculated with \code{sam} giving reference spectra or with \code{sam_distance} taking all combinations between spectra in single Speclib into account.
+Calculation of distance matrices by using one of the various distance measure to compute the distances between the spectra in \code{Speclib}. Spectral Angle Mapper (SAM) is calculated with \code{sam} giving reference spectra or with \code{sam_distance} taking all combinations between spectra in single Speclib into account.
 }
 \usage{
 dist.speclib(x, method = "sam", ...)
@@ -34,7 +34,7 @@ Further arguments, passed to other methods.
 }
 \details{
   Available distance measures are "spectral angle mapper" (\code{sam}) and all distance measures available in \code{\link{dist}}. Spectral angle mapper is calculated with the following formula:
-  \deqn{\cos^{-1}\left(\frac{\sum_{i=1}^{nb}{t_i r_i}}{\sqrt{\sum_{i=1}^{nb}{t_i^2}}\sqrt{\sum_{i=1}^{nb}{r_i^2}}}\right)}{
+  \deqn{sam=\cos^{-1}\left(\frac{\sum_{i=1}^{nb}{t_i r_i}}{\sqrt{\sum_{i=1}^{nb}{t_i^2}}\sqrt{\sum_{i=1}^{nb}{r_i^2}}}\right)}{
     \cos^{-1}(\sum_{i=1}^{nb}{t_i r_i} \sum_{i=1}^{nb}{t_i^2}^{-0.5} \sum_{i=1}^{nb}{r_i^2}^{-0.5})}
   \eqn{nb} is the number of bands in Speclib. \eqn{t_i} and \eqn{r_i} are the reflectances of target and reference spectrum in band \eqn{i}, respectively.
 }

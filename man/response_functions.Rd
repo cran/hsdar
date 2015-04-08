@@ -24,9 +24,9 @@ Satellite sensor response functions
 \description{
 Satellite sensor response functions for all sensor channels
 }
-\usage{
-data(RapidEye_response)
-}
+% \usage{
+% data(satellite_response)
+% }
 \details{
 Please do not access this data directly, since it contains only the response values without any spectral information. To get response functions use function \code{\link{get.response}}, instead.
 }

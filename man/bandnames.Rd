@@ -6,7 +6,7 @@
 Handling names of bands
 }
 \description{
-Returning and setting names of bands in speclib
+Returning and setting names of bands in \code{Speclib}
 }
 \usage{
 bandnames(x)
@@ -23,7 +23,7 @@ Character vector of the same length as \code{nbands(x)}, or NULL.
 }
 
 \value{
-For \code{bandnames<-}, the updated object. Otherwise a vector giving the name of each band in speclib is returned.
+For \code{bandnames<-}, the updated object. Otherwise a vector giving the name of each band in \code{Speclib} is returned.
 }
 
 \author{

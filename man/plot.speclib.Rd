@@ -8,7 +8,7 @@
 Plot speclib
 }
 \description{
-Plot speclib in a new plot or adding it to an existing plot.
+Plot \code{Speclib} in a new plot or adding it to an existing plot.
 }
 \usage{
 \S4method{plot}{Speclib,ANY}(x, FUN = NULL, new = TRUE, ...)

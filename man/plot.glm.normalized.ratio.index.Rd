@@ -1,12 +1,8 @@
-\name{plot.glmnri}
+\name{plot.Nri}
 \alias{plot.Nri}
 \alias{plot,Nri-method}
 \alias{plot,Nri,ANY-method}
-%\alias{plot.glmnri}
-%\alias{plot.lmnri}
-%\alias{plot.cortestnri}
-%\alias{plot.ttestnri}
-%- Also NEED an '\alias' for EACH other topic documented here.
+
 \title{
 Plot function for (g)lm.nri and cor.test.nri
 }
@@ -20,29 +16,22 @@ Plot values in (generalised) linear modes and correlation tests from narrow band
      colspace = "hcl", col = c(10, 90, 60, 60, 10, 80),                
      digits = 2, range = "auto", constraint  = NULL,
      upperdiag = FALSE, ...)
-%\method{plot}{lmnri}(x, coefficient = "r.squared", predictor = 1,
-%     ...)
-%\method{plot}{cortestnri}(x, coefficient = "p.value", predictor = 1,
-%     ...)
-%\method{plot}{ttestnri}(x, coefficient = "p.value", predictor = 1,
-%     ...)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-Object to be plotted
+Object to be plotted.
 }
   \item{coefficient}{
-Name or index of coefficient to plot
+Name or index of coefficient to plot.
 }
 \item{predictor}{
-Name or index of term to plot
+Name or index of term to plot.
 }
 \item{xlab}{
-Label for x-axis
+Label for x-axis.
 }
 \item{ylab}{
-Label for y-axis
+Label for y-axis.
 }
 \item{legend}{
 Flag if legend is plotted. If \code{legend == "outer"} the legend is plotted in the outer margins of the figure. This is useful if both diagonals are used. 
@@ -55,10 +44,10 @@ If colspace == "hcl", the vector is giving the minimum and maximum values of hue
 If colspace == "rgb", a vector of length >=2 giving the colours to be interpolated using \code{\link{colorRamp}}.
 }
 \item{digits}{
-Precision of labels in legend
+Precision of labels in legend.
 }
 \item{range}{
-"auto" or a vector of length = 2 giving the range of values to be plotted
+"auto" or a vector of length = 2 giving the range of values to be plotted.
 }
 \item{constraint}{
 A character string giving a constraint which values should be plotted. See examples section.
@@ -67,14 +56,14 @@ A character string giving a constraint which values should be plotted. See examp
 Flag if upper diagonal is used for the plot. Note that if \code{TRUE} the current plot is used instead of starting a new plot
 }
   \item{...}{
-Further arguments passed to \code{plot.default} for \code{plot.glmnri} or to \code{plot.glmnri} for other methods
+Further arguments passed to \code{plot.default}.
 }
 }
 \details{
   See details in \code{\link{glm.nri}} and \code{\link{glm}}.
 }
 \value{
-  A vector with minimum and maximum values plotted.
+  An invisible vector with minimum and maximum values plotted.
 }
 \author{
 Lukas Lehnert

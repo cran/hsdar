@@ -1,4 +1,4 @@
-\name{spectra.Speclib}
+\name{spectra}
 \alias{spectra.Speclib}
 \alias{spectra}
 \alias{spectra<-}

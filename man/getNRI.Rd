@@ -21,7 +21,7 @@ Wavelength values where nri is returned. See details section.
 }
 }
 \details{
-  Wavelength can be passed in three ways. As the result of \code{\link{nri_best_performance}}, as data frame with two columns or as vector of length 2. In the first two cases, the result will be a data frame (if data frames contain more than one row) with the nri-values of each pair of wavelengths. In the latter case it will be a vector.
+  Wavelength can be passed in three ways. As the result of \code{\link{nri_best_performance}}, as a data frame with two columns or as a vector of length 2. In the first two cases, the result will be a data frame (if data frames contain more than one row) with the nri-values of each pair of wavelengths. In the latter case it will be a vector.
 }
 \author{
 Lukas Lehnert

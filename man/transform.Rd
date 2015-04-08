@@ -72,7 +72,7 @@ Hanna Meyer and Lukas Lehnert
 
 
 \seealso{
-\code{\link{Clman}},\code{\link{addcp}},\code{\link{deletecp}},\code{\link{checkhull}}
+\code{\link{Clman}}, \code{\link{addcp}}, \code{\link{deletecp}}, \code{\link{checkhull}}
 }
 \examples{
 data(spectral_data)

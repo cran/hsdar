@@ -11,7 +11,8 @@ setClass("Speclib",
            ID = "character",
            wavelength.is.range = "logical",
            transformation = "character",
-           usagehistory = "character"
+           usagehistory = "character",
+           rastermeta = "list"
          ),
          prototype(
            spectra = matrix(),                   
@@ -25,7 +26,8 @@ setClass("Speclib",
            ID = character(),
            wavelength.is.range = FALSE,
            transformation = "NONE",
-           usagehistory = ""
+           usagehistory = "",
+           rastermeta = list()
          ),
          validity = function(object)
          {

@@ -1,4 +1,4 @@
-\name{plot.specfeat}
+\name{plot.Specfeat}
 \alias{plot,Specfeat,ANY-method}
 
 \title{
@@ -9,7 +9,7 @@ Plot spectra in Specfeat objects
 }
 \usage{
 \S4method{plot}{Specfeat,ANY}(x, fnumber = 1, stylebysubset = NULL, changecol = TRUE,
-          changetype = FALSE, autolegend = TRUE, new = TRUE, ...)
+        changetype = FALSE, autolegend = TRUE, new = TRUE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

@@ -1,4 +1,4 @@
-\name{t.test.nri}
+\name{t.test}
 \alias{t.test.nri}
 \alias{t.test,Nri-method}
 % \alias{t.test_nri.formula}

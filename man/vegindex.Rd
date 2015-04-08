@@ -14,7 +14,7 @@ vegindex(x, index, returnHCR = "auto", L = 0.5,
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-Object of class 'speclib'
+Object of class \code{Speclib}
 }
   \item{index}{
 Character string. Name of index or vector with names of indices to calculate. See Details section for further information.

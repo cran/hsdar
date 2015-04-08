@@ -19,7 +19,7 @@ An object of class "Specfeat" containing isolated features determined by \code{\
 A vector of the positions of the features in x to be cut.
 }
   \item{limits}{
-A vector containing a vector of the start and end wavelength for each fnumber. 
+A vector containing the start and end wavelength for each fnumber. 
 The corresponding feature will be cut to this specified range.
 }
   \item{...}{

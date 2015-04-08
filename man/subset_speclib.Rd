@@ -6,7 +6,7 @@
 Subsetting speclibs
 }
 \description{
- Return subsets of speclibs which meet conditions.
+ Return subsets of \code{Speclib}s which meet conditions.
 }
 \usage{
 \S4method{subset}{Speclib}(x, subset, ...)
@@ -24,10 +24,10 @@ Further arguements passed to \code{\link{agrep}}.
 }
 }
 \details{
-Matchable objects are attributes data.
+Matchable objects are attributes data. Use column names to identify the respectrive attribute. See \code{\link{attribute}} to access attributes of a \code{Speclib}.
 }
 \value{
-Object of class Speclib.
+Object of class \code{Speclib}.
 }
 
 \author{
@@ -38,7 +38,7 @@ Lukas Lehnert
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\linkS4class{Speclib}}, \code{\link{idSpeclib}}
+\code{\linkS4class{Speclib}}, \code{\link{attribute}}
 }
 \examples{
 %   \dontrun{

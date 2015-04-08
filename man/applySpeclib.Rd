@@ -6,7 +6,7 @@
 Apply function for class Speclib
 }
 \description{
-Apply function to all spectra or a subset of spectra
+Apply function over all spectra or a subset of spectra
 }
 \usage{
 \S4method{apply}{Speclib}(X, FUN, byattributes = NULL, ...)

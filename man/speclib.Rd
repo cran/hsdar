@@ -55,7 +55,7 @@ createspeclib(spectra, wavelength, fwhm = NULL, attributes = NULL,
         usagehistory = NULL, transformation = NULL, 
         continuousdata = "auto", wlunit = "nm", 
         xlabel = "Wavelength", ylabel = "Reflectance",
-        gridMeta = NULL)
+        rastermeta = NULL)
 
 is.speclib(x)
 }
@@ -94,8 +94,8 @@ Label of wavelength data to be used for plots etc.
 \item{ylabel}{
 Label of spectral signal to be used for plots etc.
 }
-\item{gridMeta}{
-List of meta information for SpatialGridDataFrame or HyperSpecRaster. If missing meta data in speclib is used.
+\item{rastermeta}{
+List of meta information for SpatialGridDataFrame or HyperSpecRaster. If missing meta data in speclib is used. Use function \code{\link{rastermeta}} to create valid objects.
 }
 \item{...}{
 Further arguments passed to specific (generic) functions or createspeclib
@@ -113,6 +113,7 @@ An object of class \code{Speclib} containing the following slots is returned:
   \item{spectra:}{ Matrix with ncol = number of bands and nrow = number of spectra. Contains reflectance, transmittance or absorbance values. Handle with function \code{\link[=spectra.Speclib]{spectra}}.}
   \item{attributes:}{ Data frame containing additional data to each spectrum. May be used for linear regression etc. Handle with function \code{\link[=attribute.speclib]{attribute}}.}
   \item{usagehistory:}{ Vector giving information on history of usage of speclib. Handle with function \code{\link{usagehistory}}.}
+  \item{rastermeta:}{ List containing meta information to create *Raster objects from Speclib. Handle with function \code{\link{rastermeta}}.}
 }
 }
 

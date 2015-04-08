@@ -38,7 +38,11 @@ The minimum reflectance is the reflectance at (\eqn{\lambda 0}{l0}).
 The inflection point is the root of the 2nd derivative function between the maximum value and 
 the minimum value. The shoulder wavelength is the first root beyond the minimum value of the 2nd derivation.
 
-Optional smoothing is performed with \code{\link{smoothSpeclib}(x, method = "spline", n = round(nbands(x)/10,0))} prior to all calculations. Note that reflectance values returned by the \code{rededge}-function are original values and not the smoothed reflectances. This would not be the case, if already smoothed reflectance values are passed to \code{rededge}-function.
+Optional smoothing is performed with 
+
+\code{\link{smoothSpeclib}(x, method = "spline", n = round(nbands(x)/10,0))}
+
+prior to all calculations. Note that reflectance values returned by the \code{rededge}-function are original values and not the smoothed reflectances. This would not be the case, if already smoothed reflectance values are passed to \code{rededge}-function.
 }
 \value{
 A data frame containing parameters for each spectrum.

@@ -32,7 +32,7 @@ Further arguments passed to filter functions. See examples.
   }
 }
 \value{
-Object of class speclib.
+Object of class \code{Speclib}.
 }
 \references{
 Tsai, F. & Philpot, W. (1998): Derivative analysis of hyperspectral data. Remote Sensing of Environment 66/1. 41-51.

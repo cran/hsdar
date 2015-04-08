@@ -16,7 +16,7 @@ checkhull(x, ispec)
     Object of class \code{clman}.
 }
   \item{ispec}{
-    Name or index of spectrum to be checked.
+    ID or index of spectrum to be checked.
 }
 }
 \author{

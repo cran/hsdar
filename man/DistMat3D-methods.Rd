@@ -33,7 +33,7 @@
 Methods to create, manipulate and query objects of class 'DistMat3D'.
 }
 \description{
-Methods to create, manipulate and query objects of class 'DistMat3D'. The following relational operators are defined to compare values among 'DistMat3D'-object(s): \code{<, <=, ==, >, >=}
+Methods to create, manipulate and query objects of class 'DistMat3D'. The following relational operators are defined to compare values between 'DistMat3D'-object(s): \code{<, <=, ==, >, >=}
 }
 \usage{
 ## Creation of objects

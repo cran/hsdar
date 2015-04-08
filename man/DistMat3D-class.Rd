@@ -17,6 +17,9 @@ Object with 3 slots:
 }
 }
 
+\note{
+See figure in \code{\link{hsdar-package}} for an overview of classes in hsdar.
+}
 
 \author{
 Lukas Lehnert
