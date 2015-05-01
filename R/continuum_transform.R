@@ -1,6 +1,3 @@
-## @TODO
-##1.und letzter stuetzpunkt !=NA
-
 transform_speclib <- function(
                                data, ...,
                                method = "ch",
@@ -37,8 +34,19 @@ if (method == "ch")
   for (i in 1:nrow(y))
   {
     c.hull <- chull(t(y[i,]))
-    c.hull <- c.hull[(which(c.hull == 1):length(c.hull))]
-    c.hull <- sort(c.hull)
+#     print(c.hull)
+    c.hull_1 <- c.hull[c(which(c.hull == 1):length(c.hull))]
+    c.hull_2 <- c.hull[1:which.max(c.hull)]
+    c.hull <- sort(c(c.hull_1, c.hull_2))
+    ## Remove duplicate entries
+    c.hull_1 <- c.hull[-1] - c.hull[-length(c.hull)]
+    if (any(c.hull_1 == 0))
+    {
+      c.hull <- c.hull[c(1, c.hull_1) != 0]
+    }
+#     if (c.hull[length(c.hull)] != ncol(y))
+#       c.hull <- c(c.hull, ncol(y))
+#     print(c.hull)
     cp[i,c.hull]   <- x[c.hull]
     hull[i,] <- approx(x=x[c.hull],y=y[i,c.hull], xout = x,method = "linear", ties = "mean")$y
   }

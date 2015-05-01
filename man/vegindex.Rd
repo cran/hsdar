@@ -17,7 +17,7 @@ vegindex(x, index, returnHCR = "auto", L = 0.5,
 Object of class \code{Speclib}
 }
   \item{index}{
-Character string. Name of index or vector with names of indices to calculate. See Details section for further information.
+Character string. Name or definition of index or vector with names/definitions of indices to calculate. See Details section for further information.
 }
   \item{returnHCR}{
 If TRUE, the result will be of class HyperSpecRaster, otherwise it is a data frame. If "auto", the class is automatically determined by passed Speclib.
@@ -33,6 +33,8 @@ Further arguments passed to derivative functions. Only used for indices requirin
 }
 }
 \details{
+Index must be a charater vector containing pre-defined indices (selected by their name) or self defined indices or any combination of pre- and self-defined indices.
+\subsection{Pre-defined indices}{
 The following indices are available:
 \tabular{lll}{
 \tab\tab\cr
@@ -65,28 +67,38 @@ D1 \tab \eqn{D_{730}/D_{706}}                                                   
    \tab                                                                                         \tab (2003)\cr
 D2 \tab \eqn{D_{705}/D_{722}}                                                                   \tab Zarco-Tejada et al. \cr
    \tab                                                                                         \tab (2003)\cr
-Datt \tab \eqn{(R_{850}-R_{710})/(R_{850}-R_{680})}                                             \tab  Datt (1999) \cr
-Datt2 \tab \eqn{R_{850}/R_{710}}                                                                \tab  Datt (1999) \cr
-Datt3 \tab \eqn{D_{754}/D_{704}}                                                                \tab  Datt (1999) \cr
+Datt \tab \eqn{(R_{850}-R_{710})/(R_{850}-R_{680})}                                             \tab  Datt (1999b) \cr
+Datt2 \tab \eqn{R_{850}/R_{710}}                                                                \tab  Datt (1999b) \cr
+Datt3 \tab \eqn{D_{754}/D_{704}}                                                                \tab  Datt (1999b) \cr
 Datt4 \tab \eqn{R_{672}/(R_{550}\cdot R_{708})}{R_{672}/(R_{550}*R_{708})}                      \tab  Datt (1998) \cr
 Datt5 \tab \eqn{R_{672}/R_{550}}                                                                \tab  Datt (1998) \cr
 Datt6 \tab \eqn{(R_{860})/(R_{550}\cdot R_{708})}{(R_{860})/(R_{550}*R_{708})}                  \tab  Datt (1998) \cr
+Datt7 \tab \eqn{(R_{860} - R_{2218})/(R_{860} - R_{1928})}                                      \tab  Datt (1999a) \cr
+Datt8 \tab \eqn{(R_{860} - R_{1788})/(R_{860} - R_{1928})}                                      \tab  Datt (1999a) \cr
 DD \tab \eqn{(R_{749}-R_{720})-(R_{701}-R_{672})}                                               \tab le Maire et al. (2004)\cr
 DDn \tab \eqn{2\cdot (R_{710}-R_{660}-R_{760})}{2*(R_{710}-R_{660}-R_{760})}                    \tab le Maire et al. (2008)\cr
 DPI\tab \eqn{(D_{688}\cdot D_{710})/D_{697}^2}{(D_{688}*D_{710})/D_{697}^2}                     \tab Zarco-Tejada et al. \cr
    \tab                                                                                         \tab (2003)\cr
+DWSI1 \tab \eqn{R_{800}/R_{1660}}\tab Apan et al. (2004)\cr
+DWSI2 \tab \eqn{R_{1660}/R_{550}}\tab Apan et al. (2004)\cr
+DWSI3 \tab \eqn{R_{1660}/R_{680}}\tab Apan et al. (2004)\cr
+DWSI4 \tab \eqn{R_{550}/R_{680}}\tab Apan et al. (2004)\cr
+DWSI5 \tab \eqn{(R_{800} + R_{550})/(R_{1660} + R_{680})}\tab Apan et al. (2004)\cr
 EGFN \tab \eqn{(\max(D_{650:750})-\max(D_{500:550}))/}                                          \tab Penuelas et al. \cr     
      \tab \eqn{(\max(D_{650:750})+\max(D_{500:550}))}                                           \tab (1994)\cr
 EGFR \tab \eqn{\max(D_{650:750})/\max(D_{500:550})}                                             \tab Penuelas et al. (1994)\cr
 EVI \tab \eqn{2.5\cdot ((R_{800}-R_{670})/}{2.5*((R_{800}-R_{670})/}                            \tab Huete et al. (1997)\cr    
     \tab \eqn{(R_{800}-(6\cdot R_{670})-(7.5\cdot R_{475})+1))}{(R_{800}-(6*R_{670})-(7.5*R_{475})+1))} 
                                                                                                 \tab \cr
+GDVI\tab \eqn{(R_{800}^n-R_{680}^n) / (R_{800}^n+R_{680}^n)}**                                  \tab Wu (2014)\cr                                                                                             
 GI \tab \eqn{R_{554}/R_{677}}                                                                   \tab Smith et al. (1995)\cr
 Gitelson \tab \eqn{1/R_{700}}                                                                   \tab Gitelson et al. (1999)\cr
 Gitelson2 \tab \eqn{(R_{750}-R_{800}/R_{695}-R_{740})-1}                                        \tab Gitelson et al. (2003)\cr
 GMI1 \tab \eqn{R_{750}/R_{550}}                                                                 \tab Gitelson et al. (2003)\cr
 GMI2 \tab \eqn{R_{750}/R_{700}}                                                                 \tab Gitelson et al. (2003)\cr
 Green NDVI \tab \eqn{(R_{800}-R_{550})/(R_{800}+R_{550})}                                       \tab Gitelson et al. (1996)\cr
+LWVI_1 \tab \eqn{(R_{1094}-R_{983}) / (R_{1094}+R_{983})}                                       \tab Galvao et al. (2005)\cr
+LWVI_2 \tab \eqn{(R_{1094}-R_{1205}) / (R_{1094}+R_{1205})}                                     \tab Galvao et al. (2005)\cr
 Maccioni \tab \eqn{(R_{780}-R_{710})/(R_{780}-R_{680})}                                         \tab Maccioni et al. (2001)\cr
 MCARI \tab \eqn{((R_{700}-R_{670})-0.2\cdot (R_{700}-R_{550}))\cdot}{((R_{700}-R_{670})-0.2*(R_{700}-R_{550}))*}   
                                                                                                 \tab Daughtry et al. (2000)\cr
@@ -168,6 +180,13 @@ SRWI \tab \eqn{R_{850}/R_{1240}}                                                
 Sum_Dr1 \tab \eqn{\sum_{i=626}^{795} D1_i}                                                      \tab Elvidge and Chen (1995)\cr
 Sum_Dr2 \tab \eqn{\sum_{i=680}^{780} D1_i}                                                      \tab Filella and Penuelas  \cr
     \tab                                                                                        \tab (1994)\cr
+SWIR FI\tab \eqn{R_{2133}^2/(R_{2225} \cdot R_{2209}^3}                                         \tab Levin et al. (2007)\cr  
+SWIR LI\tab \eqn{3.87  \cdot (R_{2210} - R_{2090}) - }                                          \tab Lobell et al. (2001)\cr
+       \tab \eqn{27.51 \cdot (R_{2280} - R_{2090}) - 0.2}                                       \tab \cr  
+SWIR SI\tab \eqn{-41.59 \cdot (R_{2210} - R_{2090}) + }                                          \tab Lobell et al. (2001)\cr
+       \tab \eqn{1.24 \cdot (R_{2280} - R_{2090}) + 0.64}                                       \tab \cr 
+SWIR VI\tab \eqn{37.72  \cdot (R_{2210} - R_{2090}) + }                                          \tab Lobell et al. (2001)\cr
+       \tab \eqn{26.27 \cdot (R_{2280} - R_{2090}) + 0.57}                                       \tab \cr        
 TCARI \tab \eqn{3\cdot ((R_{700}-R_{670})-0.2\cdot (R_{700}-R_{550})\cdot}{3*((R_{700}-R_{670})-0.2*R_{700}-R_{550})*} 
                                                                                                 \tab Haboudane et al. (2002)\cr  
       \tab \eqn{(R_{700}/R_{670}))}                                                             \tab \cr
@@ -190,7 +209,20 @@ Vogelmann4 \tab \eqn{(R_{734}-R_{747})/(R_{715}+R_{720})}                       
 % WBI \tab \eqn{R_{970}/ R_{900}}                                                               \tab \cr
 
 }
-* For references please type: \code{hsdardocs("References.pdf")}}
+
+* For references please type: \code{hsdardocs("References.pdf")}.\cr
+** For GDVI n must be defined appending an underscore and the intended exponent to the index name. E.g., for n = 2, the correct index name would be "GDVI_2". Note that GDVI-indices with n = {2, 3, 4} will be derived if all available indices are calculated. 
+}
+\subsection{Self-defining indices}{  
+Self-defined indices may be passed using the following syntax:
+\itemize{
+  \item{Rxxx: }{Reflectance at wavelength 'xxx'. Note that R must be upper case.}
+  \item{Dxxx: }{First derivation of reflectance values at wavelength 'xxx'. Note that D must be upper case.}
+}
+Using this syntax, complex indices can be easily defined. Note that the entire definition of the index must be passed as one character string. Consequently, the NDVI would be written as\cr
+"(R800-R680)/(R800+R680)".
+}
+}
 \value{
 A vector containing indices values. If index is a vector with length > 1, a data frame with ncol = length(index) and nrow = number of spectra in x is returned.
 
@@ -207,19 +239,27 @@ Hanna Meyer and Lukas Lehnert
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{derivative.speclib}}, \code{\link{rededge}}, \code{\link[=get_reflectance.speclib]{get_reflectance}}
+\code{\link{soilindex}}, \code{\link{derivative.speclib}}, \code{\link{rededge}}, \code{\link[=get_reflectance.speclib]{get_reflectance}}
 }
 \examples{
 ## Example calculating NDVI
 data(spectral_data)
-ndvi <- vegindex(spectral_data,"NDVI")
+ndvi <- vegindex(spectral_data, "NDVI")
 
 
 ## Example calculating all available indices
 ## Get available indices
 avl <- vegindex()
-vi <- vegindex(spectral_data,avl)
+vi <- vegindex(spectral_data, avl)
 
+## Self-defined indices
+## NDVI
+vi <- vegindex(spectral_data, "(R800-R680)/(R800+R680)")
+## NDNI
+vi <- vegindex(spectral_data, 
+               "(log(1/R1510) - log(1/R1680))/(log(1/R1510) + log(1/R1680))")
+## D1
+vi <- vegindex(spectral_data, "D730/D706")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

@@ -27,7 +27,7 @@ images through the interface of \pkg{raster}.
 } 
 \item{Data analysis: }{
 	Supported methods to analyse vegetation spectra are the calculation of red edge parameters (\code{\link{rededge}}), 
-	vegetation indices (\code{\link{vegindex}}) as well as ndvi-like narrow band indices (\code{\link{nri}}).
+	vegetation (\code{\link{vegindex}}) and soil \code{\link{soilindex}}) indices as well as ndvi-like narrow band indices (\code{\link{nri}}).
 	\pkg{hsdar} further enables to perform spectral unmixing of spectra (\code{\link{unmix}}) by use of endmember spectra.
 } 
 \item{Data simulation: }{

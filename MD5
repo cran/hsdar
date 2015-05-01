@@ -1,4 +1,5 @@
-f0ada2fff148bc402b2f7d55c04a9ea4 *DESCRIPTION
+41534f3c35244052dd4337f3ab9c37bf *ChangeLog
+1d7e3013556ba99921bf80c242d5846a *DESCRIPTION
 2eacf39aec3d493727848b0876d73a3c *NAMESPACE
 64e01ba284df7fe2b035fb987b69ae16 *R/AAAClasses.R
 24eaa871f1b21354f41fbde7558f3c38 *R/HyperSpecRaster_methods.R
@@ -7,7 +8,7 @@ f0ada2fff148bc402b2f7d55c04a9ea4 *DESCRIPTION
 1122882418d36991cb3e8c635f31a043 *R/continuum_clman.R
 ee0f1391413b1654a2d55d1ee1828c43 *R/continuum_features.R
 6ab94e909050056227566141ae39871f *R/continuum_features_properties.R
-9329bd204fdd289a3dcfa0bf97a85417 *R/continuum_transform.R
+a2634ae18cb6a62e0c069f899581fde4 *R/continuum_transform.R
 2ebfcecbe06f49db04e8cc568ba35aa1 *R/distMat3D_methods.R
 2bc4ee6ab93d5fad5d36131f2a90269b *R/distance.R
 6794b6e7231495867f37043c8a4f2e75 *R/hsdardocs.R
@@ -21,7 +22,9 @@ e506bbdd70177d892c23f4c3465495ee *R/nri_multivariate.R
 b8c0e389beda01788a840a9e1e7616b5 *R/nri_print.R
 5f06420b1900f304fc9496536d8962fa *R/nri_t_test.R
 67ce946596c5178f1d1a0585bb5c637c *R/rastermeta.R
-323ffb66f3dfbb0639bb263eb95c587c *R/rededge.R
+6bf10d3cbfc3a68f855046f44ac350b6 *R/rededge.R
+869c84db91d647c609fe671202f0d398 *R/smgm.R
+bf419d7838554dea3fef6ced3e53095d *R/soilindex.R
 ae251ddbf6272f4495cbd9d414873c89 *R/speclib.R
 ff330c0f7084eaa831c61c0b0e786ccb *R/speclib_apply.R
 b916dd65da5a827979e314782d7ddd5c *R/speclib_attributes.R
@@ -46,7 +49,7 @@ ff4c316ff41eaf82742809d6acfe87e4 *R/speclib_spectra.R
 c612a68ba865c5bb4b57735483876cea *R/spectral_resampling_response_functions.R
 1d8368000316f0db77c7d509b61bc666 *R/spectral_resampling_sensorCharacteristics.R
 97a32f7393383303de29e21d69f2d986 *R/unmix.R
-d3ead12018ba1e73c8cc578ce3cba221 *R/vegindex.R
+4def9533f7973a90daa6e526d269cefc *R/vegindex.R
 d35e594a1e4dd880041d4b03a84b600b *R/zzz.R
 8baaf6148388ec8a636833a23529f2a3 *build/vignette.rds
 3aedb092c66942f1a17137a1fc39210a *data/Landsat_4_response.csv.gz
@@ -60,8 +63,8 @@ cd4877a80c4e703d1b37fb83dbd4f377 *data/endmember_spectra.RData
 d7a47472101f6bf233e496abc6b9dc64 *data/spectral_data.RData
 d81bafd39455d907234b3dcb436b1675 *inst/CITATION
 36c44be200bb7194a385d67841295d93 *inst/COPYRIGHTS
-52c76301fb2bca38c0420928358d1085 *inst/doc/References.Rnw
-f97b290774809d50cd30e8b103256cb8 *inst/doc/References.pdf
+ff7d64c121d14dac51d933c3c5ea9b70 *inst/doc/References.Rnw
+df45d638f762ffefbe01c8228615b256 *inst/doc/References.pdf
 bc930a871e00ec8d759d3a697fe25a9c *man/Clman-class.Rd
 a7a7a4cfc904c3b85e7ca950dbc45e68 *man/Clman-methods.Rd
 1bec390a0cf88b3367132e26aaa04b2c *man/DistMat3D-class.Rd
@@ -100,7 +103,7 @@ d32d84335a5558c6ae08922b0289cd98 *man/get_reflectance.Rd
 0ca58206729319e53b6cdd7984ab60d5 *man/get_sensor_name.Rd
 a6b9b7a9047a8a8d94908bfb136276cb *man/getcp.Rd
 b7420a4c0996446086a463a784b3e816 *man/glm.normalized.ratio.index.Rd
-a41936e948a5d42e3e85fedf4b8a8651 *man/hsdar-package.Rd
+088636595643d8a60b3045b6af4b57fd *man/hsdar-package.Rd
 08db9da71d8d4df256b9ec6697d7228d *man/hsdardocs.Rd
 0675ccfec05cc90d1cabc229d67554ff *man/id_speclib.Rd
 431607fb5545b565ea14e12ec2327588 *man/integrateToSensor.Rd
@@ -115,10 +118,12 @@ f784ccdf11839cffae7163b506884bcd *man/normalized.ratio.index.best.perfomance.Rd
 ff5063f262f798d72928676792ce3361 *man/plot.specfeat.Rd
 07d4262aff19973e21d1ccb4e07cff97 *man/plot.speclib.Rd
 6bf6d8b03e1f2843fb0c4a935c58be99 *man/rastermeta.Rd
-00da31473afb314e6f3e435fa35c434a *man/rededge.Rd
+47f98ec2797e84e6a78076cc619fb53f *man/rededge.Rd
 8fc769cb94344a4c6f83e61059eee899 *man/response_functions.Rd
 5600b8bb0ef922b23a6da789b2364067 *man/sensorCharacteristics.Rd
+db9c2d1250d6b86c62d2b0303eab7043 *man/smgm.Rd
 7e64b41100e2129810f90593af307be4 *man/smooth_speclib.Rd
+bad19a3ba151652364c08724119b28dc *man/soilindex.Rd
 0bf852c54a7292d012021c5cc4d0c8bb *man/specfeat.Rd
 11ca3bca31c1fda9dc5243747cc831b1 *man/speclib.Rd
 102b7051d0273f717bfa2a150f67c666 *man/spectra.Rd
@@ -129,7 +134,7 @@ b9ff93e7612c9bd16e04951f6720beaf *man/subset_speclib.Rd
 e32988fb9908f0b60bb7cdef141d8d1f *man/unmix.Rd
 69f91d6adc9d2e6e7104ed309ecd4009 *man/updatecl.Rd
 37c271044663068c89d95c0bdba4f5e3 *man/usagehistory.Rd
-bc1b26bc6ee2b7bf29cf315ca0325974 *man/vegindex.Rd
+d18999ccb95d39dcffd0aaf5fc331c00 *man/vegindex.Rd
 ea411a734f3ff8a714dc2234da98dddf *man/wavelength.Rd
 a073ceea322980bebf0f7d8d7b476d92 *src/LIDF.f90
 1a887a1fb3c096e4368d3b5b48ec4b86 *src/MODULE_PRO4SAIL.f90
@@ -153,11 +158,12 @@ f9b1d6a641d36600b0f6499e7f5381b5 *src/prospect_5B.f90
 957cc73ba50621fd5477e7f77b30d928 *src/pt2f.c
 d5dcf31e5ea3e3c08c7f3544f8607972 *src/recursiveNRI.f90
 59518806c33200b9c195912dc939aa37 *src/sam.f90
+a22bcde05bf1ed358c878c297f9ce815 *src/smgm.f90
 75fcea189e9ecde896a5b4449d50215d *src/suh.f90
 33c5fc009b2de3ca1c39d66ab0395c9f *src/tav_abs.f90
 8aa68b74dc2d3d10c538602f694d59c7 *src/unmix.c
 9a3f0356b2e64466bc7bd9bc69e549f5 *src/volscatt.f90
 9f6bb0ea74af4e8962954b4387eb4a7e *vignettes/Makefile
-52c76301fb2bca38c0420928358d1085 *vignettes/References.Rnw
-0ab3bfd3338c8e4441f1f168243177dc *vignettes/References.tex
-620bdfb2cfb12457e7e31a5f796825c9 *vignettes/hsdar.bib
+ff7d64c121d14dac51d933c3c5ea9b70 *vignettes/References.Rnw
+c32e0418c61783467b58abbdc9ade268 *vignettes/References.tex
+03b6d29408b29084b0fe27ac3adc2a59 *vignettes/hsdar.bib

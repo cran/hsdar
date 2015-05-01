@@ -32,7 +32,7 @@ Shape and location of the red edge are commonly described by four parameters:
 \item{\eqn{Rs}: }{shoulder wavelength} 
 }
 
-The red edge parameters are calculated as proposed in Bach (1995) from the spectral area between 600 and 900 nm.
+The red edge parameters are calculated as proposed in Bach (1995) from the spectral area between 550 and 900 nm.
 \eqn{\lambda 0}{l0} is calculated as the last root before the maximum value of the 2nd derivation. 
 The minimum reflectance is the reflectance at (\eqn{\lambda 0}{l0}). 
 The inflection point is the root of the 2nd derivative function between the maximum value and 

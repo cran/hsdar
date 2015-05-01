@@ -1,0 +1,14 @@
+------------------------------------------------------------------------------------------
+--- 30-April-2015, version 0.1.3
+- New functionalities (suggested and supported by André Große-Stoltenberg):
+  - Function for soil indices implemented (soilindex)
+  - In soilindex and vegindex, user defined indices can be passed
+  - Gaussian model on soil spectra implemented (Special thanks to Michael Whiting 
+    for providing his IDL code and helping on the development of the FORTRAN implemention)
+- Bug fixes:
+  - transform_speclib: The bugs only affected the continuum hull
+  - vegindex: Some indices were missing or calculation was faulty
+
+------------------------------------------------------------------------------------------
+--- 08-April-2015, version 0.1.2
+Starting this log
