@@ -14,6 +14,7 @@ setMethod("plot", signature(x = "Nri"),
                    ...
                   )
 {
+  predictordefined <- TRUE
   leg_outer <- FALSE
   if (!is.logical(legend))
   {
@@ -87,12 +88,15 @@ setMethod("plot", signature(x = "Nri"),
                             lm = "r.squared"
                            )
     if (is.null(predictor))
+    {
+      predictordefined <- FALSE
       predictor <- switch(attr(x@multivariate,"function"),
                           t.test = 1,
                           glm = 2,
                           lm = 1,
                           cor.test = 1
                          )
+    }
     coefficient <- x@multivariate[[which(names(x@multivariate)==coefficient)]]
     coefficient <- as.matrix(coefficient, lyr = predictor)
   }
@@ -122,7 +126,50 @@ setMethod("plot", signature(x = "Nri"),
       if (inherits(cons_eval, "try-error"))
         stop("Could not evaluate constraint string")
     }
-    coefficient[!cons_eval] <- minval -1
+    cons_eval <- distMat3D(as.numeric(cons_eval), ncol(coefficient), 
+                           length(cons_eval)/sum(lower.tri(coefficient)))
+    if (dim(cons_eval)[3] > 1)
+    {
+      if (predictordefined) 
+      {
+        cons_eval_mat <- try(as.matrix(cons_eval, lyr = predictor), silent = TRUE)
+      } else {
+        conscoefficient <- sapply(c("==", "<=", ">=", ">", "<"), function(pa, te)
+        {
+          pa_apply <- strsplit(te, pa)
+          if (length(pa_apply[[1]]) > 1)
+          {
+            return(pa)
+          } else {
+            return(NA)
+          }
+        }, constraint)
+        conscoefficient <- conscoefficient[!is.na(conscoefficient)]
+        conscoefficient <- conscoefficient[1]
+        conscoefficient <- strsplit(constraint, conscoefficient)[[1]]
+        if (any(names(x@multivariate) == conscoefficient[1]))
+        {
+          conscoefficient <- conscoefficient[1]
+        } else {
+          conscoefficient <- conscoefficient[2]
+        }
+        conslayer <- switch(conscoefficient,
+                            p.value = dim(cons_eval)[3],
+                            t.value = dim(cons_eval)[3],
+                            z.value = dim(cons_eval)[3], 
+                            std.error = dim(cons_eval)[3],
+                            estimate = 1,
+                            r.squared = 1,
+                            1
+                           )
+        cons_eval_mat <- try(as.matrix(cons_eval, lyr = conslayer), silent = TRUE)
+      }
+      if (inherits(cons_eval_mat, "try-error"))  
+        cons_eval_mat <- as.matrix(cons_eval)
+    } else {
+      cons_eval_mat <- as.matrix(cons_eval)
+    }
+    coefficient[cons_eval_mat == 0] <- minval -1    
   }
   if (upperdiag)
   {

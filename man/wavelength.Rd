@@ -5,12 +5,15 @@
 \alias{wavelength<-,Speclib,data.frame-method}
 \alias{wavelength<-,Speclib,numeric-method}
 
+\alias{wavelength,HyperSpecRaster-method}
+\alias{wavelength<-,HyperSpecRaster,numeric-method}
+
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Handling wavelength
 }
 \description{
-Returning and setting wavelength in Speclib
+Returning and setting wavelength in Speclib and HyperSpecRaster
 }
 \usage{
 \S4method{wavelength}{Speclib}(object)
@@ -18,13 +21,17 @@ Returning and setting wavelength in Speclib
 \S4method{wavelength}{Speclib,data.frame}(object) <- value
 
 \S4method{wavelength}{Speclib,numeric}(object) <- value
+
+\S4method{wavelength}{HyperSpecRaster}(object)
+
+\S4method{wavelength}{HyperSpecRaster,numeric}(object) <- value
 }
 \arguments{
   \item{object}{
-Object of class \code{Speclib}'.
+Object of class \code{Speclib} or \code{HyperSpecRaster}.
 }
   \item{value}{
-Matrix containing wavelength values.
+Numeric vector or data.frame containing wavelength values.
 }
 }
 \value{
@@ -38,7 +45,7 @@ Lukas Lehnert
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\linkS4class{Speclib}}
+\code{\linkS4class{Speclib}}, \code{\linkS4class{HyperSpecRaster}}
 }
 \examples{
 data(spectral_data)

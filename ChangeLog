@@ -1,4 +1,19 @@
 ------------------------------------------------------------------------------------------
+--- 21-May-2015, version 0.1.4
+- New functionalities:
+   - new function cubePlot to produce a 3D plot of a HyperSpecRaster
+   - brick method for Speclib
+   - wavelengh method for HyperSpecRaster
+- Bug fixes:
+   - HyperSpecRaster-method for Speclib returns HyperSpecRaster-object 
+     (instead of RasterBrick)
+   - row.names of spectra are correctly used as ID in speclib 
+     (for createspeclib-function)
+   - r.squared value is returned by lm.nri if NRI-values are predictors
+   - constraint in plot.Nri selects correct layer in respective 
+     coefficient
+
+------------------------------------------------------------------------------------------
 --- 30-April-2015, version 0.1.3
 - New functionalities (suggested and supported by André Große-Stoltenberg):
   - Function for soil indices implemented (soilindex)

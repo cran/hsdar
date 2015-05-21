@@ -111,7 +111,7 @@ setMethod('HyperSpecRaster', signature(x = 'RasterLayer', wavelength = "numeric"
 )
 
 
-setMethod('HyperSpecRaster', signature(x = 'Speclib'),
+setMethod('brick', signature(x = 'Speclib'),
            function(x, nrow, ncol, xmn, xmx, ymn, ymx, crs) 
  {
    if (missing(nrow))
@@ -184,4 +184,96 @@ setMethod('HyperSpecRaster', signature(x = 'Speclib'),
 
    return(res)
  } 
+)
+
+setMethod('HyperSpecRaster', signature(x = 'Speclib'),
+            function(x, nrow, ncol, xmn, xmx, ymn, ymx, crs) 
+ {
+   if (missing(nrow))
+   {
+     if (!.is.rastermeta(x))
+     {
+       stop("nrow missing")
+     } else {
+       nrow <- x@rastermeta[[1]][1]
+     }
+   }
+   if (missing(ncol))
+   {
+     if (!.is.rastermeta(x))
+     {
+       stop("ncol missing")
+     } else {
+       ncol <- x@rastermeta[[1]][2]
+     }
+   }
+   if (missing(xmn))
+   {
+     if (!.is.rastermeta(x))
+     {
+       xmn <- 0 
+     } else {
+       xmn <- x@rastermeta[[2]]@xmin
+     }
+   }
+   if (missing(xmx))
+   {
+     if (!.is.rastermeta(x))
+     {
+       xmx <- 1 
+     } else {
+       xmx <- x@rastermeta[[2]]@xmax
+     }
+   }
+   if (missing(ymn))
+   {
+     if (!.is.rastermeta(x))
+     {
+       ymn <- 0 
+     } else {
+       ymn <- x@rastermeta[[2]]@ymin
+     }
+   }
+   if (missing(ymx))
+   {
+     if (!.is.rastermeta(x))
+     {
+       ymx <- 1
+     } else {
+       ymx <- x@rastermeta[[2]]@ymax
+     }
+   }
+   if (missing(crs))
+   {
+     if (!.is.rastermeta(x))
+     {
+       crs <- NA
+     } else {
+       crs <- x@rastermeta[[3]]
+     }
+   }
+   
+   
+   arr <- array(data = spectra(x), dim = c(ncol, nrow, nbands(x)))
+   res <- brick(arr, xmn = xmn, xmx = xmx, ymn = ymn, ymx = ymx, crs = crs, transpose = TRUE)
+   wl <- wavelength(x)
+   if (is.data.frame(wl))
+     wl <- rowMeans(wl[,c(1,2)])
+      
+   return(HyperSpecRaster(res, wavelength = wl))
+ }
+)
+
+
+setReplaceMethod("wavelength", signature(object = "HyperSpecRaster", value = "numeric"), 
+                 function(object, value)
+{
+  object@wavelength <- value
+  return(object)
+}
+)
+
+setMethod("wavelength", signature(object = "HyperSpecRaster"), 
+          function(object)
+  return(object@wavelength)
 )

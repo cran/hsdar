@@ -5,6 +5,7 @@
 \alias{HyperSpecRaster,character,numeric-method}
 \alias{HyperSpecRaster,RasterLayer,numeric-method}
 \alias{HyperSpecRaster,RasterBrick,numeric-method}
+\alias{brick,Speclib,ANY-method}
 \alias{HyperSpecRaster,Speclib,ANY-method}
 
 \alias{writeStart,HyperSpecRaster,character-method}
@@ -37,6 +38,8 @@ Methods to create and handle objects of class HyperSpecRaster
 \S4method{HyperSpecRaster}{RasterBrick,numeric}(x, wavelength, fwhm = NULL, attributes = NULL)
 
 \S4method{HyperSpecRaster}{HyperSpecRaster}(x, wavelength)
+
+\S4method{brick}{Speclib,ANY}(x, nrow, ncol, xmn, xmx, ymn, ymx, crs)
 
 \S4method{HyperSpecRaster}{Speclib,ANY}(x, nrow, ncol, xmn, xmx, ymn, ymx, crs)
 

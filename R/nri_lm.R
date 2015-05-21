@@ -20,6 +20,9 @@ lm.nri <- function(formula, preddata=NULL, ...)
     su <- summary(model)$coefficients
     if (nrow(su)<ncol(data))
       su <- rbind(su, rep.int(NA,4))
+    r.squared <- get("r.squared", envir= environment_apply)
+    r.squared <- c(r.squared, summary(model)$r.squared)
+    assign("r.squared", r.squared, environment_apply)
     return(su[,c(1:4)])
   }
   nri_response <- 0
@@ -120,7 +123,6 @@ lm.nri <- function(formula, preddata=NULL, ...)
   nam[[1]] <- c("(Intercept)", attr(formula,"term.labels"))
   nam[[2]] <- paste("B_",x$wavelength, sep="")
   nam[[3]] <- paste("B_",x$wavelength, sep="")
-  
   final <- list(estimate = distMat3D(as.numeric(t(lm_data[1:ncol,])),
                                      length(x$wavelength),
                                      ncol),

@@ -159,6 +159,7 @@ createspeclib <- function (spectra,
       warning("  some row.names duplicated: --> Spectra does not have IDs")
       rn <- as.factor(1:length(rn))
     }
+    rn <- as.character(rn)
   } else {
     rn <- character()
   }
