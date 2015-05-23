@@ -1,5 +1,5 @@
-bf113d1f4a32f8b45c18a68ec2f974c6 *ChangeLog
-b958f73fbb6a84ecb819b2405d8eead1 *DESCRIPTION
+24e6107600bf507c9991b773aee28a75 *ChangeLog
+bc47ad64173ecf74ff3c1e79e616a8a0 *DESCRIPTION
 2eacf39aec3d493727848b0876d73a3c *NAMESPACE
 64e01ba284df7fe2b035fb987b69ae16 *R/AAAClasses.R
 193ed4890ed16de0325ed033780517ae *R/HyperSpecRaster_methods.R
@@ -65,7 +65,7 @@ d7a47472101f6bf233e496abc6b9dc64 *data/spectral_data.RData
 d81bafd39455d907234b3dcb436b1675 *inst/CITATION
 36c44be200bb7194a385d67841295d93 *inst/COPYRIGHTS
 ff7d64c121d14dac51d933c3c5ea9b70 *inst/doc/References.Rnw
-5c7577cf3fb2d8d055eb144dc45cce0f *inst/doc/References.pdf
+43ebf26b84c88f04662190060c325a60 *inst/doc/References.pdf
 bc930a871e00ec8d759d3a697fe25a9c *man/Clman-class.Rd
 a7a7a4cfc904c3b85e7ca950dbc45e68 *man/Clman-methods.Rd
 1bec390a0cf88b3367132e26aaa04b2c *man/DistMat3D-class.Rd
@@ -160,7 +160,7 @@ f9b1d6a641d36600b0f6499e7f5381b5 *src/prospect_5B.f90
 957cc73ba50621fd5477e7f77b30d928 *src/pt2f.c
 d5dcf31e5ea3e3c08c7f3544f8607972 *src/recursiveNRI.f90
 59518806c33200b9c195912dc939aa37 *src/sam.f90
-a22bcde05bf1ed358c878c297f9ce815 *src/smgm.f90
+12977421482b117c6af34ad38d709e2a *src/smgm.f90
 75fcea189e9ecde896a5b4449d50215d *src/suh.f90
 33c5fc009b2de3ca1c39d66ab0395c9f *src/tav_abs.f90
 8aa68b74dc2d3d10c538602f694d59c7 *src/unmix.c

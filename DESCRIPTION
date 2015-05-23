@@ -1,8 +1,8 @@
 Package: hsdar
 Type: Package
 Title: Manage, Analyse and Simulate Hyperspectral Data in R
-Version: 0.1.4
-Date: 2015-05-21
+Version: 0.1.5
+Date: 2015-05-22
 Author: Lukas W. Lehnert [cre, aut], 
   Hanna Meyer [ctb], 
   Joerg Bendix [ctb]
@@ -16,7 +16,7 @@ BuildVignettes: yes
 Copyright: see file COPYRIGHTS
 URL: http://lcrs.geographie.uni-marburg.de,
         http://teledetection.ipgp.jussieu.fr/prosail/
-Packaged: 2015-05-21 13:10:22 UTC; lehnert
+Packaged: 2015-05-22 20:33:21 UTC; lehnert
 NeedsCompilation: yes
 Repository: CRAN
-Date/Publication: 2015-05-21 16:28:59
+Date/Publication: 2015-05-23 01:54:51
