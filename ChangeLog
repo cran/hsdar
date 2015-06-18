@@ -1,4 +1,12 @@
 ------------------------------------------------------------------------------------------
+--- 18-June-2015, version 0.2
+- New functionalities:
+   - Tutorial added
+   - nri accepts vector of bands to calculate nri-indices
+- Bug fixes:
+   - plot.Nri accepts NAs in coefficients to be plotted
+
+------------------------------------------------------------------------------------------
 --- 22-May-2015, version 0.1.5
 - Bug fixes:
    - Memory access error in fortran subroutine smgm fixed
@@ -8,7 +16,7 @@
 - New functionalities:
    - new function cubePlot to produce a 3D plot of a HyperSpecRaster
    - brick method for Speclib
-   - wavelengh method for HyperSpecRaster
+   - wavelength method for HyperSpecRaster
 - Bug fixes:
    - HyperSpecRaster-method for Speclib returns HyperSpecRaster-object 
      (instead of RasterBrick)

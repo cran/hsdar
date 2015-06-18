@@ -52,7 +52,7 @@ Lukas Lehnert
 ## Load example data  
 data(spectral_data)
 
-## Resample to WorldView-2-8
+## Resample to RapidEye
 data_RE <- spectral.resampling(spectral_data, "RapidEye", 
                                response_function = TRUE)
 

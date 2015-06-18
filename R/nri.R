@@ -44,6 +44,21 @@ if (recursive)
 } else {
   b1 <- as.vector(unlist(b1))
   b2 <- as.vector(unlist(b2))
+  
+  stopifnot(length(b1) == length(b2))
+  
+  if (length(b1) > 1)
+  {
+    res <- apply(matrix(1:length(b1), ncol = 1), 1, 
+                 FUN = function(i, x, b1, b2, bywavelength)
+                 {
+                   index <- nri(x, b1 = b1[i], b2 = b2[i], bywavelength = bywavelength)
+                   return(index)
+                 }, x, b1, b2, bywavelength)
+    colnames(res) <- paste("B", b1, "B", b2, sep = "_")
+    rownames(res) <- idSpeclib(x)
+    return(res)
+  }                 
   if (bywavelength)
   {
     posb1 <- which(wavelength==b1)

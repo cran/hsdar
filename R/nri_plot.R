@@ -177,20 +177,23 @@ setMethod("plot", signature(x = "Nri"),
     {
       for (i in (k+1):dim(coefficient)[2])
       {
-        if (coefficient[i,k]>=minval & coefficient[i,k]<=maxval)
+        if (is.finite(coefficient[i,k]))
         {
-          polygon(c(x@wavelength[k]-x@fwhm[k]/2,
-                    x@wavelength[k]-x@fwhm[k]/2,
-                    x@wavelength[k]+x@fwhm[k]/2,
-                    x@wavelength[k]+x@fwhm[k]/2),
-                  c(x@wavelength[i]+x@fwhm[i]/2,
-                    x@wavelength[i]-x@fwhm[i]/2,
-                    x@wavelength[i]-x@fwhm[i]/2,
-                    x@wavelength[i]+x@fwhm[i]/2),
-                  lty="blank",
-                  col=colfunc(getcol((coefficient[i,k]-minval)/(maxval-minval)),
-                          maxColorValue = 255)
-                  )
+          if (coefficient[i,k]>=minval & coefficient[i,k]<=maxval)
+          {
+            polygon(c(x@wavelength[k]-x@fwhm[k]/2,
+                      x@wavelength[k]-x@fwhm[k]/2,
+                      x@wavelength[k]+x@fwhm[k]/2,
+                      x@wavelength[k]+x@fwhm[k]/2),
+                    c(x@wavelength[i]+x@fwhm[i]/2,
+                      x@wavelength[i]-x@fwhm[i]/2,
+                      x@wavelength[i]-x@fwhm[i]/2,
+                      x@wavelength[i]+x@fwhm[i]/2),
+                    lty="blank",
+                    col=colfunc(getcol((coefficient[i,k]-minval)/(maxval-minval)),
+                            maxColorValue = 255)
+                    )
+          }
         }
       } 
     }
@@ -199,20 +202,23 @@ setMethod("plot", signature(x = "Nri"),
     {
       for (i in (k+1):dim(coefficient)[2])
       {
-        if (coefficient[i,k]>=minval & coefficient[i,k]<=maxval)
+        if (is.finite(coefficient[i,k]))
         {
-          polygon(c(x@wavelength[i]+x@fwhm[i]/2,
-                    x@wavelength[i]-x@fwhm[i]/2,
-                    x@wavelength[i]-x@fwhm[i]/2,
-                    x@wavelength[i]+x@fwhm[i]/2),
-                  c(x@wavelength[k]-x@fwhm[k]/2,
-                    x@wavelength[k]-x@fwhm[k]/2,
-                    x@wavelength[k]+x@fwhm[k]/2,
-                    x@wavelength[k]+x@fwhm[k]/2),
-                  lty="blank",
-                  col=colfunc(getcol((coefficient[i,k]-minval)/(maxval-minval)),
-                          maxColorValue = 255)
-                  )
+          if (coefficient[i,k]>=minval & coefficient[i,k]<=maxval)
+          {
+            polygon(c(x@wavelength[i]+x@fwhm[i]/2,
+                      x@wavelength[i]-x@fwhm[i]/2,
+                      x@wavelength[i]-x@fwhm[i]/2,
+                      x@wavelength[i]+x@fwhm[i]/2),
+                    c(x@wavelength[k]-x@fwhm[k]/2,
+                      x@wavelength[k]-x@fwhm[k]/2,
+                      x@wavelength[k]+x@fwhm[k]/2,
+                      x@wavelength[k]+x@fwhm[k]/2),
+                    lty="blank",
+                    col=colfunc(getcol((coefficient[i,k]-minval)/(maxval-minval)),
+                            maxColorValue = 255)
+                    )
+          }
         }
       } 
     }
