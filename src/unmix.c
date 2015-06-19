@@ -121,6 +121,7 @@ void unmix_vec (int n_em, int n_band, int i_spec, double em_matrix_tilde[n_em * 
   {
     startvector[k] = (1. / n_em);
     startvector_prev[k] = (1. / n_em);
+    temp2[k] = 1.0;
   }
   
   
@@ -167,7 +168,7 @@ void unmix_vec (int n_em, int n_band, int i_spec, double em_matrix_tilde[n_em * 
     
       F77_CALL(c2dgemv)(n_em_pointer, n_bandp1_pointer, A_tilde_trans_mu, errorvector, temp);
     
-      v_sub(n_bandp1, startvector, temp, temp2);
+      v_sub(n_em, startvector, temp, temp2);
       
       i=0;
       for (k = 0; k < n_em; k++)

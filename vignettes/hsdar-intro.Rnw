@@ -163,7 +163,8 @@ However, it would be nice to have an ID for each spectrum:
 \begin{framed}
 <<echo=TRUE,eval=TRUE,results=hide>>=
 ids <- idSpeclib(spectral_data) #extract ID from "spectral_data"
-idSpeclib(newSpeclib) <- as.character(ids) #...and assign them to the new Speclib
+idSpeclib(newSpeclib) <- as.character(ids) #...and assign them to the 
+                                           #new Speclib
 @
 \end{framed}
 Still the attributes are missing in the new Speclib. Those can be handled with the function "attribute":
@@ -317,10 +318,10 @@ plot(spectral_data, FUN = "mean", main = "Mean spectrum")
 \resizebox{1\textwidth}{!}{
 <<fig=TRUE, echo=FALSE>>=
 par(mfrow = c(2,2), mar = c(4,4,3,0.1), cex = 0.75)
-plot(spectral_data, main = "Default Plot")
-plot(spectral_data, FUN = 1, main = "First spectrum of Speclib")
-plot(spectral_data, FUN = "median", main = "Median spectrum")
-plot(spectral_data, FUN = "mean", main = "Mean spectrum")
+plot(spectral_data, main = "Default Plot", ylim = c(0, 50))
+plot(spectral_data, FUN = 1, main = "First spectrum of Speclib", ylim = c(0, 50))
+plot(spectral_data, FUN = "median", main = "Median spectrum", ylim = c(0, 50))
+plot(spectral_data, FUN = "mean", main = "Mean spectrum", ylim = c(0, 50))
 @
 }
 \end{framed}
@@ -343,21 +344,21 @@ plot(spectral_data, FUN = 3, col = "orange", new = FALSE)
 @
 }
 \end{framed}
-With the "subset" parameter you can "zoom" into the plot by setting the minimum and maximum wavelength to plot:
-\SweaveOpts{width=5.2, height=4.5}
-\begin{framed}
-<<echo=TRUE,eval=FALSE,fig=FALSE>>=
-plot(spectral_data, subset = c(600,800),
-     legend = list(x = "topleft", bty = "n")) #add legend
-@
-\resizebox{1\textwidth}{!}{
-<<fig=TRUE, echo=FALSE>>=
-par(mar = c(4,4,0.1,0.1), cex = 0.75)
-plot(spectral_data, subset = c(600,800),
-     legend = list(x = "topleft", bty = "n")) #add legend
-@
-}
-\end{framed}
+% With the "subset" parameter you can "zoom" into the plot by setting the minimum and maximum wavelength to plot:
+% \SweaveOpts{width=5.2, height=4.5}
+% \begin{framed}
+% <<echo=TRUE,eval=FALSE,fig=FALSE>>=
+% plot(spectral_data, subset = c(600,800),
+%      legend = list(x = "topleft", bty = "n")) #add legend
+% @
+% \resizebox{1\textwidth}{!}{
+% <<fig=TRUE, echo=FALSE>>=
+% par(mar = c(4,4,0.1,0.1), cex = 0.75)
+% plot(spectral_data, subset = c(600,800),
+%      legend = list(x = "topleft", bty = "n")) #add legend
+% @
+% }
+% \end{framed}
 Beside these specific arguments to plot spectra, any arguments known from the default plot function can be used.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Simulating spectra with PROSPECT and PROSAIL}
@@ -1304,20 +1305,15 @@ For each band combination, the r.squared value of the model of NRI and the envir
 <<echo=TRUE,eval=FALSE,fig=FALSE>>=
 plot(lmnri, coefficient = "r.squared", main = "R squared",
      constraint = "p.value<0.01")
-
-## additionally mark the best performing model:
-mark_nri_best_performance(nribest, lmnri)
 @
 \resizebox{1\textwidth}{!}{
 <<fig=TRUE, echo=FALSE>>=
 par(mar = c(4,4,3,0.1), cex = 0.75)
 plot(lmnri, coefficient = "r.squared", main = "R squared",
      constraint = "p.value<0.01")
-mark_nri_best_performance(nribest, lmnri)
 @
 }
 \end{framed}
-Note that the reason why the rectangle seems to overlap with the neighbouring index is that channels 7 and 8 overlap in the Worldview-2-sensor.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \section{Principal Component Analysis Ranking}

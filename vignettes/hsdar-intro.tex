@@ -241,7 +241,8 @@ However, it would be nice to have an ID for each spectrum:
 \begin{Schunk}
 \begin{Sinput}
 > ids <- idSpeclib(spectral_data) #extract ID from "spectral_data"
-> idSpeclib(newSpeclib) <- as.character(ids) #...and assign them to the new Speclib
+> idSpeclib(newSpeclib) <- as.character(ids) #...and assign them to the 
+>                                            #new Speclib
 \end{Sinput}
 \end{Schunk}
 \end{framed}
@@ -469,19 +470,21 @@ The parameter "new" allows you to plot more than one spectrum in one plot:
 \includegraphics{hsdar-intro-024}
 }
 \end{framed}
-With the "subset" parameter you can "zoom" into the plot by setting the minimum and maximum wavelength to plot:
-
-\begin{framed}
-\begin{Schunk}
-\begin{Sinput}
-> plot(spectral_data, subset = c(600,800),
-+      legend = list(x = "topleft", bty = "n")) #add legend
-\end{Sinput}
-\end{Schunk}
-\resizebox{1\textwidth}{!}{
-\includegraphics{hsdar-intro-026}
-}
-\end{framed}
+% With the "subset" parameter you can "zoom" into the plot by setting the minimum and maximum wavelength to plot:
+% \SweaveOpts{width=5.2, height=4.5}
+% \begin{framed}
+% <<echo=TRUE,eval=FALSE,fig=FALSE>>=
+% plot(spectral_data, subset = c(600,800),
+%      legend = list(x = "topleft", bty = "n")) #add legend
+% @
+% \resizebox{1\textwidth}{!}{
+% <<fig=TRUE, echo=FALSE>>=
+% par(mar = c(4,4,0.1,0.1), cex = 0.75)
+% plot(spectral_data, subset = c(600,800),
+%      legend = list(x = "topleft", bty = "n")) #add legend
+% @
+% }
+% \end{framed}
 Beside these specific arguments to plot spectra, any arguments known from the default plot function can be used.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Simulating spectra with PROSPECT and PROSAIL}
@@ -503,7 +506,7 @@ PROSPECT is a widely used leaf reflectance (or transmittance) model which simula
 \end{Sinput}
 \end{Schunk}
 \resizebox{1\textwidth}{!}{
-\includegraphics{hsdar-intro-028}
+\includegraphics{hsdar-intro-026}
 }
 \end{framed}
 
@@ -591,7 +594,7 @@ We can visualize the effect of the solar zenith angle simply plotting the spectr
 \end{Sinput}
 \end{Schunk}
 \resizebox{1\textwidth}{!}{
-\includegraphics{hsdar-intro-031}
+\includegraphics{hsdar-intro-029}
 }
 \end{framed}
 Of course it is also possible to test the effect of two parameters on the reflectance values. In the following example we will plot the reflectance values of canopies with three different LAI values. Within each LAI class we vary the leaf angle distribution:
@@ -665,7 +668,7 @@ Width of bands : 1
 \end{Sinput}
 \end{Schunk}
 \resizebox{1\textwidth}{!}{
-\includegraphics{hsdar-intro-033}
+\includegraphics{hsdar-intro-031}
 }
 \end{framed}
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -699,7 +702,7 @@ Subsets of Speclibs can be built using the subset function. This function separa
 \end{Sinput}
 \end{Schunk}
 \resizebox{1\textwidth}{!}{
-\includegraphics{hsdar-intro-035}
+\includegraphics{hsdar-intro-033}
 }
 \end{framed}
 As you can see the Speclib is split into two Speclibs, one containing all spectra which had the site-attribute "Namco" and one containing all spectra which had the site-attribute "Kailash".
@@ -716,7 +719,7 @@ Having a look at one spectrum in detail you might wish to smooth the spectrum so
 \end{Sinput}
 \end{Schunk}
 \resizebox{1\textwidth}{!}{
-\includegraphics{hsdar-intro-037}
+\includegraphics{hsdar-intro-035}
 }
 \end{framed}
 \hsdar implements several methods to smooth spectra. These are Savitzky-Golay, Spline, locally weighted scatterplot smoothing (Lowess) and Mean-filter.
@@ -757,7 +760,7 @@ Now plot the results:
 \end{Sinput}
 \end{Schunk}
 \resizebox{1\textwidth}{!}{
-\includegraphics{hsdar-intro-040}
+\includegraphics{hsdar-intro-038}
 }
 \end{framed}
 
@@ -782,7 +785,7 @@ There are several ways of how to enter the lower and upper limits of the wavelen
 \end{Sinput}
 \end{Schunk}
 \resizebox{1\textwidth}{!}{
-\includegraphics{hsdar-intro-042}
+\includegraphics{hsdar-intro-040}
 }
 \end{framed}
 
@@ -797,7 +800,7 @@ Beside of masking these wavelength you can also assign "new" values to them by l
 \end{Sinput}
 \end{Schunk}
 \resizebox{1\textwidth}{!}{
-\includegraphics{hsdar-intro-044}
+\includegraphics{hsdar-intro-042}
 }
 \end{framed}
 
@@ -820,7 +823,7 @@ The derivation of spectra are needed in some analyzing techniques for example to
 \end{Sinput}
 \end{Schunk}
 \resizebox{1\textwidth}{!}{
-\includegraphics{hsdar-intro-046}
+\includegraphics{hsdar-intro-044}
 }
 \end{framed}
 
@@ -843,7 +846,7 @@ However, depending on the objectives it might be favorable to first smooth the s
 \end{Sinput}
 \end{Schunk}
 \resizebox{1\textwidth}{!}{
-\includegraphics{hsdar-intro-048}
+\includegraphics{hsdar-intro-046}
 }
 \end{framed}
 
@@ -918,7 +921,7 @@ Mean width of bands : 66.25
 \end{Sinput}
 \end{Schunk}
 \resizebox{1\textwidth}{!}{
-\includegraphics{hsdar-intro-052}
+\includegraphics{hsdar-intro-050}
 }
 \end{framed}
 
@@ -992,7 +995,7 @@ Plot continuum lines and resulting band depths for both methods to see the diffe
 \end{Sinput}
 \end{Schunk}
 \resizebox{1\textwidth}{!}{
-\includegraphics{hsdar-intro-057}
+\includegraphics{hsdar-intro-055}
 }
 %Note that that masked wavelengths were interpolated 
 \end{framed}
@@ -1010,7 +1013,7 @@ Let's have a look on the segmented hull in more detail and compare it to another
 \end{Sinput}
 \end{Schunk}
 \resizebox{1\textwidth}{!}{
-\includegraphics{hsdar-intro-059}
+\includegraphics{hsdar-intro-057}
 }
 \end{framed}
 By the way: Plotting an object of the class "clman" allows you to numerate the local maxima which were used to construct this line.
@@ -1139,7 +1142,7 @@ Now, we can plot the resulting continuum removed spectra:
 \end{Sinput}
 \end{Schunk}
 \resizebox{1\textwidth}{!}{
-\includegraphics{hsdar-intro-068}
+\includegraphics{hsdar-intro-066}
 }
 \end{framed}
 
@@ -1192,7 +1195,7 @@ Let's continue with the preprocessed spectra from section \ref{sec_cr}
 \end{Sinput}
 \end{Schunk}
 \resizebox{1\textwidth}{!}{
-\includegraphics{hsdar-intro-071}
+\includegraphics{hsdar-intro-069}
 }
 \end{framed}
 Some features are larger than others. For some research questions it might be important to cut the features at specific wavelengths.
@@ -1208,7 +1211,7 @@ The following example shows how to cut the first two features:
 \end{Sinput}
 \end{Schunk}
 \resizebox{1\textwidth}{!}{
-\includegraphics{hsdar-intro-073}
+\includegraphics{hsdar-intro-071}
 }
 \end{framed}
 
@@ -1254,7 +1257,7 @@ Let's visualize how the reflexion at the red edge reflexion shoulder (around 750
 \end{Sinput}
 \end{Schunk}
 \resizebox{1\textwidth}{!}{
-\includegraphics{hsdar-intro-076}
+\includegraphics{hsdar-intro-074}
 }
 \end{framed}
 
@@ -1313,7 +1316,7 @@ You can easily plot this relation by a scatterplot with PV on th the x-axis and 
 \end{Sinput}
 \end{Schunk}
 \resizebox{1\textwidth}{!}{
-\includegraphics{hsdar-intro-080}
+\includegraphics{hsdar-intro-078}
 }
 \end{framed}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1388,7 +1391,7 @@ Results can be presented as boxplot. For example create a boxplot for R0:
 \end{Sinput}
 \end{Schunk}
 \resizebox{1\textwidth}{!}{
-\includegraphics{hsdar-intro-085}
+\includegraphics{hsdar-intro-083}
 }
 \end{framed}
 
@@ -1622,7 +1625,7 @@ The coefficients of the correlation can be visualized by the function by plottin
 \end{Sinput}
 \end{Schunk}
 \resizebox{1\textwidth}{!}{
-\includegraphics{hsdar-intro-097}
+\includegraphics{hsdar-intro-095}
 }
 \end{framed}
 Now it becomes obvious that the NRI from the band combination 4 and 3 is the definitely not correlated to vegetation cover. 
@@ -1634,7 +1637,7 @@ To see which NRI are significantly correlated let's only plot the p-values where
 \end{Sinput}
 \end{Schunk}
 \resizebox{1\textwidth}{!}{
-\includegraphics{hsdar-intro-099}
+\includegraphics{hsdar-intro-097}
 }
 \end{framed}
 Obviously all other NRI except the mentioned NRI from the bands 4 and 3 are significantly correlated to vegetation cover.
@@ -1804,7 +1807,7 @@ Start with plotting the r.squared values of the linear model from section \ref{s
 \end{Sinput}
 \end{Schunk}
 \resizebox{1\textwidth}{!}{
-\includegraphics{hsdar-intro-107}
+\includegraphics{hsdar-intro-105}
 }
 \end{framed}
 
@@ -1814,15 +1817,12 @@ For each band combination, the r.squared value of the model of NRI and the envir
 \begin{Sinput}
 > plot(lmnri, coefficient = "r.squared", main = "R squared",
 +      constraint = "p.value<0.01")
-> ## additionally mark the best performing model:
-> mark_nri_best_performance(nribest, lmnri)
 \end{Sinput}
 \end{Schunk}
 \resizebox{1\textwidth}{!}{
-\includegraphics{hsdar-intro-109}
+\includegraphics{hsdar-intro-107}
 }
 \end{framed}
-Note that the reason why the rectangle seems to overlap with the neighbouring index is that channels 7 and 8 overlap in the Worldview-2-sensor.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \section{Principal Component Analysis Ranking}
@@ -1896,7 +1896,7 @@ We can now test the performance of the unmixing approach. Therefore, we compare 
 \end{Sinput}
 \end{Schunk}
 \resizebox{1\textwidth}{!}{
-\includegraphics{hsdar-intro-113}
+\includegraphics{hsdar-intro-111}
 }
 \end{framed}
 % 

@@ -1,5 +1,5 @@
 f1789be14284da73eda26a9efcead4be *ChangeLog
-a08c8613366eb173b0b76940a689a242 *DESCRIPTION
+01731a38d8d2ad02545f4a03ea36015c *DESCRIPTION
 2eacf39aec3d493727848b0876d73a3c *NAMESPACE
 64e01ba284df7fe2b035fb987b69ae16 *R/AAAClasses.R
 193ed4890ed16de0325ed033780517ae *R/HyperSpecRaster_methods.R
@@ -65,9 +65,9 @@ d7a47472101f6bf233e496abc6b9dc64 *data/spectral_data.RData
 d81bafd39455d907234b3dcb436b1675 *inst/CITATION
 36c44be200bb7194a385d67841295d93 *inst/COPYRIGHTS
 ff7d64c121d14dac51d933c3c5ea9b70 *inst/doc/References.Rnw
-dcf2f8ba83877436d25fa182b4b9018f *inst/doc/References.pdf
-31c64ab595b83c8f7c6b08dd36c6f654 *inst/doc/hsdar-intro.Rnw
-9c6ebb5ad401292241dfa723ba235a23 *inst/doc/hsdar-intro.pdf
+0478c487b5d7a94cbdd5dd01b770d4a1 *inst/doc/References.pdf
+012928de8260894c45a87d3e8f3fd994 *inst/doc/hsdar-intro.Rnw
+dfd44a97431b792feb99e5ddb534f081 *inst/doc/hsdar-intro.pdf
 bc930a871e00ec8d759d3a697fe25a9c *man/Clman-class.Rd
 a7a7a4cfc904c3b85e7ca950dbc45e68 *man/Clman-methods.Rd
 1bec390a0cf88b3367132e26aaa04b2c *man/DistMat3D-class.Rd
@@ -165,11 +165,11 @@ d5dcf31e5ea3e3c08c7f3544f8607972 *src/recursiveNRI.f90
 12977421482b117c6af34ad38d709e2a *src/smgm.f90
 75fcea189e9ecde896a5b4449d50215d *src/suh.f90
 33c5fc009b2de3ca1c39d66ab0395c9f *src/tav_abs.f90
-8aa68b74dc2d3d10c538602f694d59c7 *src/unmix.c
+889594f6a464b000b16fb00cc939c659 *src/unmix.c
 9a3f0356b2e64466bc7bd9bc69e549f5 *src/volscatt.f90
 e3feb5873d66139af757ed69ab219730 *vignettes/Makefile
 ff7d64c121d14dac51d933c3c5ea9b70 *vignettes/References.Rnw
 c32e0418c61783467b58abbdc9ade268 *vignettes/References.tex
-31c64ab595b83c8f7c6b08dd36c6f654 *vignettes/hsdar-intro.Rnw
-b05fc6d53b31ebc6ed7e23dc718ff7a7 *vignettes/hsdar-intro.tex
+012928de8260894c45a87d3e8f3fd994 *vignettes/hsdar-intro.Rnw
+0d09ff96445eb02ef457dab9318ee1a6 *vignettes/hsdar-intro.tex
 96701e8460d7e2c6c9324367048f927c *vignettes/hsdar.bib
