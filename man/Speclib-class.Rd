@@ -12,7 +12,8 @@ Class to store and handle hyperspectral data in R
 }
 \details{
 \subsection{Spectral data}{
-  The spectral data (usually reflectance values) are stored in a \code{data.frame} with columns indicating spectral bands and rows different samples, respectively. The Speclib-class provides converting routines to and from \code{brick}-class allowing to read and write geographic raster data via \code{\link[raster]{brick}} and its extension \code{\link{HyperSpecRaster-class}}. Since R is in general not intended to be used for VERY large data sets, this functionality should be handled with care. If raster files are large, one should split them in multiple smaller ones and process each of the small files, separately. A function which will perform splitting and merging is currently under development and will be available in future releases of this package.
+  The spectral data (usually reflectance values) are stored in an object of class \code{'.Spectra'}. This object may eiter contain the spectral data as a \code{RasterBrick} or as a \code{matrix} with columns indicating spectral bands and rows different samples, respectively. The Speclib-class provides converting routines to and from \code{RasterBrick}-class allowing to read and write geographic raster data via \code{\link[raster]{brick}} and its extension \code{\link{HyperSpecRaster-class}}. Since R is in general not intended to be used for VERY large data sets, this functionality should be handled with care. If raster files are large, one should split them in multiple smaller ones and process each of the small files, separately. See the excellent tutorial 'Writing functions for large raster files' available on \url{https://cran.r-project.org/web/packages/raster/vignettes/functions.pdf} and section '2.2.2 Speclibs from raster files' in 'hsdar-intro.pdf'.
+
 }
 \subsection{Spectral information}{
   Speclib contains wavelength information for each band in spectral data. This information is used for spectral resampling, vegetation indices and plotting etc. Since spectra can be handled either as continuous lines or as discrete values like for satellite bands, spectral information is handled in two principle ways:
@@ -30,7 +31,13 @@ An object of class \code{Speclib} contains the following slots:
 \itemize{
   \item{wavelength:}{ Vector with wavelength information.}
   \item{fwhm:}{ Vector or single numerical value giving the full-width-half-max value(s) for each band.}
-  \item{spectra:}{ Matrix with ncol = number of bands and nrow = number of spectra. Contains reflectance, transmittance or absorbance values. Handle with function \code{\link[=spectra.Speclib]{spectra}}.}
+  \item{spectra:}{ Object of class '.Spectra' with three slots:
+    \itemize{
+      \item{fromRaster:}{ logical, indicating if spectral data is read from a RasterBrick-object.}
+      \item{spectra_ma:}{ Matrix with ncol = number of bands and nrow = number. Used if fromRaster == FALSE}
+      \item{spectra_ra:}{ RasterBrick-object which is used if fromRaster == TRUE.}
+    }
+    Contains reflectance, transmittance or absorbance values. Handle with function \code{\link[=spectra.Speclib]{spectra}}.}
   \item{attributes:}{ Data frame containing additional data to each spectrum. May be used for linear regression etc. Handle with function \code{\link[=attribute.speclib]{attribute}}.}
   \item{usagehistory:}{ Vector giving information on history of usage of speclib. Handle with function \code{\link{usagehistory}}.}
 }

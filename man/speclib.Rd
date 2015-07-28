@@ -18,6 +18,11 @@
 \alias{speclib,SpatialGridDataFrame,matrix-method}
 \alias{speclib,numeric,matrix-method}
 \alias{speclib,HyperSpecRaster,ANY-method}
+\alias{speclib,RasterBrick,data.frame-method}
+\alias{speclib,RasterBrick,matrix-method}
+\alias{speclib,RasterBrick,numeric-method}
+\alias{ncol,.Spectra-method}
+\alias{nrow,.Spectra-method}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
@@ -62,7 +67,7 @@ is.speclib(x)
 
 \arguments{
 \item{spectra}{
-Data frame, matrix of raster object of class 'SpatialGridDataFrame' with spectral data
+Data frame, matrix of raster object of class 'RasterBrick' or 'SpatialGridDataFrame' with spectral data
 }
 \item{x,object}{
 Object to be converted to or from Speclib. For conversion to Speclib it can be a of class \code{'data frame'}, \code{'matrix'}, \code{'list'} or \code{'character string'}. In the latter case x is interpreted as path to raster object and read by \code{readGDAL}. For conversion from \code{Speclib} the object must be of class \code{Speclib}.
@@ -95,7 +100,7 @@ Label of wavelength data to be used for plots etc.
 Label of spectral signal to be used for plots etc.
 }
 \item{rastermeta}{
-List of meta information for SpatialGridDataFrame or HyperSpecRaster. If missing meta data in speclib is used. Use function \code{\link{rastermeta}} to create valid objects.
+List of meta information for SpatialGridDataFrame or HyperSpecRaster. If missing, meta data in speclib is used. Use function \code{\link{rastermeta}} to create valid objects.
 }
 \item{...}{
 Further arguments passed to specific (generic) functions or createspeclib
@@ -110,7 +115,13 @@ An object of class \code{Speclib} containing the following slots is returned:
 \itemize{
   \item{wavelength:}{ Vector with wavelength information}
   \item{fwhm:}{ Vector or single numerical value giving the full-width-half-max value(s) for each band.}
-  \item{spectra:}{ Matrix with ncol = number of bands and nrow = number of spectra. Contains reflectance, transmittance or absorbance values. Handle with function \code{\link[=spectra.Speclib]{spectra}}.}
+  \item{spectra:}{ Object of class '.Spectra' with three slots:
+    \itemize{
+      \item{fromRaster:}{ logical, indicating if spectral data is read from a RasterBrick-object.}
+      \item{spectra_ma:}{ Matrix with ncol = number of bands and nrow = number. Used if fromRaster == FALSE}
+      \item{spectra_ra:}{ RasterBrick-object which is used if fromRaster == TRUE.}
+    }
+    Contains reflectance, transmittance or absorbance values. Handle with function \code{\link[=spectra.Speclib]{spectra}}.}
   \item{attributes:}{ Data frame containing additional data to each spectrum. May be used for linear regression etc. Handle with function \code{\link[=attribute.speclib]{attribute}}.}
   \item{usagehistory:}{ Vector giving information on history of usage of speclib. Handle with function \code{\link{usagehistory}}.}
   \item{rastermeta:}{ List containing meta information to create *Raster objects from Speclib. Handle with function \code{\link{rastermeta}}.}

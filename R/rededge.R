@@ -6,6 +6,9 @@ rededge <- function(x,
 {
   if (!is.speclib(x))
     stop("x is not of class 'Speclib'")
+  
+  if (x@spectra@fromRaster)
+    return(.blockwise(speclib_obj =  "x", pos = 1))
     
   if (!x@continuousdata)
     stop("x must contain continuous spectral data")

@@ -31,6 +31,8 @@ if (length(names(match.call()))==0)
   return(soilindex_available())
 }  
 
+if (x@spectra@fromRaster)
+  return(.blockwise(speclib_obj =  "x", pos = 1))
 
 x_back <- x
 

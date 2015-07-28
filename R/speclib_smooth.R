@@ -4,6 +4,10 @@ smoothSpeclib <- function(
                            ...
                           )
 {
+  if (x@spectra@fromRaster)
+    return(.blockwise(speclib_obj =  "x", pos = 1))
+  
+  predefinedmethod <- FALSE
   if (!is.speclib(x))
     stop("x must be of class 'Speclib'")
     
@@ -27,6 +31,7 @@ smoothSpeclib <- function(
   {
     spectra(res) <- t(apply(spectra(x), 1, FUN = sgolayfilt, ...))
     usagehistory(res) <- paste("Smoothed with Savitzky-Golay smoothing filter")
+    predefinedmethod <- TRUE
   }
   
   if (method=="lowess")
@@ -37,7 +42,7 @@ smoothSpeclib <- function(
     spectra(res) <- t(apply(spectra(x), 1, FUN = lowessFUN, 
                             x=wavelength(x), ...))
     usagehistory(res) <- paste("Smoothed with lowess function")
-    
+    predefinedmethod <- TRUE
   } 
   if (method=="spline")
   {
@@ -47,7 +52,7 @@ smoothSpeclib <- function(
     spectra(res) <- t(apply(spectra(x), 1, FUN = splineFUN, 
                             x=wavelength(x), ...))
     usagehistory(res) <- paste("Smoothed with spline function")
-    
+    predefinedmethod <- TRUE
   } 
   if (any(method==c("mean","mean_gliding")))
   {
@@ -55,6 +60,13 @@ smoothSpeclib <- function(
     
     spectra(res) <- meanfilter(spectra, ...)
     usagehistory(res) <- paste("Smoothed with meanfilter")
+    predefinedmethod <- TRUE
+  }
+  
+  if (!predefinedmethod)
+  {
+    spectra(res) <- t(apply(spectra(x), 1, FUN = method, ...))
+    usagehistory(res) <- paste("Smoothed with ", method," smoothing filter")
   }
   
   if (setmask) mask(res) <- attr(res, "dropped")

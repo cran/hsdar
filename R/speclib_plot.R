@@ -108,9 +108,17 @@ setMethod("plot", signature(x = "Speclib"),
     else ylab <- x@ylabel 
       
     if (any(names(call_fu)=="main")) main <- call_fu$main
-    else main <- "" 
+    else main <- ""
       
-    plot(xlim, ylim, type = "n", xlab = "", ylab = "")
+    if (any(names(call_fu)=="xaxt")) xaxt <- call_fu$xaxt
+    else xaxt <- "s" 
+    
+    if (any(names(call_fu)=="yaxt")) yaxt <- call_fu$yaxt
+    else yaxt <- "s" 
+    
+      
+    plot(xlim, ylim, type = "n", xlab = "", ylab = "",
+         xaxt = xaxt, yaxt = yaxt)
     title(xlab = xlab, ylab = ylab, main = main)
   }
   

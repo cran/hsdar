@@ -52,7 +52,7 @@ smgm <- function(x, percentage = TRUE, gridsize = 50)
   ## Convert hull and spectra to normalized log values
   ch_2 <- ch
   ch_2@hull <- t(apply(ch@hull, MARGIN = 1, FUN = function(hull) return(hull/max(hull))))
-  ch_2@spectra <- t(apply(ch@spectra, MARGIN = 1, FUN = function(hull) return(hull/max(hull))))
+  spectra(ch_2) <- t(apply(spectra(ch_2), MARGIN = 1, FUN = function(hull) return(hull/max(hull))))
 
   ## Allocate result
   result <- data.frame(ID = idSpeclib(x), area = c(1:nspectra(x)), R0 = 0, sigma = 0, rmse = 0) 

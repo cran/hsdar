@@ -1,4 +1,37 @@
 ------------------------------------------------------------------------------------------
+--- 27-July-2015, version 0.3.0
+- New functionalities:
+   - '.Spectra' class to handle spectra added
+   - '.Spectra' now may contain spectral data eiter as a matrix or as a RasterBrick
+     object.
+   - smoothSpeclib accepts now all available filter functions from the signal-package
+   - unmix accepts NA values and scales spectra to [0, 1] on demand
+   - Blockwise calculation if spectra are read from RasterBrick-object in following 
+     functions:
+       * sam
+       * rededge
+       * soilindex
+       * vegindex
+       * mask
+       * spectral.resampling
+       * unmix
+       * smoothSpeclib
+       * transform_speclib
+       * derivative.speclib
+   - extract- and writeRaster-methods added for spectra from RasterBrick-object.
+- Bug fixes:
+   - plot.Speclib accepts xaxt and yaxt settings
+   - get.response correctly accepts center and fwhm values
+   - transform_speclib get correct upper hull if method = "ch"
+   - Indexing of speclibs works if only one band or only one spectrum is remaining
+   - transform_speclib returns interpolated spectra if input speclib is masked
+
+------------------------------------------------------------------------------------------
+--- 19-June-2015, version 0.2.1
+- Bug fixes:
+   - Memmory access error in unmix fixed
+
+------------------------------------------------------------------------------------------
 --- 18-June-2015, version 0.2
 - New functionalities:
    - Tutorial added

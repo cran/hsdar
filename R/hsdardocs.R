@@ -20,4 +20,14 @@ if (toupper(doc) == "COPYRIGHT")
     system(paste(getOption("pager"), doc, "&"))
   }
 }
+if (doc == "hsdar-intro.pdf")
+{
+  doc <- file.path(system.file(package = "hsdar"), "doc", doc) 
+  if (.Platform$OS.type == "windows")
+  {
+    shell.exec(doc)
+  } else {
+    system(paste(getOption("pdfviewer"), doc, "&"))
+  }
+}
 }

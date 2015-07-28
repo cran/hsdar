@@ -50,6 +50,9 @@ if (length(names(match.call()))==0)
   return(vegindex_available())
 }
 
+if (x@spectra@fromRaster)
+  return(.blockwise(speclib_obj =  "x", pos = 1))
+
 x_back <- x
 
 if (!is.speclib(x))
@@ -84,7 +87,7 @@ if (length(index)>1)
       result[,i] <- temp
     }
   }
-  if (nspectra(x) > 1)
+  if (nspectra(x) > 1 & nspectra(x) < 10000)
   {
     names(result) <- index
     row.names(result) <- idSpeclib(x)
@@ -377,8 +380,13 @@ if (index=="mREIP")
     R0 <- x[length(x)]
     x  <- x[1:(length(x)-2)]
     Bl <- -1*log(sqrt((Rs-x)/(Rs-R0)))
-    coef <- summary(lm(Bl~wl))$coefficients
-    c(-1*coef[1,1]/coef[2,1])#,1/sqrt(abs(2*coef[2,1])))
+    if (all(is.finite(Bl)))
+    {
+      coef <- summary(lm(Bl~wl))$coefficients
+      c(-1*coef[1,1]/coef[2,1])#,1/sqrt(abs(2*coef[2,1])))
+    } else {
+      c(NA, NA)
+    }
   }
   if (x[1] > 670) return(rep.int(NA,nrow(y)))
   if (x[length(x)] < 795) return(rep.int(NA,nrow(y)))

@@ -6,6 +6,10 @@ spectral.resampling <- function (
                                  response_function=TRUE
                                 )
 {
+  
+if (x@spectra@fromRaster)
+  return(.blockwise(speclib_obj =  "x", pos = 1))
+  
 if (is.na(response_function))
 {
   spectral_response_function <- FALSE

@@ -75,6 +75,27 @@ setMethod("speclib", signature(spectra = "HyperSpecRaster"),
   }
 )
 
+setMethod("speclib", signature(spectra = "RasterBrick", wavelength = "numeric"), 
+          function(spectra, wavelength, ...)
+  {
+    return(createspeclib(spectra, wavelength, ...))
+  }
+)
+
+setMethod("speclib", signature(spectra = "RasterBrick", wavelength = "data.frame"), 
+          function(spectra, wavelength, ...)
+  {
+    return(createspeclib(spectra, wavelength, ...))
+  }
+)
+
+setMethod("speclib", signature(spectra = "RasterBrick", wavelength = "matrix"), 
+          function(spectra, wavelength, ...)
+  {
+    return(createspeclib(spectra, wavelength, ...))
+  }
+)
+
 setMethod("$", signature(x = "Speclib"), 
           function(x, name)
   {
@@ -96,7 +117,13 @@ createspeclib <- function (spectra,
                            rastermeta = NULL
                           )
 {
-  
+  if (class(spectra) %in% c("RasterBrick", "HyperSpecRaster"))
+  {
+    fromRaster <- TRUE
+  } else {
+    fromRaster <- FALSE
+    dim_spectra <- c(nrow(spectra), ncol(spectra))
+  }
   wavelength.is.range <- FALSE
   if (class(wavelength)=="data.frame" || class(wavelength)=="matrix")
   {
@@ -107,26 +134,32 @@ createspeclib <- function (spectra,
       if (!is.null(fwhm))
         if (length(fwhm)!=length(wavelength))
           stop("Length of fwhm and wavelength differ")
-      if (length(wavelength)==nrow(spectra))
+      if (!fromRaster)
       {
-        if (length(wavelength)==ncol(spectra))
+        if (length(wavelength)==dim_spectra[1])
         {
-          warning("Could not determine orientation of spectra data. \n  
-                  Make sure that columns are wavelength and rows samples")
-        } else {
-          spectra <- t(spectra)
+          if (length(wavelength)==dim_spectra[2])
+          {
+            warning("Could not determine orientation of spectra data. \n  
+                    Make sure that columns are wavelength and rows samples")
+          } else {
+            spectra <- t(spectra)
+          }
         }
       }
     } else {
       wavelength.is.range <- TRUE
-      if (nrow(wavelength)==nrow(spectra))
+      if (!fromRaster)
       {
-        if (nrow(wavelength)==ncol(spectra))
+        if (nrow(wavelength)==dim_spectra[1])
         {
-          warning("Could not determine orientation of spectra data. \n  
-                  Make sure that columns are wavelength and rows samples")
-        } else {
-          spectra <- t(spectra)
+          if (nrow(wavelength)==dim_spectra[2])
+          {
+            warning("Could not determine orientation of spectra data. \n  
+                    Make sure that columns are wavelength and rows samples")
+          } else {
+            spectra <- t(spectra)
+          }
         }
       }
     }
@@ -137,37 +170,44 @@ createspeclib <- function (spectra,
       if (length(fwhm)!=length(wavelength))
         stop("Length of fwhm and wavelength differ")
     }
-    if (length(wavelength)==nrow(spectra))
+    if (!fromRaster)
     {
-      if (length(wavelength)==ncol(spectra))
+      if (length(wavelength)==dim_spectra[1])
       {
-        warning("Could not determine orientation of spectra data. \n  
-                Make sure that columns are bands and rows different samples")
-      } else {
-        spectra <- t(spectra)
+        if (length(wavelength)==dim_spectra[2])
+        {
+          warning("Could not determine orientation of spectra data. \n  
+                  Make sure that columns are bands and rows different samples")
+        } else {
+          spectra <- t(spectra)
+        }
       }
     }
   }
-  
-  names <- NULL
-  rn <- row.names(spectra)
-  if (!is.null(rn))
+  if (!fromRaster)
   {
-    rn <- as.factor(rn)
-    if (nlevels(rn)!=length(rn))
+    names <- NULL
+    rn <- row.names(spectra)
+    if (!is.null(rn))
     {
-      warning("  some row.names duplicated: --> Spectra does not have IDs")
-      rn <- as.factor(1:length(rn))
+      rn <- as.factor(rn)
+      if (nlevels(rn)!=length(rn))
+      {
+        warning("  some row.names duplicated: --> Spectra does not have IDs")
+        rn <- as.factor(1:length(rn))
+      }
+      rn <- as.character(rn)
+    } else {
+      rn <- character()
     }
-    rn <- as.character(rn)
+    spectra <- as.matrix(spectra)
+    cn <- colnames(spectra)
+    rownames(spectra) <- NULL
+    colnames(spectra) <- NULL
   } else {
-    rn <- character()
+    cn <- c(1:spectra@data@nlayers)
+    rn <- character()    
   }
-  spectra <- as.matrix(spectra)
-  cn <- colnames(spectra)
-  rownames(spectra) <- NULL
-  colnames(spectra) <- NULL
-  
   
   
   if (!wavelength.is.range)
@@ -213,7 +253,10 @@ createspeclib <- function (spectra,
                )
   idSpeclib(result) <- rn
   bandnames(result) <- cn
-  return(result)
+  if (validObject(result))
+  { 
+    return(result)
+  }
 }
 
 setMethod("initialize", signature(.Object = "Speclib"),
@@ -245,8 +288,13 @@ setMethod("initialize", signature(.Object = "Speclib"),
   if (any(names(dots) == "spectra"))
   {
     spectra <- dots$spectra
+    fromRaster <- class(spectra) %in% c("RasterBrick", "HyperSpecRaster")
+    spectra <- new(".Spectra",
+                   fromRaster = fromRaster,
+                   spectra_ma = if (fromRaster) matrix() else spectra,
+                   spectra_ra = if (fromRaster) spectra else new("RasterBrick"))
   } else {
-    spectra <- matrix()
+    spectra <- new(".Spectra")
 #     stop("Spectra required")
   }
 

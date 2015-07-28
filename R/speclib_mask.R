@@ -47,6 +47,9 @@ setReplaceMethod("mask", signature(object = "Speclib", value = "matrix"),
 
 maskSpeclib <- function(object, lb, ub)
 {
+  if (object@spectra@fromRaster)
+    return(.blockwise(speclib_obj =  "object", pos = 1))
+    
   range_of_wl <- if (length(object@fwhm)==1) rep.int(object@fwhm, nbands(object)) else object@fwhm
   ## Check mask boudaries
   if (any((ub-lb)<=0))

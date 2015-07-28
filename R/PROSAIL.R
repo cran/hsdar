@@ -36,7 +36,7 @@ PROSAIL <- function(
                       tts      = x[13],
                       tto      = x[14], 
                       psi      = x[15])
-      return(unlist(spec$spectra[1,]))
+      return(unlist(spectra(spec)[1,]))
     }
     
     parameter <- c("N", "Cab", "Car", "Cbrown", "Cw", "Cm",

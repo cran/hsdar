@@ -26,6 +26,9 @@ if (is.data.frame(sensor))
     ub<-sensor[,2]
     centerwl <- lb + (ub - lb)/2
     fwhm <- (centerwl - lb) * 2
+  } else {
+    lb <- centerwl - fwhm/2
+    ub <- centerwl + fwhm/2
   }
   nch <- length(centerwl)
   sc <- data.frame(No=c(1:nch), center=centerwl, fwhm=fwhm)

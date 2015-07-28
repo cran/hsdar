@@ -16,7 +16,7 @@ smoothSpeclib(x, method = "mean", ...)
 Object of class \code{\linkS4class{Speclib}}.
 }
   \item{method}{
-Character string giving the method to be used. Valid options are "sgolay", "lowess", "spline" and "mean".
+Character string giving the method to be used. Predefined valid options are "sgolay", "lowess", "spline" and "mean". However, method can also be the (character) name of any other filter function (see examples).
 }
   \item{...}{
 Further arguments passed to filter functions. See examples.
@@ -50,6 +50,7 @@ Lukas Lehnert
 \examples{
 data(spectral_data)
 
+## Example of predefined filter functions
 ## Savitzky-Golay
 sgolay <- smoothSpeclib(spectral_data, method="sgolay", n=25)
 
@@ -72,6 +73,12 @@ plot(spectral_data, FUN=1, main="Lowess")
 plot(lowess, FUN=1, new=FALSE, col="red", lty="dotted")
 plot(spectral_data, FUN=1, main="Mean")
 plot(meanflt, FUN=1, new=FALSE, col="red", lty="dotted")
+
+## Example of a not predefined filter function (Butterworth filter)
+bf <- butter(3, 0.1)
+bf_spec <- smoothSpeclib(spectral_data, method="filter", filt=bf)
+plot(spectral_data, FUN=1, main="Butterworth filter")
+plot(bf_spec, FUN=1, new=FALSE, col="red", lty="dotted")
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

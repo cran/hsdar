@@ -1,6 +1,19 @@
+setClass(".Spectra",
+         representation(
+           fromRaster = "logical",
+           spectra_ma = "matrix",
+           spectra_ra = 'RasterBrick'
+         ),
+         prototype(
+           fromRaster = FALSE,
+           spectra_ma = matrix(),
+           spectra_ra = new("RasterBrick")
+         )
+)
+
 setClass("Speclib",
          representation(
-           spectra = "matrix", 
+           spectra = ".Spectra", 
            wavelength = "numeric",
            attributes = "data.frame",
            fwhm = "numeric",
@@ -15,7 +28,7 @@ setClass("Speclib",
            rastermeta = "list"
          ),
          prototype(
-           spectra = matrix(),                   
+           spectra = new(".Spectra"),                   
            wavelength = numeric(),
            attributes = data.frame(),
            fwhm = 1,
@@ -31,13 +44,21 @@ setClass("Speclib",
          ),
          validity = function(object)
          {
+           c1 <- TRUE
            if (nrow(object@attributes) > 0)
            {
-             if (nrow(object@attributes) != nrow(object@spectra))
+             c1 <- nrow(object@attributes) == nrow(object@spectra)
+             if (!c1)
+             {
                stop("Invalid attribute data.frame for spectra")
+             }
            }
-           if (ncol(object@spectra) != length(object@wavelength))
+           c2 <- ncol(object@spectra) == length(object@wavelength)
+           if (!c2)
+           {
              stop("Invalid wavelength vector for spectra")
+           }
+           return(c1 & c2)
          }
 )
 
@@ -188,4 +209,15 @@ if (!isGeneric('HyperSpecRaster'))
 {
   setGeneric('HyperSpecRaster', function(x, wavelength, ...)
   standardGeneric('HyperSpecRaster')) 
+}
+
+
+if (!isGeneric("ncol")) {
+  setGeneric("ncol", function(object, ...)
+  standardGeneric("ncol"))
+}
+
+if (!isGeneric("nrow")) {
+  setGeneric("nrow", function(object, ...)
+  standardGeneric("nrow"))
 }

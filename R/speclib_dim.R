@@ -1,8 +1,7 @@
 setMethod("dim", signature(x = "Speclib"), 
                  definition = function(x)
 {
-  spec <- spectra(x)
-  dimX <- c(nrow(spec), ncol(spec))
+  dimX <- c(nrow(x@spectra), ncol(x@spectra))
   return(dimX)
 }
 )

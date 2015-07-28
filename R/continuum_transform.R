@@ -4,6 +4,12 @@ transform_speclib <- function(
                                out = "bd"
                               )
 {
+if (out != "raw")
+{
+  if (data@spectra@fromRaster)
+    return(.blockwise(speclib_obj =  "data", pos = 1))
+}
+
 x <- data
 methodfound = FALSE
 usespeclib  = FALSE
@@ -16,10 +22,13 @@ if (setmask)
 {
   dropped <- attr(x, "dropped")
   x <- interpolate.mask(x)
+  result <- x
   for (i in 1:nrow(dropped))
     spectra(x)[,x$wavelength >= dropped[i,1] & x$wavelength <= dropped[i,2]] <- 0
+} else {
+  result <- x
 }
-result <- x
+
 y <- as.data.frame(spectra(x))
 x <- x$wavelength
 
@@ -31,32 +40,28 @@ if (method == "ch")
   methodfound=TRUE
   hull <- matrix(data=0,nrow=nrow(y),ncol=ncol(y))
   cp   <- y*0
-  for (i in 1:nrow(y))
+  status <- apply(matrix(c(1:nrow(y)), ncol = 1), 1, FUN = function(i, x, y)
   {
-    c.hull <- chull(t(y[i,]))
-#     print(c.hull)
-    c.hull_1 <- c.hull[c(which(c.hull == 1):length(c.hull))]
-    c.hull_2 <- c.hull[1:which.max(c.hull)]
-    c.hull <- sort(c(c.hull_1, c.hull_2))
-    ## Remove duplicate entries
-    c.hull_1 <- c.hull[-1] - c.hull[-length(c.hull)]
-    if (any(c.hull_1 == 0))
+    c.hull_da <- matrix(c(x, y[i,]), ncol = 2, byrow = FALSE)
+    c.hull <- chull(c.hull_da)
+    min_pt <- which.min(c.hull)
+    max_pt <- which.max(c.hull)
+    if (min_pt < max_pt)
     {
-      c.hull <- c.hull[c(1, c.hull_1) != 0]
+      c.hull <- c.hull[c(min_pt:max_pt)]
+    } else {
+      c.hull <- c.hull[c(min_pt:length(c.hull), max_pt)]
     }
-#     if (c.hull[length(c.hull)] != ncol(y))
-#       c.hull <- c(c.hull, ncol(y))
-#     print(c.hull)
-    cp[i,c.hull]   <- x[c.hull]
-    hull[i,] <- approx(x=x[c.hull],y=y[i,c.hull], xout = x,method = "linear", ties = "mean")$y
-  }
+    cp[i,c.hull]   <<- x[c.hull]
+    hull[i,] <<- approx(x=x[c.hull],y=y[i,c.hull], xout = x,method = "linear", ties = "mean")$y
+  }, x, y)
 }
 if (method == "sh")
 {
   methodfound=TRUE
   hull <- y
   cp   <- y
-  for (i in 1:nrow(y))
+  status <- apply(matrix(c(1:nrow(y)), ncol = 1), 1, FUN = function(i, x, y)
   {
     y_i <- as.vector(as.matrix(y[i,]))
     external <- .Fortran("localmaxima",
@@ -77,9 +82,9 @@ if (method == "sh")
                          cp   = as.integer(c(1:length(y))*0),
                          PACKAGE="hsdar"
                         )
-    hull[i,] <- external$hull
-    cp[i,]   <- external$cp
-  }
+    hull[i,] <<- external$hull
+    cp[i,]   <<- external$cp
+  }, x, y)
 }
 
 if (!methodfound) stop(paste("Unknown method '",method,"'!",sep=""))

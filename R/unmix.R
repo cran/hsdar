@@ -1,7 +1,9 @@
 
-unmix <- function(spectra, endmember, returnHCR = "auto", ...
-)
+unmix <- function(spectra, endmember, returnHCR = "auto", scale = FALSE, ...)
 {
+  if (spectra@spectra@fromRaster)
+    return(.blockwise(speclib_obj =  "spectra", pos = 1))
+  
   if (!all(c(is.speclib(spectra), is.speclib(endmember))))
     stop("Spectra and endmember must be of class 'speclib'")
   if (returnHCR == "auto")
@@ -12,12 +14,27 @@ unmix <- function(spectra, endmember, returnHCR = "auto", ...
     stop("Number of endmember exceed number of bands")
     
   
-  em_matrix <- t(as.matrix(spectra(endmember)))
-  spec_matrix <- t(as.matrix(spectra(spectra)))
+  em_matrix <- t(spectra(endmember))
+  spec_matrix <- t(spectra(spectra))
   
-  if (max(c(max(spec_matrix),max(em_matrix)))>1)
+  if (max(c(max(spec_matrix, na.rm = TRUE),max(em_matrix, na.rm = TRUE)))>1)
+  {
+    if (!scale)
       stop("Function needs reflectance values <= 1.0")
+    if (max(spec_matrix, na.rm = TRUE)>1)
+      spec_matrix <- spec_matrix / 100
+    if (max(em_matrix, na.rm = TRUE)>1)
+      em_matrix <- em_matrix / 100   
+  }
+  if (max(c(max(spec_matrix, na.rm = TRUE),max(em_matrix, na.rm = TRUE)))>1)
+    stop("Function needs reflectance values <= 1.0")
+
+  if (sum(!is.finite(em_matrix)))
+    stop("Spectra in 'endmember' contain infinite values")
   
+  valid_data <- apply(spec_matrix, MARGIN = 2, function(x) all(is.finite(x)))
+  spec_matrix[,!valid_data] <- 0
+    
   if (nrow(em_matrix)!=nrow(spec_matrix))
     stop("Number of bands in spectra is not equal to number of bands in endmember matrix")
   
@@ -50,6 +67,8 @@ unmix <- function(spectra, endmember, returnHCR = "auto", ...
   
   colnames(fractions) <- idSpeclib(spectra)
   row.names(fractions) <- idSpeclib(endmember)
+  fractions[,!valid_data] <- NA
+  error[!valid_data] <- NA
   
   if (returnHCR)
   {

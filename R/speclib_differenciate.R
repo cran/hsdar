@@ -7,7 +7,10 @@ derivative.speclib <- function(
 {
   if (!is.speclib(x))
     stop("x must be of class 'Speclib'")
-  
+    
+  if (x@spectra@fromRaster)
+    return(.blockwise(speclib_obj =  "x", pos = 1))
+    
   res <- x
   mf <- FALSE
   spectra <- as.matrix(spectra(res))

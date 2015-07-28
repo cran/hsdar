@@ -7,7 +7,7 @@ Unmix spectra
 Unmix spectra or spectra resampled to satellite bands using endmember spectra
 }
 \usage{
-unmix(spectra, endmember, returnHCR = "auto", ...)
+unmix(spectra, endmember, returnHCR = "auto", scale = FALSE, ...)
 }
 \arguments{
   \item{spectra}{
@@ -18,6 +18,9 @@ Endmember spectra of class 'speclib'
 }
 \item{returnHCR}{
 Set class of value. If TRUE, value will be of class '\code{HyperSpecRaster}', otherwise a list is returned. If \code{auto}, function will switch to mode depending on input data characteristics.
+}
+\item{scale}{
+Flag to scale spectra to [0,1] if necessary.
 }
 \item{...}{
 Further arguments passed to \code{\link{HyperSpecRaster}} (ignored if returnHCR = FALSE).

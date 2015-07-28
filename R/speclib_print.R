@@ -19,6 +19,16 @@ setMethod("print", signature(x = "Speclib"),
     cat(paste("\nMean width of bands :",round(mean(x@fwhm),2)))
   }
   cat("\n")
+  if (x@spectra@fromRaster)
+  {
+    cat(paste("Use RasterBrick for spectra"))
+    if (x@spectra@spectra_ra@data@inmemory)
+    {
+      cat(paste(" (in RAM)\n"))
+    } else {
+      cat(paste(" stored at\n'", x@spectra@spectra_ra@file@name, "'\n", sep =""))
+    }
+  }    
 }
 )
 

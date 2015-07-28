@@ -20,7 +20,7 @@ PROSPECT <- function(
                        Cw=x[5],
                        Cm=x[6],
                        transmittance = transmittance)
-      return(unlist(spec$spectra[1,]))
+      return(unlist(spectra(spec)[1,]))
     }
     
     parameter <- c("N", "Cab", "Car", "Cbrown", "Cw", "Cm")

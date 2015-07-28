@@ -32,6 +32,9 @@ sam <- function(
                 ref
                )
 {
+  if (x@spectra@fromRaster)
+    return(.blockwise(speclib_obj =  "x", pos = 1))
+  
   if (class(x)!="Speclib") 
     stop("x must be of class 'Speclib'")
   if (class(ref)!="Speclib")
