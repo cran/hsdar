@@ -5,7 +5,7 @@ rastermeta <- function(x, dim, ext, crs)
             missing(crs))))
   {
     if (missing(x))
-      stop("'x' required if not all other arguements are passed")
+      stop("'x' required if not all other arguments are passed")
     
     if (!(class(x) %in% c("Raster", 
                           "RasterBrick", 

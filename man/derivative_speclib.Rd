@@ -22,7 +22,7 @@ Return the m-th derivative of the spectra.
 Character string giving the method to be used. Valid options are \code{"finApprox"} or \code{"sgolay"}.
 }
   \item{...}{
-Further arguements passed to \code{\link{sgolayfilt}}.
+Further arguments passed to \code{\link{sgolayfilt}}.
 }
 }
 \details{

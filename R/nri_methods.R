@@ -53,3 +53,32 @@ setMethod("as.matrix", signature(x = "Nri"),
   return(mat[, bnd_idx[,1] < bnd_idx[,2]])
 }
 )
+
+setMethod("as.data.frame", signature(x = "Nri"),
+          function(x, ...)
+{
+  .ConvertNri <- function(x, ...)
+  {
+    lyr <- as.matrix(x)
+    lt <- lower.tri(lyr)
+    data <- matrix(0, ncol = sum(lt), nrow = x@nlyr)
+    data[1,] <- lyr[lt]
+    if (x@nlyr > 1)
+    {
+      for (i in 2:x@nlyr)
+      {
+        lyr <- as.matrix(x, lyr = i)
+        data[i,] <- lyr[lt]
+      }
+    }
+    return(data)
+  }
+  bnd_nam_data <- x@dimnames
+  bnd_nam_ch <- character()
+  for (i in 1:(length(bnd_nam_data[[1]])-1))
+    for (k in (i+1):length(bnd_nam_data[[2]]))
+      bnd_nam_ch <- c(bnd_nam_ch, paste(bnd_nam_data[[2]][k], bnd_nam_data[[1]][i], sep = "_"))
+  nri_data <- as.data.frame(.ConvertNri(x@nri, ...))
+  names(nri_data) <- bnd_nam_ch
+  return(nri_data)
+})

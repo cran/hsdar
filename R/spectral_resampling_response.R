@@ -22,8 +22,23 @@ if (is.data.frame(sensor))
   }
   if (any(c(is.null(fwhm), is.null(centerwl))))
   {
-    lb<-sensor[,1]
-    ub<-sensor[,2]
+    if (any(toupper(names(sensor))=="LB"))
+    {
+      lb <- sensor[, which(toupper(names(sensor))=="LB")] 
+    } else {
+      lb <- if (pmatch("LB", toupper(names(sensor)), nomatch = 0)==0) NULL else sensor[, pmatch("LB", toupper(names(sensor)))]
+    }
+    if (any(toupper(names(sensor))=="UB"))
+    {
+      ub <- sensor[, which(toupper(names(sensor))=="UB")] 
+    } else {
+      ub <- if (pmatch("UB", toupper(names(sensor)), nomatch = 0)==0) NULL else sensor[, pmatch("UB", toupper(names(sensor)))]
+    }
+    if (any(c(is.null(lb), is.null(ub))))
+    {    
+      lb<-sensor[,1]
+      ub<-sensor[,2]
+    }
     centerwl <- lb + (ub - lb)/2
     fwhm <- (centerwl - lb) * 2
   } else {
@@ -80,15 +95,15 @@ nwlresponse <- nrow(response)
 response <- as.double(as.matrix(response))
 response_transformed <- matrix(data=0, nrow=length(wavelength), ncol=nch)
 response_transformed <- .Fortran("transform_response",
-                        nwl=as.integer(length(wavelength)), 
-                        nband=as.integer(nch), 
-                        nwlresponse=as.integer(nwlresponse), 
-                        responsedim=responsedim, 
-                        response=response,
-                        response_transformed=as.double(response_transformed),
-                        wl=as.double(wavelength)#,
-#                         package="hsdar"
-                        )
+                                 nwl=as.integer(length(wavelength)), 
+                                 nband=as.integer(nch), 
+                                 nwlresponse=as.integer(nwlresponse), 
+                                 responsedim=responsedim, 
+                                 response=response,
+                                 response_transformed=as.double(response_transformed),
+                                 wl=as.double(wavelength),
+                                 package="hsdar"
+                                )
 response_transformed <- matrix(response_transformed$response_transformed,ncol=nch)
 
 response_transformed[response_transformed<0] <- 0

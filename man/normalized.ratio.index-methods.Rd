@@ -1,6 +1,7 @@
 \name{Nri-methods}
 \alias{$,Nri-method}
 \alias{as.matrix,Nri-method}
+\alias{as.data.frame,Nri-method}
 \alias{show,Nri-method}
 \alias{wavelength,Nri-method}
 
@@ -15,6 +16,8 @@ Methods to handle data in objects of class Nri.
 }
 \usage{
 \S4method{as.matrix}{Nri}(x, ..., named_matrix = TRUE)
+
+\S4method{as.data.frame}{Nri}(x, ...)
 
 \S4method{wavelength}{Nri}(object)
 }

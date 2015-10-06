@@ -33,7 +33,7 @@ Methods to create, manipulate and query objects of class 'Clman'.
   Object of class numeric, matrix or array which is used for replacement of the values in x.
 }
 \item{...}{
-  Arguements passed to \code{\link{createspeclib}}.
+  Arguments passed to \code{\link{createspeclib}}.
 }
 }
 

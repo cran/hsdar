@@ -62,7 +62,7 @@ do iband=1, nband
         k = k + 1
       else
         do while (((responsedim(1)-responsedim(3)) + dble(k) * responsedim(3)) &
-                  .lt. wl(i) .and. k .le. nwlresponse) 
+                  .lt. wl(i) .and. k .lt. nwlresponse) 
           k = k + 1
         enddo
         slope = (response(k,iband) - response(k-1,iband))/((responsedim(1)-responsedim(3) + k * &

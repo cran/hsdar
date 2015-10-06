@@ -1,4 +1,13 @@
 ------------------------------------------------------------------------------------------
+--- 6-October-2015, version 0.3.1
+- New functionalities:
+   - as.data.frame-method for class Nri
+- Bug fixes:
+   - Spectral.resampling searches for names "lb" and "ub" in data.frames of user 
+     defined sensors
+   - Bounds error in apply_response.f90 fixed
+
+------------------------------------------------------------------------------------------
 --- 27-July-2015, version 0.3.0
 - New functionalities:
    - '.Spectra' class to handle spectra added

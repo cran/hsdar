@@ -20,7 +20,7 @@ Object of class 'Speclib'.
 Logical expression indicating spectra to keep: missing values are taken as false. See details section. 
 }
 \item{...}{
-Further arguements passed to \code{\link{agrep}}.
+Further arguments passed to \code{\link{agrep}}.
 }
 }
 \details{
