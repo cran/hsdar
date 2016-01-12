@@ -55,7 +55,7 @@ data(spectral_data)
 
 ## Example calculating the areas of the features around 450nm, 
 ## 700nm, 1200nm and 1500nm.
-bd <- transform_speclib(subset(spectral_data, Site == "Namco"),
+bd <- transform_speclib(subset(spectral_data, season == "summer"),
                         method = "sh", out = "bd")
 
 ## Define features

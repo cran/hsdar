@@ -1,9 +1,9 @@
 import(
   raster,
-  sp, 
   rgdal,
   rootSolve,
-  methods
+  methods,
+  caret
   )
 importFrom("graphics", "legend", "par", "points", "polygon", "rasterImage", "rect", "title")
 importFrom("grDevices", "chull", "colorRamp", "dev.off", "hcl", "heat.colors", "palette", "png", "rgb")
@@ -11,6 +11,8 @@ importFrom("stats", "approx", "as.dist", "as.formula", "dist", "dnorm", "glm", "
 importFrom("utils", "data")
 importFrom("signal", sgolay)
 importFrom("signal", sgolayfilt)
+importFrom("stats", "cor", "na.fail")
+importFrom("utils", "read.table")
 
 useDynLib(hsdar)
 

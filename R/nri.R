@@ -40,7 +40,12 @@ if (recursive)
                 wavelength = wavelength,
                 dimnames = list(Band_1 = paste("B_", wavelength, sep = ""),
                                 Band_2 = paste("B_", wavelength, sep = ""),
-                                Sample = idSpeclib(x)))
+                                Sample = idSpeclib(x)),
+                attributes = attribute(x)                
+               )
+  if (!is.null(attr(x, "caretParameters")))
+    attr(result, "caretParameters") <- attr(x, "caretParameters")
+    
 } else {
   b1 <- as.vector(unlist(b1))
   b2 <- as.vector(unlist(b2))

@@ -11,7 +11,9 @@
 \alias{distMat3D,numeric-method}
 \alias{distMat3D,array-method}
 \alias{[,DistMat3D,ANY,ANY-method}
+\alias{[,DistMat3D,ANY,ANY,ANY-method}
 \alias{[<-,DistMat3D,ANY,ANY-method}
+\alias{[<-,DistMat3D,ANY,ANY,ANY-method}
 \alias{<,DistMat3D,ANY-method}
 \alias{<=,DistMat3D,ANY-method}
 \alias{>,DistMat3D,ANY-method}
@@ -107,7 +109,7 @@ data(spectral_data)
 mask(spectral_data) <- c(1045, 1055, 1350, 1706)
 
 ## Calculate SAM distances (object of class 'dist')
-sam_dist <- dist.speclib(subset(spectral_data, Site == "Namco"))
+sam_dist <- dist.speclib(subset(spectral_data, season == "summer"))
 
 ## Convert to class 'distMat3D'
 sam_dist <- distMat3D(as.matrix(sam_dist))

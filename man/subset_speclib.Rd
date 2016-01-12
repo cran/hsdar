@@ -48,12 +48,12 @@ data(spectral_data)
 names(spectral_data$attributes)
 
 ## Devide into both locations according to groups
-sp_namco <- subset(spectral_data, Site == "Namco")
-sp_kailash <- subset(spectral_data, Site == "Kailash")
+sp_summer <- subset(spectral_data, season == "summer")
+sp_spring <- subset(spectral_data, season == "spring")
 
 ## Plot both speclibs
-plot(sp_namco, col="darkgreen")
-plot(sp_kailash, col="darkred", new=FALSE)
+plot(sp_summer, col="darkgreen")
+plot(sp_spring, col="darkred", new=FALSE)
 %   }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

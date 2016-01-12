@@ -1,6 +1,45 @@
 setMethod("spectra", signature(object = "Speclib"), 
-          function(object, ...)
-  return(.spectra(object, ...))
+          function(object, i, j, ...)
+{
+  if (all(c(missing(i), missing(j))))
+  {
+    if (object@spectra@fromRaster)
+    {
+      if (object@spectra@spectra_ra@data@inmemory)
+      {
+        return(.spectra(object, ...)) 
+      } else {
+        return(object@spectra[])  
+      }
+    } else {
+      return(.spectra(object, ...))            
+    }
+  } else {    
+    if (missing(j))
+      j <- c(1:nbands(object))
+    if (object@spectra@fromRaster)
+    {
+      if (object@spectra@spectra_ra@data@inmemory)
+      {
+        if (missing(i))
+          i <- c(1:nspectra(object))
+        return(.spectra(object, ...)[i,j]) 
+      } else {
+        if (missing(i))
+        {
+          return(object@spectra[,j])
+        } else {
+          i <- c(1:nspectra(object))
+          return(object@spectra[i,j])
+        }
+      }
+    } else {
+      if (missing(i))
+        i <- c(1:nspectra(object))
+      return(.spectra(object, ...)[i,j])            
+    }
+  }  
+}
 )
 
 setReplaceMethod("spectra", signature(object = "Speclib", value = "matrix"), 
@@ -62,6 +101,7 @@ setReplaceMethod("spectra", signature(object = "Speclib", value = "RasterBrick")
   } else {
     spec <- object@spectra@spectra_ma
   }
+
   if (return_names) 
   {    
     if (!is.null(bandnames(object)))
@@ -93,4 +133,85 @@ setReplaceMethod("spectra", signature(object = "Speclib", value = "RasterBrick")
   return(spec)
 }
 
+setMethod("[", signature(x = ".Spectra"), 
+          function(x, i, j, ...)
+{
+  if (!x@fromRaster)
+    return(callNextMethod(x@spectra_ma, i, j, ...)) 
+    
+  if (missing(j)) 
+  {
+    if (missing(i)) 
+      return(getValues(x@spectra_ra))
+    j <- c(1:nlayers(x@spectra_ra))
+  }
+  if (is.logical(j))
+    j <- c(1:length(j))[j]
+    
+  if (missing(i)) 
+  {
+    row <- 1
+    nrows <- nrow(x@spectra_ra)
+    col <- 1
+    ncols <- ncol(x@spectra_ra)
+    res <- getValuesBlock(x@spectra_ra, row = row, nrows = nrows, col = col, 
+                          ncols = ncols, lyrs = j)
+    
+  } else {
+    if (is.logical(i))
+      i <- c(1:length(i))[i]
+    
+    cr <- rowColFromCell(x@spectra_ra, i)
+    rows <- as.numeric(levels(as.factor(cr[,1])))
+    ncols <- ncol(x@spectra_ra)
+    res <- apply(matrix(rows, ncol = 1), 1, function(row, x, cols, lyr, ncols)
+    {
+      cols <- cols[cols[,1] == row,2]
+      if (length(cols) > 1)
+      {
+        res <- getValuesBlock(x, row=row, nrows=1, col=1, ncols=ncols, lyr=lyr)
+        res <- t(res[cols,])
+      } else {
+        res <- getValuesBlock(x, row=row, nrows=1, col=cols, ncols=1, lyr=lyr)
+      }
+      return(res)
+    }, x@spectra_ra, cr, j, ncols)
+    if (length(rows) == 1)
+    {
+      res <- matrix(res, ncol = length(j), byrow = TRUE)
+    } else {
+      if (is.matrix(res))
+      {
+        res <- t(res)
+      } else {   
+        res <- matrix(unlist(res), ncol = length(j), byrow = TRUE)
+      }
+    }
+#     res <- t(apply(cr, 1, function(cr, x, lyr)
+#     {
+#       return(getValuesBlock(x, row=cr[1], nrows=1, col=cr[2], ncols=1, lyr=lyr))
+#     }, x@spectra_ra, j))
+  }
+  return(res)     
+})
 
+setMethod("print", signature(x = ".Spectra"), 
+          function(x)
+{
+  show(x)
+}
+)
+
+setMethod("show", signature(object = ".Spectra"), 
+          function(object)
+{
+  if (object@fromRaster)
+  {
+    cat("Spectra stored in RasterBrick object\n")
+    print(object@spectra_ra)
+    cat("Use 'spectra(x)[]' to read all data. Be careful if data is large!\n")
+  } else {
+    cat("Spectra stored in memory as matrix\n")
+    print(object@spectra_ma)
+  }
+})

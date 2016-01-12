@@ -1,11 +1,11 @@
-%\VignetteIndexEntry{Tutorial on usage of ``hsdar``-package}
+%\VignetteIndexEntry{Introduction to ``hsdar``}
 
 \documentclass{article}
 \usepackage[ansinew]{inputenc}
 \usepackage{Sweave}
 \usepackage[sort]{natbib}
 \usepackage[
-  pdftitle={Tutorial on usage of hsdar-package},
+  pdftitle={Introduction to ``hsdar``},
   pdfauthor={Hanna Meyer, Lukas W. Lehnert},
   pdfsubject={},
   bookmarksopen=true,
@@ -23,7 +23,7 @@
 \usepackage{geometry}
 \geometry{a4paper,left=3.7cm,right=3.7cm, top=3.5cm, bottom=3.5cm} 
 
-\title{Tutorial on usage of ``hsdar``-package}
+\title{Introduction to ``hsdar``}
 \author{Hanna Meyer, Lukas W. Lehnert}
 
 \newcommand{\hsdar}{\textsf{hsdar}\xspace}
@@ -55,11 +55,10 @@ For some applications of \hsdar see \citet{Lehnert2014,Meyer2013,Lehnert2013,Leh
 
 \subsection{Sample data}
 Almost all of the exercises in this tutorial use one single sample dataset - "spectral$\_$data" - which is included in the \hsdar package.
-This dataset was created in scope of a field campaign in Tibet in 2012 aiming to analyze spatial patterns of pasture degradation on the plateau.
-Two study areas on the plateau are included in this dataset: "Kailash" which is located in the drier western of Tibet and and "Namco" which is a more humid site in central Tibet. 
+This dataset was created on a free air enrichment site (FACE) near  Giessen, central Germany.
 
 In the first line, the dataset contains hyperspectral reflectance measurements which were taken with a field spectrometer from a height of approx.~1.50 m 
-covering the integrated spectrum of a circle of approx.~50 cm on the ground. Thus, reflectance values result from different fractions of vegetation, soil, stones etc. Furthermore, the dataset contains environmental variables of the measured circles like vegetation coverage, chlorophyll content, soil moisture etc.
+covering the integrated spectrum of a circle of approx.~50 cm on the ground. Thus, reflectance values result from different fractions of vegetation, soil, stones etc. Furthermore, the dataset contains chlorophyll content of the vegetation.
 %The spectrometer measures in the range between 305 nm and 1705 nm with a spectral resolution of 1 nm.
 
 \subsection{How to start}
@@ -318,10 +317,10 @@ plot(spectral_data, FUN = "mean", main = "Mean spectrum")
 \resizebox{1\textwidth}{!}{
 <<fig=TRUE, echo=FALSE>>=
 par(mfrow = c(2,2), mar = c(4,4,3,0.1), cex = 0.75)
-plot(spectral_data, main = "Default Plot", ylim = c(0, 50))
-plot(spectral_data, FUN = 1, main = "First spectrum of Speclib", ylim = c(0, 50))
-plot(spectral_data, FUN = "median", main = "Median spectrum", ylim = c(0, 50))
-plot(spectral_data, FUN = "mean", main = "Mean spectrum", ylim = c(0, 50))
+plot(spectral_data, main = "Default Plot", ylim = c(0, 70))
+plot(spectral_data, FUN = 1, main = "First spectrum of Speclib", ylim = c(0, 70))
+plot(spectral_data, FUN = "median", main = "Median spectrum", ylim = c(0, 70))
+plot(spectral_data, FUN = "mean", main = "Mean spectrum", ylim = c(0, 70))
 @
 }
 \end{framed}
@@ -491,31 +490,31 @@ legend("topright",
 The speclib-class provides several routines for data manipulation which will be described in the following.
 
 \subsection{Subsets of spectra}
-Subsets of Speclibs can be built using the subset function. This function separates the spectra according to a condition. Usually the conditions are derived from attributes stored in the Speclib like study site or vegetation type. For example you could split "spectral$\_$data" to get a subset for the Kailash site and a subset for the Namco site:
+Subsets of Speclibs can be built using the subset function. This function separates the spectra according to a condition. Usually the conditions are derived from attributes stored in the Speclib like study site, season or vegetation type. For example you could split "spectral$\_$data" to get a subset for the summer and the spring spectra:
 \SweaveOpts{width=5.2, height=4.5}
 \begin{framed}
 <<echo=TRUE,eval=TRUE,fig=FALSE>>=
 ## Return names of attributes data
-names(spectral_data$attributes)
+names(attribute(spectral_data))
 
-## Devide into both locations using to the attribute "SITE"
-sp_namco <- subset(spectral_data, Site == "Namco")
-sp_kailash <- subset(spectral_data, Site == "Kailash")
+## Devide into both seasons using to the attribute "season"
+sp_spring <- subset(spectral_data, season == "spring")
+sp_summer <- subset(spectral_data, season == "summer")
 #
 #Plot results:
 #
-plot(sp_namco, FUN = "mean", col = "darkgreen", ylim = c(0,50))
-plot(sp_kailash, FUN = "mean", col = "darkred", new = FALSE)
+plot(sp_spring, FUN = "mean", col = "darkgreen", ylim = c(0,70))
+plot(sp_summer, FUN = "mean", col = "darkred", new = FALSE)
 @
 \resizebox{1\textwidth}{!}{
 <<fig=TRUE, echo=FALSE>>=
 par(mar = c(4,4,0.1,0.1), cex = 0.75)
-plot(sp_namco, FUN = "mean", col = "darkgreen", ylim = c(0,50))
-plot(sp_kailash, FUN = "mean", col = "darkred", new = FALSE)
+plot(sp_spring, FUN = "mean", col = "darkgreen", ylim = c(0,70))
+plot(sp_summer, FUN = "mean", col = "darkred", new = FALSE)
 @
 }
 \end{framed}
-As you can see the Speclib is split into two Speclibs, one containing all spectra which had the site-attribute "Namco" and one containing all spectra which had the site-attribute "Kailash".
+As you can see the Speclib is split into two Speclibs, one containing all spectra which had had been sampled in spring and one containing all spectra which had been acquired in summer.
 
 
 \subsection{Filter}
@@ -735,9 +734,10 @@ The continuum removal transformation is performed by firstly establishing a cont
 Because the continuum removal transformation is sensitive to errors in the spectrum, it's advisable to first mask erroneous parts of the spectrum. Further you should consider to smooth the spectra very slightly to avoid small local maxima which are not associated with reflection maxima. Read section \ref{sec:filter} and \ref{sec:mask} for more details on the preprocessing.
 \begin{framed}
 <<echo=TRUE,eval=TRUE>>=
+data(spectral_data)
 spectral_data_preproc <- smoothSpeclib(spectral_data, 
 method = "sgolay", n = 5)
-mask(spectral_data_preproc) <- c(1040,1060,1300,1450)
+#mask(spectral_data_preproc) <- c(1040,1060,1300,1450)
 @
 \end{framed}
 Then have a look at the transform.speclib function:
@@ -755,7 +755,7 @@ The following example will show you how to calculate the continuum line (just fo
 \SweaveOpts{width=6, height=6}
 <<echo=TRUE,eval=TRUE>>=
 #convex hull:
-ch_cline <- transform_speclib(spectral_data_preproc,
+ch_cline <- transform_speclib(spectral_data_preproc[16:30,],
                               method = "ch", out = "raw")
 ch_bd <- transform_speclib(spectral_data_preproc,
                            method = "ch", out = "bd")
@@ -986,13 +986,13 @@ plot(featuresCut, 1:2)
 
 \subsection{T-Test}
 You can compare the distribution of two subsets of a Speclib by a T-test. At each wavelength subset one is compared to subset two:
-First, split "spectral$\_$data" into a Speclib from Kailash site and a Speclib from Namco site:
+First, split "spectral$\_$data" into Speclibs of summer and spring spectra:
 \SweaveOpts{width=5.2, height=4.5}
 \begin{framed}
 <<echo=TRUE,eval=TRUE>>=
 #split into subsets:
-sp_namco <- subset(spectral_data, Site == "Namco")
-sp_kailash <- subset(spectral_data, Site == "Kailash")
+sp_spring <- subset(spectral_data, season == "spring")
+sp_summer <- subset(spectral_data, season == "summer")
 @
 \end{framed}
 Then perform a T-test:
@@ -1013,16 +1013,16 @@ E.g.~for the wavelength 750 nm the differences are highly significant with highe
 Let's visualize how the reflexion at the red edge reflexion shoulder (around 750 nm) of the Kailash samples compares to the reflexion at the same position of the Namco sites:
 \begin{framed}
 <<echo=TRUE,eval=FALSE,fig=FALSE>>=
-boxplot(spectra(sp_namco)[,wavelength(sp_namco) == 750],
-        spectra(sp_kailash)[,wavelength(sp_kailash) == 750],
-        names=c("Namco","Kailash"), ylab = "Reflectance")
+boxplot(spectra(sp_spring)[,wavelength(sp_spring) == 750],
+        spectra(sp_summer)[,wavelength(sp_summer) == 750],
+        names=c("Spring","Summer"), ylab = "Reflectance")
 @
 \resizebox{1\textwidth}{!}{
 <<fig=TRUE, echo=FALSE>>=
 par(mar = c(4,4,0.1,0.1), cex = 0.75)
-boxplot(spectra(sp_namco)[,wavelength(sp_namco) == 750],
-        spectra(sp_kailash)[,wavelength(sp_kailash) == 750],
-        names=c("Namco","Kailash"), ylab = "Reflectance")
+boxplot(spectra(sp_spring)[,wavelength(sp_spring) == 750],
+        spectra(sp_summer)[,wavelength(sp_summer) == 750],
+        names=c("Spring","Summer"), ylab = "Reflectance")
 @
 }
 \end{framed}
@@ -1031,14 +1031,14 @@ boxplot(spectra(sp_namco)[,wavelength(sp_namco) == 750],
 \subsection{Regressions}
 
 Currently, \hsdar provides no special tools for regressions, however you can use the standard R routines.
-E.g.~if you want to test each wavelength for its relation to plant fraction, write a loop over each wavelength and access the spectra and the attribute "PV" from the Speclib:
+E.g.~if you want to test each wavelength for its relation to plant fraction, write a loop over each wavelength and access the spectra and the attribute "chlorophyll" from the Speclib:
 \begin{framed}
 <<echo=TRUE,eval=TRUE>>=
 result <- list()
 for (i in 1:length(wavelength(spectral_data)))
 {
   result[[i]] <- summary(lm(spectra(spectral_data)[,i] ~
-                            attribute(spectral_data)$PV))
+                            attribute(spectral_data)$chlorophyll))
 }
 names(result) <- wavelength(spectral_data)
 @
@@ -1052,16 +1052,16 @@ result$"650"
 You can easily plot this relation by a scatterplot with PV on th the x-axis and the reflectance at the wavelength 650 nm on the y-axis.
 \begin{framed}
 <<echo=TRUE,eval=FALSE,fig=FALSE>>=
-plot(attribute(spectral_data)$PV, 
+plot(attribute(spectral_data)$chlorophyll, 
      spectra(spectral_data)[,wavelength(spectral_data)==650],
-     xlab = "PV", ylab = "Reflectance at 650nm")
+     xlab = "Chlorophyll content", ylab = "Reflectance at 650nm")
 @
 \resizebox{1\textwidth}{!}{
 <<fig=TRUE, echo=FALSE>>=
 par(mar = c(4,4,0.1,0.1), cex = 0.75)
-plot(attribute(spectral_data)$PV, 
+plot(attribute(spectral_data)$chlorophyll, 
      spectra(spectral_data)[,wavelength(spectral_data)==650],
-     xlab = "PV", ylab = "Reflectance at 650nm")
+     xlab = "Chlorophyll content", ylab = "Reflectance at 650nm")
 @
 }
 \end{framed}
@@ -1110,12 +1110,12 @@ rd <- rededge(spectral_data)
 Results can be presented as boxplot. For example create a boxplot for R0:
 \begin{framed}
 <<echo=TRUE,eval=FALSE,fig=FALSE>>=
-boxplot(rd$R0 ~ spectral_data$attributes$Site, ylab = "R0")
+boxplot(rd$R0 ~ spectral_data$attributes$season, ylab = "R0")
 @
 \resizebox{1\textwidth}{!}{
 <<fig=TRUE, echo=FALSE>>=
 par(mar = c(4,4,0.1,0.1), cex = 0.75)
-boxplot(rd$R0 ~ spectral_data$attributes$Site, ylab = "R0")
+boxplot(rd$R0 ~ spectral_data$attributes$season, ylab = "R0")
 @
 }
 \end{framed}
@@ -1185,17 +1185,17 @@ nri_WV <- nri(spec_WV, recursive = TRUE)
 \end{framed}
 
 \subsection{Correlations}
-In this example we want to correlate each NRI to the fraction of photosynthetically active vegetation (PV) to determine to which degree the NRI are related to PV. Use the Speclib and NRI data created in section \ref{sec:nrienv}.
-First create a new variable from the attributes of the Speclib containing the fraction of green vegetation per sample:
+In this example we want to correlate each NRI to the chlorophyll content of the vegetation. Use the Speclib and NRI data created in section \ref{sec:nrienv}.
+First create a new variable from the attributes of the Speclib containing the chlorophyll content per sample:
 \begin{framed}
 <<echo=TRUE,eval=TRUE>>=
-veg <- attribute(spec_WV)$PV
+chlorophyll <- attribute(spec_WV)$chlorophyll
 @
 \end{framed}
 Then you can correlate this to the NRI: 
 \begin{framed}
 <<echo=TRUE,eval=TRUE>>=
-cortestnri <- cor.test(nri_WV, veg)
+cortestnri <- cor.test(nri_WV, chlorophyll)
 @
 \end{framed}
 See how the output of such a correlation is printed: 
@@ -1246,7 +1246,7 @@ The function requires the formula of the model as well as "preddata" which is a 
 Use the Speclib and NRI data created in section \ref{sec:nrienv} to perform a linear regression between NRI and fraction of vegetation which is stored as attribute in "spec$\_$WV":
 \begin{framed}
 <<echo=TRUE,eval=TRUE>>=
-lmnri <- lm.nri(nri_WV ~ PV, preddata = spec_WV)
+lmnri <- lm.nri(nri_WV ~ chlorophyll, preddata = spec_WV)
 @
 \end{framed}
 See how the lmnri object looks like:
@@ -1320,30 +1320,50 @@ plot(lmnri, coefficient = "r.squared", main = "R squared",
 
 
 \section{Linear spectral unmixing}
-Linear spectral unmixing is a method to derive the cover fractions of different materials within the footprint of multi- or hyperspectral pixels/measurements. For a detailed overview of linear spectral unmixing see e.g.~\cite{Sohn1997}. The algorithm in the \hsdar package uses the code originally developed for Grass GIS by Markus Neteler. The basic concept behind linear spectral unmixing is that you provide a set of spectra (taken by a field spectrometer or multi/hyperspectral satellite sensor) and a set of spectra providing the information about the spectral properties of the pure materials which are mixed in the first set. The latter set is usually called "endmembers". Here, we will use the field spectra from Tibet and the endmember "PV" (photosynthetically active vegetation), "NPV" (photosynthetically not active vegetation), and "soil". All of the endmember spectra were taken in the field. Note that if endmember spectra taken in the field should be used to unmix satellite albedo values, a proper atmospheric correction is urgently required. Now back to the analysis: We will first load the datasets provided in the \hsdar package and subset the datasets to the Kailash-site. Additionally, we must set the mask according to the mask in the endmember spectra:
+Linear spectral unmixing is a method to derive the cover fractions of different materials within the footprint of multi- or hyperspectral pixels/measurements. For a detailed overview of linear spectral unmixing see e.g.~\cite{Sohn1997}. The algorithm in the \hsdar package uses the code originally developed for Grass GIS by Markus Neteler. The basic concept behind linear spectral unmixing is that you provide a set of spectra (taken by a field spectrometer or multi/hyperspectral satellite sensor) and a set of spectra providing the information about the spectral properties of the pure materials which are mixed in the first set. The latter set is usually called "endmembers". Here, we will use two spectra from the USGS and define the endmember "vegetation" and "soil". The spectral to be unmixed are generated with PROSAIL:
 \begin{framed}
-<<echo=TRUE,eval=TRUE,fig=FALSE>>=
-data(spectral_data)
-data(endmember_spectra)
+<<echo=TRUE,eval=TRUE,fig=FALSE,results=hide>>=
+## Use PROSAIL to generate some vegetation spectra with different LAI
+parameter <- data.frame(LAI = seq(0, 1, 0.01))
+spectral_data <- PROSAIL(parameterList = parameter)
 
-## Subset both speclibs
-spec_ka <- subset(spectral_data, Site == "Kailash")
-em_ka <- subset(endmember_spectra, Site == "Kailash")
-
-## Look at the mask in the endmember_spectra
-mask(endmember_spectra)
-mask(spec_ka) <- c(1045, 1055, 1350, 1706)
-
-## Divide spectra of both speclibs by 100 to achieve the range 
-## [0, ..., 100]
-spectra(spec_ka) <- spectra(spec_ka)/100
-spectra(em_ka) <- spectra(em_ka)/100
+## We resample the data to Quickbird channels to get the same 
+## spectral ranges
+spectral_data_qb <- spectral.resampling(spectral_data, "Quickbird")
 @
 \end{framed}
-Now, we start the unmixing approach:
+Now, we download the required endmember spectra from USGS's ftp-server.
+\begin{framed}
+<<echo=TRUE,eval=FALSE,fig=FALSE>>=
+## Get endmember spectra
+## Retrieve all available spectra
+avl <- USGS_get_available_files()
+
+## Download all spectra matching "grass-fescue"
+grass_spectra <- USGS_retrieve_files(avl = avl, 
+                                     pattern = "grass-fescue")
+limestone <- USGS_retrieve_files(avl = avl, pattern = "limestone")
+
+## Perform resampling for the endmember spectra. Note that we only  
+## use the first vegetation spectrum
+grass_spectra_qb <- spectral.resampling(grass_spectra[1,], 
+                                        "Quickbird")
+limestone_qb <- spectral.resampling(limestone, "Quickbird")
+@
+<<echo=FALSE,eval=TRUE,fig=FALSE>>=
+grass_spectra_qb <- speclib(spectra = matrix(c(3.190627, 5.137504, 5.797486, 29.68515), nrow = 1), wavelength = c(485, 560, 660, 830))
+limestone_qb <- speclib(spectra = matrix(c(16.93489, 18.97302, 21.407, 23.98981), nrow = 1), wavelength = c(485, 560, 660, 830))
+@
+\end{framed}
+
+Now, we merge the endmember spectra into one Speclib (and make sure that the range of the spectra is in [0,1]) and finally start the unmixing approach:
 \begin{framed}
 <<echo=TRUE,eval=TRUE,fig=FALSE>>=
-unmix_res <- unmix(spec_ka, em_ka)
+em <- speclib(spectra = rbind(spectra(grass_spectra_qb),
+                              spectra(limestone_qb))/100,
+              wavelength = wavelength(limestone_qb))
+
+unmix_res <- unmix(spectral_data_qb, em)
 ## Let's have a look at the output:
 str(unmix_res)
 @
@@ -1353,36 +1373,24 @@ The return value of "unmix" is a list with two elements:
  \item "fractions": A matrix with the unmixed fractions of each endmember in each spectrum. The different spectra are the columns and the endmembers the rows of the matrix.
  \item "error": Mathematically speaking, an over-determined linear equation system is solved during linear spectral unmixing. Thus, one is only able to minimize the error during solving the system. This amount of error is returned as the  euclidean norm of the error vector after least square error minimisation. Large error values may indicate that endmember spectra do not fit well to the mixed material spectra.
 \end{enumerate}
-We can now test the performance of the unmixing approach. Therefore, we compare the unmixed fractions with the fractions estimated in the field:
+
+Finally, we can generate a simple plot to visualize our results.
+\SweaveOpts{width=5.2, height=4.5}
 \begin{framed}
 <<echo=TRUE,eval=TRUE,fig=FALSE>>=
-vd_npv <- data.frame(Predicted = unmix_res$fractions[1,],
-                     Observed = spec_ka$attributes$NPV/100)
-vd_pv <- data.frame(Predicted = unmix_res$fractions[2,],
-                    Observed = spec_ka$attributes$PV/100)
-vd_soil <- data.frame(Predicted = unmix_res$fractions[3,], 
-                      Observed = spec_ka$attributes$Bare.soil/100)
-
-par(mfrow = c(2,2), mar = c(5,4,4,0.1))
-plot(Predicted ~ Observed, data = vd_pv, ylab = "Predicted PV",
-     xlab = "Observed PV", xlim = c(0,1), ylim = c(0,1))
-plot(Predicted ~ Observed, data = vd_npv, ylab = "Predicted NPV",
-     xlab = "Observed NPV", xlim = c(0,1), ylim = c(0,1))
-plot(Predicted ~ Observed, data = vd_soil, ylab = "Predicted Soil",
-     xlab = "Observed Soil", xlim = c(0,1), ylim = c(0,1))
+plot(unmix_res$fractions[1,] ~ attribute(spectral_data_qb)$LAI,
+     type = "l", xlab = "LAI", 
+     ylab = "Unmixed fraction of vegetation")
 @
 \resizebox{1\textwidth}{!}{
 <<fig=TRUE, echo=FALSE>>=
-par(mfrow = c(2,2), par(mar = c(4,4,0.1,0.1), cex = 0.75))
-plot(Predicted ~ Observed, data = vd_pv, ylab = "Predicted PV",
-     xlab = "Observed PV", xlim = c(0,1), ylim = c(0,1))
-plot(Predicted ~ Observed, data = vd_npv, ylab = "Predicted NPV",
-     xlab = "Observed NPV", xlim = c(0,1), ylim = c(0,1))
-plot(Predicted ~ Observed, data = vd_soil, ylab = "Predicted Soil",
-     xlab = "Observed Soil", xlim = c(0,1), ylim = c(0,1))
+par(mar = c(4,4,0,0.1), cex = 0.75)
+plot(unmix_res$fractions[1,] ~ attribute(spectral_data_qb)$LAI, type = "l",
+     xlab = "LAI", ylab = "Unmixed fraction of vegetation")
 @
 }
 \end{framed}
+
 % 
 % \section{Handling large hyperspectral raster files}
 % \label{sec:HyperSpecRaster}

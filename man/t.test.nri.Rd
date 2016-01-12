@@ -37,8 +37,6 @@ Performs t-tests for nri values.
 %   \dontrun{
 data(spectral_data)
 
-## Subset spectral_data to Namco and Kailash samples
-spectral_data <- subset(spectral_data, Site != "")
 
 ## Calculate nri-values for WorldView-2-8
 spec_WV <- spectral.resampling(spectral_data, "WorldView2-8",
@@ -46,8 +44,8 @@ spec_WV <- spectral.resampling(spectral_data, "WorldView2-8",
 nri_WV <- nri(spec_WV, recursive = TRUE)
 
 ## Perform t.tests between nri-values of both sites 
-site <- spec_WV$attributes$Site 
-ttestres <- t.test(x = nri_WV, y = site, alternative = "two.sided")
+season <- spec_WV$attributes$season
+ttestres <- t.test(x = nri_WV, y = season, alternative = "two.sided")
 ttestres
 
 ## Plot p.values of t.tests

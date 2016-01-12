@@ -4,8 +4,9 @@
 \alias{as.data.frame,Nri-method}
 \alias{show,Nri-method}
 \alias{wavelength,Nri-method}
-
-%\alias{print.nri}
+\alias{[,Nri,ANY,ANY-method}
+\alias{[,Nri,ANY,ANY,ANY-method}
+\alias{getFiniteNri}
 %\alias{as.matrix.nri}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
@@ -20,6 +21,8 @@ Methods to handle data in objects of class Nri.
 \S4method{as.data.frame}{Nri}(x, ...)
 
 \S4method{wavelength}{Nri}(object)
+
+getFiniteNri(x)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

@@ -70,7 +70,7 @@ spec_WV <- spectral.resampling(spectral_data, "WorldView2-8",
                                response_function = FALSE)
 nri_WV <- nri(spec_WV, recursive = TRUE)
 
-glmnri <- glm.nri(nri_WV ~ Soil.moisture, preddata = spec_WV)
+glmnri <- glm.nri(nri_WV ~ chlorophyll, preddata = spec_WV)
 glmnri
 
 plot(glmnri)

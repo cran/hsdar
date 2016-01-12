@@ -1,4 +1,38 @@
 ------------------------------------------------------------------------------------------
+--- 12-January-2016, version 0.4.0
+- New functionalities:
+   - Index-method for class Nri
+   - Class Nri may contain attributes data.frame
+   - Set- and replace-methods for attributes in Nri-Objects added
+   - New internal class '.CaretHyperspectral' added. 
+   - New functions for caret support added:
+       * setResponse
+       * setPredictor
+       * showCaretParameters
+   - New wrapper methods for caret functions added:
+       * preProcess
+       * gafs
+       * sfb
+       * safs
+       * rfe
+       * createDataPartition
+       * createResample
+       * createFolds
+       * createMultiFolds
+       * featurePlot
+       * train
+       * train.formula
+   - More efficient way of reading subset of spectra implemented if spectra are 
+     stored as RasterBrick.
+   - print, show and [-methods for class .Spectra added
+   - Download function for spectra from USGS added
+- Example datasets changed
+- Bug fixes:
+   - Bandnames are correctly used
+   - Integration of indexing into history of Speclibs
+   - Actualize usagehistory after masking
+
+------------------------------------------------------------------------------------------
 --- 6-October-2015, version 0.3.1
 - New functionalities:
    - as.data.frame-method for class Nri

@@ -62,6 +62,6 @@ Hanna Meyer
 \examples{
 data(spectral_data)
 rd <- rededge(spectral_data)
-boxplot(rd$R0 ~ attribute(spectral_data)$Site, ylab = "R0")
+boxplot(rd$R0 ~ attribute(spectral_data)$season, ylab = "R0")
 }
 \keyword{multivariate}

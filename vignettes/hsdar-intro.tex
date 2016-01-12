@@ -1,11 +1,11 @@
-%\VignetteIndexEntry{Tutorial on usage of ``hsdar``-package}
+%\VignetteIndexEntry{Introduction to ``hsdar``}
 
 \documentclass{article}
 \usepackage[ansinew]{inputenc}
 \usepackage{Sweave}
 \usepackage[sort]{natbib}
 \usepackage[
-  pdftitle={Tutorial on usage of hsdar-package},
+  pdftitle={Introduction to ``hsdar``},
   pdfauthor={Hanna Meyer, Lukas W. Lehnert},
   pdfsubject={},
   bookmarksopen=true,
@@ -23,7 +23,7 @@
 \usepackage{geometry}
 \geometry{a4paper,left=3.7cm,right=3.7cm, top=3.5cm, bottom=3.5cm} 
 
-\title{Tutorial on usage of ``hsdar``-package}
+\title{Introduction to ``hsdar``}
 \author{Hanna Meyer, Lukas W. Lehnert}
 
 \newcommand{\hsdar}{\textsf{hsdar}\xspace}
@@ -52,11 +52,10 @@ For some applications of \hsdar see \citet{Lehnert2014,Meyer2013,Lehnert2013,Leh
 
 \subsection{Sample data}
 Almost all of the exercises in this tutorial use one single sample dataset - "spectral$\_$data" - which is included in the \hsdar package.
-This dataset was created in scope of a field campaign in Tibet in 2012 aiming to analyze spatial patterns of pasture degradation on the plateau.
-Two study areas on the plateau are included in this dataset: "Kailash" which is located in the drier western of Tibet and and "Namco" which is a more humid site in central Tibet. 
+This dataset was created on a free air enrichment site (FACE) near  Giessen, central Germany.
 
 In the first line, the dataset contains hyperspectral reflectance measurements which were taken with a field spectrometer from a height of approx.~1.50 m 
-covering the integrated spectrum of a circle of approx.~50 cm on the ground. Thus, reflectance values result from different fractions of vegetation, soil, stones etc. Furthermore, the dataset contains environmental variables of the measured circles like vegetation coverage, chlorophyll content, soil moisture etc.
+covering the integrated spectrum of a circle of approx.~50 cm on the ground. Thus, reflectance values result from different fractions of vegetation, soil, stones etc. Furthermore, the dataset contains chlorophyll content of the vegetation.
 %The spectrometer measures in the range between 305 nm and 1705 nm with a spectral resolution of 1 nm.
 
 \subsection{How to start}
@@ -99,11 +98,16 @@ To understand the structure of a Speclib, have a look on the sample Speclib "spe
 Summary of Speclib
 
 
+History of usage
+---------------------
+(1)   Reflectance = mean applied to matrix spectra by attribute 'site'
+
+
 Summary of spectra
 ---------------------
-Total number of spectra : 81
+Total number of spectra : 30
 Number of bands : 1401
-Width of bands : 0.5
+Width of bands : 1
 \end{Soutput}
 \end{Schunk}
 \end{framed}
@@ -124,10 +128,7 @@ However, there are more information stored in the Speclib. Have a look on the st
 Formal class 'Speclib' [package "hsdar"] with 13 slots
   ..@ spectra            :Formal class '.Spectra' [package "hsdar"] with 3 slots
   .. .. ..@ fromRaster: logi FALSE
-  .. .. ..@ spectra_ma: num [1:81, 1:1401] 9.08 8.63 9.32 9.59 8.54 ...
-  .. .. .. ..- attr(*, "dimnames")=List of 2
-  .. .. .. .. ..$ : NULL
-  .. .. .. .. ..$ : NULL
+  .. .. ..@ spectra_ma: num [1:30, 1:1401] 6.52 7.01 7.25 6.74 7.52 ...
   .. .. ..@ spectra_ra:Formal class 'RasterBrick' [package "raster"] with 12 slots
   .. .. .. .. ..@ file    :Formal class '.RasterFile' [package "raster"] with 13 slots
   .. .. .. .. .. .. ..@ name        : chr ""
@@ -180,27 +181,20 @@ Formal class 'Speclib' [package "hsdar"] with 13 slots
   .. .. .. .. .. .. ..@ projargs: chr NA
   .. .. .. .. ..@ history : list()
   .. .. .. .. ..@ z       : list()
-  ..@ wavelength         : int [1:1401] 305 306 307 308 309 310 311 312 313 314 ...
-  ..@ attributes         :'data.frame':	81 obs. of  10 variables:
-  .. ..$ Site          : chr [1:81] "Namco" "Namco" "Namco" "Namco" ...
-  .. ..$ ID            : Factor w/ 81 levels "NC103","Nc119",..: 2 3 4 1 29 30 31 16 17 18 ...
-  .. ..$ PV            : num [1:81] 67.5 52.5 32.5 65 72.5 75 45 77.5 60 77.5 ...
-  .. ..$ Bare.soil     : num [1:81] 30.2 34.7 49.9 20.3 16.3 ...
-  .. ..$ Open.turf     : num [1:81] 0.805 5.904 0 5.27 0.5 ...
-  .. ..$ Stones        : num [1:81] 0.3 1.1 6.8 1.2 2.4 0 3.25 3 16.5 0.5 ...
-  .. ..$ NPV           : num [1:81] NA NA NA NA NA NA NA NA NA NA ...
-  .. ..$ Soil.moisture : num [1:81] 19.8 21.3 22.3 16.9 23.8 24.3 20.3 18.9 19.8 21.3 ...
-  .. ..$ Chlorophyll   : num [1:81] NA NA NA 49.6 45 ...
-  .. ..$ Target.species: num [1:81] NA NA NA 1 1 1 NA NA 1 1 ...
-  ..@ fwhm               : num 0.5
+  ..@ wavelength         : num [1:1401] 305 306 307 308 309 310 311 312 313 314 ...
+  ..@ attributes         :'data.frame':	30 obs. of  3 variables:
+  .. ..$ site       : chr [1:30] "C1" "C2" "C3" "K1" ...
+  .. ..$ season     : chr [1:30] "summer" "summer" "summer" "summer" ...
+  .. ..$ chlorophyll: num [1:30] 25.2 23.7 31.5 19.1 23.3 ...
+  ..@ fwhm               : num 1
   ..@ continuousdata     : logi TRUE
   ..@ wlunit             : chr "nm"
   ..@ xlabel             : chr "Wavelength"
   ..@ ylabel             : chr "Reflectance"
-  ..@ ID                 : chr [1:81] "Nc119" "Nc123" "Nc124" "NC103" ...
+  ..@ ID                 : chr "FUN"
   ..@ wavelength.is.range: logi FALSE
   ..@ transformation     : chr(0) 
-  ..@ usagehistory       : chr(0) 
+  ..@ usagehistory       : chr "Reflectance = mean applied to matrix spectra by attribute 'site'"
   ..@ rastermeta         : list()
 \end{Soutput}
 \end{Schunk}
@@ -235,10 +229,7 @@ See what happened:
 > str(spectra)
 \end{Sinput}
 \begin{Soutput}
- num [1:81, 1:1401] 9.08 8.63 9.32 9.59 8.54 ...
- - attr(*, "dimnames")=List of 2
-  ..$ : NULL
-  ..$ : NULL
+ num [1:30, 1:1401] 6.52 7.01 7.25 6.74 7.52 ...
 \end{Soutput}
 \end{Schunk}
 \end{framed}
@@ -272,10 +263,7 @@ Having a look at the structure showing that you have re-created "spectral$\_$dat
 Formal class 'Speclib' [package "hsdar"] with 13 slots
   ..@ spectra            :Formal class '.Spectra' [package "hsdar"] with 3 slots
   .. .. ..@ fromRaster: logi FALSE
-  .. .. ..@ spectra_ma: num [1:81, 1:1401] 9.08 8.63 9.32 9.59 8.54 ...
-  .. .. .. ..- attr(*, "dimnames")=List of 2
-  .. .. .. .. ..$ : NULL
-  .. .. .. .. ..$ : NULL
+  .. .. ..@ spectra_ma: num [1:30, 1:1401] 6.52 7.01 7.25 6.74 7.52 ...
   .. .. ..@ spectra_ra:Formal class 'RasterBrick' [package "raster"] with 12 slots
   .. .. .. .. ..@ file    :Formal class '.RasterFile' [package "raster"] with 13 slots
   .. .. .. .. .. .. ..@ name        : chr ""
@@ -328,7 +316,7 @@ Formal class 'Speclib' [package "hsdar"] with 13 slots
   .. .. .. .. .. .. ..@ projargs: chr NA
   .. .. .. .. ..@ history : list()
   .. .. .. .. ..@ z       : list()
-  ..@ wavelength         : int [1:1401] 305 306 307 308 309 310 311 312 313 314 ...
+  ..@ wavelength         : num [1:1401] 305 306 307 308 309 310 311 312 313 314 ...
   ..@ attributes         :'data.frame':	0 obs. of  0 variables
   ..@ fwhm               : num 1
   ..@ continuousdata     : logi TRUE
@@ -363,20 +351,13 @@ If you extract the attributes from "spectral$\_$data" using "attribute", you get
 > head(attributes)
 \end{Sinput}
 \begin{Soutput}
-   Site    ID   PV Bare.soil Open.turf Stones NPV Soil.moisture
-1 Namco Nc119 67.5   30.1975     0.805    0.3  NA          19.8
-2 Namco Nc123 52.5   34.7480     5.904    1.1  NA          21.3
-3 Namco Nc124 32.5   49.8500     0.000    6.8  NA          22.3
-4 Namco NC103 65.0   20.2650     5.270    1.2  NA          16.9
-5 Namco  NC92 72.5   16.3000     0.500    2.4  NA          23.8
-6 Namco  NC94 75.0   14.5000     0.500    0.0  NA          24.3
-  Chlorophyll Target.species
-1          NA             NA
-2          NA             NA
-3          NA             NA
-4    49.63333              1
-5    45.04167              1
-6    45.23333              1
+  site season chlorophyll
+1   C1 summer    25.18261
+2   C2 summer    23.65696
+3   C3 summer    31.50000
+4   K1 summer    19.12000
+5   K2 summer    23.31818
+6   K3 summer    25.21500
 \end{Soutput}
 \end{Schunk}
 \end{framed}
@@ -402,10 +383,7 @@ Finally you have a Speclib which is well comparable to the exemplary Speclib:
 Formal class 'Speclib' [package "hsdar"] with 13 slots
   ..@ spectra            :Formal class '.Spectra' [package "hsdar"] with 3 slots
   .. .. ..@ fromRaster: logi FALSE
-  .. .. ..@ spectra_ma: num [1:81, 1:1401] 9.08 8.63 9.32 9.59 8.54 ...
-  .. .. .. ..- attr(*, "dimnames")=List of 2
-  .. .. .. .. ..$ : NULL
-  .. .. .. .. ..$ : NULL
+  .. .. ..@ spectra_ma: num [1:30, 1:1401] 6.52 7.01 7.25 6.74 7.52 ...
   .. .. ..@ spectra_ra:Formal class 'RasterBrick' [package "raster"] with 12 slots
   .. .. .. .. ..@ file    :Formal class '.RasterFile' [package "raster"] with 13 slots
   .. .. .. .. .. .. ..@ name        : chr ""
@@ -458,24 +436,17 @@ Formal class 'Speclib' [package "hsdar"] with 13 slots
   .. .. .. .. .. .. ..@ projargs: chr NA
   .. .. .. .. ..@ history : list()
   .. .. .. .. ..@ z       : list()
-  ..@ wavelength         : int [1:1401] 305 306 307 308 309 310 311 312 313 314 ...
-  ..@ attributes         :'data.frame':	81 obs. of  10 variables:
-  .. ..$ Site          : chr [1:81] "Namco" "Namco" "Namco" "Namco" ...
-  .. ..$ ID            : Factor w/ 81 levels "NC103","Nc119",..: 2 3 4 1 29 30 31 16 17 18 ...
-  .. ..$ PV            : num [1:81] 67.5 52.5 32.5 65 72.5 75 45 77.5 60 77.5 ...
-  .. ..$ Bare.soil     : num [1:81] 30.2 34.7 49.9 20.3 16.3 ...
-  .. ..$ Open.turf     : num [1:81] 0.805 5.904 0 5.27 0.5 ...
-  .. ..$ Stones        : num [1:81] 0.3 1.1 6.8 1.2 2.4 0 3.25 3 16.5 0.5 ...
-  .. ..$ NPV           : num [1:81] NA NA NA NA NA NA NA NA NA NA ...
-  .. ..$ Soil.moisture : num [1:81] 19.8 21.3 22.3 16.9 23.8 24.3 20.3 18.9 19.8 21.3 ...
-  .. ..$ Chlorophyll   : num [1:81] NA NA NA 49.6 45 ...
-  .. ..$ Target.species: num [1:81] NA NA NA 1 1 1 NA NA 1 1 ...
+  ..@ wavelength         : num [1:1401] 305 306 307 308 309 310 311 312 313 314 ...
+  ..@ attributes         :'data.frame':	30 obs. of  3 variables:
+  .. ..$ site       : chr [1:30] "C1" "C2" "C3" "K1" ...
+  .. ..$ season     : chr [1:30] "summer" "summer" "summer" "summer" ...
+  .. ..$ chlorophyll: num [1:30] 25.2 23.7 31.5 19.1 23.3 ...
   ..@ fwhm               : num 1
   ..@ continuousdata     : logi TRUE
   ..@ wlunit             : chr "nm"
   ..@ xlabel             : chr "Wavelength"
   ..@ ylabel             : chr "Reflectance"
-  ..@ ID                 : chr [1:81] "Nc119" "Nc123" "Nc124" "NC103" ...
+  ..@ ID                 : chr [1:30] "1" "2" "3" "4" ...
   ..@ wavelength.is.range: logi FALSE
   ..@ transformation     : chr(0) 
   ..@ usagehistory       : chr(0) 
@@ -838,36 +809,33 @@ Width of bands : 1
 The speclib-class provides several routines for data manipulation which will be described in the following.
 
 \subsection{Subsets of spectra}
-Subsets of Speclibs can be built using the subset function. This function separates the spectra according to a condition. Usually the conditions are derived from attributes stored in the Speclib like study site or vegetation type. For example you could split "spectral$\_$data" to get a subset for the Kailash site and a subset for the Namco site:
+Subsets of Speclibs can be built using the subset function. This function separates the spectra according to a condition. Usually the conditions are derived from attributes stored in the Speclib like study site, season or vegetation type. For example you could split "spectral$\_$data" to get a subset for the summer and the spring spectra:
 
 \begin{framed}
 \begin{Schunk}
 \begin{Sinput}
 > ## Return names of attributes data
-> names(spectral_data$attributes)
+> names(attribute(spectral_data))
 \end{Sinput}
 \begin{Soutput}
- [1] "Site"           "ID"             "PV"            
- [4] "Bare.soil"      "Open.turf"      "Stones"        
- [7] "NPV"            "Soil.moisture"  "Chlorophyll"   
-[10] "Target.species"
+[1] "site"        "season"      "chlorophyll"
 \end{Soutput}
 \begin{Sinput}
-> ## Devide into both locations using to the attribute "SITE"
-> sp_namco <- subset(spectral_data, Site == "Namco")
-> sp_kailash <- subset(spectral_data, Site == "Kailash")
+> ## Devide into both seasons using to the attribute "season"
+> sp_spring <- subset(spectral_data, season == "spring")
+> sp_summer <- subset(spectral_data, season == "summer")
 > #
 > #Plot results:
 > #
-> plot(sp_namco, FUN = "mean", col = "darkgreen", ylim = c(0,50))
-> plot(sp_kailash, FUN = "mean", col = "darkred", new = FALSE)
+> plot(sp_spring, FUN = "mean", col = "darkgreen", ylim = c(0,70))
+> plot(sp_summer, FUN = "mean", col = "darkred", new = FALSE)
 \end{Sinput}
 \end{Schunk}
 \resizebox{1\textwidth}{!}{
 \includegraphics{hsdar-intro-033}
 }
 \end{framed}
-As you can see the Speclib is split into two Speclibs, one containing all spectra which had the site-attribute "Namco" and one containing all spectra which had the site-attribute "Kailash".
+As you can see the Speclib is split into two Speclibs, one containing all spectra which had had been sampled in spring and one containing all spectra which had been acquired in summer.
 
 
 \subsection{Filter}
@@ -1061,12 +1029,13 @@ Summary of Speclib
 
 History of usage
 ---------------------
-(1)   Integrated spectra to WorldView2-8 channels
+(1)   Reflectance = mean applied to matrix spectra by attribute 'site'
+(2)   Integrated spectra to WorldView2-8 channels
 
 
 Summary of spectra
 ---------------------
-Total number of spectra : 81
+Total number of spectra : 30
 Number of bands : 8
 Mean width of bands : 66.25
 \end{Soutput}
@@ -1100,9 +1069,10 @@ Because the continuum removal transformation is sensitive to errors in the spect
 \begin{framed}
 \begin{Schunk}
 \begin{Sinput}
+> data(spectral_data)
 > spectral_data_preproc <- smoothSpeclib(spectral_data, 
 + method = "sgolay", n = 5)
-> mask(spectral_data_preproc) <- c(1040,1060,1300,1450)
+> #mask(spectral_data_preproc) <- c(1040,1060,1300,1450)
 \end{Sinput}
 \end{Schunk}
 \end{framed}
@@ -1127,7 +1097,7 @@ The following example will show you how to calculate the continuum line (just fo
 \begin{Schunk}
 \begin{Sinput}
 > #convex hull:
-> ch_cline <- transform_speclib(spectral_data_preproc,
+> ch_cline <- transform_speclib(spectral_data_preproc[16:30,],
 +                               method = "ch", out = "raw")
 > ch_bd <- transform_speclib(spectral_data_preproc,
 +                            method = "ch", out = "bd")
@@ -1207,20 +1177,8 @@ with x is the continuum line, ispec is the name or index of the spectrum to be m
 \end{Sinput}
 \begin{Soutput}
 $ptscon
-   Wavelength Reflectance
-1         566    10.93322
-2         567    10.93838
-3         568    10.94255
-4         569    10.94506
-5         570    10.94632
-6         601    11.09275
-7         604    11.10690
-8         605    11.11117
-9         606    11.11376
-10        607    11.11505
-11        636    11.29697
-12        637    11.30238
-13        638    11.30288
+  Wavelength Reflectance
+1        554    7.779095
 
 $ispec
 [1] 1
@@ -1233,11 +1191,7 @@ $ispec
 \begin{Soutput}
 $ptscon
   Wavelength Reflectance
-1        566    10.93322
-2        567    10.93838
-3        568    10.94255
-4        569    10.94506
-5        570    10.94632
+1        554    7.779095
 
 $ispec
 [1] 1
@@ -1260,7 +1214,7 @@ After modifying the continuum line by adding and/or deleting continuum points, y
 > checkhull(sh_cline, 1)$error
 \end{Sinput}
 \begin{Soutput}
-[1] 1060 1060
+[1] 0 0
 \end{Soutput}
 \end{Schunk}
 \end{framed}
@@ -1383,14 +1337,14 @@ The following example shows how to cut the first two features:
 
 \subsection{T-Test}
 You can compare the distribution of two subsets of a Speclib by a T-test. At each wavelength subset one is compared to subset two:
-First, split "spectral$\_$data" into a Speclib from Kailash site and a Speclib from Namco site:
+First, split "spectral$\_$data" into Speclibs of summer and spring spectra:
 
 \begin{framed}
 \begin{Schunk}
 \begin{Sinput}
 > #split into subsets:
-> sp_namco <- subset(spectral_data, Site == "Namco")
-> sp_kailash <- subset(spectral_data, Site == "Kailash")
+> sp_spring <- subset(spectral_data, season == "spring")
+> sp_summer <- subset(spectral_data, season == "summer")
 \end{Sinput}
 \end{Schunk}
 \end{framed}
@@ -1413,9 +1367,9 @@ Let's visualize how the reflexion at the red edge reflexion shoulder (around 750
 \begin{framed}
 \begin{Schunk}
 \begin{Sinput}
-> boxplot(spectra(sp_namco)[,wavelength(sp_namco) == 750],
-+         spectra(sp_kailash)[,wavelength(sp_kailash) == 750],
-+         names=c("Namco","Kailash"), ylab = "Reflectance")
+> boxplot(spectra(sp_spring)[,wavelength(sp_spring) == 750],
++         spectra(sp_summer)[,wavelength(sp_summer) == 750],
++         names=c("Spring","Summer"), ylab = "Reflectance")
 \end{Sinput}
 \end{Schunk}
 \resizebox{1\textwidth}{!}{
@@ -1427,7 +1381,7 @@ Let's visualize how the reflexion at the red edge reflexion shoulder (around 750
 \subsection{Regressions}
 
 Currently, \hsdar provides no special tools for regressions, however you can use the standard R routines.
-E.g.~if you want to test each wavelength for its relation to plant fraction, write a loop over each wavelength and access the spectra and the attribute "PV" from the Speclib:
+E.g.~if you want to test each wavelength for its relation to plant fraction, write a loop over each wavelength and access the spectra and the attribute "chlorophyll" from the Speclib:
 \begin{framed}
 \begin{Schunk}
 \begin{Sinput}
@@ -1435,7 +1389,7 @@ E.g.~if you want to test each wavelength for its relation to plant fraction, wri
 > for (i in 1:length(wavelength(spectral_data)))
 + {
 +   result[[i]] <- summary(lm(spectra(spectral_data)[,i] ~
-+                             attribute(spectral_data)$PV))
++                             attribute(spectral_data)$chlorophyll))
 + }
 > names(result) <- wavelength(spectral_data)
 \end{Sinput}
@@ -1449,22 +1403,25 @@ In this way you can access the results using the wavelengths as string. E.g.~let
 \end{Sinput}
 \begin{Soutput}
 Call:
-lm(formula = spectra(spectral_data)[, i] ~ attribute(spectral_data)$PV)
+lm(formula = spectra(spectral_data)[, i] ~ attribute(spectral_data)$chlorophyll)
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--14.5195  -1.8714   0.3165   2.4116   7.5872 
+-0.91878 -0.31376 -0.09468  0.32743  2.10541 
 
 Coefficients:
-                            Estimate Std. Error t value Pr(>|t|)    
-(Intercept)                 26.45560    0.84730   31.22   <2e-16 ***
-attribute(spectral_data)$PV -0.26777    0.01689  -15.86   <2e-16 ***
+                                     Estimate Std. Error t value
+(Intercept)                           1.47340    0.45436   3.243
+attribute(spectral_data)$chlorophyll  0.08487    0.01370   6.195
+                                     Pr(>|t|)    
+(Intercept)                           0.00305 ** 
+attribute(spectral_data)$chlorophyll 1.08e-06 ***
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
-Residual standard error: 3.755 on 79 degrees of freedom
-Multiple R-squared:  0.7609,	Adjusted R-squared:  0.7579 
-F-statistic: 251.5 on 1 and 79 DF,  p-value: < 2.2e-16
+Residual standard error: 0.6046 on 28 degrees of freedom
+Multiple R-squared:  0.5782,	Adjusted R-squared:  0.5631 
+F-statistic: 38.38 on 1 and 28 DF,  p-value: 1.085e-06
 \end{Soutput}
 \end{Schunk}
 \end{framed}
@@ -1472,9 +1429,9 @@ You can easily plot this relation by a scatterplot with PV on th the x-axis and 
 \begin{framed}
 \begin{Schunk}
 \begin{Sinput}
-> plot(attribute(spectral_data)$PV, 
+> plot(attribute(spectral_data)$chlorophyll, 
 +      spectra(spectral_data)[,wavelength(spectral_data)==650],
-+      xlab = "PV", ylab = "Reflectance at 650nm")
++      xlab = "Chlorophyll content", ylab = "Reflectance at 650nm")
 \end{Sinput}
 \end{Schunk}
 \resizebox{1\textwidth}{!}{
@@ -1497,20 +1454,11 @@ For example calculate the NDVI like this:
 > ndvi #see ndvi
 \end{Sinput}
 \begin{Soutput}
- [1] 0.45196160 0.42158241 0.29653444 0.43702210 0.52713542 0.50245462
- [7] 0.38192257 0.56776629 0.45897541 0.61313405 0.68954323 0.61009374
-[13] 0.57343401 0.46233470 0.57857696 0.31392631 0.24206030 0.68671665
-[19] 0.61468022 0.60937227 0.59271988 0.54379647 0.51993521 0.62576449
-[25] 0.60474869 0.20507617 0.72450663 0.70809014 0.79646640 0.54337931
-[31] 0.70351218 0.07998129 0.07020182 0.11105976 0.41060959 0.10986429
-[37] 0.43882499 0.07695109 0.09516512 0.22172498 0.22641970 0.14415680
-[43] 0.50426263 0.03947298 0.26349167 0.42471459 0.06067836 0.30657992
-[49] 0.09462015 0.19965990 0.45751440 0.39683012 0.42437552 0.40736745
-[55] 0.37949699 0.32725858 0.16914661 0.32534664 0.13632719 0.31219562
-[61] 0.24381867 0.14626527 0.30131823 0.43613739 0.04693296 0.25804194
-[67] 0.23836167 0.20243122 0.30541179 0.27896223 0.34706871 0.07461242
-[73] 0.22197914 0.42038252 0.34904643 0.51969969 0.66462644 0.67136530
-[79] 0.40905723 0.47450543 0.48437841
+ [1] 0.8645385 0.8902434 0.9030130 0.8645695 0.8912563 0.8744318
+ [7] 0.8859704 0.8970170 0.8914286 0.8804466 0.8873673 0.8921778
+[13] 0.9007679 0.8898776 0.8911217 0.8518171 0.8957341 0.8821210
+[19] 0.8821841 0.8839156 0.8798848 0.8740733 0.8639535 0.8770984
+[25] 0.8866471 0.8864226 0.8872358 0.8845266 0.8778616 0.9002123
 \end{Soutput}
 \end{Schunk}
 \end{framed}
@@ -1549,7 +1497,7 @@ Results can be presented as boxplot. For example create a boxplot for R0:
 \begin{framed}
 \begin{Schunk}
 \begin{Sinput}
-> boxplot(rd$R0 ~ spectral_data$attributes$Site, ylab = "R0")
+> boxplot(rd$R0 ~ spectral_data$attributes$season, ylab = "R0")
 \end{Sinput}
 \end{Schunk}
 \resizebox{1\textwidth}{!}{
@@ -1599,37 +1547,16 @@ There are two possibilities what to do with nri. Either you could assign two ban
 > nri_WV
 \end{Sinput}
 \begin{Soutput}
-Data: nri, dimension: 8, 8, 81
-          [,1]      [,2]       [,3]       [,4]      [,5]      [,6]
-[1,]        NA        NA         NA         NA        NA        NA
-[2,] 0.1159411        NA         NA         NA        NA        NA
-[3,] 0.2803113 0.1698916         NA         NA        NA        NA
-[4,] 0.3419621 0.2353521 0.06818695         NA        NA        NA
-[5,] 0.3789481 0.2750933 0.11035954 0.04249234        NA        NA
-[6,] 0.6008295 0.5211952 0.38543239 0.32580814 0.2872932        NA
-[7,] 0.6962423 0.6312583 0.51679015 0.46498865 0.4310124 0.1640306
-[8,] 0.7144031 0.6525083 0.54278779 0.49284142 0.4599820 0.1989846
-          [,7] [,8]
-[1,]        NA   NA
-[2,]        NA   NA
-[3,]        NA   NA
-[4,]        NA   NA
-[5,]        NA   NA
-[6,]        NA   NA
-[7,]        NA   NA
-[8,] 0.0361334   NA
-
-    ... (79 layers omitted)
-
-          [,1]      [,2]       [,3]       [,4]      [,5]      [,6]
-[1,]        NA        NA         NA         NA        NA        NA
-[2,] 0.1576740        NA         NA         NA        NA        NA
-[3,] 0.3199467 0.1708939         NA         NA        NA        NA
-[4,] 0.3513848 0.2050727 0.03542016         NA        NA        NA
-[5,] 0.3637979 0.2186670 0.04962758 0.01423243        NA        NA
-[6,] 0.5994680 0.4879117 0.34585556 0.31428549 0.3014013        NA
-[7,] 0.6942123 0.6024859 0.48112968 0.45343688 0.4420573 0.1622773
-[8,] 0.7038670 0.6143777 0.49550894 0.46830800 0.4571224 0.1806043
+Data: nri, dimension: 8, 8, 30
+          [,1]      [,2]        [,3]        [,4]      [,5]      [,6]
+[1,]        NA        NA          NA          NA        NA        NA
+[2,] 0.2002899        NA          NA          NA        NA        NA
+[3,] 0.5084916 0.3431500          NA          NA        NA        NA
+[4,] 0.4606805 0.2868589 -0.06243717          NA        NA        NA
+[5,] 0.4664228 0.2935569 -0.05514847 0.007313881        NA        NA
+[6,] 0.8562469 0.7917383  0.61592603 0.653241754 0.6490287        NA
+[7,] 0.9133002 0.8726372  0.75581145 0.781375051 0.7785102 0.2617243
+[8,] 0.9174453 0.8786030  0.76656735 0.791138887 0.7883868 0.2853859
            [,7] [,8]
 [1,]         NA   NA
 [2,]         NA   NA
@@ -1638,7 +1565,28 @@ Data: nri, dimension: 8, 8, 81
 [5,]         NA   NA
 [6,]         NA   NA
 [7,]         NA   NA
-[8,] 0.01888041   NA
+[8,] 0.02557163   NA
+
+    ... (28 layers omitted)
+
+          [,1]      [,2]        [,3]       [,4]      [,5]      [,6]
+[1,]        NA        NA          NA         NA        NA        NA
+[2,] 0.1754344        NA          NA         NA        NA        NA
+[3,] 0.4827252 0.3357219          NA         NA        NA        NA
+[4,] 0.3997969 0.2412859 -0.10276015         NA        NA        NA
+[5,] 0.4273848 0.2723723 -0.06972542 0.03327312        NA        NA
+[6,] 0.8688702 0.8181456  0.66510856 0.71874487 0.7022665        NA
+[7,] 0.9263716 0.8966600  0.80251932 0.83631134 0.8260238 0.2947225
+[8,] 0.9286118 0.8997572  0.80815250 0.84106559 0.8310494 0.3092904
+           [,7] [,8]
+[1,]         NA   NA
+[2,]         NA   NA
+[3,]         NA   NA
+[4,]         NA   NA
+[5,]         NA   NA
+[6,]         NA   NA
+[7,]         NA   NA
+[8,] 0.01602893   NA
       wavelength of length = 8 
       fwhm for each wavelength 
 \end{Soutput}
@@ -1659,24 +1607,24 @@ to see that the NRI can be accessed via object$\$$nri. This object has three dim
 > nri_WV$nri[,,1] 
 \end{Sinput}
 \begin{Soutput}
-          [,1]      [,2]       [,3]       [,4]      [,5]      [,6]
-[1,]        NA        NA         NA         NA        NA        NA
-[2,] 0.1159411        NA         NA         NA        NA        NA
-[3,] 0.2803113 0.1698916         NA         NA        NA        NA
-[4,] 0.3419621 0.2353521 0.06818695         NA        NA        NA
-[5,] 0.3789481 0.2750933 0.11035954 0.04249234        NA        NA
-[6,] 0.6008295 0.5211952 0.38543239 0.32580814 0.2872932        NA
-[7,] 0.6962423 0.6312583 0.51679015 0.46498865 0.4310124 0.1640306
-[8,] 0.7144031 0.6525083 0.54278779 0.49284142 0.4599820 0.1989846
-          [,7] [,8]
-[1,]        NA   NA
-[2,]        NA   NA
-[3,]        NA   NA
-[4,]        NA   NA
-[5,]        NA   NA
-[6,]        NA   NA
-[7,]        NA   NA
-[8,] 0.0361334   NA
+          [,1]      [,2]        [,3]        [,4]      [,5]      [,6]
+[1,]        NA        NA          NA          NA        NA        NA
+[2,] 0.2002899        NA          NA          NA        NA        NA
+[3,] 0.5084916 0.3431500          NA          NA        NA        NA
+[4,] 0.4606805 0.2868589 -0.06243717          NA        NA        NA
+[5,] 0.4664228 0.2935569 -0.05514847 0.007313881        NA        NA
+[6,] 0.8562469 0.7917383  0.61592603 0.653241754 0.6490287        NA
+[7,] 0.9133002 0.8726372  0.75581145 0.781375051 0.7785102 0.2617243
+[8,] 0.9174453 0.8786030  0.76656735 0.791138887 0.7883868 0.2853859
+           [,7] [,8]
+[1,]         NA   NA
+[2,]         NA   NA
+[3,]         NA   NA
+[4,]         NA   NA
+[5,]         NA   NA
+[6,]         NA   NA
+[7,]         NA   NA
+[8,] 0.02557163   NA
 \end{Soutput}
 \end{Schunk}
 \end{framed}
@@ -1703,12 +1651,12 @@ If you haven't already calculated the NRI from WorldView-resampled bands, do it 
 \end{framed}
 
 \subsection{Correlations}
-In this example we want to correlate each NRI to the fraction of photosynthetically active vegetation (PV) to determine to which degree the NRI are related to PV. Use the Speclib and NRI data created in section \ref{sec:nrienv}.
-First create a new variable from the attributes of the Speclib containing the fraction of green vegetation per sample:
+In this example we want to correlate each NRI to the chlorophyll content of the vegetation. Use the Speclib and NRI data created in section \ref{sec:nrienv}.
+First create a new variable from the attributes of the Speclib containing the chlorophyll content per sample:
 \begin{framed}
 \begin{Schunk}
 \begin{Sinput}
-> veg <- attribute(spec_WV)$PV
+> chlorophyll <- attribute(spec_WV)$chlorophyll
 \end{Sinput}
 \end{Schunk}
 \end{framed}
@@ -1716,7 +1664,7 @@ Then you can correlate this to the NRI:
 \begin{framed}
 \begin{Schunk}
 \begin{Sinput}
-> cortestnri <- cor.test(nri_WV, veg)
+> cortestnri <- cor.test(nri_WV, chlorophyll)
 \end{Sinput}
 \end{Schunk}
 \end{framed}
@@ -1727,37 +1675,16 @@ See how the output of such a correlation is printed:
 > cortestnri
 \end{Sinput}
 \begin{Soutput}
-Data: nri, dimension: 8, 8, 81
-          [,1]      [,2]       [,3]       [,4]      [,5]      [,6]
-[1,]        NA        NA         NA         NA        NA        NA
-[2,] 0.1159411        NA         NA         NA        NA        NA
-[3,] 0.2803113 0.1698916         NA         NA        NA        NA
-[4,] 0.3419621 0.2353521 0.06818695         NA        NA        NA
-[5,] 0.3789481 0.2750933 0.11035954 0.04249234        NA        NA
-[6,] 0.6008295 0.5211952 0.38543239 0.32580814 0.2872932        NA
-[7,] 0.6962423 0.6312583 0.51679015 0.46498865 0.4310124 0.1640306
-[8,] 0.7144031 0.6525083 0.54278779 0.49284142 0.4599820 0.1989846
-          [,7] [,8]
-[1,]        NA   NA
-[2,]        NA   NA
-[3,]        NA   NA
-[4,]        NA   NA
-[5,]        NA   NA
-[6,]        NA   NA
-[7,]        NA   NA
-[8,] 0.0361334   NA
-
-    ... (79 layers omitted)
-
-          [,1]      [,2]       [,3]       [,4]      [,5]      [,6]
-[1,]        NA        NA         NA         NA        NA        NA
-[2,] 0.1576740        NA         NA         NA        NA        NA
-[3,] 0.3199467 0.1708939         NA         NA        NA        NA
-[4,] 0.3513848 0.2050727 0.03542016         NA        NA        NA
-[5,] 0.3637979 0.2186670 0.04962758 0.01423243        NA        NA
-[6,] 0.5994680 0.4879117 0.34585556 0.31428549 0.3014013        NA
-[7,] 0.6942123 0.6024859 0.48112968 0.45343688 0.4420573 0.1622773
-[8,] 0.7038670 0.6143777 0.49550894 0.46830800 0.4571224 0.1806043
+Data: nri, dimension: 8, 8, 30
+          [,1]      [,2]        [,3]        [,4]      [,5]      [,6]
+[1,]        NA        NA          NA          NA        NA        NA
+[2,] 0.2002899        NA          NA          NA        NA        NA
+[3,] 0.5084916 0.3431500          NA          NA        NA        NA
+[4,] 0.4606805 0.2868589 -0.06243717          NA        NA        NA
+[5,] 0.4664228 0.2935569 -0.05514847 0.007313881        NA        NA
+[6,] 0.8562469 0.7917383  0.61592603 0.653241754 0.6490287        NA
+[7,] 0.9133002 0.8726372  0.75581145 0.781375051 0.7785102 0.2617243
+[8,] 0.9174453 0.8786030  0.76656735 0.791138887 0.7883868 0.2853859
            [,7] [,8]
 [1,]         NA   NA
 [2,]         NA   NA
@@ -1766,7 +1693,28 @@ Data: nri, dimension: 8, 8, 81
 [5,]         NA   NA
 [6,]         NA   NA
 [7,]         NA   NA
-[8,] 0.01888041   NA
+[8,] 0.02557163   NA
+
+    ... (28 layers omitted)
+
+          [,1]      [,2]        [,3]       [,4]      [,5]      [,6]
+[1,]        NA        NA          NA         NA        NA        NA
+[2,] 0.1754344        NA          NA         NA        NA        NA
+[3,] 0.4827252 0.3357219          NA         NA        NA        NA
+[4,] 0.3997969 0.2412859 -0.10276015         NA        NA        NA
+[5,] 0.4273848 0.2723723 -0.06972542 0.03327312        NA        NA
+[6,] 0.8688702 0.8181456  0.66510856 0.71874487 0.7022665        NA
+[7,] 0.9263716 0.8966600  0.80251932 0.83631134 0.8260238 0.2947225
+[8,] 0.9286118 0.8997572  0.80815250 0.84106559 0.8310494 0.3092904
+           [,7] [,8]
+[1,]         NA   NA
+[2,]         NA   NA
+[3,]         NA   NA
+[4,]         NA   NA
+[5,]         NA   NA
+[6,]         NA   NA
+[7,]         NA   NA
+[8,] 0.01602893   NA
       wavelength of length = 8 
       fwhm for each wavelength 
 Call: cor.test(NA NA NA)
@@ -1824,7 +1772,7 @@ Use the Speclib and NRI data created in section \ref{sec:nrienv} to perform a li
 \begin{framed}
 \begin{Schunk}
 \begin{Sinput}
-> lmnri <- lm.nri(nri_WV ~ PV, preddata = spec_WV)
+> lmnri <- lm.nri(nri_WV ~ chlorophyll, preddata = spec_WV)
 \end{Sinput}
 \end{Schunk}
 \end{framed}
@@ -1835,37 +1783,16 @@ See how the lmnri object looks like:
 > lmnri
 \end{Sinput}
 \begin{Soutput}
-Data: nri, dimension: 8, 8, 81
-          [,1]      [,2]       [,3]       [,4]      [,5]      [,6]
-[1,]        NA        NA         NA         NA        NA        NA
-[2,] 0.1159411        NA         NA         NA        NA        NA
-[3,] 0.2803113 0.1698916         NA         NA        NA        NA
-[4,] 0.3419621 0.2353521 0.06818695         NA        NA        NA
-[5,] 0.3789481 0.2750933 0.11035954 0.04249234        NA        NA
-[6,] 0.6008295 0.5211952 0.38543239 0.32580814 0.2872932        NA
-[7,] 0.6962423 0.6312583 0.51679015 0.46498865 0.4310124 0.1640306
-[8,] 0.7144031 0.6525083 0.54278779 0.49284142 0.4599820 0.1989846
-          [,7] [,8]
-[1,]        NA   NA
-[2,]        NA   NA
-[3,]        NA   NA
-[4,]        NA   NA
-[5,]        NA   NA
-[6,]        NA   NA
-[7,]        NA   NA
-[8,] 0.0361334   NA
-
-    ... (79 layers omitted)
-
-          [,1]      [,2]       [,3]       [,4]      [,5]      [,6]
-[1,]        NA        NA         NA         NA        NA        NA
-[2,] 0.1576740        NA         NA         NA        NA        NA
-[3,] 0.3199467 0.1708939         NA         NA        NA        NA
-[4,] 0.3513848 0.2050727 0.03542016         NA        NA        NA
-[5,] 0.3637979 0.2186670 0.04962758 0.01423243        NA        NA
-[6,] 0.5994680 0.4879117 0.34585556 0.31428549 0.3014013        NA
-[7,] 0.6942123 0.6024859 0.48112968 0.45343688 0.4420573 0.1622773
-[8,] 0.7038670 0.6143777 0.49550894 0.46830800 0.4571224 0.1806043
+Data: nri, dimension: 8, 8, 30
+          [,1]      [,2]        [,3]        [,4]      [,5]      [,6]
+[1,]        NA        NA          NA          NA        NA        NA
+[2,] 0.2002899        NA          NA          NA        NA        NA
+[3,] 0.5084916 0.3431500          NA          NA        NA        NA
+[4,] 0.4606805 0.2868589 -0.06243717          NA        NA        NA
+[5,] 0.4664228 0.2935569 -0.05514847 0.007313881        NA        NA
+[6,] 0.8562469 0.7917383  0.61592603 0.653241754 0.6490287        NA
+[7,] 0.9133002 0.8726372  0.75581145 0.781375051 0.7785102 0.2617243
+[8,] 0.9174453 0.8786030  0.76656735 0.791138887 0.7883868 0.2853859
            [,7] [,8]
 [1,]         NA   NA
 [2,]         NA   NA
@@ -1874,10 +1801,31 @@ Data: nri, dimension: 8, 8, 81
 [5,]         NA   NA
 [6,]         NA   NA
 [7,]         NA   NA
-[8,] 0.01888041   NA
+[8,] 0.02557163   NA
+
+    ... (28 layers omitted)
+
+          [,1]      [,2]        [,3]       [,4]      [,5]      [,6]
+[1,]        NA        NA          NA         NA        NA        NA
+[2,] 0.1754344        NA          NA         NA        NA        NA
+[3,] 0.4827252 0.3357219          NA         NA        NA        NA
+[4,] 0.3997969 0.2412859 -0.10276015         NA        NA        NA
+[5,] 0.4273848 0.2723723 -0.06972542 0.03327312        NA        NA
+[6,] 0.8688702 0.8181456  0.66510856 0.71874487 0.7022665        NA
+[7,] 0.9263716 0.8966600  0.80251932 0.83631134 0.8260238 0.2947225
+[8,] 0.9286118 0.8997572  0.80815250 0.84106559 0.8310494 0.3092904
+           [,7] [,8]
+[1,]         NA   NA
+[2,]         NA   NA
+[3,]         NA   NA
+[4,]         NA   NA
+[5,]         NA   NA
+[6,]         NA   NA
+[7,]         NA   NA
+[8,] 0.01602893   NA
       wavelength of length = 8 
       fwhm for each wavelength 
-Call: lm(nri_WV ~ PV)
+Call: lm(nri_WV ~ chlorophyll)
 
 Models contain following parameters:
 [[1]] estimate
@@ -1914,7 +1862,7 @@ In this example we want to get only the best model (n=1):
 \begin{Soutput}
 $Indices
   Band_1 Band_2
-1    831    659
+1    908    831
 
 $Models
 
@@ -1922,8 +1870,8 @@ Call:
 lm(formula = formula, data = glm_data)
 
 Coefficients:
-(Intercept)           PV  
-   0.067404     0.006621  
+(Intercept)  chlorophyll  
+  0.0364657   -0.0004946  
 \end{Soutput}
 \end{Schunk}
 \end{framed}
@@ -1935,20 +1883,11 @@ Maybe it it interesting to see the NRI values of the best performing NRI. Use "g
 > getNRI(nri_WV, nribest)
 \end{Sinput}
 \begin{Soutput}
- [1] 0.43101242 0.41149333 0.30831596 0.41752642 0.49128392 0.47063613
- [7] 0.36826810 0.52796793 0.42846951 0.56473917 0.62450540 0.56048661
-[13] 0.52440929 0.42556292 0.53634006 0.29608095 0.22836956 0.61582279
-[19] 0.56364328 0.55574709 0.54529655 0.51162112 0.48490313 0.57428890
-[25] 0.54988360 0.20292880 0.65341198 0.62821382 0.71988189 0.49429727
-[31] 0.63419622 0.08936416 0.07351639 0.11540955 0.38363191 0.10947574
-[37] 0.40517664 0.08020265 0.09789021 0.21373659 0.21690103 0.14341106
-[43] 0.47481939 0.04361827 0.24530655 0.39367744 0.06715589 0.28227583
-[49] 0.09690459 0.19062215 0.41966736 0.37261415 0.38650867 0.37191632
-[55] 0.35838550 0.30218011 0.16218551 0.30181104 0.13420367 0.29369918
-[61] 0.22698463 0.14889970 0.28737727 0.39703828 0.05436204 0.23999128
-[67] 0.22505571 0.19773297 0.29223037 0.26683882 0.33937034 0.08544740
-[73] 0.24616086 0.39744300 0.34152636 0.48558092 0.59647107 0.62268871
-[79] 0.37951493 0.43188670 0.44205725
+ [1] 0.02557163 0.02592581 0.02326239 0.03072471 0.02411618 0.02824342
+ [7] 0.02414723 0.01928794 0.02534742 0.02268633 0.02558782 0.02381957
+[13] 0.02329464 0.02362106 0.02530986 0.01376032 0.01402355 0.01783888
+[19] 0.01487696 0.01397093 0.01900716 0.01825772 0.01796229 0.01527463
+[25] 0.01566770 0.01462712 0.01894059 0.01736718 0.01805709 0.01602893
 \end{Soutput}
 \end{Schunk}
 \end{framed}
@@ -1991,45 +1930,57 @@ For each band combination, the r.squared value of the model of NRI and the envir
 
 
 \section{Linear spectral unmixing}
-Linear spectral unmixing is a method to derive the cover fractions of different materials within the footprint of multi- or hyperspectral pixels/measurements. For a detailed overview of linear spectral unmixing see e.g.~\cite{Sohn1997}. The algorithm in the \hsdar package uses the code originally developed for Grass GIS by Markus Neteler. The basic concept behind linear spectral unmixing is that you provide a set of spectra (taken by a field spectrometer or multi/hyperspectral satellite sensor) and a set of spectra providing the information about the spectral properties of the pure materials which are mixed in the first set. The latter set is usually called "endmembers". Here, we will use the field spectra from Tibet and the endmember "PV" (photosynthetically active vegetation), "NPV" (photosynthetically not active vegetation), and "soil". All of the endmember spectra were taken in the field. Note that if endmember spectra taken in the field should be used to unmix satellite albedo values, a proper atmospheric correction is urgently required. Now back to the analysis: We will first load the datasets provided in the \hsdar package and subset the datasets to the Kailash-site. Additionally, we must set the mask according to the mask in the endmember spectra:
+Linear spectral unmixing is a method to derive the cover fractions of different materials within the footprint of multi- or hyperspectral pixels/measurements. For a detailed overview of linear spectral unmixing see e.g.~\cite{Sohn1997}. The algorithm in the \hsdar package uses the code originally developed for Grass GIS by Markus Neteler. The basic concept behind linear spectral unmixing is that you provide a set of spectra (taken by a field spectrometer or multi/hyperspectral satellite sensor) and a set of spectra providing the information about the spectral properties of the pure materials which are mixed in the first set. The latter set is usually called "endmembers". Here, we will use two spectra from the USGS and define the endmember "vegetation" and "soil". The spectral to be unmixed are generated with PROSAIL:
 \begin{framed}
 \begin{Schunk}
 \begin{Sinput}
-> data(spectral_data)
-> data(endmember_spectra)
-> ## Subset both speclibs
-> spec_ka <- subset(spectral_data, Site == "Kailash")
-> em_ka <- subset(endmember_spectra, Site == "Kailash")
-> ## Look at the mask in the endmember_spectra
-> mask(endmember_spectra)
-\end{Sinput}
-\begin{Soutput}
-NULL
-\end{Soutput}
-\begin{Sinput}
-> mask(spec_ka) <- c(1045, 1055, 1350, 1706)
-> ## Divide spectra of both speclibs by 100 to achieve the range 
-> ## [0, ..., 100]
-> spectra(spec_ka) <- spectra(spec_ka)/100
-> spectra(em_ka) <- spectra(em_ka)/100
+> ## Use PROSAIL to generate some vegetation spectra with different LAI
+> parameter <- data.frame(LAI = seq(0, 1, 0.01))
+> spectral_data <- PROSAIL(parameterList = parameter)
+> ## We resample the data to Quickbird channels to get the same 
+> ## spectral ranges
+> spectral_data_qb <- spectral.resampling(spectral_data, "Quickbird")
 \end{Sinput}
 \end{Schunk}
 \end{framed}
-Now, we start the unmixing approach:
+Now, we download the required endmember spectra from USGS's ftp-server.
 \begin{framed}
 \begin{Schunk}
 \begin{Sinput}
-> unmix_res <- unmix(spec_ka, em_ka)
+> ## Get endmember spectra
+> ## Retrieve all available spectra
+> avl <- USGS_get_available_files()
+> ## Download all spectra matching "grass-fescue"
+> grass_spectra <- USGS_retrieve_files(avl = avl, 
++                                      pattern = "grass-fescue")
+> limestone <- USGS_retrieve_files(avl = avl, pattern = "limestone")
+> ## Perform resampling for the endmember spectra. Note that we only  
+> ## use the first vegetation spectrum
+> grass_spectra_qb <- spectral.resampling(grass_spectra[1,], 
++                                         "Quickbird")
+> limestone_qb <- spectral.resampling(limestone, "Quickbird")
+\end{Sinput}
+\end{Schunk}
+\end{framed}
+
+Now, we merge the endmember spectra into one Speclib (and make sure that the range of the spectra is in [0,1]) and finally start the unmixing approach:
+\begin{framed}
+\begin{Schunk}
+\begin{Sinput}
+> em <- speclib(spectra = rbind(spectra(grass_spectra_qb),
++                               spectra(limestone_qb))/100,
++               wavelength = wavelength(limestone_qb))
+> unmix_res <- unmix(spectral_data_qb, em)
 > ## Let's have a look at the output:
 > str(unmix_res)
 \end{Sinput}
 \begin{Soutput}
 List of 2
- $ fractions: num [1:3, 1:43] 0.109 0.0692 0.8294 0.1612 0 ...
+ $ fractions: num [1:2, 1:101] 0.895 0.104 0.897 0.103 0.898 ...
   ..- attr(*, "dimnames")=List of 2
-  .. ..$ : chr [1:3] "1" "2" "3"
-  .. ..$ : chr [1:43] "1" "2" "3" "4" ...
- $ error    : num [1:43] 0.01818 0.00711 0.02488 0.00686 0.08275 ...
+  .. ..$ : chr [1:2] "1" "2"
+  .. ..$ : chr [1:101] "1" "2" "3" "4" ...
+ $ error    : num [1:101] 0.0235 0.0234 0.0232 0.0231 0.023 ...
 \end{Soutput}
 \end{Schunk}
 \end{framed}
@@ -2038,29 +1989,22 @@ The return value of "unmix" is a list with two elements:
  \item "fractions": A matrix with the unmixed fractions of each endmember in each spectrum. The different spectra are the columns and the endmembers the rows of the matrix.
  \item "error": Mathematically speaking, an over-determined linear equation system is solved during linear spectral unmixing. Thus, one is only able to minimize the error during solving the system. This amount of error is returned as the  euclidean norm of the error vector after least square error minimisation. Large error values may indicate that endmember spectra do not fit well to the mixed material spectra.
 \end{enumerate}
-We can now test the performance of the unmixing approach. Therefore, we compare the unmixed fractions with the fractions estimated in the field:
+
+Finally, we can generate a simple plot to visualize our results.
+
 \begin{framed}
 \begin{Schunk}
 \begin{Sinput}
-> vd_npv <- data.frame(Predicted = unmix_res$fractions[1,],
-+                      Observed = spec_ka$attributes$NPV/100)
-> vd_pv <- data.frame(Predicted = unmix_res$fractions[2,],
-+                     Observed = spec_ka$attributes$PV/100)
-> vd_soil <- data.frame(Predicted = unmix_res$fractions[3,], 
-+                       Observed = spec_ka$attributes$Bare.soil/100)
-> par(mfrow = c(2,2), mar = c(5,4,4,0.1))
-> plot(Predicted ~ Observed, data = vd_pv, ylab = "Predicted PV",
-+      xlab = "Observed PV", xlim = c(0,1), ylim = c(0,1))
-> plot(Predicted ~ Observed, data = vd_npv, ylab = "Predicted NPV",
-+      xlab = "Observed NPV", xlim = c(0,1), ylim = c(0,1))
-> plot(Predicted ~ Observed, data = vd_soil, ylab = "Predicted Soil",
-+      xlab = "Observed Soil", xlim = c(0,1), ylim = c(0,1))
+> plot(unmix_res$fractions[1,] ~ attribute(spectral_data_qb)$LAI,
++      type = "l", xlab = "LAI", 
++      ylab = "Unmixed fraction of vegetation")
 \end{Sinput}
 \end{Schunk}
 \resizebox{1\textwidth}{!}{
-\includegraphics{hsdar-intro-111}
+\includegraphics{hsdar-intro-113}
 }
 \end{framed}
+
 % 
 % \section{Handling large hyperspectral raster files}
 % \label{sec:HyperSpecRaster}

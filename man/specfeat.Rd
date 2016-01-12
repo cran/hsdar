@@ -74,9 +74,9 @@ featureSelection <- specfeat(features, c(450,700,1200,1500))
 plot(featureSelection, 1:4)
 
 ## Advanced plotting example
-plot(featureSelection, 1:4, stylebysubset = "Site")
+plot(featureSelection, 1:4, stylebysubset = "season")
 
-plot(featureSelection, 1:4, stylebysubset = "Site", changecol = FALSE, 
+plot(featureSelection, 1:4, stylebysubset = "season", changecol = FALSE, 
      changetype = TRUE)
 % }
 }

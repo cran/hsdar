@@ -73,6 +73,7 @@ maskSpeclib <- function(object, lb, ub)
   attr(object, "setmask") <- TRUE
   attr(object, "dropped") <- data.frame(lb=lb, ub=ub)
   attr(object, "restorable") <- restorable
+  usagehistory(object) <- "Apply mask to spectra"
   return(object)
 }
 

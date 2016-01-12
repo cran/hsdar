@@ -103,6 +103,19 @@ setMethod("$", signature(x = "Speclib"),
   }
 )
 
+setMethod("as.data.frame", signature(x = "Speclib"), 
+          function(x, row.names = NULL, optional = FALSE, includeAttr = FALSE, ...)
+  {
+    x_dat <- as.data.frame(spectra(x), row.names = row.names, optional = optional, ...)
+    names(x_dat) <- bandnames(x)
+    if (!includeAttr)
+      return(x_dat)
+      
+    if (ncol(attribute(x)) > 0)
+      return(cbind(x_dat, attribute(x)))
+  }
+)
+
 
 createspeclib <- function (spectra,
                            wavelength,
@@ -382,3 +395,6 @@ setMethod("initialize", signature(.Object = "Speclib"),
 
 .getImgMatrix_SpatialGridDataFrame <- function(sp_dat)
   return(as.matrix(sp_dat@data))
+  
+  
+

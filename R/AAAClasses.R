@@ -100,14 +100,16 @@ setClass("Nri",
            fwhm = "numeric",
            wavelength = "numeric",
            dimnames = "list",
-           multivariate = "list"
+           multivariate = "list",
+           attributes = "data.frame"
          ),
          prototype(
            nri = new("DistMat3D", values = numeric(), nlyr = 0, ncol = 0),
            fwhm = 0,
            wavelength = 0,
            dimnames = list(),
-           multivariate = list()
+           multivariate = list(),                   
+           attributes = data.frame()
          ),
          validity = function(object)
          {
@@ -159,6 +161,9 @@ setClass('Specfeat',
 #            return(TRUE)
 #          }
         )
+
+setClassUnion(".CaretHyperspectral", c("Speclib", "Nri"))
+
 if (!isGeneric("speclib")) {
   setGeneric("speclib", function(spectra, wavelength, ...)
   standardGeneric("speclib"))
@@ -220,4 +225,8 @@ if (!isGeneric("ncol")) {
 if (!isGeneric("nrow")) {
   setGeneric("nrow", function(object, ...)
   standardGeneric("nrow"))
+}
+
+if (!isGeneric("as.data.frame")) {
+  setGeneric("as.data.frame")
 }

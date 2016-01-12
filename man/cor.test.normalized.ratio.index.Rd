@@ -51,7 +51,7 @@ spec_WV <- spectral.resampling(spectral_data, "WorldView2-8",
                                response_function = FALSE)
 nri_WV <- nri(spec_WV, recursive = TRUE)
 
-cortestnri <- cor.test(nri_WV, attribute(spec_WV)$Soil.moisture)
+cortestnri <- cor.test(nri_WV, attribute(spec_WV)$chlorophyll)
 
 cortestnri
 }

@@ -47,7 +47,7 @@ Hanna Meyer and Lukas Lehnert
 data(spectral_data)
 
 ##Example to define feature limits
-bd <- transform_speclib(subset(spectral_data, Site == "Namco"), 
+bd <- transform_speclib(subset(spectral_data, season == "summer"), 
                         method = "sh", out = "bd")
 
 ## Define features

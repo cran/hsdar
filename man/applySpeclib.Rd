@@ -44,8 +44,8 @@ data(spectral_data)
 mean_spectrum <- apply(spectral_data, FUN = mean)
 plot(mean_spectrum)
 
-## Same as above but seperately for both sites
-mean_spectra <- apply(spectral_data, FUN = mean, byattributes = "Site")
+## Same as above but seperately for both seasons
+mean_spectra <- apply(spectral_data, FUN = mean, byattributes = "season")
 plot(mean_spectra, FUN = 1, ylim = c(0,50))
 plot(mean_spectra, FUN = 2, new = FALSE)
 attribute(mean_spectra)

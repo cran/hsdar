@@ -5,13 +5,16 @@
 \alias{attribute,Speclib-method}
 \alias{attribute<-,Speclib,data.frame-method}
 \alias{attribute<-,Speclib,matrix-method}
+\alias{attribute,Nri-method}
+\alias{attribute<-,Nri,data.frame-method}
+\alias{attribute<-,Nri,matrix-method}
 % \alias{setattributes}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Handling attributes of spectra
 }
 \description{
-Returning and setting attributes of spectra in speclib.% \code{setattributes} is a more comfortable and save function to set attributes of speclib using string matching. 
+Returning and setting attributes of spectra in Speclib or Nri.% \code{setattributes} is a more comfortable and save function to set attributes of speclib using string matching. 
 }
 \usage{
 \S4method{attribute}{Speclib}(object)
@@ -19,12 +22,18 @@ Returning and setting attributes of spectra in speclib.% \code{setattributes} is
 \S4method{attribute}{Speclib,data.frame}(object) <- value
 
 \S4method{attribute}{Speclib,matrix}(object) <- value
+
+\S4method{attribute}{Nri}(object)
+
+\S4method{attribute}{Nri,data.frame}(object) <- value
+
+\S4method{attribute}{Nri,matrix}(object) <- value
 %setattributes(x, attributes, matchcol = NULL, fuzzy = FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-Object of class \code{Speclib}.
+Object of class \code{Speclib} or \code{Nri}.
 }
   \item{value}{
 Data frame with \code{nrow(value) == nspectra(object)}, or NULL.
@@ -50,7 +59,7 @@ Lukas Lehnert
 }
 
 \seealso{
-\code{\linkS4class{Speclib}}%, \code{\link{agrep}}
+\code{\linkS4class{Speclib}}, \code{\linkS4class{Nri}}
 }
 \examples{
 data(spectral_data)

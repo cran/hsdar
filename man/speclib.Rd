@@ -4,6 +4,7 @@
 \alias{print,Speclib-method}
 \alias{$,Speclib-method}
 \alias{[,Speclib,ANY,ANY-method}
+\alias{[,Speclib,ANY,ANY,ANY-method}
 \alias{show,Speclib-method}
 \alias{initialize,Speclib-method}
 \alias{is.speclib}

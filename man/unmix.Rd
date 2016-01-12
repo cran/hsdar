@@ -57,21 +57,35 @@ Unmixing code is based on "i.spec.unmix" for GRASS 5 written by Markus Neteler (
 
 \examples{
 \dontrun{
-data(spectral_data)
-data(endmember_spectra)
+## Use PROSAIL to generate some vegetation spectra with different LAI
+parameter <- data.frame(LAI = seq(0, 1, 0.01))
+spectral_data <- PROSAIL(parameterList = parameter)
 
-## Mask channel crossing part (arround 1050 nm) and strong 
-## water absorption part (above 1350 nm)
-mask(spectral_data) <- c(1045, 1055, 1350, 1706)
+## Get endmember spectra
+## Retrieve all available spectra
+avl <- USGS_get_available_files()
 
-## Convert range of reflectance values to [0, 1]
-spectra(spectral_data) <- spectra(spectral_data)/100
-spectra(endmember_spectra) <- spectra(endmember_spectra)/100
+## Download all spectra matching "grass-fescue"
+grass_spectra <- USGS_retrieve_files(avl = avl, pattern = "grass-fescue")
+limestone <- USGS_retrieve_files(avl = avl, pattern = "limestone")
 
-## Perform unmixing for spectra from Kailash-site
-unmix_fractions <- unmix(subset(spectral_data, Site == "Kailash"), 
-                         subset(endmember_spectra, Site == "Kailash"))
+## Integrate all spectra to Quickbird
+grass_spectra_qb <- spectral.resampling(grass_spectra[1,], "Quickbird")
+limestone_qb <- spectral.resampling(limestone, "Quickbird")
+spectral_data_qb <- spectral.resampling(spectral_data, "Quickbird")
 
+
+em <- speclib(spectra = rbind(spectra(grass_spectra_qb), 
+                              spectra(limestone_qb))/100,
+              wavelength = wavelength(limestone_qb))
+
+## Unmix
+unmix_res <- unmix(spectral_data_qb, em)
+
+unmix_res
+
+plot(unmix_res$fractions[1,] ~ attribute(spectral_data_qb)$LAI, type = "l",
+     xlab = "LAI", ylab = "Unmixed fraction of vegetation")
 }
 }
 \keyword{multivariate}

@@ -61,38 +61,16 @@ data(spectral_data)
 ## water absorption part (above 1350 nm)
 mask(spectral_data) <- c(1045, 1055, 1350, 1706)
 
-## Calculate distance between all spectra from Namco-site 
+## Calculate distance between all spectra from spring 
 ## using spectral angle mapper 
-dist.speclib(subset(spectral_data, Site == "Namco"))
+dist.speclib(subset(spectral_data, season == "spring"))
 
 
 ## Calculate spectral angle mapper between reference spectrum
 ## and spectral_data
-## 1. Use pure endmember spectrum from Namco-site
-data(endmember_spectra)
+## Use first spectrum from summer as reference
+distance <- sam(subset(spectral_data, season == "spring"), 
+                subset(spectral_data, season == "summer")[1,])
 
-## Calculate distance between vegetation reference spectrum
-## and spectra from Namco-site using spectral angle mapper
-distance <- sam(subset(spectral_data, Site == "Namco"), 
-                subset(endmember_spectra, 
-                       Site == "Namco" & Endmember == "PV"))
-
-## Plot result
-plot(distance ~ attribute(subset(spectral_data, Site == "Namco"))$PV,
-     xlab = "Observed vegetation cover", ylab = "SAM")
-
-## 2. Use PROSPECT as reference
-ref <- PROSPECT(N = 1.3)
-## Mask spectra to equalize spectral ranges
-mask(ref) <- c(1045, 1055, 1350, 2501)
-mask(spectral_data) <- c(300, 400)
-
-## Calculate distance between spectrum from PROSPECT
-## and spectra from Namco-site using spectral angle mapper
-distance <- sam(subset(spectral_data, Site == "Namco"), ref)
-
-## Plot result
-plot(distance ~ attribute(subset(spectral_data, Site == "Namco"))$PV,
-     xlab = "Observed vegetation cover", ylab = "SAM")
 }
 

@@ -6,9 +6,9 @@
   return(out)
 }
 
-.get_args <- function () {
-  cl <- sys.call(-2)
-  f <- get(as.character(cl[[1]]), mode="function", sys.frame(-2))
+.get_args <- function (nback = -2) {
+  cl <- sys.call(nback)
+  f <- get(as.character(cl[[1]]), mode="function", sys.frame(nback))
   return(match.call(definition = f, call = cl, expand.dots = TRUE))
 }
 

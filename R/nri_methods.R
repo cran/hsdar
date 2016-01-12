@@ -55,7 +55,7 @@ setMethod("as.matrix", signature(x = "Nri"),
 )
 
 setMethod("as.data.frame", signature(x = "Nri"),
-          function(x, ...)
+          function(x, row.names = NULL, optional = FALSE, ...)
 {
   .ConvertNri <- function(x, ...)
   {
@@ -78,7 +78,7 @@ setMethod("as.data.frame", signature(x = "Nri"),
   for (i in 1:(length(bnd_nam_data[[1]])-1))
     for (k in (i+1):length(bnd_nam_data[[2]]))
       bnd_nam_ch <- c(bnd_nam_ch, paste(bnd_nam_data[[2]][k], bnd_nam_data[[1]][i], sep = "_"))
-  nri_data <- as.data.frame(.ConvertNri(x@nri, ...))
+  nri_data <- as.data.frame(.ConvertNri(x@nri, ...), row.names = NULL, optional = FALSE, ...)
   names(nri_data) <- bnd_nam_ch
   return(nri_data)
 })

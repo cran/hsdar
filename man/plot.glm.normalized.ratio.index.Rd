@@ -83,9 +83,8 @@ spec_WV <- spectral.resampling(spectral_data, "WorldView2-8",
                                response_function = FALSE)
 nri_WV <- nri(spec_WV, recursive = TRUE)
 
-## Fit generalised linear models between NRI-values and soil 
-## moisture
-glmnri <- glm.nri(nri_WV ~ Soil.moisture, preddata = spec_WV)
+## Fit generalised linear models between NRI-values and chlorophyll
+glmnri <- glm.nri(nri_WV ~ chlorophyll, preddata = spec_WV)
 
 ## Plot p-values
 plot(glmnri, range = c(0, 0.05))
@@ -95,8 +94,8 @@ plot(glmnri, coefficient = "t.value")
 plot(glmnri, coefficient = "t.value", 
      constraint = "p.value < 0.001")
 
-## Fit linear models between NRI-values and soil moisture
-lmnri <- lm.nri(nri_WV ~ Soil.moisture, preddata = spec_WV)
+## Fit linear models between NRI-values and chlorophyll
+lmnri <- lm.nri(nri_WV ~ chlorophyll, preddata = spec_WV)
 
 ## Plot r.squared
 plot(lmnri)
@@ -106,7 +105,7 @@ spec_EM <- spectral.resampling(spectral_data, "EnMAP",
                                response_function = FALSE)
 mask(spec_EM) <- c(300, 550, 800, 2500)
 nri_EM <- nri(spec_EM, recursive = TRUE)
-glmnri <- glm.nri(nri_EM ~ Soil.moisture, preddata = spec_EM)
+glmnri <- glm.nri(nri_EM ~ chlorophyll, preddata = spec_EM)
 
 ## Plot T values in lower and p-values in upper diagonal
 ## of the plot

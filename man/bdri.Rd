@@ -52,7 +52,7 @@ Lukas Lehnert and Hanna Meyer
 data(spectral_data)
 
 ## Transform speclib
-bd <- transform_speclib(subset(spectral_data, Site == "Namco"),
+bd <- transform_speclib(subset(spectral_data, season == "summer"),
                         method = "sh", out = "bd")
 
 ## Define features automatically
