@@ -1,15 +1,19 @@
 \name{PROSPECT}
 \alias{PROSPECT}
+\alias{PROSPECTinvert}
 \title{
 Simulate plant spectrum
 }
 \description{
-Simulate plant spectrum using PROSPECT 5
+Simulate plant spectrum using PROSPECT 5. The inversion uses the concept after Feret et al. (2008).
 }
 \usage{
 PROSPECT(N = 1.5, Cab = 40, Car = 8, Cbrown = 0.0, 
          Cw = 0.01, Cm = 0.009, transmittance = FALSE,
          parameterList = NULL)
+## Inversion
+PROSPECTinvert(x, P0 = NULL, transmittance_spectra = NULL, 
+               sam = FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -37,6 +41,10 @@ Dry matter content% (\eqn{\textnormal{g}/\textnormal{cm}^2}{g/cm^2})
 \item{parameterList}{
   An optional object of class \code{'data.frame'}. Function will iterate over rows of parameterList setting missing entries to default values. See examples section.
 }
+\item{x, transmittance_spectra}{Speclib(s) containing the reflectance/transmittance values to be simulated during inversion of PROSPECT.}
+\item{P0}{Initial set of parameters (N, Cab etc.).}
+\item{sam}{Logical if spectral angle mapper is used as distance measurement. If FALSE, the root mean square error is used. Note that this flag has only an effect if no transmittance spectra are passed.}
+\item{...}{Parameters passed to \code{\link[pracma]{nelder_mead}} from the \pkg{pracma}-package}
 }
 \details{
 This function uses the FORTRAN code of PROSPECT model (Version 5). For a general introduction see following web page and the links to articles provided there:
@@ -55,12 +63,16 @@ Cw\tab Equivalent water thickness\tab cm \cr
 Cbrown \tab Brown pigment \tab NA \cr
 Cm\tab  Dry matter content\tab  g/cm\eqn{^2}{2}\cr
 }
+
+The inversion uses the function \code{\link[pracma]{nelder_mead}} from the \pkg{pracma}-package and implements the Matlab-Code developed by Feret et al. (2008).
 }
 \value{
 An object of class \code{Speclib}.
 }
 \references{
 Jacquemoud, S. and Baret, F. (1990). PROSPECT: A model of leaf optical properties spectra, Remote Sensing of Environment 34: 75 - 91.
+
+Feret J.B., Francois C., Asner G.P., Gitelson A.A., Martin R.E., Bidel L.P.R., Ustin S.L., le Maire G., & Jacquemoud S. (2008), PROSPECT-4 and 5: advances in the leaf optical properties model separating photosynthetic pigments. Remote Sensing of Environment, 112, 3030-3043.
 }
 \author{
 Lukas Lehnert
@@ -69,7 +81,7 @@ Lukas Lehnert
 The function is based on the FORTRAN version of the PROSPECT-code initially developed by Jean-Baptiste FERET, Stephane JACQUEMOUD and Christophe FRANCOIS.
 }
 \seealso{
-\code{\link{PROSAIL}}, \code{\linkS4class{Speclib}}
+\code{\link{PROSAIL}}, \code{\link[pracma]{nelder_mead}}, \code{\linkS4class{Speclib}}
 }
 \examples{
 ## Single spectrum
@@ -88,8 +100,9 @@ spectra <- PROSPECT(parameterList = parameter)
 attribute(spectra)
 
 ## Plot spectra for range from 400 to 800 nm
-#plot(subset(spectra, Cab == 20), col = "red", ylim = c(0, 0.5),
-#     subset = c(400, 800))
-#plot(subset(spectra, Cab == 40), col = "green", new = FALSE,
-#     subset = c(400, 800))
+spectra <- spectra[,wavelength(spectra) >= 400 & 
+                    wavelength(spectra) <= 800]
+
+plot(subset(spectra, Cab == 20), col = "red", ylim = c(0, 0.5))
+plot(subset(spectra, Cab == 40), col = "green", new = FALSE)
 }

@@ -169,6 +169,21 @@ setMethod("sbf", signature(x = "Nri"),
   return(.setCaretParameter(x, "sbf_result", res))
 })
 
+setMethod("sbf", signature(x = "Specfeat"),
+          definition = function(x,
+                                y,
+                                cutoff = .95,
+                                returnData = TRUE,
+                                ...)
+{
+  x <- .as.speclib.specfeat(x)
+  if (missing(y))
+  {
+    return(sbf(x, cutoff = cutoff, returnData = returnData, ...))
+  } else {
+    return(sbf(x, y, cutoff = cutoff, returnData = returnData, ...))
+  }
+})
 
 get_sbf  <- function(x)
   .getCaretParameter(x, "sbf_result")

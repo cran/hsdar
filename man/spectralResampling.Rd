@@ -1,4 +1,5 @@
-\name{spectral.resampling}
+\name{spectralResampling}
+\alias{spectralResampling}
 \alias{spectral.resampling}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
@@ -8,8 +9,8 @@ Spectral resampling
 Resample spectra to (satellite) sensors
 }
 \usage{
-spectral.resampling(x, sensor, rm.NA = TRUE, continuousdata = "auto",
-                    response_function = TRUE)
+spectralResampling(x, sensor, rm.NA = TRUE, continuousdata = "auto",
+                   response_function = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -53,22 +54,22 @@ Lukas Lehnert
 data(spectral_data)
 
 ## Resample to RapidEye
-data_RE <- spectral.resampling(spectral_data, "RapidEye", 
-                               response_function = TRUE)
+data_RE <- spectralResampling(spectral_data, "RapidEye", 
+                              response_function = TRUE)
 
 ## Plot resampled spectra
 plot(data_RE)
 
 ## Compare different methods of spectral resampling
 par(mfrow=c(1,3))
-ga <- spectral.resampling(spectral_data, "RapidEye", 
-                          response_function = FALSE)
+ga <- spectralResampling(spectral_data, "RapidEye", 
+                         response_function = FALSE)
 plot(ga)
-re <- spectral.resampling(spectral_data, "RapidEye", 
-                          response_function = TRUE)
+re <- spectralResampling(spectral_data, "RapidEye", 
+                         response_function = TRUE)
 plot(re)
-no <- spectral.resampling(spectral_data, "RapidEye", 
-                          response_function = NA)
+no <- spectralResampling(spectral_data, "RapidEye", 
+                         response_function = NA)
 plot(no)
 % }
 }

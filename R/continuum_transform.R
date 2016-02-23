@@ -1,8 +1,8 @@
-transform_speclib <- function(
+transformSpeclib <- function(
                                data, ...,
                                method = "ch",
                                out = "bd"
-                              )
+                             )
 {
 if (out != "raw")
 {

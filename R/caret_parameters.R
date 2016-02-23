@@ -26,6 +26,7 @@ setMethod("setResponse", signature(x = ".CaretHyperspectral", response = "charac
   
   x <- .setCaretParameter(x, "response", response_index)
   x <- .setCaretParameter(x, "responseName", response)
+  usagehistory(x) <- paste0("Response variable(s) set to \"", paste0(response, collapse = "\", \""), "\"")
   return(x)
 })
 
@@ -44,6 +45,7 @@ setMethod("setPredictor", signature(x = ".CaretHyperspectral", predictor = "char
   
   x <- .setCaretParameter(x, "predictor", predictor_index)
   x <- .setCaretParameter(x, "predictorName", predictor)
+  usagehistory(x) <- paste0("Predictor variable(s) set to \"", paste0(predictor, collapse = "\", \""), "\"")
   return(x)
 })
 
@@ -58,7 +60,12 @@ setMethod("setPredictor", signature(x = ".CaretHyperspectral", predictor = "char
     tmp <- attr(x, "caretParameters")
     if (parameter %in% names(tmp)) ## update 
     {
-      tmp[[which(parameter == names(tmp))]] <- value
+      if (length(value) == 0)
+      {
+        tmp[[which(parameter == names(tmp))]] <- NA
+      } else {
+        tmp[[which(parameter == names(tmp))]] <- value
+      }
     } else {   ## add
       tmp$parameter <- value
       names(tmp)[length(tmp)] <- parameter

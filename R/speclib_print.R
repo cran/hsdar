@@ -2,12 +2,7 @@ setMethod("print", signature(x = "Speclib"),
           function(x)
 {
   cat(paste("Summary of ", class(x), "\n", sep = ""))
-  if (length(x@usagehistory)>0)
-  {
-    cat("\n\nHistory of usage\n")
-    cat("---------------------\n")
-    for (i in 1:length(x@usagehistory)) cat(paste("(",i,")   ",x@usagehistory[i],"\n",sep=""))
-  }
+  .printUsagehistory(x)
   cat("\n\nSummary of spectra\n")
   cat("---------------------\n")
   cat(paste("Total number of spectra :",dim(x)[1]))
@@ -38,3 +33,13 @@ setMethod ('show' , signature(object = "Speclib"),
   print(object)  
 }
 )
+
+.printUsagehistory <- function(x)
+{
+  if (length(x@usagehistory)>0)
+  {
+    cat("\n\nHistory of usage\n")
+    cat("---------------------\n")
+    for (i in 1:length(x@usagehistory)) cat(paste("(",i,")   ",x@usagehistory[i],"\n",sep=""))
+  }
+}

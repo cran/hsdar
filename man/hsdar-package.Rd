@@ -20,8 +20,8 @@ images through the interface of \pkg{raster}.
 } 
 \item{Data manipulation: }{
 	A variety of established methods for data manipulation such as filter functions (\code{\link{smoothSpeclib}}), 
-	resampling of bands to various satellite sensors (\code{\link{spectral.resampling}}), 
-	continuum removal (\code{\link{transform_speclib}}),
+	resampling of bands to various satellite sensors (\code{\link{spectralResampling}}), 
+	continuum removal (\code{\link{transformSpeclib}}),
 	calculations of derivations (\code{\link{derivative.speclib}})
 	and extraction of absorption features (\code{\link{cut_specfeat}}) are implemented.
 } 
@@ -41,6 +41,7 @@ images through the interface of \pkg{raster}.
 Several classes are defined and used in \pkg{hsdar}. Most of the classes are used and respective objects are created internally. However, the following figure gives an overview which class is used at which stage of processing.
 \if{html}{\figure{classes.png}{width="35\%" alt="Figure: classes.png"}}
 \if{latex}{\figure{classes.pdf}{options: width=10cm}}
+Note that the asterisk marks all classes for which wrapper functions for the \pkg{caret} package exist.
 
 To see the preferable citation of the package, type
 \code{citation("hsdar")}.  

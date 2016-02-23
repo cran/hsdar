@@ -11,7 +11,7 @@ PROSAIL(N = 1.5, Cab = 40, Car = 8, Cbrown = 0.0,
         Cw = 0.01, Cm = 0.009, psoil = 0, LAI = 1, 
         TypeLidf = 1, lidfa = -0.35, lidfb = -0.15,
         hspot = 0.01, tts = 30, tto = 10, psi = 0,
-        parameterList = NULL)
+        parameterList = NULL, rsoil = NULL)
 }
 \arguments{
   \item{N}{
@@ -61,6 +61,9 @@ Relative azimuth angle
 }
 \item{parameterList}{
   An optional object of class \code{'data.frame'}. Function will iterate over rows of parameterList setting missing entries to default values. See examples section.
+}
+\item{rsoil}{
+  An optional object of class \code{'Speclib'} containing the background (soil) reflectance. Note that reflectance values must be in range [0...1].
 }
 }
 \details{
@@ -113,7 +116,7 @@ Jacquemoud, S., Verhoef, W., Baret, F., Bacour, C., Zarco-Tejada, P.J., Asner, G
 Lukas Lehnert
 }
 \note{
-The function is based on the FORTRAN version of the PROSAIL-code initially developped by Stephane JACQUEMOUD, Jean-Baptiste FERET, Christophe FRANCOIS and Eben BROADBENT. SAIL component has been developed by Wout VERHOEF.
+The function is based on the FORTRAN version of the PROSAIL-code initially developed by Stephane JACQUEMOUD, Jean-Baptiste FERET, Christophe FRANCOIS and Eben BROADBENT. SAIL component has been developed by Wout VERHOEF.
 }
 \seealso{
 \code{\link{PROSPECT}}, \code{\linkS4class{Speclib}}
@@ -133,6 +136,6 @@ spectra <- PROSAIL(parameterList = parameter)
 attribute(spectra)
 
 ## Plot spectra
-#plot(subset(spectra, LAI == 0.5), col = "red", ylim = c(0, 0.3))
-#plot(subset(spectra, LAI == 1), col = "green", new = FALSE)
+plot(subset(spectra, LAI == 0.5), col = "red", ylim = c(0, 0.3))
+plot(subset(spectra, LAI == 1), col = "green", new = FALSE)
 }

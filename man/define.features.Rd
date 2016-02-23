@@ -37,7 +37,7 @@ The updated \code{\linkS4class{Speclib}} containing additional information about
 Hanna Meyer and Lukas Lehnert
 }
 \seealso{
-\code{\link{transform_speclib}}, \code{\link{specfeat}}, \code{\linkS4class{Specfeat}}
+\code{\link{transformSpeclib}}, \code{\link{specfeat}}, \code{\linkS4class{Specfeat}}
 }
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
@@ -47,8 +47,8 @@ Hanna Meyer and Lukas Lehnert
 data(spectral_data)
 
 ##Example to define feature limits
-bd <- transform_speclib(subset(spectral_data, season == "summer"), 
-                        method = "sh", out = "bd")
+bd <- transformSpeclib(subset(spectral_data, season == "summer"), 
+                       method = "sh", out = "bd")
 
 ## Define features
 features <- define.features(bd)

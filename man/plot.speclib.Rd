@@ -13,7 +13,8 @@ Plot \code{Speclib} in a new plot or adding it to an existing plot.
 \usage{
 \S4method{plot}{Speclib,ANY}(x, FUN = NULL, new = TRUE, ...)
 
-\S4method{plot}{Clman,ANY}(x, ispec, subset = NULL, numeratepoints = TRUE, ...)
+\S4method{plot}{Clman,ANY}(x, ispec, subset = NULL, numeratepoints = TRUE, 
+    hull.style = NULL, points.style = list(), ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -35,6 +36,10 @@ Vector of length = 2 containing minimum and maximum wavelength to plot.
 \item{numeratepoints}{
   Flag if continuum points are numerated and labeled.
 }
+\item{hull.style}{
+List of arguments passed to \code{\link{lines}} to construct the continuum line.
+}
+\item{points.style}{List of arguments passed to \code{\link{points}} to construct the continuum points. May be \code{NULL} to suppress plotting of fix points.}
   \item{...}{
 Further arguments passed to internal plot functions or to \code{\link[=plot.Speclib]{plot}} for objects of class \code{Speclib} and \code{Clman}.
 }

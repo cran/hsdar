@@ -79,8 +79,8 @@ Lukas Lehnert
 data(spectral_data)
 
 ## Calculate all possible combinations for WorldView-2-8
-spec_WV <- spectral.resampling(spectral_data, "WorldView2-8",
-                               response_function = FALSE)
+spec_WV <- spectralResampling(spectral_data, "WorldView2-8",
+                              response_function = FALSE)
 nri_WV <- nri(spec_WV, recursive = TRUE)
 
 ## Fit generalised linear models between NRI-values and chlorophyll
@@ -101,8 +101,8 @@ lmnri <- lm.nri(nri_WV ~ chlorophyll, preddata = spec_WV)
 plot(lmnri)
 
 ## Example for EnMAP (Attention: Calculation time may be long!)
-spec_EM <- spectral.resampling(spectral_data, "EnMAP", 
-                               response_function = FALSE)
+spec_EM <- spectralResampling(spectral_data, "EnMAP", 
+                              response_function = FALSE)
 mask(spec_EM) <- c(300, 550, 800, 2500)
 nri_EM <- nri(spec_EM, recursive = TRUE)
 glmnri <- glm.nri(nri_EM ~ chlorophyll, preddata = spec_EM)

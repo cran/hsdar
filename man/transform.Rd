@@ -1,5 +1,5 @@
-\name{transform_speclib}
-\alias{transform_speclib}
+\name{transformSpeclib}
+\alias{transformSpeclib}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Transform spectra
@@ -8,7 +8,7 @@ Transform spectra
 Transform spectra by using convex hull or segmented upper hull 
 }
 \usage{
-  transform_speclib(data, ..., method = "ch", out = "bd")
+  transformSpeclib(data, ..., method = "ch", out = "bd")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -63,8 +63,7 @@ If \code{method != "raw"} an object of class \code{\linkS4class{Speclib}} contai
 Clark, R. N., King, T. V. V. and Gorelick, N. S. (1987): Automatic continuum analysis of reflectance spectra. 
 Proceedings of the Third Airborne Imaging Spectrometer Data Analysis Workshop, 30. 138-142.
 
-Mutanga, O. and Skidmore, A. K. (2004): Narrow band vegetation indices overcome the saturation problem in biomass estimation.
-International Journal of Remote Sensing, 25, 3999-4014.
+Mutanga, O. and Skidmore, A. K. (2004): Hyperspectral band depth analysis for a better estimation of grass biomass (Cenchrus ciliaris) measured under controlled laboratory conditions International Journal of applied Earth Observation and Geoinformation, 5, 87-96.
 }
 \author{
 Hanna Meyer and Lukas Lehnert
@@ -77,7 +76,7 @@ Hanna Meyer and Lukas Lehnert
 \examples{
 data(spectral_data)
 
-transformed_spectra <- transform_speclib(spectral_data)
+transformed_spectra <- transformSpeclib(spectral_data)
 
 par(mfrow=c(1,2))
 plot(spectral_data)

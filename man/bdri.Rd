@@ -25,7 +25,7 @@ bdri(x, fnumber, index = "ndbi")
 \details{
   Method \code{"bdr"} calculates the normalised band depth ratio as 
   \deqn{bdr=\frac{BD}{Dc},}
-  with \eqn{BD} is the band depth calculated by \code{\link{transform_speclib}} 
+  with \eqn{BD} is the band depth calculated by \code{\link{transformSpeclib}} 
   and Dc is the maximum band depth called band centre.
   Method \code{"ndbi"} calculates the the normalised band depth index as
   \deqn{ndbi= \frac{BD-Dc}{BD+Dc}.}
@@ -44,7 +44,7 @@ Lukas Lehnert and Hanna Meyer
   Object of class \code{specfeat} containing the updated version of x.
 }
 \seealso{
-\code{\link{transform_speclib}}, \code{\link{define.features}}, \code{\link{specfeat}}
+\code{\link{transformSpeclib}}, \code{\link{define.features}}, \code{\link{specfeat}}
 }
 
 \examples{
@@ -52,8 +52,8 @@ Lukas Lehnert and Hanna Meyer
 data(spectral_data)
 
 ## Transform speclib
-bd <- transform_speclib(subset(spectral_data, season == "summer"),
-                        method = "sh", out = "bd")
+bd <- transformSpeclib(subset(spectral_data, season == "summer"),
+                       method = "sh", out = "bd")
 
 ## Define features automatically
 features <- define.features(bd)

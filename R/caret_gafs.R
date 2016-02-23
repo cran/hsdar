@@ -49,7 +49,7 @@ setMethod("gafs", signature(x = "Speclib"),
   if (!returnData)
     return(res)
   
-  pred <- predictors(res)
+  pred <- res$optVariables# predictors(res) ## BUG? in caret
   
   x <- x[,sapply(spec_nam, FUN = function(x, pred) any(pred == x), pred), usagehistory = FALSE]
   
@@ -127,7 +127,7 @@ setMethod("gafs", signature(x = "Nri"),
   if (!returnData)
     return(res)
   
-  pred <- predictors(res)
+  pred <- res$optVariables# predictors(res) ## BUG? in caret
   
   is.pred.col <- sapply(names(nri_vals_all), FUN = function(x, pred) any(pred == x), pred)
   
@@ -167,6 +167,22 @@ setMethod("gafs", signature(x = "Nri"),
   }
   
   return(.setCaretParameter(x, "gafs_result", res))
+})
+
+setMethod("gafs", signature(x = "Specfeat"),
+          definition = function(x,
+                                y,
+                                cutoff = .95,
+                                returnData = TRUE,
+                                ...)
+{
+  x <- .as.speclib.specfeat(x)
+  if (missing(y))
+  {
+    return(gafs(x, cutoff = cutoff, returnData = returnData, ...))
+  } else {
+    return(gafs(x, y, cutoff = cutoff, returnData = returnData, ...))
+  }
 })
 
 

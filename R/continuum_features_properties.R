@@ -1,10 +1,11 @@
 feature_properties <- function(x)
 {
   feat_prop <- .area.specfeat(x)
-  row.names(feat_prop) <- idSpeclib(x)
   feat_prop <- cbind(feat_prop, .wlhm.specfeat(x))
   feat_prop <- cbind(feat_prop, .max.specfeat(x))
-  return(feat_prop)
+  attribute(x) <- cbind(attribute(x), feat_prop)
+  usagehistory(x) <- "Properties of features calculated"
+  return(x)
 }
 
 .area.specfeat <- function(
@@ -131,6 +132,7 @@ feature_properties <- function(x)
  
   rownames(wlhm) <- as.vector(sapply(names(x)[1:length(names(x))], function(i) paste(i, c("_lo", "_up", "_width", "gauss_lo", "gauss_up"), "_wlhm", sep = "")))
   colnames(wlhm) <- names(x[[i]])
+  wlhm[!is.finite(wlhm)] <- 0
   if (return_max)
     wlhm <- rbind(m, wlhm)
   return(as.data.frame(t(as.matrix(wlhm))))

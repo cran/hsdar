@@ -9,7 +9,7 @@ setMethod("rfe", signature(x = "Speclib"),
                                 cutoff = .95,
                                 returnData = TRUE,
                                 ...)
-{
+{  
   y_missing <- missing(y)
   
   if (y_missing)
@@ -167,6 +167,22 @@ setMethod("rfe", signature(x = "Nri"),
   }
   
   return(.setCaretParameter(x, "rfe_result", res))
+})
+
+setMethod("rfe", signature(x = "Specfeat"),
+          definition = function(x,
+                                y,
+                                cutoff = .95,
+                                returnData = TRUE,
+                                ...)
+{
+  x <- .as.speclib.specfeat(x)
+  if (missing(y))
+  {
+    return(rfe(x, cutoff = cutoff, returnData = returnData, ...))
+  } else {
+    return(rfe(x, y, cutoff = cutoff, returnData = returnData, ...))
+  }
 })
 
 get_rfe  <- function(x)

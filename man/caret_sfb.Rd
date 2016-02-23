@@ -4,6 +4,7 @@
 \alias{get_sbf}
 \alias{sbf,Speclib-method}
 \alias{sbf,Nri-method}
+\alias{sbf,Specfeat-method}
 
 \title{Methods for Function \code{sbf}}
 \description{
@@ -14,11 +15,13 @@ Methods for function \code{sbf} in package \pkg{caret}.
 
 \S4method{sbf}{Nri}(x, y, cutoff = 0.95, returnData = TRUE, ...)
 
+\S4method{sbf}{Specfeat}(x, y, cutoff = 0.95, returnData = TRUE, ...)
+
 get_sbf(x)
 }
 \arguments{
   \item{x}{
-  Object of class \code{Speclib} or \code{Nri}. For \code{get_sbf}, \code{x} must be the output of \code{sbf} as \code{Speclib} or \code{Nri}.
+  Object of class \code{Speclib}, \code{Nri} or \code{Specfeat}. For \code{get_sbf}, \code{x} must be the output of \code{sbf} as \code{Speclib} or \code{Nri}.
 }
   \item{y}{
   A numeric or factor vector containing the outcome for each sample. If missing, the response variable set by \code{\link{setResponse}} is used.
@@ -36,7 +39,7 @@ get_sbf(x)
 }
 
 \value{
-If \code{returnData == TRUE}, an object of class \code{Speclib} or \code{Nri}, otherwise an object of class \code{sbf}.
+If \code{returnData == TRUE}, an object of class \code{Speclib} or \code{Nri}, otherwise an object of class \code{sbf}. Note that if \code{x} is an object of class \code{Specfeat}, the function returns an object of class \code{Speclib} containing the relevant transformed band values.
 }
 
 \author{
@@ -50,18 +53,15 @@ Lukas Lehnert
 \dontrun{
 data(spectral_data)
 
-## Use subset of data
-x <- spectral_data[c(1:31),] 
-
 ## Set response variable (Chlorophyll content)
-x <- setResponse(x, "chlorophyll")
+spectral_data <- setResponse(spectral_data, "chlorophyll")
 
 ## Set additional predictor variables from the attributes
-x <- setPredictor(x, "season")
+spectral_data <- setPredictor(spectral_data, "season")
 
 ## Selection by filtering
 ## Note that this may take some time!
-sbf_res <- sbf(x)
+sbf_res <- sbf(spectral_data)
 
 get_sbf(sbf_res)
 

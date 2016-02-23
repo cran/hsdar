@@ -25,6 +25,6 @@ Lukas Lehnert
 
 
 \seealso{
-\code{\linkS4class{Speclib}}
+\code{\linkS4class{Speclib}}, \code{\link[=plot.Speclib]{plot}}
 }
 \keyword{classes}

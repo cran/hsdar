@@ -70,9 +70,9 @@ grass_spectra <- USGS_retrieve_files(avl = avl, pattern = "grass-fescue")
 limestone <- USGS_retrieve_files(avl = avl, pattern = "limestone")
 
 ## Integrate all spectra to Quickbird
-grass_spectra_qb <- spectral.resampling(grass_spectra[1,], "Quickbird")
-limestone_qb <- spectral.resampling(limestone, "Quickbird")
-spectral_data_qb <- spectral.resampling(spectral_data, "Quickbird")
+grass_spectra_qb <- spectralResampling(grass_spectra[1,], "Quickbird")
+limestone_qb <- spectralResampling(limestone, "Quickbird")
+spectral_data_qb <- spectralResampling(spectral_data, "Quickbird")
 
 
 em <- speclib(spectra = rbind(spectra(grass_spectra_qb), 

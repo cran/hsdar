@@ -49,10 +49,9 @@ setMethod("safs", signature(x = "Speclib"),
   if (!returnData)
     return(res)
   
-  pred <- predictors(res)
-  
+  pred <- res$optVariables# predictors(res) ## BUG? in caret
+
   x <- x[,sapply(spec_nam, FUN = function(x, pred) any(pred == x), pred), usagehistory = FALSE]
-  
   
   if (useAttributesAsPredicants)
   {
@@ -127,7 +126,7 @@ setMethod("safs", signature(x = "Nri"),
   if (!returnData)
     return(res)
   
-  pred <- predictors(res)
+  pred <- res$optVariables# predictors(res) ## BUG? in caret
   
   is.pred.col <- sapply(names(nri_vals_all), FUN = function(x, pred) any(pred == x), pred)
   
@@ -169,6 +168,23 @@ setMethod("safs", signature(x = "Nri"),
   return(.setCaretParameter(x, "safs_result", res))
 })
 
+
+setMethod("safs", signature(x = "Specfeat"),
+          definition = function(x,
+                                y,
+                                cutoff = .95,
+                                returnData = TRUE,
+                                ...)
+{
+  x <- .as.speclib.specfeat(x)
+
+  if (missing(y))
+  {
+    return(safs(x, cutoff = cutoff, returnData = returnData, ...))
+  } else {
+    return(safs(x, y, cutoff = cutoff, returnData = returnData, ...))
+  }
+})
 
 get_safs  <- function(x)
   .getCaretParameter(x, "safs_result")

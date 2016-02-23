@@ -62,7 +62,7 @@ Hanna Meyer and Lukas Lehnert
 data(spectral_data)
 
 ## Transform speclib
-bd <- transform_speclib(spectral_data, method = "sh", out = "bd")
+bd <- transformSpeclib(spectral_data, method = "sh", out = "bd")
 
 ## Define features automatically
 features <- define.features(bd)

@@ -14,12 +14,13 @@ PROSAIL <- function(
                     tts = 30,
                     tto = 10, 
                     psi= 0,
-                    parameterList = NULL
+                    parameterList = NULL,
+                    rsoil = NULL
                    )
 {
   if (!is.null(parameterList))
   {
-    iterate_prosail <- function(x)
+    iterate_prosail <- function(x, rsoil)
     {
       spec <- PROSAIL(N        = x[1],
                       Cab      = x[2],
@@ -35,7 +36,9 @@ PROSAIL <- function(
                       hspot    = x[12],
                       tts      = x[13],
                       tto      = x[14], 
-                      psi      = x[15])
+                      psi      = x[15],
+                      rsoil    = rsoil
+                     )
       return(unlist(spectra(spec)[1,]))
     }
     
@@ -54,12 +57,26 @@ PROSAIL <- function(
     names(parameterList) <- c(nam_para, parameter[mat==0])
     
     parameterList <- as.matrix(parameterList[,match(parameter, names(parameterList))])
-    spec <- t(apply(parameterList, 1, FUN = iterate_prosail))
+    spec <- t(apply(parameterList, 1, FUN = iterate_prosail, rsoil))
     return(speclib(spectra=spec, wavelength=c(1:2101)+399, 
                    attributes = as.data.frame(parameterList)))
   }
   nw <- 2101
   RT <- array(0, dim=c(nw,1))
+  
+  if (!is.null(rsoil))
+  {
+    if (length(wavelength(rsoil)) != nw)
+      stop("Wavelength of rsoil must be 400 - 2500 nm with 1 nm resolution")
+    if (!all(wavelength(rsoil) == c(400:2500)))
+      stop("Wavelength of rsoil must be 400 - 2500 nm with 1 nm resolution")
+    if (nspectra(rsoil) > 1)
+      warning("More than one spectrum in Speclib rsoil. Only the first one will be used for simulation")
+    rsoil <- spectra(rsoil)[1,]
+  } else {
+    rsoil <- rep.int(-9999.9, nw)
+  }
+  
   if (TypeLidf != 1) TypeLidf <- 2
     
   if (TypeLidf == 2) lidfb <- 0
@@ -81,6 +98,7 @@ PROSAIL <- function(
   storage.mode(tto)      <- "double"
   storage.mode(psi)      <- "double"
   storage.mode(RT)       <- "double"  
+  storage.mode(rsoil)    <- "double"  
   
   extern <- .Fortran("prosail2r",
                      Cab=Cab,
@@ -99,6 +117,7 @@ PROSAIL <- function(
                      tto=tto,
                      psi=psi,
                      reflectance=RT,
+                     rsoil=rsoil,
                      PACKAGE="hsdar"
              )
   spec <- speclib(wavelength=c(1:nw)+399,

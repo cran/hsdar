@@ -21,7 +21,7 @@ Class to store and handle hyperspectral data in R
     \item{Continuous spectra:}{ Data of spectrometers or hyperspectral (satellite) sensors. This data is plotted as lines with dotted lines indicating standard deviations by default.}
     \item{Non-continuous spectra:}{ Data of multispectral satellite sensors. Here, data is plotted as solid lines and error bars at the mean position of each waveband indicating standard deviations by default.}
   }
-  The kind of data may be chosen by the user by setting the attribute flag \code{"continuousdata"} (\code{attr(x,} \code{"continuousdata")}) or passing \code{continuousdata = TRUE/FALSE}, when initially converting data to \code{\linkS4class{Speclib}}-class. Take care of doing so, because some functions as \code{\link{spectral.resampling}} may only work correctly with continuous data!
+  The kind of data may be chosen by the user by setting the attribute flag \code{"continuousdata"} (\code{attr(x,} \code{"continuousdata")}) or passing \code{continuousdata = TRUE/FALSE}, when initially converting data to \code{\linkS4class{Speclib}}-class. Take care of doing so, because some functions as \code{\link{spectralResampling}} may only work correctly with continuous data!
   
   The unit of spectral data must be set initially, when converting data to speclib. Note that the package currently supports only "nm" as unit. This is particularly important for function like \code{\link{vegindex}}, which need to get correct bands out of the spectral data.
 }

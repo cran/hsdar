@@ -45,7 +45,7 @@ if (recursive)
                )
   if (!is.null(attr(x, "caretParameters")))
     attr(result, "caretParameters") <- attr(x, "caretParameters")
-    
+  result@usagehistory <- c(x@usagehistory, "NRI values calculated") 
 } else {
   b1 <- as.vector(unlist(b1))
   b2 <- as.vector(unlist(b2))

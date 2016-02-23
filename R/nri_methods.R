@@ -28,10 +28,16 @@ setMethod("show", signature(object = "Nri"),
   {
     .print.glmnri(x@multivariate)
   }
+  .printUsagehistory(x)
   invisible(dim(x$nri))
 }
 )
 
+setMethod("print", signature(x = "Nri"), 
+          function(x)
+{
+  show(x)
+})
 
 setMethod("as.matrix", signature(x = "Nri"),
           function(x, ..., named_matrix = TRUE)
@@ -55,7 +61,7 @@ setMethod("as.matrix", signature(x = "Nri"),
 )
 
 setMethod("as.data.frame", signature(x = "Nri"),
-          function(x, row.names = NULL, optional = FALSE, ...)
+          function(x, row.names = NULL, optional = FALSE, na.rm = FALSE, ...)
 {
   .ConvertNri <- function(x, ...)
   {
@@ -80,5 +86,10 @@ setMethod("as.data.frame", signature(x = "Nri"),
       bnd_nam_ch <- c(bnd_nam_ch, paste(bnd_nam_data[[2]][k], bnd_nam_data[[1]][i], sep = "_"))
   nri_data <- as.data.frame(.ConvertNri(x@nri, ...), row.names = NULL, optional = FALSE, ...)
   names(nri_data) <- bnd_nam_ch
+  if (na.rm)
+  {
+    rem <- apply(as.matrix(nri_data), 2, function (x) all(is.finite(x)))
+    nri_data <- nri_data[,rem]
+  }
   return(nri_data)
 })

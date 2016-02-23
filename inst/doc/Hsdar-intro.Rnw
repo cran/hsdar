@@ -701,8 +701,8 @@ For some sensors the spectral response functions are available. The spectra can 
 \begin{framed}
 <<echo=TRUE,eval=TRUE,results=hide>>=
 ## use spectral response function
-spectral_data_resampled <- spectral.resampling(spectral_data, 
-                                               "WorldView2-8")
+spectral_data_resampled <- spectralResampling(spectral_data, 
+                                              "WorldView2-8")
 @
 \end{framed}
 See what changed in the Speclib:
@@ -740,10 +740,10 @@ method = "sgolay", n = 5)
 #mask(spectral_data_preproc) <- c(1040,1060,1300,1450)
 @
 \end{framed}
-Then have a look at the transform.speclib function:
+Then have a look at the transformSpeclib function:
 \begin{framed}
 <<echo=TRUE,eval=TRUE>>=
-str(transform_speclib)
+str(transformSpeclib)
 @
 \end{framed}
 
@@ -755,17 +755,17 @@ The following example will show you how to calculate the continuum line (just fo
 \SweaveOpts{width=6, height=6}
 <<echo=TRUE,eval=TRUE>>=
 #convex hull:
-ch_cline <- transform_speclib(spectral_data_preproc[16:30,],
-                              method = "ch", out = "raw")
-ch_bd <- transform_speclib(spectral_data_preproc,
-                           method = "ch", out = "bd")
+ch_cline <- transformSpeclib(spectral_data_preproc[16:30,],
+                             method = "ch", out = "raw")
+ch_bd <- transformSpeclib(spectral_data_preproc,
+                          method = "ch", out = "bd")
 #
 #segmented hull:
 #
-sh_cline <- transform_speclib(spectral_data_preproc,
-                              method = "sh", out = "raw")
-sh_bd <- transform_speclib(spectral_data_preproc,
-                           method = "sh", out = "bd")
+sh_cline <- transformSpeclib(spectral_data_preproc,
+                             method = "sh", out = "raw")
+sh_bd <- transformSpeclib(spectral_data_preproc,
+                          method = "sh", out = "bd")
 @
 \end{framed}
 Plot continuum lines and resulting band depths for both methods to see the differences:
@@ -904,8 +904,8 @@ spectral_data_preproc <- smoothSpeclib(spectral_data,
                                         method = "sgolay", n = 5)
 mask(spectral_data_preproc) <- c(1040,1060,1300,1450)
 
-sh_cline <- transform_speclib(spectral_data_preproc,
-                              method = "sh", out = "raw")
+sh_cline <- transformSpeclib(spectral_data_preproc,
+                             method = "sh", out = "raw")
 par (mfrow = c(2,1))
 plot(sh_cline, 1, subset = c(550, 650))
 plot(sh_cline, 5, subset = c(550, 650))
@@ -921,8 +921,8 @@ sh_cline <- addcp(sh_cline, 1, 560)
 
 sh_clineUpdate <- makehull(sh_cline, 1)
  
-sh_bd <- transform_speclib(spectral_data_preproc,
-                           method = "sh", out = "bd")
+sh_bd <- transformSpeclib(spectral_data_preproc,
+                          method = "sh", out = "bd")
 
 sh_bd <- updatecl(sh_bd, sh_clineUpdate) 
   
@@ -942,8 +942,8 @@ Let's continue with the preprocessed spectra from section \ref{sec_cr}
 \SweaveOpts{width=5.2, height=4.5}
 \begin{framed}
 <<echo=TRUE,eval=TRUE,fig=FALSE>>=
-sh_bd <- transform_speclib(spectral_data_preproc,
-                           method = "sh", out = "bd")
+sh_bd <- transformSpeclib(spectral_data_preproc,
+                          method = "sh", out = "bd")
 
 ## Define features automatically
 features <- define.features(sh_bd)
@@ -1132,8 +1132,8 @@ With this function you could now calculate the NRI for all band combinations, ho
 Resample "spectral$\_$data to the resolution of WorldView-2-8:
 \begin{framed}
 <<echo=TRUE,eval=TRUE>>=
-spec_WV <- spectral.resampling(spectral_data, "WorldView2-8",
-                               response_function = FALSE)
+spec_WV <- spectralResampling(spectral_data, "WorldView2-8",
+                              response_function = FALSE)
 @
 \end{framed}
 Now, see how nris are calculated:
@@ -1178,8 +1178,8 @@ This section will show how to relate the NRI (see section \ref{sec:nri}) to envi
 If you haven't already calculated the NRI from WorldView-resampled bands, do it now to work through this section:
 \begin{framed}
 <<echo=TRUE,eval=TRUE>>=
-spec_WV <- spectral.resampling(spectral_data, "WorldView2-8",
-                               response_function = FALSE)
+spec_WV <- spectralResampling(spectral_data, "WorldView2-8",
+                              response_function = FALSE)
 nri_WV <- nri(spec_WV, recursive = TRUE)
 @
 \end{framed}
@@ -1329,7 +1329,7 @@ spectral_data <- PROSAIL(parameterList = parameter)
 
 ## We resample the data to Quickbird channels to get the same 
 ## spectral ranges
-spectral_data_qb <- spectral.resampling(spectral_data, "Quickbird")
+spectral_data_qb <- spectralResampling(spectral_data, "Quickbird")
 @
 \end{framed}
 Now, we download the required endmember spectra from USGS's ftp-server.
@@ -1346,9 +1346,9 @@ limestone <- USGS_retrieve_files(avl = avl, pattern = "limestone")
 
 ## Perform resampling for the endmember spectra. Note that we only  
 ## use the first vegetation spectrum
-grass_spectra_qb <- spectral.resampling(grass_spectra[1,], 
-                                        "Quickbird")
-limestone_qb <- spectral.resampling(limestone, "Quickbird")
+grass_spectra_qb <- spectralResampling(grass_spectra[1,], 
+                                       "Quickbird")
+limestone_qb <- spectralResampling(limestone, "Quickbird")
 @
 <<echo=FALSE,eval=TRUE,fig=FALSE>>=
 grass_spectra_qb <- speclib(spectra = matrix(c(3.190627, 5.137504, 5.797486, 29.68515), nrow = 1), wavelength = c(485, 560, 660, 830))

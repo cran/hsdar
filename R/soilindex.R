@@ -101,7 +101,7 @@ if (index=="SWIR SI")
 
 if (index=="RI_TM")
 {
-  x_TM <- try(spectra(spectral.resampling(x_back, "Landsat5")), silent = TRUE)
+  x_TM <- try(spectra(spectralResampling(x_back, "Landsat5")), silent = TRUE)
   if (inherits(x_TM, "try-error"))
   {
     warning("Unable to resample to Landsat 5 for RI_TM calculation")
@@ -112,7 +112,7 @@ if (index=="RI_TM")
 
 if (index=="BI_TM")
 {
-  x_TM <- try(spectra(spectral.resampling(x_back, "Landsat5")), silent = TRUE)
+  x_TM <- try(spectra(spectralResampling(x_back, "Landsat5")), silent = TRUE)
   if (inherits(x_TM, "try-error"))
   {
     warning("Unable to resample to Landsat 5 for RI_TM calculation")
@@ -122,7 +122,7 @@ if (index=="BI_TM")
 }
 if (index=="SI_TM")
 {
-  x_TM <- try(spectra(spectral.resampling(x_back, "Landsat5")), silent = TRUE)
+  x_TM <- try(spectra(spectralResampling(x_back, "Landsat5")), silent = TRUE)
   if (inherits(x_TM, "try-error"))
   {
     warning("Unable to resample to Landsat 5 for RI_TM calculation")
@@ -132,7 +132,7 @@ if (index=="SI_TM")
 }
 if (index=="HI_TM")
 {
-  x_TM <- try(spectra(spectral.resampling(x_back, "Landsat5")), silent = TRUE)
+  x_TM <- try(spectra(spectralResampling(x_back, "Landsat5")), silent = TRUE)
   if (inherits(x_TM, "try-error"))
   {
     warning("Unable to resample to Landsat 5 for RI_TM calculation")
@@ -142,7 +142,7 @@ if (index=="HI_TM")
 }
 if (index=="CI_TM")
 {
-  x_TM <- try(spectra(spectral.resampling(x_back, "Landsat5")), silent = TRUE)
+  x_TM <- try(spectra(spectralResampling(x_back, "Landsat5")), silent = TRUE)
   if (inherits(x_TM, "try-error"))
   {
     warning("Unable to resample to Landsat 5 for RI_TM calculation")

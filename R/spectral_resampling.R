@@ -1,10 +1,10 @@
-spectral.resampling <- function (
-                                 x,
-                                 sensor,
-                                 rm.NA=TRUE,
-                                 continuousdata="auto",
-                                 response_function=TRUE
-                                )
+spectralResampling <- function (
+                                x,
+                                sensor,
+                                rm.NA=TRUE,
+                                continuousdata="auto",
+                                response_function=TRUE
+                               )
 {
   
 if (x@spectra@fromRaster)
@@ -123,3 +123,4 @@ attr(result,"continuousdata") <- continuousdata
 return(result)
 }
 
+spectral.resampling <- spectralResampling

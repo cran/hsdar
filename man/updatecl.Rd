@@ -13,7 +13,7 @@ updatecl(x, hull)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-    Object of class \code{\linkS4class{Speclib}} transformed by \code{\link{transform_speclib}}.
+    Object of class \code{\linkS4class{Speclib}} transformed by \code{\link{transformSpeclib}}.
 }
   \item{hull}{
     Hull to be applied to x. Output of function \code{\link{makehull}}.
@@ -26,7 +26,7 @@ Lukas Lehnert and Hanna Meyer
   Object of class \code{\linkS4class{Speclib}}.
 }
 \seealso{
-\code{\link{transform_speclib}}, \code{\link{makehull}}, \code{\linkS4class{Speclib}}
+\code{\link{transformSpeclib}}, \code{\link{makehull}}, \code{\linkS4class{Speclib}}
 }
 
 \examples{
@@ -35,7 +35,7 @@ parameter <- data.frame(N = rep.int(c(1, 1.5),2), LAI = c(1,1,3,3))
 spec <- PROSAIL(parameterList=parameter)
 
 ## Transform spectra
-spec_clman <- transform_speclib(spec, method = "sh", out = "raw")
+spec_clman <- transformSpeclib(spec, method = "sh", out = "raw")
 
 ## Plot original line
 par(mfrow = c(1,2))
@@ -61,7 +61,7 @@ hull$error
 hull <- makehull(spec_clman, 1)
 
 ## Transform spectra using band depth
-spec_bd <- transform_speclib(spec, method = "sh", out = "bd")
+spec_bd <- transformSpeclib(spec, method = "sh", out = "bd")
 
 ## Update continuum line of first spectrum
 spec_bd <- updatecl(spec_bd, hull)

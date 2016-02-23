@@ -47,7 +47,7 @@ smgm <- function(x, percentage = TRUE, gridsize = 50)
   spectra(x) <- log(spectra(x), base = exp(1))
   
   ## Derive continuum hull of spectra
-  ch <- transform_speclib(x, out = "raw")
+  ch <- transformSpeclib(x, out = "raw")
 
   ## Convert hull and spectra to normalized log values
   ch_2 <- ch

@@ -15,7 +15,9 @@ Class to store and handle manual continuum lines
 \usage{
 Clman(wavelength, cp, hull, spectra, outdatedhull = NULL, mask = NULL)
 
-\S4method{plot}{Clman}(x, ispec, subset = NULL, numeratepoints = TRUE, ...)
+\S4method{plot}{Clman}(x, ispec, subset = NULL, numeratepoints = TRUE, 
+    hull.style = NULL, points.style = list(), ...)
+
 }
 \arguments{
 
@@ -49,6 +51,10 @@ Lower and upper spectral limits used for plot.
 \item{numeratepoints}{
 Flag if points should be numerated in plot.
 }
+\item{hull.style}{
+List of arguments passed to \code{\link{lines}} to construct the continuum line.
+}
+\item{points.style}{List of arguments passed to \code{\link{points}} to construct the continuum points. May be \code{NULL} to suppress plotting of fix points.}
 \item{...}{
 Further arguments passed to plot.default.
 }
@@ -66,7 +72,7 @@ Lukas Lehnert and Hanna Meyer
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{transform_speclib}}
+\code{\link{transformSpeclib}}, \code{\link[=plot.Speclib]{plot}}
 }
 \examples{
 ## Model spectra using PROSAIL
@@ -74,7 +80,7 @@ parameter <- data.frame(N = rep.int(c(1, 1.5),2), LAI = c(1,1,3,3))
 spec <- PROSAIL(parameterList=parameter)
 
 ## Transform spectra
-spec_clman <- transform_speclib(spec, method = "sh", out = "raw")
+spec_clman <- transformSpeclib(spec, method = "sh", out = "raw")
 
 ## Plot clman
 plot(spec_clman, ispec = 1, subset = c(400, 1000))

@@ -21,7 +21,12 @@ setMethod("train", signature(x = ".CaretHyperspectral"),
   
   useAttributesAsPredicants <- !is.na(.getPredicantVar(x, stopifmissing = FALSE))[1]
   
-  all_vals <- as.data.frame(x)
+  if (class(x) == "Nri")
+  {
+    all_vals <- as.data.frame(x, na.rm = TRUE)
+  } else {
+    all_vals <- as.data.frame(x)
+  }
   
   if (useAttributesAsPredicants)
   {

@@ -50,7 +50,7 @@ SWIR SI\tab \eqn{-41.59 \cdot (R_{2210} - R_{2090}) + }                         
 }
 
 * For references please type: \code{hsdardocs("References.pdf")}.\cr
-** TM_1 denotes the first band of Landsat Thematic Mapper. Consequently, the hyperspectral data is resmapled to Landsat TM using \code{\link{spectral.resampling}} prior to the calculation of the index. For resampling, the spectral response function is used.
+** TM_1 denotes the first band of Landsat Thematic Mapper. Consequently, the hyperspectral data is resmapled to Landsat TM using \code{\link{spectralResampling}} prior to the calculation of the index. For resampling, the spectral response function is used.
 }
 \subsection{Self-defining indices}{  
 Self-defined indices may be passed using the following syntax:

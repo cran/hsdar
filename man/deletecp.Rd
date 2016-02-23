@@ -29,7 +29,7 @@ Lukas Lehnert and Hanna Meyer
   Object of class \code{\linkS4class{Clman}} containing the updated version of x.
 }
 \seealso{
-\code{\link{transform_speclib}}, \code{\link{addcp}}, \code{\link{getcp}}, \code{\link{checkhull}}, \code{\link{makehull}}, \code{\link{updatecl}}
+\code{\link{transformSpeclib}}, \code{\link{addcp}}, \code{\link{getcp}}, \code{\link{checkhull}}, \code{\link{makehull}}, \code{\link{updatecl}}
 }
 
 \examples{
@@ -40,7 +40,7 @@ spec <- PROSAIL(parameterList=parameter)
 mask(spec) <- c(1600, 2600)
 
 ## Transform spectra
-spec_clman <- transform_speclib(spec, method = "sh", out = "raw")
+spec_clman <- transformSpeclib(spec, method = "sh", out = "raw")
 
 ## Plot original line
 par(mfrow = c(1,2))

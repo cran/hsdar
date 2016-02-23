@@ -41,7 +41,7 @@ Methods to create, manipulate and query objects of class 'Clman'.
 For \code{spectra<-}, the updated object. Otherwise a matrix returning the spectra in the Clman object.
 }
 \note{
-  The functions to create objects of class \code{Clman} are mainly internally needed by \code{\link{transform_speclib}}.
+  The functions to create objects of class \code{Clman} are mainly internally needed by \code{\link{transformSpeclib}}.
 }
 \author{
 Lukas Lehnert
@@ -51,6 +51,6 @@ Lukas Lehnert
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{dist.speclib}}, \code{\link{Clman}}, \code{\link{transform_speclib}}
+\code{\link{dist.speclib}}, \code{\link{Clman}}, \code{\link{transformSpeclib}}, \code{\link[=plot.Speclib]{plot}}
 }
 

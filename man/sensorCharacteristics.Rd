@@ -28,7 +28,7 @@ Lukas Lehnert
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{spectral.resampling}}
+\code{\link{spectralResampling}}
 }
 \examples{
 ## Return implemented sensors

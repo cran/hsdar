@@ -2,7 +2,7 @@
 !*                                                                       *
 	SUBROUTINE prosail2r (Cab, Car, Cbrown, Cw, Cm, N, psoil, &
 	                      LAI, TypeLidf, LIDFa, LIDFb, hspot, &
-	                      tts, tto, psi, reflectance)
+	                      tts, tto, psi, reflectance, rsoil)
 !         PROGRAM PROSAIL
 !         Cab             =       40.             ! chlorophyll content (µg.cm-2) 
 !         Car             =       8.              ! carotenoid content (µg.cm-2)
@@ -71,6 +71,9 @@ DOUBLE PRECISION :: N,Cab,Car,Cbrown,Cw,Cm
 DOUBLE PRECISION :: lai,LIDFa,LIDFb,psoil
 DOUBLE PRECISION :: skyl,hspot,ihot
 DOUBLE PRECISION :: tts,tto,psi,reflectance(nw)
+!   BEGIN CHANGES LEHNERT
+DOUBLE PRECISION :: rsoil(nw)
+!   END CHANGES LEHNERT
 DOUBLE PRECISION,ALLOCATABLE,SAVE :: resh(:),resv(:)
 DOUBLE PRECISION,ALLOCATABLE,SAVE :: rsoil0(:),PARdiro(:),PARdifo(:)
 INTEGER :: TypeLidf,ii
@@ -134,8 +137,13 @@ ALLOCATE (rsoil_old(nw))
 	! rsoil2 = wet soil
 	ALLOCATE (rsoil0(nw))
 ! 	psoil	=	1.		! soil factor (psoil=0: wet soil / psoil=1: dry soil)
-	rsoil0=psoil*Rsoil1+(1-psoil)*Rsoil2
-
+!   BEGIN CHANGES LEHNERT
+  if (rsoil(1) .gt. -9990) then
+    rsoil0 = rsoil
+  else 
+  	rsoil0=psoil*Rsoil1+(1-psoil)*Rsoil2
+ endif
+!   END CHANGES LEHNERT
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!	4SAIL canopy structure parm	!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

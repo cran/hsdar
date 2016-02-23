@@ -3,6 +3,7 @@
 \alias{as.matrix,Nri-method}
 \alias{as.data.frame,Nri-method}
 \alias{show,Nri-method}
+\alias{print,Nri-method}
 \alias{wavelength,Nri-method}
 \alias{[,Nri,ANY,ANY-method}
 \alias{[,Nri,ANY,ANY,ANY-method}
@@ -18,7 +19,7 @@ Methods to handle data in objects of class Nri.
 \usage{
 \S4method{as.matrix}{Nri}(x, ..., named_matrix = TRUE)
 
-\S4method{as.data.frame}{Nri}(x, ...)
+\S4method{as.data.frame}{Nri}(x, na.rm = FALSE, ...)
 
 \S4method{wavelength}{Nri}(object)
 
@@ -29,6 +30,7 @@ getFiniteNri(x)
   \item{x,object}{
 List of class 'Nri'
 }
+\item{na.rm}{Remove indices containing NA-values. Note that if TRUE, all indices are removed which have at least one NA value.}
   \item{named_matrix}{
 Flag if column and row names are set to band indices used for the calculation of the nri-values.
 }

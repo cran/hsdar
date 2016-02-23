@@ -1,6 +1,6 @@
   
 .getAttrParameters <- function()  
-  c("response", "predicant")
+  c("response", "predictor")
   
 .getCaretCompatibleClasses <- function()
   c("Speclib", "Nri")

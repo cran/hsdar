@@ -43,8 +43,8 @@ data(spectral_data)
 
 ##Example to cut the features around 450nm and 700nm to a specific range
 ## Transform speclib
-bd <- transform_speclib(subset(spectral_data, season == "summer"),
-                        method = "sh", out = "bd")
+bd <- transformSpeclib(subset(spectral_data, season == "summer"),
+                       method = "sh", out = "bd")
 
 ## Define features
 features <- define.features(bd)

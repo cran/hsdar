@@ -33,7 +33,7 @@ Lukas Lehnert and Hanna Meyer
   }
 }
 \seealso{
-\code{\link{transform_speclib}}, \code{\link{deletecp}}, \code{\link{addcp}}, \code{\linkS4class{Clman}}
+\code{\link{transformSpeclib}}, \code{\link{deletecp}}, \code{\link{addcp}}, \code{\linkS4class{Clman}}
 }
 
 \examples{
@@ -42,7 +42,7 @@ parameter <- data.frame(N = rep.int(c(1, 1.5),2), LAI = c(1,1,3,3))
 spec <- PROSAIL(parameterList=parameter)
 
 ## Transform spectra
-spec_clman <- transform_speclib(spec, method = "sh", out = "raw")
+spec_clman <- transformSpeclib(spec, method = "sh", out = "raw")
 
 ## Fix points
 spec_cp <- getcp(spec_clman, 1, c(400, 800))

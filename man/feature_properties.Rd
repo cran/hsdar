@@ -37,7 +37,7 @@ The function calculates several parameters:
 }
 
 \value{
-A matrix containing feature area values.
+An object of class \code{Specfeat} containing the properties as (part of the) attribute table.
 }
 
 \author{
@@ -55,8 +55,8 @@ data(spectral_data)
 
 ## Example calculating the areas of the features around 450nm, 
 ## 700nm, 1200nm and 1500nm.
-bd <- transform_speclib(subset(spectral_data, season == "summer"),
-                        method = "sh", out = "bd")
+bd <- transformSpeclib(subset(spectral_data, season == "summer"),
+                       method = "sh", out = "bd")
 
 ## Define features
 features <- define.features(bd)

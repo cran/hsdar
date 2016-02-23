@@ -39,8 +39,8 @@ data(spectral_data)
 
 
 ## Calculate nri-values for WorldView-2-8
-spec_WV <- spectral.resampling(spectral_data, "WorldView2-8",
-                               response_function = FALSE)
+spec_WV <- spectralResampling(spectral_data, "WorldView2-8",
+                              response_function = FALSE)
 nri_WV <- nri(spec_WV, recursive = TRUE)
 
 ## Perform t.tests between nri-values of both sites 

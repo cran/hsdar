@@ -26,7 +26,7 @@ Lukas Lehnert and Hanna Meyer
   Object of class \code{list}.
 }
 \seealso{
-\code{\link{transform_speclib}}, \code{\link{addcp}}, \code{\link{deletecp}}, \code{\link{makehull}}, \code{\link{updatecl}}
+\code{\link{transformSpeclib}}, \code{\link{addcp}}, \code{\link{deletecp}}, \code{\link{makehull}}, \code{\link{updatecl}}
 
 \code{\linkS4class{Clman}}
 }
@@ -37,7 +37,7 @@ parameter <- data.frame(N = rep.int(c(1, 1.5),2), LAI = c(1,1,3,3))
 spec <- PROSAIL(parameterList=parameter)
 
 ## Transform spectra
-spec_clman <- transform_speclib(spec, method = "sh", out = "raw")
+spec_clman <- transformSpeclib(spec, method = "sh", out = "raw")
 
 ## Plot original line
 par(mfrow = c(1,2))
@@ -63,7 +63,7 @@ hull$error
 hull <- makehull(spec_clman, 1)
 
 ## Transform spectra using band depth
-spec_bd <- transform_speclib(spec, method = "sh", out = "bd")
+spec_bd <- transformSpeclib(spec, method = "sh", out = "bd")
 
 ## Update continuum line of first spectrum
 spec_bd <- updatecl(spec_bd, hull)

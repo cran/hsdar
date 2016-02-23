@@ -59,6 +59,8 @@ setMethod("plot", signature(x = "Clman"),
             ispec,
             subset = NULL,
             numeratepoints = TRUE, 
+            hull.style = NULL,
+            points.style = list(),
             ...
           )
 {
@@ -94,13 +96,90 @@ setMethod("plot", signature(x = "Clman"),
     
   callNextMethod(x, FUN = ispec, ...)
   
-  lines(Wavelength, hull, lty = "dashed")
-  
-  for (i in 1:nrow(result))
+  if (is.null(hull.style))
   {
-    points(result$Wavelength[i],result$Reflectance[i])
-    if (numeratepoints)
-      text(result$Wavelength[i],result$Reflectance[i],i, pos = 3)
+    lty <- "dashed"
+    col <- "black"
+    lwd <- par()$lwd
+    pch <- par()$pch
+    type <- "l"
+  } else {
+    if (any(names(hull.style) == "lty"))
+    {
+      lty <- hull.style$lty
+    } else {
+      lty <- "dashed"
+    }
+    
+    if (any(names(hull.style) == "col"))
+    {
+      col <- hull.style$col
+    } else {
+      col <- "black"
+    }
+    
+    if (any(names(hull.style) == "lwd"))
+    {
+      lwd <- hull.style$lwd
+    } else {
+      lwd <- par()$lwd
+    }
+    
+    if (any(names(hull.style) == "pch"))
+    {
+      pch <- hull.style$pch
+    } else {
+      pch <- par()$pch
+    }
+    
+    if (any(names(hull.style) == "type"))
+    {
+      type <- hull.style$type
+    } else {
+      type <- "l"
+    }
+  }
+  
+  lines(Wavelength, hull, lty = lty, type = type, pch = pch,
+        lwd = lwd, col = col)
+  
+  if (!is.null(points.style))
+  {    
+    if (any(names(points.style) == "col"))
+    {
+      col <- points.style$col
+    } else {
+      col <- "black"
+    }
+    
+    if (any(names(points.style) == "pch"))
+    {
+      pch <- points.style$pch
+    } else {
+      pch <- par()$pch
+    }
+    
+    if (any(names(points.style) == "lwd"))
+    {
+      lwd <- points.style$lwd
+    } else {
+      lwd <- par()$lwd
+    }
+    
+    if (any(names(points.style) == "cex"))
+    {
+      cex <- points.style$cex
+    } else {
+      cex <- par()$cex
+    }
+    
+    for (i in 1:nrow(result))
+    {
+      points(result$Wavelength[i],result$Reflectance[i], 
+             cex = cex, pch = pch, lwd = lwd, col = col)
+      if (numeratepoints)
+        text(result$Wavelength[i],result$Reflectance[i],i, pos = 3)
+    }
   }
   invisible(result)
 }

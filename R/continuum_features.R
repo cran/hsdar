@@ -417,4 +417,78 @@ bdri <- function(
   }
   return(x)  
 }
-    
+
+.get.feature.wavelength <- function(x)
+{
+  wl <- wavelength(x)
+  lapply(x$features, function(x, wl) lapply(x, function(x, wl) 
+    { 
+      tmp <- wl[c(which(wl == x$x1):length(wl))]
+      return(tmp[1:length(x$y)])
+    }, wl), wl)
+}
+
+.get.rep.feature.parts <- function(x, speclib)
+{  
+  res <- lapply(x, function(x, wl)
+    {
+      res <- lapply(x, function(x, wl)
+        { 
+          match(wl, x, nomatch = NA)
+        }, wl)
+      return(matrix(unlist(res), ncol = length(wl), byrow = TRUE))
+    }, wavelength(speclib))
+  return(list(matches = res, wl = .get.rep.wavelength(res)))
+}
+
+.get.rep.wavelength <- function(x)
+{
+  lapply(x, function(x) apply(x, 2, function(x) all(is.finite(x))))
+}
+
+setMethod("as.data.frame", signature(x = "Specfeat"), 
+          function(x, row.names = NULL, optional = FALSE, ...)
+  {
+    wl <- .get.feature.wavelength(x)
+    rep <- .get.rep.feature.parts(wl, x)
+    res <- matrix(ncol = 0, nrow = nspectra(x))
+    for (i in 1:length(x$features))
+    {
+      res <- cbind(res, t(apply(matrix(1:length(x$features[[i]]), ncol = 1), 1,
+            function(k, feat, rep_k, rep_wl)
+            {
+              feat<- feat[[k]]$y
+              return(feat[rep_k[k,rep_wl]])
+            }, x$features[[i]], rep[[1]][[i]], rep[[2]][[i]])))
+    }
+    res <- as.data.frame(res, row.names = row.names, optional = optional, ...)
+    names(res) <- paste("V", unlist(lapply(rep[[2]], function(x, wl) wl[x], wavelength(x))), sep = "_")
+    return(res)
+
+  }
+)
+
+.as.speclib.specfeat <- function(x)
+{
+  wl <- .get.feature.wavelength(x)
+  rep <- .get.rep.feature.parts(wl, x)
+  res <- matrix(ncol = 0, nrow = nspectra(x))
+  for (i in 1:length(x$features))
+  {
+    res <- cbind(res, t(apply(matrix(1:length(x$features[[i]]), ncol = 1), 1,
+          function(k, feat, rep_k, rep_wl)
+          {
+            feat<- feat[[k]]$y
+            return(feat[rep_k[k,rep_wl]])
+          }, x$features[[i]], rep[[1]][[i]], rep[[2]][[i]])))
+  }
+  wl <- unlist(lapply(rep[[2]], function(x, wl) wl[x], wavelength(x)))
+  
+  wavelength(x) <- wl
+  spectra(x) <- res
+  
+  x@featureLimits <- list()
+  x@features <- list()
+  class(x) <- "Speclib"
+  return(x)
+}
