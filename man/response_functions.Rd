@@ -4,6 +4,7 @@
 \alias{Landsat_5_response}
 \alias{Landsat_7_response}
 \alias{Landsat_8_response}
+\alias{Sentinel2A_response}
 % \alias{TerraModis_response}
 \alias{Quickbird_response}
 \alias{RapidEye_response}
@@ -17,6 +18,7 @@
 \alias{get_reflectance}
 \alias{get_wv2_4_response}
 \alias{get_wv2_8_response}
+\alias{get_sentinel2_response}
 \docType{data}
 \title{
 Satellite sensor response functions

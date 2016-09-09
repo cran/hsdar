@@ -15,7 +15,11 @@ setMethod("[", "Speclib",
       spectra(x) <- tmp
     }
     wavelength(x) <- wavelength(x)[j]
-
+    if (!is.null(attr(x, "bandnames")))
+      bandnames(x) <- bandnames(x)[j]
+    if (length(fwhm(x)) > 1)
+      fwhm(x) <- fwhm(x)[j]
+    
     if (upduh)
       usagehistory(x) <- "Subsetting speclib (spectral dimension)"
     return(x)
@@ -50,6 +54,10 @@ setMethod("[", "Speclib",
   x@spectra@fromRaster <- FALSE
   spectra(x) <- tmp
   wavelength(x) <- wavelength(x)[j]
+  if (!is.null(attr(x, "bandnames")))
+    bandnames(x) <- bandnames(x)[j]
+  if (length(fwhm(x)) > 1)
+    fwhm(x) <- fwhm(x)[j]
   idSpeclib(x) <- as.character(idSpeclib(x)[i])
 
   at_x <- attribute(x)[i,]

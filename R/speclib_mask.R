@@ -68,6 +68,10 @@ maskSpeclib <- function(object, lb, ub)
   {
     rm_vector <- !(lb[i]<wavelength(object) & ub[i]>wavelength(object))
     wavelength(object) <- wavelength(object)[rm_vector]
+    if (!is.null(attr(object, "bandnames")))
+      bandnames(object) <- bandnames(object)[rm_vector]
+    if (length(fwhm(object)) > 1)
+      fwhm(object) <- fwhm(object)[rm_vector]
     spectra(object) <- if (nspectra(object) == 1) matrix(data = spectra(object)[,rm_vector], nrow = 1) else spectra(object)[,rm_vector]  
   }
   attr(object, "setmask") <- TRUE
@@ -101,6 +105,7 @@ interpolate.mask <- function(object)
       t <- y1 - m*x1
       
       includevec_x[[i]] <- c((x1+1):(x2-1))
+#       includevec_x[[i]] <- wavelength[xpos1[[i]]:xpos2[[i]]]
       
       includevec_y[[i]] <- includevec_x[[i]]*m+t
     }

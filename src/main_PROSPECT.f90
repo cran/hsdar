@@ -27,7 +27,7 @@ subroutine prospect2r (N,Cab,Car,Cbrown,Cw,Cm,RT2R)
 use dataSpec_P5B
 implicit none
 
-integer*4 :: ii
+integer(4) :: ii
 double precision :: N,Cab,Car,Cbrown,Cw,Cm
 double precision, allocatable, save :: RT(:,:)
 double precision, intent(out) :: RT2R(nw,2)

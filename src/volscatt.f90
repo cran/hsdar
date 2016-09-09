@@ -1,28 +1,28 @@
 SUBROUTINE volscatt(tts,tto,psi,ttl,chi_s,chi_o,frho,ftau)
 
 !********************************************************************************
-!*	tts		= solar zenith
-!*	tto		= viewing zenith
-!*	psi		= azimuth
-!*	ttl		= leaf inclination angle
-!*	chi_s	= interception functions
-!*	chi_o	= interception functions
-!*	frho	= function to be multiplied by leaf reflectance rho
-!*	ftau	= functions to be multiplied by leaf transmittance tau
+!*  tts    = solar zenith
+!*  tto    = viewing zenith
+!*  psi    = azimuth
+!*  ttl    = leaf inclination angle
+!*  chi_s  = interception functions
+!*  chi_o  = interception functions
+!*  frho  = function to be multiplied by leaf reflectance rho
+!*  ftau  = functions to be multiplied by leaf transmittance tau
 !********************************************************************************
 
-!	Compute volume scattering functions and interception coefficients
-!	for given solar zenith, viewing zenith, azimuth and leaf inclination angle.
+!  Compute volume scattering functions and interception coefficients
+!  for given solar zenith, viewing zenith, azimuth and leaf inclination angle.
 
-!	chi_s and chi_o are the interception functions.
-!	frho and ftau are the functions to be multiplied by leaf reflectance rho and
-!	leaf transmittance tau, respectively, in order to obtain the volume scattering
-!	function.
+!  chi_s and chi_o are the interception functions.
+!  frho and ftau are the functions to be multiplied by leaf reflectance rho and
+!  leaf transmittance tau, respectively, in order to obtain the volume scattering
+!  function.
 
-!	Wout Verhoef, april 2001, for CROMA
+!  Wout Verhoef, april 2001, for CROMA
 
-	USE MOD_ANGLE
-	IMPLICIT NONE
+  USE MOD_ANGLE
+  IMPLICIT NONE
 
 DOUBLE PRECISION,INTENT(in) :: tts,tto,psi,ttl
 DOUBLE PRECISION,INTENT(inout) :: chi_s,chi_o,frho,ftau
@@ -61,33 +61,33 @@ so=sintl*sinto
 
 cosbts=5.
 IF (ABS(ss).gt.1e-6) THEN
-	cosbts=-cs/ss
+  cosbts=-cs/ss
 ENDIF
 
 cosbto=5.
 IF (ABS(so).gt.1e-6) THEN
-	cosbto=-co/so
+  cosbto=-co/so
 ENDIF
 
 IF (ABS(cosbts).lt.1.d0) THEN
-	bts=ACOS(cosbts)
-	ds=ss
+  bts=ACOS(cosbts)
+  ds=ss
 ELSE
-	bts=pi
-	ds=cs
+  bts=pi
+  ds=cs
 ENDIF
 
 chi_s=2./pi*((bts-pi*.5)*cs+sin(bts)*ss)
 
 IF (ABS(cosbto).lt.1.d0) THEN
-	bto=ACOS(cosbto)
-	doo=so
+  bto=ACOS(cosbto)
+  doo=so
 ELSEIF(tto.lt.90.) THEN
-	bto=pi
-	doo=co
+  bto=pi
+  doo=co
 ELSE
-	bto=0
-	doo=-co
+  bto=0
+  doo=-co
 ENDIF
 
 chi_o=2./pi*((bto-pi*.5)*co+SIN(bto)*so)
@@ -102,24 +102,24 @@ btran1=abs(bts-bto)
 btran2=pi-abs(bts+bto-pi)
 
 IF (psir.le.btran1) THEN
-	bt1=psir
-	bt2=btran1
-	bt3=btran2
+  bt1=psir
+  bt2=btran1
+  bt3=btran2
 ELSE
-	bt1=btran1
-	IF (psir.le.btran2) THEN
-		bt2=psir
-		bt3=btran2
-	ELSE
-		bt2=btran2
-		bt3=psir
-	ENDIF
+  bt1=btran1
+  IF (psir.le.btran2) THEN
+    bt2=psir
+    bt3=btran2
+  ELSE
+    bt2=btran2
+    bt3=psir
+  ENDIF
 ENDIF
 
 t1=2.*cs*co+ss*so*cospsi
 t2=0.
 IF (bt2.gt.0.) THEN
-	t2=SIN(bt2)*(2.*ds*doo+ss*so*COS(bt1)*COS(bt3))
+  t2=SIN(bt2)*(2.*ds*doo+ss*so*COS(bt1)*COS(bt3))
 ENDIF
 
 denom=2.*pi*pi
@@ -127,11 +127,11 @@ frho=((pi-bt2)*t1+t2)/denom
 ftau=    (-bt2*t1+t2)/denom
 
 IF (frho.lt.0) THEN
-	frho=0
+  frho=0
 ENDIF
 
 IF (ftau.lt.0) THEN
-	ftau=0
+  ftau=0
 ENDIF
 
 RETURN

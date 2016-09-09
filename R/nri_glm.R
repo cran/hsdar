@@ -1,24 +1,5 @@
 glm.nri <- function(formula, preddata=NULL, ...)
-{
-  glm_apply_lh <- function(response, ...)
-  {
-    formula <- get("formula", envir= environment_apply)
-    predictors <- get("predictors", envir= environment_apply)
-    data <- cbind(data.frame(response=response), predictors)
-    model <- glm(formula = formula, data = data, ...)
-    return(summary(model)$coefficients[,c(1:4)])
-  }
-  glm_apply_rh <- function(predictor, ...)
-  {
-    formula <- get("formula", envir= environment_apply)
-    response <- get("response", envir= environment_apply)
-    data <- data.frame(response=response[,1], predictor=predictor)
-    model <- glm(response ~ predictor, data = data, ...)
-    su <- summary(model)$coefficients
-    if (nrow(su)<ncol(data))
-      su <- rbind(su, rep.int(NA,4))
-    return(su[,c(1:4)])
-  }
+{  
   nri_response <- 0
   mc <- match.call()
   if (any(names(mc)=="family"))
@@ -75,6 +56,8 @@ glm.nri <- function(formula, preddata=NULL, ...)
   if (nri_response==0)
     stop("Could not determine which variable contains nri-values")
 
+  pp <- .process_parallel()
+  
   if (nri_response==-1)
   {
     formula_apply <- update.formula(mc, response ~ .)
@@ -92,14 +75,24 @@ glm.nri <- function(formula, preddata=NULL, ...)
     } else {
       predictors <- data[,mat]
     }
-
-    environment_apply <- new.env(parent = .GlobalEnv)
-
-    assign("formula", formula_apply, environment_apply)
-    assign("predictors", predictors, environment_apply)
-
-    glm_data <- apply(response, MARGIN = c(1, 2), FUN = glm_apply_lh, ...)
-
+    
+    if (pp[[1]])
+    {
+      `%op%` <- pp[[2]]
+      `%opnested%` <- pp[[3]]
+      icol <- NULL
+      irow <- NULL
+      glm_data <- foreach::foreach(icol = c(1:(dim(response)[2]-1)), .combine = 'rbind') %opnested%
+        foreach::foreach(irow = c((icol+1):dim(response)[1]), .combine = 'rbind') %op%
+          {
+            .glm_apply_lh(response[irow,icol,], formula_apply, predictors, ...)
+          }
+      glm_data <- rbind(matrix(glm_data[,1], nrow = 2), matrix(glm_data[,2], nrow = 2),
+                        matrix(glm_data[,3], nrow = 2), matrix(glm_data[,4], nrow = 2))
+      .restoreParallel()
+    } else {
+      glm_data <- apply(response, MARGIN = c(1, 2), FUN = .glm_apply_lh, formula_apply, predictors, ...)
+    }
   } else {
     if (length(vars) > 2)
       stop("Models with more than 2 variables with nri values as predictors not supported, yet")
@@ -114,12 +107,23 @@ glm.nri <- function(formula, preddata=NULL, ...)
 
     response <- data.frame(a=data[,mat])
     names(response) <- names(data)[mat]
-    environment_apply <- new.env(parent = .GlobalEnv)
-
-    assign("formula", formula_apply, environment_apply)
-    assign("response", response, environment_apply)
-
-    glm_data <- apply(predictor, MARGIN = c(1, 2), FUN = glm_apply_rh, ...)
+ 
+    if (pp[[1]])
+    {
+      `%op%` <- pp[[2]]
+      `%opnested%` <- pp[[3]]
+      icol <- NULL
+      irow <- NULL
+      glm_data <- foreach::foreach(icol = c(1:(dim(predictor)[2]-1)), .combine = 'rbind') %opnested%
+        foreach::foreach(irow = c((icol+1):dim(predictor)[1]), .combine = 'rbind') %op% {
+          .glm_apply_rh(predictor[irow,icol,], formula_apply, response, ...)
+        }
+      glm_data <- rbind(matrix(glm_data[,1], nrow = 2), matrix(glm_data[,2], nrow = 2),
+                        matrix(glm_data[,3], nrow = 2), matrix(glm_data[,4], nrow = 2))
+      .restoreParallel()
+    } else {
+      glm_data <- apply(predictor, MARGIN = c(1, 2), FUN = .glm_apply_rh, formula_apply, response, ...)
+    }
   }
   ncol = dim(glm_data)[1]/4
 
@@ -155,5 +159,21 @@ glm.nri <- function(formula, preddata=NULL, ...)
   }
   x@multivariate <- final
   return(x)
+}
+
+.glm_apply_lh <- function(response, formula, predictors, ...)
+{
+  data <- cbind(data.frame(response=response), predictors)
+  model <- glm(formula = formula, data = data, ...)
+  return(summary(model)$coefficients[,c(1:4)])
+}
+.glm_apply_rh <- function(predictor, formula, response, ...)
+{
+  data <- data.frame(response=response[,1], predictor=predictor)
+  model <- glm(response ~ predictor, data = data, ...)
+  su <- summary(model)$coefficients
+  if (nrow(su)<ncol(data))
+    su <- rbind(su, rep.int(NA,4))
+  return(su[,c(1:4)])
 }
 

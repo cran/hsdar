@@ -31,8 +31,8 @@ if (recursive)
                      reflectance = as.single(as.matrix(reflectance)),
                      nri = nri_dat,
                      nri_length = as.integer(nrow(reflectance) *
-                                  (sum(1:length(wavelength))-length(wavelength)))#,
-#                      PACKAGE = "hsdar"
+                                  (sum(1:length(wavelength))-length(wavelength))),
+                     PACKAGE = "hsdar"
                     )
   
   result <- distMat3D(as.numeric(result$nri), length(wavelength), nrow(reflectance))

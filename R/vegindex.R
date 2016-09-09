@@ -57,8 +57,8 @@ x_back <- x
 
 if (!is.speclib(x))
   stop("x is not of class 'Speclib'")
-if (!x@continuousdata)
-  stop("x does not contain continuous spectra")
+# if (!x@continuousdata)
+#   stop("x does not contain continuous spectra")
 if (returnHCR == "auto")
   returnHCR <- .is.rastermeta(x)
 
@@ -486,8 +486,9 @@ if (index=="REP_LE")
 }
 if (index=="REP_Li")
 {
-  return(return_index(700 + 40*((get_reflectance(y,x,670,weighted)+get_reflectance(y,x,780,weighted)/2)/
-                      (get_reflectance(y,x,740,weighted)-get_reflectance(y,x,700,weighted)))))
+  Rre <- (get_reflectance(y,x,670,weighted)+get_reflectance(y,x,780,weighted))/2
+  return(return_index(700 + 40*(((Rre - get_reflectance(y,x,700,weighted))/
+                      (get_reflectance(y,x,740,weighted)-get_reflectance(y,x,700,weighted))))))
 }
 if (index=="SIPI")
 {

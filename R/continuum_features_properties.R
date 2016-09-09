@@ -3,7 +3,12 @@ feature_properties <- function(x)
   feat_prop <- .area.specfeat(x)
   feat_prop <- cbind(feat_prop, .wlhm.specfeat(x))
   feat_prop <- cbind(feat_prop, .max.specfeat(x))
-  attribute(x) <- cbind(attribute(x), feat_prop)
+  if (nrow(attribute(x)) > 0)
+  {
+    attribute(x) <- cbind(attribute(x), feat_prop)
+  } else {
+    attribute(x) <- as.data.frame(feat_prop)
+  }
   usagehistory(x) <- "Properties of features calculated"
   return(x)
 }

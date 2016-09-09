@@ -207,6 +207,16 @@ if (!isGeneric("wavelength<-")) {
   standardGeneric("wavelength<-"))
 }
 
+if (!isGeneric("fwhm")) {
+  setGeneric("fwhm", function(object, ...)
+  standardGeneric("fwhm"))
+}
+if (!isGeneric("fwhm<-")) {
+  setGeneric("fwhm<-",function(object, value)
+  standardGeneric("fwhm<-"))
+}
+
+
 if (!isGeneric("distMat3D")) {
   setGeneric("distMat3D",function(x, ...)
   standardGeneric("distMat3D"))

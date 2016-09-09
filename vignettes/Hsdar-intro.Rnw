@@ -487,7 +487,7 @@ legend("topright",
 \end{framed}
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Basic data manipulation tools}
-The speclib-class provides several routines for data manipulation which will be described in the following.
+The Speclib-class provides several routines for data manipulation which will be described in the following.
 
 \subsection{Subsets of spectra}
 Subsets of Speclibs can be built using the subset function. This function separates the spectra according to a condition. Usually the conditions are derived from attributes stored in the Speclib like study site, season or vegetation type. For example you could split "spectral$\_$data" to get a subset for the summer and the spring spectra:
@@ -515,81 +515,6 @@ plot(sp_summer, FUN = "mean", col = "darkred", new = FALSE)
 }
 \end{framed}
 As you can see the Speclib is split into two Speclibs, one containing all spectra which had had been sampled in spring and one containing all spectra which had been acquired in summer.
-
-
-\subsection{Filter}
-\label{sec:filter}
-Having a look at one spectrum in detail you might wish to smooth the spectrum somehow. 
-\SweaveOpts{width=5.2, height=4.5}
-\begin{framed}
-<<echo=TRUE,eval=FALSE,fig=FALSE>>=
-plot(spectral_data, FUN = 1, subset = c(1200,1300)) #raw spectrum
-@
-\resizebox{1\textwidth}{!}{
-<<fig=TRUE, echo=FALSE>>=
-par(mar = c(4,4,0.1,0.1), cex = 0.75)
-plot(spectral_data, FUN = 1, subset = c(1200,1300)) #raw spectrum
-@
-}
-\end{framed}
-\hsdar implements several methods to smooth spectra. These are Savitzky-Golay, Spline, locally weighted scatterplot smoothing (Lowess) and Mean-filter.
-smoothSpeclib needs a Speclib as input and the method to be used. Depending on the method there are further parameters to be set. Have a look on the \hsdar help to find more information on these additional parameters. 
-\SweaveOpts{width=6, height=6}
-\begin{framed}
-<<echo=TRUE,eval=TRUE>>=
-#
-#Filter Speclib:
-#
-sgolay <- smoothSpeclib(spectral_data, method = "sgolay", n = 25)
-lowess <- smoothSpeclib(spectral_data, method = "lowess", f = .01)
-meanflt <- smoothSpeclib(spectral_data, method = "mean", p = 5)
-spline <- smoothSpeclib(spectral_data, method = "spline", 
-                         n = round(nbands(spectral_data)/10, 0))
-@
-\end{framed}
-
-Now plot the results:
-\begin{framed}
-<<echo=TRUE,eval=FALSE,fig=FALSE>>=
-par(mfrow = c(2,2))
-plot(sgolay, FUN = 1, subset = c(1200,1300), col = "red",
-main = "Savitzky-Golay-Filter")
-plot(spectral_data, FUN = 1, new = FALSE) #raw spectrum
-
-plot(lowess, FUN = 1, subset = c(1200,1300), col = "red",
-main = "Lowess-Filter")
-plot(spectral_data, FUN = 1, new = FALSE) #raw spectrum
-
-plot(meanflt, FUN = 1, subset = c(1200,1300), col = "red",
-main = "Mean-filter")
-plot(spectral_data, FUN = 1, new = FALSE) #raw spectrum
-
-plot(spline, FUN = 1, subset = c(1200,1300), col = "red",
-main = "Spline-Filter")
-plot(spectral_data, FUN = 1, new = FALSE) #raw spectrum
-@
-\resizebox{1\textwidth}{!}{
-<<fig=TRUE, echo=FALSE>>=
-par(mfrow=c(2,2), mar = c(4,4,3,0.1), cex = 0.75)
-plot(sgolay, FUN = 1, subset = c(1200,1300), col = "red",
-main = "Savitzky-Golay-Filter")
-plot(spectral_data, FUN = 1, new = FALSE) #raw spectrum
-
-plot(lowess, FUN = 1, subset = c(1200,1300), col = "red",
-main = "Lowess-Filter")
-plot(spectral_data, FUN = 1, new = FALSE) #raw spectrum
-
-plot(meanflt, FUN = 1, subset = c(1200,1300), col = "red",
-main = "Mean-filter")
-plot(spectral_data, FUN = 1, new = FALSE) #raw spectrum
-
-plot(spline, FUN = 1, subset = c(1200,1300), col = "red",
-main = "Spline-Filter")
-plot(spectral_data, FUN = 1, new = FALSE) #raw spectrum
-@
-}
-\end{framed}
-
 
 \subsection{Mask}
 \label{sec:mask}
@@ -632,6 +557,84 @@ plot(spectral_data_interpolated, FUN = 1)
 @
 }
 \end{framed}
+<<echo=FALSE,eval=TRUE,fig=FALSE>>=
+spectral_data <- spectral_data_masked
+@
+
+\subsection{Filter}
+\label{sec:filter}
+Having a look at one spectrum in detail you might wish to smooth the spectrum somehow. 
+\SweaveOpts{width=5.2, height=4.5}
+\begin{framed}
+<<echo=TRUE,eval=FALSE,fig=FALSE>>=
+plot(spectral_data, FUN = 1, subset = c(1200,1300)) #raw spectrum
+@
+\resizebox{1\textwidth}{!}{
+<<fig=TRUE, echo=FALSE>>=
+par(mar = c(4,4,0.1,0.1), cex = 0.75)
+plot(spectral_data, FUN = 1, subset = c(1200,1300)) #raw spectrum
+@
+}
+\end{framed}
+\hsdar implements several methods to smooth spectra. These are Savitzky-Golay, Spline, locally weighted scatterplot smoothing (Lowess) and Mean-filter.
+smoothSpeclib needs a Speclib as input and the method to be used. Depending on the method there are further parameters to be set. Have a look on the \hsdar help to find more information on these additional parameters. 
+\SweaveOpts{width=6, height=6}
+\begin{framed}
+<<echo=TRUE,eval=TRUE>>=
+#
+#Filter Speclib:
+#
+sgolay <- smoothSpeclib(spectral_data, method = "sgolay", n = 25)
+lowess <- smoothSpeclib(spectral_data, method = "lowess", f = .01)
+meanflt <- smoothSpeclib(spectral_data, method = "mean", p = 5)
+spline <- smoothSpeclib(spectral_data, method = "spline", 
+                         n = round(nbands(spectral_data)/10, 0))
+@
+\end{framed}
+
+Now plot the results:
+\begin{framed}
+<<echo=TRUE,eval=FALSE,fig=FALSE>>=
+par(mfrow = c(2,2))
+plot(sgolay, FUN = 1, subset = c(1200,1300), col = "red",
+     main = "Savitzky-Golay-Filter")
+plot(spectral_data, FUN = 1, new = FALSE) #raw spectrum
+
+plot(lowess, FUN = 1, subset = c(1200,1300), col = "red",
+     main = "Lowess-Filter")
+plot(spectral_data, FUN = 1, new = FALSE) #raw spectrum
+
+plot(meanflt, FUN = 1, subset = c(1200,1300), col = "red",
+     main = "Mean-filter")
+plot(spectral_data, FUN = 1, new = FALSE) #raw spectrum
+
+plot(spline, FUN = 1, subset = c(1200,1300), col = "red",
+     main = "Spline-Filter")
+plot(spectral_data, FUN = 1, new = FALSE) #raw spectrum
+@
+\resizebox{1\textwidth}{!}{
+<<fig=TRUE, echo=FALSE>>=
+par(mfrow=c(2,2), mar = c(4,4,3,0.1), cex = 0.75)
+plot(sgolay, FUN = 1, subset = c(1200,1300), col = "red",
+     main = "Savitzky-Golay-Filter")
+plot(spectral_data, FUN = 1, new = FALSE) #raw spectrum
+
+plot(lowess, FUN = 1, subset = c(1200,1300), col = "red",
+     main = "Lowess-Filter")
+plot(spectral_data, FUN = 1, new = FALSE) #raw spectrum
+
+plot(meanflt, FUN = 1, subset = c(1200,1300), col = "red",
+     main = "Mean-filter")
+plot(spectral_data, FUN = 1, new = FALSE) #raw spectrum
+
+plot(spline, FUN = 1, subset = c(1200,1300), col = "red",
+     main = "Spline-Filter")
+plot(spectral_data, FUN = 1, new = FALSE) #raw spectrum
+@
+}
+\end{framed}
+
+
 
 \subsection{Calculations of derivations}
 The derivation of spectra are needed in some analyzing techniques for example to characterize the shape of the red edge. The number of derivation is indicated by the parameter m, thus m = 1 returns the first derivation of the spectra.
@@ -640,22 +643,31 @@ The derivation of spectra are needed in some analyzing techniques for example to
 <<echo=TRUE,eval=TRUE,fig=FALSE>>=
 spectral_data_1deriv <- derivative.speclib(spectral_data, m = 1)
 spectral_data_2deriv <- derivative.speclib(spectral_data, m = 2)
+
+## Get index of red edge wavelength
+redEdgePart <- wavelength(spectral_data_2deriv) >= 600 & 
+               wavelength(spectral_data_2deriv) <= 800
+               
+## Cut spectra to red edge
+spectral_data_1deriv <- spectral_data_1deriv[,redEdgePart]
+spectral_data_2deriv <- spectral_data_2deriv[,redEdgePart]
+  
 #
 #plot derivations of the red edge area of 1. spectrum in the Speclib:
 #
 par(mfrow=c(1,2))
-plot(spectral_data_1deriv, FUN = 1, subset = c(600,800),
-main = "First derivation")
-plot(spectral_data_2deriv, FUN = 1, subset = c(600,800),
-main = "Second Derivation")
+plot(spectral_data_1deriv, FUN = 1, xlim = c(600,800),
+     main = "First derivation")
+plot(spectral_data_2deriv, FUN = 1, xlim = c(600,800),
+     main = "Second Derivation")
 @
 \resizebox{1\textwidth}{!}{
 <<fig=TRUE, echo=FALSE>>=
 par(mfrow = c(1,2), mar = c(4,4,3,0.1), cex = 0.75)
-plot(spectral_data_1deriv, FUN = 1, subset = c(600,800),
-main = "First derivation")
-plot(spectral_data_2deriv, FUN = 1, subset = c(600,800),
-main = "Second Derivation")
+plot(spectral_data_1deriv, FUN = 1, xlim = c(600,800),
+     main = "First derivation")
+plot(spectral_data_2deriv, FUN = 1, xlim = c(600,800),
+     main = "Second Derivation")
 @
 }
 \end{framed}
@@ -664,25 +676,28 @@ However, depending on the objectives it might be favorable to first smooth the s
 \begin{framed}
 <<echo=TRUE,eval=TRUE,fig=FALSE>>=
 spectral_data_1deriv <- derivative.speclib(smoothSpeclib(
-spectral_data, method = "sgolay", n = 35), m = 1)
+  spectral_data, method = "sgolay", n = 35), m = 1)
 spectral_data_2deriv <- derivative.speclib(smoothSpeclib(
-spectral_data, method = "sgolay", n = 35), m = 2)
+  spectral_data, method = "sgolay", n = 35), m = 2)
 #
 #Plot results:
 #
 par(mfrow=c(1,2))
-plot(spectral_data_1deriv, FUN = 1, subset = c(600,800),
-main = "First derivation")
-plot(spectral_data_2deriv, FUN = 1, subset = c(600,800),
-main = "Second Derivation")
+plot(spectral_data_1deriv, FUN = 1, xlim = c(600,800),
+     main = "First derivation")
+plot(spectral_data_2deriv, FUN = 1, xlim = c(600,800),
+     main = "Second Derivation")
 @
 \resizebox{1\textwidth}{!}{
 <<fig=TRUE, echo=FALSE>>=
+## Cut spectra to red edge
+spectral_data_1deriv <- spectral_data_1deriv[,redEdgePart]
+spectral_data_2deriv <- spectral_data_2deriv[,redEdgePart]
 par(mfrow = c(1,2), mar = c(4,4,3,0.1), cex = 0.75)
-plot(spectral_data_1deriv, FUN = 1, subset = c(600,800),
-main = "First derivation")
-plot(spectral_data_2deriv, FUN = 1, subset = c(600,800),
-main = "Second Derivation")
+plot(spectral_data_1deriv, FUN = 1, xlim = c(600,800),
+     main = "First derivation")
+plot(spectral_data_2deriv, FUN = 1, xlim = c(600,800),
+     main = "Second Derivation")
 @
 }
 \end{framed}
@@ -736,8 +751,8 @@ Because the continuum removal transformation is sensitive to errors in the spect
 <<echo=TRUE,eval=TRUE>>=
 data(spectral_data)
 spectral_data_preproc <- smoothSpeclib(spectral_data, 
-method = "sgolay", n = 5)
-#mask(spectral_data_preproc) <- c(1040,1060,1300,1450)
+                                       method = "sgolay", n = 5)
+mask(spectral_data_preproc) <- c(1040,1060,1300,1450)
 @
 \end{framed}
 Then have a look at the transformSpeclib function:
@@ -747,7 +762,7 @@ str(transformSpeclib)
 @
 \end{framed}
 
-"data" defines the speclib which is to be transformed. Concerning the "methods" parameter, currently the mentioned \textbf{c}onvex \textbf{h}ull ("ch") and the \textbf{s}egmented \textbf{h}ull ("sh") are implemented. The "out" parameter indicates weather the continuum line ("raw"), the continuum removed spectra (\textbf{b}and \textbf{d}epth, "bd") or the "ratio" will be returned. Have a look on the help page of transform.speclib and the listed literature for details on these methods or for help with interpretation. The output type of "ratio" the "bd" is a speclib, out="raw" returns an object of "clman". "clman" is a class designed to store and handle manual continuum lines. 
+"data" defines the speclib which is to be transformed. Concerning the "methods" parameter, currently the mentioned \textbf{c}onvex \textbf{h}ull ("ch") and the \textbf{s}egmented \textbf{h}ull ("sh") are implemented. The "out" parameter indicates if the continuum line ("raw"), the continuum removed spectra (\textbf{b}and \textbf{d}epth, "bd") or the "ratio" will be returned. Have a look on the help page of transform.speclib and the listed literature for details on these methods or for help with interpretation. The output type of "ratio" the "bd" is a speclib, out="raw" returns an object of "clman". "clman" is a class designed to store and handle manual continuum lines. 
 
 The following example will show you how to calculate the continuum line (just for visualization) and the band depth using the convex hull as well as the segmented hull approach:
 
@@ -836,7 +851,7 @@ with x is the continuum line, ispec is the name or index of the spectrum to be m
 <<echo=TRUE,eval=TRUE>>=
 getcp(sh_cline, 1, subset = c(500, 700)) #see all points
 sh_cline <- deletecp(sh_cline, 1, 
-                     c(580:700)) #delete all between 580 and 700 nm
+                     c(500:700)) #delete all between 500 and 700 nm
 getcp(sh_cline, 1, subset = c(500, 700)) #see what happened
 @
 \end{framed}
@@ -853,10 +868,16 @@ After modifying the continuum line by adding and/or deleting continuum points, y
 checkhull(sh_cline, 1)$error
 @
 \end{framed}
-If there are any errors, additional continuum points have to be defined to meet the constraint that the hull does not cross the spectrum.
+If there are any errors, additional continuum points have to be defined to meet the constraint that the hull does not cross the spectrum. In this case, we have to add a point at 1060 nm which is an issue due to the mask. Please note that the point at 1060 nm does not affect the following example.
 \begin{framed}
 <<echo=TRUE,eval=TRUE>>=
-sh_cline <- addcp(sh_cline, 1, 317)
+sh_cline <- addcp(sh_cline, 1, 1060)
+@
+\end{framed}
+Again, we check for errors:
+\begin{framed}
+<<echo=TRUE,eval=TRUE>>=
+checkhull(sh_cline, 1)$error
 @
 \end{framed}
 After all uncertainties are removed, the hull can be re-calculated using "makehull":
@@ -873,25 +894,25 @@ sh_bd <- updatecl(sh_bd, sh_clineUpdate) #update the band depth
 @
 \end{framed}
 
-Now, we can plot the resulting continuum removed spectra:
+Now, we can plot the resulting continuum removed spectra between 300 and 800 nm:
 \begin{framed}
 <<echo=TRUE,eval=FALSE,fig=FALSE>>=
 #plot new line:
 par (mfrow = c(1,2))
 plot(sh_cline, ispec = 1, main = "Updated Segmented hull", 
-     subset = c(500,800))
+     xlim = c(300,800))
 #plot new band depth
-plot(sh_bd, ispec = 1, main="Updated hull - Band depth",
-     subset = c(500,800))
+plot(sh_bd[1,], main="Updated hull - Band depth",
+     xlim = c(300,800))
 @
 \resizebox{1\textwidth}{!}{
 <<fig=TRUE, echo=FALSE>>=
 par(mfrow=c(1,2), mar = c(4,4,3,0.1), cex = 0.75)
 plot(sh_cline, ispec = 1, main = "Updated Segmented hull", 
-     subset = c(500,800))
+     xlim = c(300,800))
 #plot new band depth
-plot(sh_bd, ispec = 1, main="Updated hull - Band depth",
-     subset = c(500,800))
+plot(sh_bd[1,], main="Updated hull - Band depth",
+     xlim = c(300,800))
 @
 }
 \end{framed}
@@ -1045,9 +1066,14 @@ names(result) <- wavelength(spectral_data)
 \end{framed}
 In this way you can access the results using the wavelengths as string. E.g.~let's have a look on the results at 650 nm:
 \begin{framed}
-<<echo=TRUE,eval=TRUE>>=
+<<echo=TRUE,eval=FALSE>>=
 result$"650"
 @
+\begin{scriptsize}
+<<echo=FALSE,eval=TRUE>>=
+result$"650"
+@
+\end{scriptsize}
 \end{framed}
 You can easily plot this relation by a scatterplot with PV on th the x-axis and the reflectance at the wavelength 650 nm on the y-axis.
 \begin{framed}
@@ -1124,7 +1150,7 @@ boxplot(rd$R0 ~ spectral_data$attributes$season, ylab = "R0")
 \label{sec:nri}
 \hsdar has implemented a method to calculate NDVI-like Normalised ratio indices (NRI) (also named as narrow band indices). Thus for all possible band combinations in the spectrum, the following calculation is performed:
 \begin{equation}
-nri_{B1,B2}=\frac{R_{B1}-R_{B2}}{R_{B1}-R_{B2}}
+nri_{B1,B2}=\frac{R_{B1}-R_{B2}}{R_{B1}+R_{B2}}
 \end{equation}
 with $R$ being reflectance values at wavelength $B1$ and $B2$, respectively.
 

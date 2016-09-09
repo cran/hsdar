@@ -11,6 +11,7 @@ get_response_function <- function(sensor)
                      "Landsat5"=get_landsat5_response(),
                      "Landsat7"=get_landsat7_response(),
                      "Landsat8"=get_landsat8_response(),
+                     "Sentinel2"=get_sentinel2_response(),
 #                      "Modis"=get_TerraModis_response(),
                      NULL
               )
@@ -133,6 +134,19 @@ get_landsat8_response <- function ()
   attr(response, "wlunit")   <- "nm"
   attr(response, "minwl")    <- 427
   attr(response, "maxwl")    <- 2355
+  attr(response, "stepsize") <- 1
+  return(response)
+}
+
+get_sentinel2_response <- function ()
+{
+  Sentinel2A_response <- NULL
+  rm(Sentinel2A_response)
+  data("Sentinel2A_response", package = "hsdar", envir = environment())
+  response <- Sentinel2A_response
+  attr(response, "wlunit")   <- "nm"
+  attr(response, "minwl")    <- 300
+  attr(response, "maxwl")    <- 2600
   attr(response, "stepsize") <- 1
   return(response)
 }

@@ -34,57 +34,116 @@ x <- x$wavelength
 
 usagehistory(result) <- paste("Reflectance = transform (",method,"), ",out,sep="")
 
+pp <- .process_parallel()
 
 if (method == "ch")
 {
   methodfound=TRUE
-  hull <- matrix(data=0,nrow=nrow(y),ncol=ncol(y))
-  cp   <- y*0
-  status <- apply(matrix(c(1:nrow(y)), ncol = 1), 1, FUN = function(i, x, y)
+  
+  if (!pp[[1]])
   {
-    c.hull_da <- matrix(c(x, y[i,]), ncol = 2, byrow = FALSE)
-    c.hull <- chull(c.hull_da)
-    min_pt <- which.min(c.hull)
-    max_pt <- which.max(c.hull)
-    if (min_pt < max_pt)
+    hull <- matrix(data=0,nrow=nrow(y),ncol=ncol(y))
+    cp   <- y*0
+    status <- apply(matrix(c(1:nrow(y)), ncol = 1), 1, FUN = function(i, x, y)
     {
-      c.hull <- c.hull[c(min_pt:max_pt)]
-    } else {
-      c.hull <- c.hull[c(min_pt:length(c.hull), max_pt)]
+      c.hull_da <- matrix(c(x, y[i,]), ncol = 2, byrow = FALSE)
+      c.hull <- chull(c.hull_da)
+      min_pt <- which.min(c.hull)
+      max_pt <- which.max(c.hull)
+      if (min_pt < max_pt)
+      {
+        c.hull <- c.hull[c(min_pt:max_pt)]
+      } else {
+        c.hull <- c.hull[c(min_pt:length(c.hull), max_pt)]
+      }
+      cp[i,c.hull]   <<- x[c.hull]
+      hull[i,] <<- approx(x=x[c.hull],y=y[i,c.hull], xout = x,method = "linear", ties = "mean")$y
+    }, x, y)
+  } else {   
+    `%op%` <- pp[[2]]
+    c.hull <- foreach::foreach(i=1:nrow(y), .combine = 'rbind') %op%
+    {
+      c.hull_da <- matrix(c(x, y[i,]), ncol = 2, byrow = FALSE)
+      c.hull <- chull(c.hull_da)
+      min_pt <- which.min(c.hull)
+      max_pt <- which.max(c.hull)
+      if (min_pt < max_pt)
+      {
+        c.hull <- c.hull[c(min_pt:max_pt)]
+      } else {
+        c.hull <- c.hull[c(min_pt:length(c.hull), max_pt)]
+      }
+      cp <- c(1:ncol(y)) * 0
+      cp[c.hull]   <- x[c.hull]
+      hull <- approx(x=x[c.hull],y=y[i,c.hull], xout = x,method = "linear", ties = "mean")$y
+      matrix(c(cp, hull), ncol = 2, byrow = FALSE)
     }
-    cp[i,c.hull]   <<- x[c.hull]
-    hull[i,] <<- approx(x=x[c.hull],y=y[i,c.hull], xout = x,method = "linear", ties = "mean")$y
-  }, x, y)
+    hull <- matrix(c.hull[,2], ncol = ncol(y), byrow = TRUE)
+    cp   <- matrix(c.hull[,1], ncol = ncol(y), byrow = TRUE)
+    .restoreParallel()
+  }
 }
 if (method == "sh")
 {
   methodfound=TRUE
-  hull <- y
-  cp   <- y
-  status <- apply(matrix(c(1:nrow(y)), ncol = 1), 1, FUN = function(i, x, y)
+  if (!pp[[1]])
   {
-    y_i <- as.vector(as.matrix(y[i,]))
-    external <- .Fortran("localmaxima",
-                         n      = as.integer(length(y_i)),
-                         y      = as.single(y_i),
-                         locmax = as.integer(c(1:length(y_i))*0),
-                         PACKAGE="hsdar"
-                        )
-    lm <- external$locmax
-    lm <- lm[lm>0]
-                         
-    external <- .Fortran("suh",
-                         nlm  = as.integer(length(lm)), 
-                         n    = as.integer(length(y)),
-                         LMin = as.integer(lm),
-                         y    = as.single(y_i),
-                         hull = as.single(c(1:length(y))*0),
-                         cp   = as.integer(c(1:length(y))*0),
-                         PACKAGE="hsdar"
-                        )
-    hull[i,] <<- external$hull
-    cp[i,]   <<- external$cp
-  }, x, y)
+    hull <- y
+    cp   <- y
+    status <- apply(matrix(c(1:nrow(y)), ncol = 1), 1, FUN = function(i, x, y)
+    {
+      y_i <- as.vector(as.matrix(y[i,]))
+      external <- .Fortran("localmaxima",
+                          n      = as.integer(length(y_i)),
+                          y      = as.single(y_i),
+                          locmax = as.integer(c(1:length(y_i))*0),
+                          PACKAGE="hsdar"
+                          )
+      lm <- external$locmax
+      lm <- lm[lm>0]
+                          
+      external <- .Fortran("suh",
+                          nlm  = as.integer(length(lm)), 
+                          n    = as.integer(length(y)),
+                          LMin = as.integer(lm),
+                          y    = as.single(y_i),
+                          hull = as.single(c(1:length(y))*0),
+                          cp   = as.integer(c(1:length(y))*0),
+                          PACKAGE="hsdar"
+                          )
+      hull[i,] <<- external$hull
+      cp[i,]   <<- external$cp
+    }, x, y)
+  } else {
+    `%op%` <- pp[[2]]
+    c.hull <- foreach::foreach(i=1:nrow(y), .combine = 'rbind') %op%
+    {
+      y_i <- as.vector(as.matrix(y[i,]))
+      external <- .Fortran("localmaxima",
+                          n      = as.integer(length(y_i)),
+                          y      = as.single(y_i),
+                          locmax = as.integer(c(1:length(y_i))*0),
+                          PACKAGE="hsdar"
+                          )
+      lm <- external$locmax
+      lm <- lm[lm>0]
+                          
+      external <- .Fortran("suh",
+                          nlm  = as.integer(length(lm)), 
+                          n    = as.integer(length(y)),
+                          LMin = as.integer(lm),
+                          y    = as.single(y_i),
+                          hull = as.single(c(1:length(y))*0),
+                          cp   = as.integer(c(1:length(y))*0),
+                          PACKAGE="hsdar"
+                          )
+      matrix(c(external$cp, external$hull), ncol = 2, byrow = FALSE)
+    }
+    
+    hull <- matrix(c.hull[,2], ncol = ncol(y), byrow = TRUE)
+    cp   <- matrix(c.hull[,1], ncol = ncol(y), byrow = TRUE)
+    .restoreParallel()
+  }
 }
 
 if (!methodfound) stop(paste("Unknown method '",method,"'!",sep=""))

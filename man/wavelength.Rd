@@ -4,16 +4,20 @@
 \alias{wavelength,Speclib-method}
 \alias{wavelength<-,Speclib,data.frame-method}
 \alias{wavelength<-,Speclib,numeric-method}
+\alias{fwhm<-}
+\alias{fwhm<-,Speclib,numeric-method}
+\alias{fwhm}
+\alias{fwhm,Speclib-method}
 
 \alias{wavelength,HyperSpecRaster-method}
 \alias{wavelength<-,HyperSpecRaster,numeric-method}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Handling wavelength
+Handling wavelength and fwhm 
 }
 \description{
-Returning and setting wavelength in Speclib and HyperSpecRaster
+Returning and setting wavelength and full-width-half-max (fwhm) values in Speclib and HyperSpecRaster
 }
 \usage{
 \S4method{wavelength}{Speclib}(object)
@@ -25,6 +29,10 @@ Returning and setting wavelength in Speclib and HyperSpecRaster
 \S4method{wavelength}{HyperSpecRaster}(object)
 
 \S4method{wavelength}{HyperSpecRaster,numeric}(object) <- value
+
+\S4method{fwhm}{Speclib}(object)
+
+\S4method{fwhm}{Speclib,numeric}(object) <- value
 }
 \arguments{
   \item{object}{
@@ -35,7 +43,7 @@ Numeric vector or data.frame containing wavelength values.
 }
 }
 \value{
-For \code{wavelength<-}, the updated object. Otherwise a numeric vector of the spectra in x is returned.
+For \code{wavelength<-} and \code{fwhm<-}, the updated object. Otherwise a numeric vector of the wavelength and fwhm-values is returned.
 }
 
 \author{

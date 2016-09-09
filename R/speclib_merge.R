@@ -19,8 +19,9 @@ setMethod("merge", signature(x = "Speclib", y = "Speclib"),
   } else {
     warning("y does not have proper attributes definition. Attributes information will be lost")
   }
-  
+  ids <- c(idSpeclib(x), idSpeclib(y))
   spectra(x) <- as.matrix(rbind(spectra(x),spectra(y))) 
+  idSpeclib(x) <- as.character(ids)
   
   return(x)
 }

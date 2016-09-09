@@ -76,12 +76,12 @@ if (spectral_response_function)
                           nwl=as.integer(length(wavelength)),
                           nspec=as.integer(nrow(x)),
                           nband=as.integer(nch),
-                          wl=as.double(wavelength),
+#                           wl=as.double(wavelength),
                           spec=as.double(x),
-                          responsedim=responsedim,
+#                           responsedim=responsedim,
                           response=response_transformed,
-                          integrated=as.double(spectra)#,
-#                           package="hsdar"
+                          integrated=as.double(spectra),
+                          package="hsdar"
                           )
   spectra <- matrix(data=integrated$integrated,ncol=nch)
   bandnames(result) <- cha_names

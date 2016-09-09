@@ -24,7 +24,7 @@ Further arguments passed to \code{\link{agrep}}.
 }
 }
 \details{
-Matchable objects are attributes data. Use column names to identify the respectrive attribute. See \code{\link{attribute}} to access attributes of a \code{Speclib}.
+Matchable objects are attributes data. Use column names to identify the respectrive attribute. See \code{\link{attribute}} to access attributes of a \code{Speclib}. IDs of spectra may be accessed using "id.speclib" as variable name. 
 }
 \value{
 Object of class \code{Speclib}.
@@ -45,9 +45,9 @@ Lukas Lehnert
 data(spectral_data)
 
 ## Return names of attributes data
-names(spectral_data$attributes)
+names(attribute(spectral_data))
 
-## Devide into both locations according to groups
+## Devide into both seasons
 sp_summer <- subset(spectral_data, season == "summer")
 sp_spring <- subset(spectral_data, season == "spring")
 

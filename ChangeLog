@@ -1,4 +1,28 @@
 ------------------------------------------------------------------------------------------
+--- 09-September-2016, version 0.5.0
+- New functionalities:
+   - subset-method for class Nri
+   - Sentinel-2A integrated
+   - Set and replace methods for fwhm-values added
+   - Functions to handle parallel backend added
+   - New 'transformSpeclib' allowing parallel processing
+- Bug fixes:
+   - dist.speclib does not crash any more if speclib is not masked
+   - Erroneous calculation of REP_Li corrected. Thanks go to Xavier Bailleau for finding
+     the error.
+   - Plot-method for Nri sets figure window correctly and allows to start a new plot.
+   - IDs of spectra are correctly set after subsetting Speclib.
+   - In function merge: IDs in Speclibs are linked together.
+   - Argument "upperdiag" changed to "uppertriang" in plot method for Nri (for compatibility, 
+     the old argument still works)
+   - Functions for indexing and masking of Speclibs now consider 'bandnames'
+   - Functions for indexing and masking of Speclibs now consider 'fwhm'
+   - Function 'feature_properties' works if initial object does not contain attributes
+   - Tabs in Fortran code replaced by whitespaces
+- Vignettes:
+   - Hsdar-intro: Example for manual hull changed.
+
+------------------------------------------------------------------------------------------
 --- 23-February-2016, version 0.4.1
 - New functionalities:
    - Soil spectrum may be passed to PROSAIL

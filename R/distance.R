@@ -15,10 +15,13 @@ dist.speclib <- function(
   {
     distance <- sam_distance(x)
     distance <- as.dist(distance)
-  } else {    
-    if (attr(x, "setmask"))
-      x <- interpolate.mask(x)
-      
+  } else {
+    if (!is.null(attr(x, "setmask")))
+    {
+      if (attr(x, "setmask"))
+        x <- interpolate.mask(x)
+    }
+    
     spec <- spectra(x)
     
     distance <- dist(spec, method = method, ...)
@@ -103,8 +106,11 @@ sam_distance <- function (x)
     
   spec <- spectra(x)
   
-  if (attr(x, "setmask"))
-    x <- interpolate.mask(x)
+  if (!is.null(attr(x, "setmask")))
+  {
+    if (attr(x, "setmask"))
+      x <- interpolate.mask(x)
+  }
   
   spec    <- as.matrix(spec)  
   nspec   <- nrow(spec)

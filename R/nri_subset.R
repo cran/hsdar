@@ -1,15 +1,15 @@
-setMethod("subset", signature(x = "Speclib"), 
+setMethod("subset", signature(x = "Nri"), 
                  definition = function(x, subset, ...)
 {
   subset <- substitute(subset)
-  return(.subset.speclib(x, subset, ...))
+  return(.subset.nri(x, subset, ...))
 }
 )
 
 
-.subset.speclib <- function(x, e, fuzzy = FALSE, ...)
+.subset.nri <- function(x, e, fuzzy = FALSE, ...)
 {
-  target <- data.frame(id.speclib = idSpeclib(x))
+  target <- data.frame(id.nri = x@dimnames$Sample)
   if (nrow(attribute(x)) == nrow(target))
     target <- cbind(target, attribute(x))
 
@@ -53,19 +53,19 @@ setMethod("subset", signature(x = "Speclib"),
     stop("'subset' must evaluate to logical")
   r <- r & !is.na(r)
   
-  id_speclib <- as.character(idSpeclib(x))[r]
-  spectra(x) <- if (sum(r) == 1) matrix(data=spectra(x)[r,], nrow=1) else spectra(x)[r,]
+  x@nri <- distMat3D(x@nri[,,r])
+  
+  x@dimnames$Sample <- x@dimnames$Sample[r]
 
   if (nrow(attribute(x)) == nrow(target))
     attribute(x) <- attribute(x)[r,] 
   e_str <- gsub("\"", "'", as.character(paste(enquote(e)))[2])
   if (length(e_str) == 1)
   {
-    usagehistory(x) <- paste("Subset of spectra (", e_str, ")", sep = "")  
+    usagehistory(x) <- paste("Subset of nri-values (", e_str, ")", sep = "")  
   } else {
-    usagehistory(x) <- "Subset of spectra"
+    usagehistory(x) <- "Subset of nri-values"
   }
-  idSpeclib(x) <- id_speclib
   return(x)
 }
 

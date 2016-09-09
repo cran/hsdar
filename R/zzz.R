@@ -7,4 +7,5 @@
                           "\n      'citation(\"hsdar\")'",
                           "\n###################################",
                           appendLF = TRUE)
+    .restoreParallel()
 }

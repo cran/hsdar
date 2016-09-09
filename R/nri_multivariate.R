@@ -126,8 +126,9 @@ getNRI <- function(nri, wavelength)
   return(NRI_subset)
 }
 
-mark_nri_best_performance <- function(best, glmnri, n = nrow(best$Indices), upperdiag = FALSE,...)
+mark_nri_best_performance <- function(best, glmnri, n = nrow(best$Indices), uppertriang = FALSE,...)
 {
+
   range.of.wavelength <- glmnri@fwhm
   if (length(range.of.wavelength) == 1)
   {
@@ -142,7 +143,7 @@ mark_nri_best_performance <- function(best, glmnri, n = nrow(best$Indices), uppe
       best$Indices$Rangey[i] <- range.of.wavelength[which(glmnri@wavelength == best$Indices[i,1])]
     }
   }
-  if (!upperdiag)
+  if (!uppertriang)
   {
     for (i in 1:n)
     {

@@ -30,8 +30,8 @@ pi=atan(1.)*4.
 thetarad=pi*theta/180.
 
 if (theta.eq.0.) then
-	res=4.*refr/(refr+1.)**2
-	return
+  res=4.*refr/(refr+1.)**2
+  return
 endif
 
 refr2=refr*refr
@@ -39,9 +39,9 @@ ax=(refr+1.)**2/2.
 bx=-(refr2-1.)**2/4.
 
 if (thetarad.eq.pi/2.) then
-	b1=0.
+  b1=0.
 else
-	b1=dsqrt((sin(thetarad)**2-(refr2+1.)/2.)**2+bx)
+  b1=dsqrt((sin(thetarad)**2-(refr2+1.)/2.)**2+bx)
 endif
 b2=sin(thetarad)**2-(refr2+1.)/2.
 b0=b1-b2
@@ -50,9 +50,9 @@ tp1=-2.*refr2*(b0-ax)/(refr2+1.)**2
 tp2=-2.*refr2*(refr2+1.)*dlog(b0/ax)/(refr2-1.)**2
 tp3=refr2*(1./b0-1./ax)/2.
 tp4=16.*refr2**2*(refr2**2+1.)*dlog((2.*(refr2+1.)*b0-(refr2-1.)**2)/ &
-	(2.*(refr2+1.)*ax-(refr2-1.)**2))/((refr2+1.)**3*(refr2-1.)**2)
+  (2.*(refr2+1.)*ax-(refr2-1.)**2))/((refr2+1.)**3*(refr2-1.)**2)
 tp5=16.*refr2**3*(1./(2.*(refr2+1.)*b0-((refr2-1.)**2))-1./(2.*(refr2+1.) &
-	*ax-(refr2-1.)**2))/(refr2+1.)**3
+  *ax-(refr2-1.)**2))/(refr2+1.)**3
 tp=tp1+tp2+tp3+tp4+tp5
 res=(ts+tp)/(2.*sin(thetarad)**2)
 

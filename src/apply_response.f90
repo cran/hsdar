@@ -1,10 +1,11 @@
-subroutine apply_response (nwl, nspec, nband, wl, spec, responsedim,&
+subroutine apply_response (nwl, nspec, nband, &!wl,
+                           spec, &!responsedim,&
                            response_transformed, integrated)
 implicit none
 
 integer, intent (in)           :: nwl, nspec, nband
-double precision, intent (in)  :: responsedim(3)
-double precision, intent (in)  :: wl(nwl)
+! double precision, intent (in)  :: responsedim(3)
+! double precision, intent (in)  :: wl(nwl)
 double precision, intent (in)  :: spec(nspec,nwl)
 double precision, intent (in)  :: response_transformed(nwl,nband)
 double precision, intent (out) :: integrated(nspec,nband)

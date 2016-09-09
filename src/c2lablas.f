@@ -8,8 +8,7 @@
       DOUBLE PRECISION, intent(in)  :: X(N), AM(M,N)
       DOUBLE PRECISION, intent(out) :: Y(M)
             
-      DOUBLE PRECISION ALPHA, BETA, temp(n)
-      INTEGER I, K
+      DOUBLE PRECISION ALPHA, BETA
       CHARACTER(1) TRANS
       
       

@@ -152,8 +152,10 @@ PWI \tab \eqn{R_{970}/R_{900}}                                                  
 RDVI \tab \eqn{(R_{800}-R_{670})/\sqrt{R_{800}+R_{670}}}                                        \tab Roujean and Breon (1995)\cr
 % RDVI \tab \eqn{(R_{800}-R_{670})/(R_{800}+R_{670})^{0.5}}                                     \tab Roujean and Breon (1995)\cr
 REP_LE \tab Red-edge position through linear extrapolation.                                     \tab Cho and Skidmore (2006)\cr
-REP_Li \tab \eqn{700 + 40\cdot ((R_{670}+R_{780}/2)/(R_{740}-R_{700}))}{700 + 40*((R_{670}+R_{780}/2)/(R_{740}-R_{700}))}
-                                                                                                \tab Guyot and Baret (1988)\cr
+REP_Li \tab \eqn{R_{re}=(R_{670}+R_{780})/2}                                                    \tab Guyot and Baret (1988)\cr
+       \tab \eqn{700 + 40\cdot((R_{re} -R_{700})/(R_{740}-R_{700}))}{700 + 40*((R_{re} -R_{700})/(R_{740}-R_{700}))}\tab \cr
+% REP_Li \tab \eqn{700 + 40((((R_{670}+R_{780})/2)-R_{700})/}                                     \tab Guyot and Baret (1988)\cr
+%        \tab \eqn{(R_{740}-R_{700}))}                                                            \tab \cr
 SAVI \tab \eqn{(1+L)\cdot (R_{800}-R_{670})/(R_{800}+R_{670}+L)}{(1+L)*(R_{800}-R_{670})/(R_{800}+R_{670}+L)} 
                                                                                                 \tab Huete (1988)\cr
 SIPI \tab \eqn{(R_{800}-R_{445})/(R_{800}-R_{680})}                                             \tab Penuelas et al. (1995),\cr

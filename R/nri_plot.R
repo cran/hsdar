@@ -10,10 +10,14 @@ setMethod("plot", signature(x = "Nri"),
                    digits      = 2,
                    range       = "auto",
                    constraint  = NULL,
-                   upperdiag   = FALSE,
+                   uppertriang = FALSE,
                    ...
                   )
 {
+  ## Compatibility to previous version
+  if (any(names(list(...)) == "upperdiag"))
+    uppertriang <- list(...)[which(names(list(...)) == "upperdiag")]
+    
   predictordefined <- TRUE
   leg_outer <- FALSE
   if (!is.logical(legend))
@@ -100,7 +104,7 @@ setMethod("plot", signature(x = "Nri"),
     coefficient <- x@multivariate[[which(names(x@multivariate)==coefficient)]]
     coefficient <- as.matrix(coefficient, lyr = predictor)
   }
-  if (!upperdiag)
+  if (!uppertriang)
     plot(x@wavelength,x@wavelength,type="n", xlab=xlab, ylab=ylab, ...)
   
   
@@ -171,7 +175,7 @@ setMethod("plot", signature(x = "Nri"),
     }
     coefficient[cons_eval_mat == 0] <- minval -1    
   }
-  if (upperdiag)
+  if (uppertriang)
   {
     for (k in 1:(dim(coefficient)[1]-1))
     {
@@ -226,7 +230,7 @@ setMethod("plot", signature(x = "Nri"),
   
   if (legend)
   {
-    if (!upperdiag)
+    if (!uppertriang)
     {
       if (!leg_outer)
       {
@@ -268,7 +272,7 @@ setMethod("plot", signature(x = "Nri"),
         text(xcoor[1],ycoor[1],round(minval,digits), pos = 4)
         text(xcoor[1],ycoor[2],round(maxval,digits), pos = 4)
         par(old.par)
-        par(mfg=old.par$mfg)   
+#         par(mfg=old.par$mfg)   
       }
     } else {
       old.par <- par(no.readonly = TRUE)
@@ -294,7 +298,7 @@ setMethod("plot", signature(x = "Nri"),
       text(xcoor[1],ycoor[1],round(minval,digits), pos = 3)
       text(xcoor[2],ycoor[1],round(maxval,digits), pos = 3)
       par(old.par)
-      par(mfg=old.par$mfg)   
+#       par(mfg=old.par$mfg)   
     }
   }
   invisible(c(minval,maxval))

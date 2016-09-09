@@ -13,7 +13,7 @@ nri_best_performance(nri, n = 1, coefficient = "p.value",
                      predictor = 2, abs = FALSE, findMax = FALSE, 
                      ...)
 mark_nri_best_performance(best, glmnri, n = nrow(best$Indices), 
-                          upperdiag = FALSE, ...)
+                          uppertriang = FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -41,8 +41,8 @@ Find maximum or minimum values
 \item{best}{
 Output from \code{nri_best_performance}
 }
-\item{upperdiag}{
-Flag to return the upper diagonal
+\item{uppertriang}{
+Flag to mark the upper triangle
 }
   \item{...}{
 Further arguments passed to \code{\link{glm}} function. These must be the same as used for initial creation of \code{\link{glm.nri}}. For \code{mark_nri_best_performance} arguments are passed to \code{\link{polygon}}.
