@@ -6,7 +6,7 @@ spectralResampling <- function (
                                 response_function=TRUE
                                )
 {
-  
+no_data <- -9999.999  
 if (x@spectra@fromRaster)
   return(.blockwise(speclib_obj =  "x", pos = 1))
   
@@ -69,6 +69,8 @@ if (spectral_response_function)
   cha_names <- idSpeclib(response)
 
   x <- as.matrix(x)
+  
+  x[!is.finite(x)] <- no_data
 
   response_transformed <- as.double(t(as.matrix(spectra(response))))
 
@@ -81,8 +83,10 @@ if (spectral_response_function)
 #                           responsedim=responsedim,
                           response=response_transformed,
                           integrated=as.double(spectra),
+                          no_data = as.double(no_data),
                           package="hsdar"
                           )
+  integrated$integrated[abs(integrated$integrated - no_data) < 1.0e-6] <- NA                        
   spectra <- matrix(data=integrated$integrated,ncol=nch)
   bandnames(result) <- cha_names
 } else {

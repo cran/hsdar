@@ -57,7 +57,7 @@ using \code{\link{addcp}} and \code{\link{deletecp}}.
 
 }
 \value{
-If \code{method != "raw"} an object of class \code{\linkS4class{Speclib}} containing transformed spectra is returned. Otherwise the return object will be of class \code{\link{Clman}}.
+If \code{out != "raw"} an object of class \code{\linkS4class{Speclib}} containing transformed spectra is returned. Otherwise the return object will be of class \code{\link{Clman}}.
 }
 \references{
 Clark, R. N., King, T. V. V. and Gorelick, N. S. (1987): Automatic continuum analysis of reflectance spectra. 

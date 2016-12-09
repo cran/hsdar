@@ -56,8 +56,18 @@ setMethod("subset", signature(x = "Speclib"),
   id_speclib <- as.character(idSpeclib(x))[r]
   spectra(x) <- if (sum(r) == 1) matrix(data=spectra(x)[r,], nrow=1) else spectra(x)[r,]
 
-  if (nrow(attribute(x)) == nrow(target))
-    attribute(x) <- attribute(x)[r,] 
+  if (ncol(attribute(x)) == 1)
+  {
+    if (nrow(attribute(x)) == nrow(target))
+    {
+      tmp <- data.frame(tmp = attribute(x)[r,])
+      names(tmp) <- names(attribute(x))
+      attribute(x) <- tmp
+    }
+  } else {
+    if (nrow(attribute(x)) == nrow(target))
+      attribute(x) <- attribute(x)[r,] 
+  }
   e_str <- gsub("\"", "'", as.character(paste(enquote(e)))[2])
   if (length(e_str) == 1)
   {

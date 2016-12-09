@@ -1,4 +1,12 @@
 ------------------------------------------------------------------------------------------
+--- 29-September-2016, version 0.5.1 (under development)
+- New functionalities:
+   - Functions to convert to and from class "hyperSpec" from the hyperSpec-package added
+- Bug fixes:
+   - spectralResampling works with NA values
+   - subset Speclib works if attributes data.frame only has one column
+
+------------------------------------------------------------------------------------------
 --- 09-September-2016, version 0.5.0
 - New functionalities:
    - subset-method for class Nri
@@ -6,6 +14,7 @@
    - Set and replace methods for fwhm-values added
    - Functions to handle parallel backend added
    - New 'transformSpeclib' allowing parallel processing
+   - Function 'glm.nri' supports parallel processing
 - Bug fixes:
    - dist.speclib does not crash any more if speclib is not masked
    - Erroneous calculation of REP_Li corrected. Thanks go to Xavier Bailleau for finding

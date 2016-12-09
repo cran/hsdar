@@ -116,6 +116,11 @@ setMethod("as.data.frame", signature(x = "Speclib"),
   }
 )
 
+setMethod("speclib", signature(spectra = "hyperSpec"), 
+          function(spectra, ...)
+  return(createspeclib(as.matrix(spectra), spectra@wavelength, ...))
+)
+
 
 createspeclib <- function (spectra,
                            wavelength,

@@ -1,32 +1,37 @@
 subroutine apply_response (nwl, nspec, nband, &!wl,
                            spec, &!responsedim,&
-                           response_transformed, integrated)
+                           response_transformed, integrated, no_data)
 implicit none
 
 integer, intent (in)           :: nwl, nspec, nband
 ! double precision, intent (in)  :: responsedim(3)
 ! double precision, intent (in)  :: wl(nwl)
-double precision, intent (in)  :: spec(nspec,nwl)
+double precision, intent (in)  :: spec(nspec,nwl), no_data
 double precision, intent (in)  :: response_transformed(nwl,nband)
 double precision, intent (out) :: integrated(nspec,nband)
 
-double precision :: sum_weights
+double precision :: sum_weights, tol = 1.0e-6
 integer          :: iband, ispec, iwl
 
 
 integrated = 0.0
 do iband=1, nband
-  do ispec=1, nspec
+  specloop: do ispec=1, nspec
     sum_weights = 0.0
-    do iwl=1, nwl
-      if (response_transformed(iwl,iband).gt.0) then
-        integrated(ispec,iband) = integrated(ispec,iband) + &
-            spec(ispec,iwl) * response_transformed(iwl,iband)
-        sum_weights = sum_weights + response_transformed(iwl,iband)
+    do iwl=1, nwl      
+      if (response_transformed(iwl,iband) .gt. 0) then
+        if (abs(spec(ispec,iwl) - no_data) .gt. tol) then
+          integrated(ispec,iband) = integrated(ispec,iband) + &
+              spec(ispec,iwl) * response_transformed(iwl,iband)
+          sum_weights = sum_weights + response_transformed(iwl,iband)
+        else 
+          integrated(ispec,iband) = no_data
+          cycle specloop
+        endif
       endif
     enddo
     integrated(ispec,iband) = integrated(ispec,iband) / sum_weights
-  enddo
+  enddo specloop
 enddo
 
 return
