@@ -64,6 +64,8 @@ specfeat <- function(
                      FWL
                     )
 {
+#   tr <- x@transformation
+#   yl <- x@ylabel 
   if (class(x)!="Speclib") 
     stop("x must be of class 'Speclib'")
   
@@ -82,6 +84,8 @@ specfeat <- function(
   
   y       <- spectra(x)
   feature <- as(x, 'Specfeat')
+#   feature@transformation <- tr
+#   feature@ylabel <- yl
   
   usagehistory(feature) <- "Extract feature(s)"
   
@@ -224,16 +228,16 @@ setMethod("plot", signature(x = "Specfeat"),
       warning("At least on of 'changecol' and 'changetype' should be TRUE")
     if (length(stylebysubset)==1)
     {
-      i <- which(names(x@attributes)==stylebysubset)
+      i <- which(names(x@SI)==stylebysubset)
       if (length(i)==0)
       {
-        stop(paste(stylebysubset,"not found in attributes of x"))
+        stop(paste(stylebysubset,"not found in SI of x"))
       } else {
-          attribute <- x@attributes[,i]
+          SI <- x@SI[,i][,1]
       }
-      if (is.vector(attribute) | is.factor(attribute))
+      if (is.vector(SI) | is.factor(SI))
       {
-        lev <- as.factor(as.character(attribute[spectra]))
+        lev <- as.factor(as.character(SI[spectra]))
         lev <- levels(lev)
         if (changecol)
         {
@@ -324,9 +328,43 @@ setMethod("plot", signature(x = "Specfeat"),
       par(oma=p)
     }
   } 
+ 
+  if (any(names(call_dots)=="xlab")) 
+  {
+    setxlabel <- TRUE
+  } else {
+    setxlabel <- FALSE
+    xlab <- paste(x@xlabel," (", x@wlunit,")", sep = "")
+  }
   
+  if (any(names(call_dots)=="ylab"))  
+  {
+    setylabel <- TRUE
+  } else { 
+    setylabel <- FALSE
+    ylab <- x@ylabel  
+  }
+       
+    
   if (new)
-    plot(Wavelength,Reflectance,type="n",...)
+  {
+    if (all(c(setxlabel,setylabel)))
+    {
+      plot(Wavelength,Reflectance,type="n",...)
+    } else {
+      if (!setylabel)
+      {
+        plot(Wavelength,Reflectance,type="n", ylab = ylab, ...)
+      } else {
+        if (!setxlabel)
+        {
+          plot(Wavelength,Reflectance,type="n", xlab = xlab, ...)
+        } else {
+          plot(Wavelength,Reflectance,type="n", ylab = ylab, xlab = xlab, ...)
+        }
+      }
+    }
+  }
 
   p <- par("usr")
 

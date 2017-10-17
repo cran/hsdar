@@ -13,7 +13,7 @@
 Mask spectra
 }
 \description{
-Returning and setting mask of spectra in Speclib. \code{interpolate.mask} linearly interpolates masked parts in spectra.
+Returning and setting mask of spectra in \code{Speclib}. \code{interpolate.mask} linearly interpolates masked parts in spectra.
 }
 \usage{
 \S4method{mask}{Speclib}(object)
@@ -34,14 +34,14 @@ Numeric vector, data frame or list giving the mask boundaries in wavelength unit
 }
 }
 \details{
-  Value may be an object of class vector, data frame or list. Data frames must contain 2 columns with the first column giving the lower and the second the upper boundary values of the mask. List must have two items consisting of vectors of length = 2. The first entry is used as lower and the second as upper boundary values. Vectors must contain corresponding lower and upper boundary values consecutively.
+  Value may be an object of class vector, data frame or list. Data frames must contain 2 columns with the first column giving the lower (lb) and the second the upper boundary (ub) of the wavelength ranges to be masked. List must have two items consisting of vectors of length = 2. The first entry is used as lower and the second as upper boundary value. Vectors must contain corresponding lower and upper boundary values consecutively. The masked wavelength range(s) as defined by the lower and upper boundaries are excluded from the object of class \code{Speclib}.
   
-  Interpolation of masked parts is mainly intended for internal use. Interpolation is only possible if mask does not exceed spectral range of Speclib.
+  Interpolation of masked parts is mainly intended for internal use. Interpolation is only possible if mask does not exceed spectral range of \code{Speclib}.
 }
 \value{
 For \code{mask<-}, the updated object. Otherwise a data frame giving the mask boundaries.
 
-\code{interpolate.mask} returns a new object of class Speclib.
+\code{interpolate.mask} returns a new object of class \code{Speclib}.
 }
 
 \author{

@@ -7,7 +7,7 @@
 Normalised ratio index
 }
 \description{
-Calculate normalised ratio index for a single given band combination or for all possible band combinations
+Calculate normalised ratio index (nri) for a single given band combination or for all possible band combinations. Calculating nri is a frequently used method to standardize reflectance values and to find relationships between properties of the objects and their spectral data.
 }
 \usage{
 nri(x, b1, b2, recursive = FALSE, bywavelength = TRUE)
@@ -15,19 +15,19 @@ nri(x, b1, b2, recursive = FALSE, bywavelength = TRUE)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-List of class \code{Speclib} or of class \code{Nri} for print and as.matrix methods
+List of class \code{Speclib} or of class \code{Nri} for print and as.matrix methods.
 }
   \item{b1}{
-Band 1 given as index or wavelength
+Band 1 given as band number or wavelength.
 }
   \item{b2}{
-Band 2 given as index or wavelength
+Band 2 given as band number or wavelength.
 }
   \item{recursive}{
-If TRUE indices for all possible band combinations are calculated
+If TRUE indices for all possible band combinations are calculated. If FALSE, only a single nri for the given bands in \code{b1} and \code{b2} is calculated.
 }
   \item{bywavelength}{
-Flag to determine if b1 and b2 are indices (bywavelength = FALSE) or wavelength (bywavelength = TRUE)
+Flag to determine if b1 and b2 are band number (bywavelength = FALSE) or wavelength (bywavelength = TRUE) values.
 }
   \item{...}{
 Further arguments passed to generic functions. Currently ignored.
@@ -45,7 +45,7 @@ with \eqn{R} being reflectance values at wavelength \eqn{B1} and \eqn{B2}, respe
 If recursive = TRUE, all possible band combinations are calculated.
 }
 \value{
-If recursive = FALSE, a data frame with index values is returned. Otherwise result is an object of class \code{nri}. See \code{\link{glm.nri}} for applying a generalised linear model to an array of normalised ratio indices.
+If recursive = FALSE, a data frame with index values is returned. Otherwise result is an object of class \code{\linkS4class{Nri}}. See \code{\link{glm.nri}} for applying a generalised linear model to an array of normalised ratio indices.
 }
 
 \references{

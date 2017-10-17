@@ -1,5 +1,29 @@
 ------------------------------------------------------------------------------------------
---- 29-September-2016, version 0.5.1 (under development)
+--- 16-October-2017, version 0.6.0
+- Major changes:
+   - Attributes in the Speclib-objects are called "SI". Functions to get and replace SI 
+     added
+   - SI data may encompass data from raster files. In this case, the respecive part of 
+     the data is automatically read into memory during any kind of iterative reading/
+     writing of the main hyperspectral file stored in the spectra-slot.
+   - PROSPECT version D implemented.
+- New functionalities:
+   - Iterative handling of large raster files using writeStart, writeStop from raster-
+     package implemented for Speclib-class
+   - Function predictHyperspec added which is a wrapper for predict but using any kind of
+     classes provided by the hsdar-package.
+- Bug fixes:
+   - Indexing of Nri-objects now works with attributes encompassing a data.frame with
+     one single column
+   - NA values in raster images are removed before data is converted to
+     Speclib. 
+   - Bug from indexing of Specfeat objects removed
+   - Derivation function from Fortran into R code converted
+   - Function vegindex recognizes "..." now correctly to define derivation parameters
+   - plot.Specfeat-function correctly sets the x- and y-label
+     
+------------------------------------------------------------------------------------------
+--- 09-December-2016, version 0.5.1
 - New functionalities:
    - Functions to convert to and from class "hyperSpec" from the hyperSpec-package added
 - Bug fixes:

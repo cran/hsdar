@@ -19,7 +19,7 @@ setMethod("train", signature(x = ".CaretHyperspectral"),
                                     "This is only required if you do not specify 'y'.")) 
   }
   
-  useAttributesAsPredicants <- !is.na(.getPredicantVar(x, stopifmissing = FALSE))[1]
+  useSIAsPredicants <- !is.na(.getPredicantVar(x, stopifmissing = FALSE))[1]
   
   if (class(x) == "Nri")
   {
@@ -28,7 +28,7 @@ setMethod("train", signature(x = ".CaretHyperspectral"),
     all_vals <- as.data.frame(x)
   }
   
-  if (useAttributesAsPredicants)
+  if (useSIAsPredicants)
   {
     addVar <- .getPredicantVar(x)
     all_vals <- cbind(all_vals, addVar)
@@ -45,6 +45,6 @@ setMethod("train", signature(x = ".CaretHyperspectral"),
 # {
 #   if (is.null(bandnames(spectral_data)))
 #     bandnames(spectral_data) <- paste("V", c(1:nbands(data)), sep = "")
-#   data <- cbind(attribute(data), as.data.frame(data))
+#   data <- cbind(SI(data), as.data.frame(data))
 #   return(train.formula(form = form, data = data, ...))
 # })

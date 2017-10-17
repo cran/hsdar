@@ -9,7 +9,7 @@ Apply function for class Speclib
 Apply function over all spectra or a subset of spectra
 }
 \usage{
-\S4method{apply}{Speclib}(X, FUN, byattributes = NULL, ...)
+\S4method{apply}{Speclib}(X, FUN, bySI = NULL, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -19,8 +19,8 @@ Object of class \code{Speclib}
   \item{FUN}{
 Function to be applied. Matched with \code{\link{match.fun}}.
 }
-  \item{byattributes}{
-Character string giving the name of the column in the attributes to be used as subsets to apply function FUN on.
+  \item{bySI}{
+Character string giving the name of the column in the SI to be used as subsets to apply function FUN on.
 }
 \item{...}{
 Further arguments passed to FUN.
@@ -45,10 +45,10 @@ mean_spectrum <- apply(spectral_data, FUN = mean)
 plot(mean_spectrum)
 
 ## Same as above but seperately for both seasons
-mean_spectra <- apply(spectral_data, FUN = mean, byattributes = "season")
+mean_spectra <- apply(spectral_data, FUN = mean, bySI = "season")
 plot(mean_spectra, FUN = 1, ylim = c(0,50))
 plot(mean_spectra, FUN = 2, new = FALSE)
-attribute(mean_spectra)
+SI(mean_spectra)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

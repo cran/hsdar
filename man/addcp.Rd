@@ -2,10 +2,10 @@
 \alias{addcp}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Add fix point
+Manually add fix point to continuum line
 }
 \description{
-Add fix point to continuum line.
+This function is used to add an additional fix point to a manually created hull of a single spectrum. This fix point is then used to construct a continuum line.
 }
 \usage{
 addcp(x, ispec, cpadd) 
@@ -13,13 +13,13 @@ addcp(x, ispec, cpadd)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-    Object of class Clman.
+    Object of class \code{Clman}.
 }
   \item{ispec}{
     ID or index of spectrum to be modified.
 }
   \item{cpadd}{
-    Single value or vector of wavelength containing new fix points.
+    Single value or vector of wavelength containing new fix point(s).
 }
 }
 \author{

@@ -8,16 +8,16 @@ setMethod("merge", signature(x = "Speclib", y = "Speclib"),
   if (any(wl!=wavelength(y)))
     stop("Wavelengths differ")
 
-  if (nrow(attribute(y)) == dim(y)[1])
+  if (nrow(y@SI) == dim(y)[1])
   {
-    if (nrow(attribute(x)) == dim(x)[1])
+    if (nrow(x@SI) == dim(x)[1])
     {
-      attribute(x) <- rbind(attribute(x),attribute(y))
+      SI(x) <- rbind(SI(x),SI(y))
     } else {
-      warning("x does not have proper attributes definition. Attributes information will be lost")
+      warning("x does not have proper SI definition. SI information will be lost")
     }
   } else {
-    warning("y does not have proper attributes definition. Attributes information will be lost")
+    warning("y does not have proper SI definition. SI information will be lost")
   }
   ids <- c(idSpeclib(x), idSpeclib(y))
   spectra(x) <- as.matrix(rbind(spectra(x),spectra(y))) 

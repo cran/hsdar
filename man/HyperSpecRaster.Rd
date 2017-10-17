@@ -21,21 +21,21 @@
 \alias{writeValues,HyperSpecRaster,Speclib-method}
 
 
-\title{Handle hyperspectral cubes using raster package}
+\title{Handle hyperspectral cubes using raster package (deprecated)}
 
 \description{
-Methods to create and handle objects of class HyperSpecRaster
+The HyperSpecRaster-Class is deprecated. Use \code{\linkS4class{Speclib}} instead.
 }
 % generic 'HyperSpecRaster' and siglist 'RasterBrick,numeric'
 %   generic 'HyperSpecRaster' and siglist 'RasterLayer,numeric'
 %   generic 'HyperSpecRaster' and siglist 'character,numeric'
 
 \usage{
-\S4method{HyperSpecRaster}{character,numeric}(x, wavelength, fwhm = NULL, attributes = NULL, ...)
+\S4method{HyperSpecRaster}{character,numeric}(x, wavelength, fwhm = NULL, SI = NULL, ...)
 
-\S4method{HyperSpecRaster}{RasterLayer,numeric}(x, wavelength, fwhm = NULL, attributes = NULL)
+\S4method{HyperSpecRaster}{RasterLayer,numeric}(x, wavelength, fwhm = NULL, SI = NULL)
 
-\S4method{HyperSpecRaster}{RasterBrick,numeric}(x, wavelength, fwhm = NULL, attributes = NULL)
+\S4method{HyperSpecRaster}{RasterBrick,numeric}(x, wavelength, fwhm = NULL, SI = NULL)
 
 \S4method{HyperSpecRaster}{HyperSpecRaster}(x, wavelength)
 
@@ -58,8 +58,8 @@ Methods to create and handle objects of class HyperSpecRaster
   \item{x}{Raster* object}
   \item{wavelength}{Vector containing wavelength for each band}
   \item{fwhm}{Optional vector containing full-width-half-max values. If length == 1 the same value is assumed for each band. Note that function does not check the integrity of the values}
-  \item{attributes}{Optional data.frame containing attributes data}
-  \item{nrow}{Optional. Number of rows in HyperspecRaster. If omitted, function will try to get the information from the attributes in Speclib (\code{attr(x, "rastermeta")})}
+  \item{SI}{Optional data.frame containing SI data}
+  \item{nrow}{Optional. Number of rows in HyperspecRaster. If omitted, function will try to get the information from the SI in Speclib (\code{attr(x, "rastermeta")})}
   \item{ncol}{Optional. Number of colums in HyperspecRaster. See nrow above.}
   \item{xmn}{Optional. Minimum coordiante in x-dimension. See nrow above.}
   \item{xmx}{Optional. Maximum coordiante in x-dimension. See nrow above.}

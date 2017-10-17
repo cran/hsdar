@@ -23,8 +23,10 @@
 \alias{speclib,RasterBrick,matrix-method}
 \alias{speclib,RasterBrick,numeric-method}
 \alias{speclib,hyperSpec,ANY-method}
+\alias{speclib,character,numeric-method}
 \alias{ncol,.Spectra-method}
 \alias{nrow,.Spectra-method}
+\alias{speclib,Speclib,numeric-method}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
@@ -52,15 +54,17 @@ Methods to create objects of class Speclib from various data types
 
 \S4method{speclib}{numeric,matrix}(spectra, wavelength, ...)
 
-\S4method{speclib}{HyperSpecRaster,ANY}(spectra, wavelength, ...)
-
 \S4method{speclib}{hyperSpec,ANY}(spectra, wavelength, ...)
+
+\S4method{speclib}{character,numeric}(spectra, wavelength, ...)
+
+\S4method{speclib}{Speclib,numeric}(spectra, wavelength, ...)
 
 \S4method{print}{Speclib}(x)
 
 \S4method{show}{Speclib}(object)
 
-createspeclib(spectra, wavelength, fwhm = NULL, attributes = NULL, 
+createspeclib(spectra, wavelength, fwhm = NULL, SI = NULL, 
         usagehistory = NULL, transformation = NULL, 
         continuousdata = "auto", wlunit = "nm", 
         xlabel = "Wavelength", ylabel = "Reflectance",
@@ -71,7 +75,7 @@ is.speclib(x)
 
 \arguments{
 \item{spectra}{
-Data frame, matrix of raster object of class 'RasterBrick' or 'SpatialGridDataFrame' with spectral data
+Data frame, matrix of raster object of class 'RasterBrick' or 'SpatialGridDataFrame' with spectral data. Alternatively, spectra may be the path to a raster file containing hyperspectral data.
 }
 \item{x,object}{
 Object to be converted to or from Speclib. For conversion to Speclib it can be a of class \code{'data frame'}, \code{'matrix'}, \code{'list'} or \code{'character string'}. In the latter case x is interpreted as path to raster object and read by \code{readGDAL}. For conversion from \code{Speclib} the object must be of class \code{Speclib}.
@@ -82,11 +86,11 @@ Vector with corresponding wavelength for each band. A matrix or data.frame may b
 \item{fwhm}{
 Vector containing full-width-half-max values for each band
 }
-\item{attributes}{
-Data frame with additional attributes data.
+\item{SI}{
+Data frame with supplementary information to each spectrum.
 }
 \item{transformation}{
-Kind of transformation applied to spectral data (character)
+Kind of transformation applied to spectral data (character). See \code{\link{transformSpeclib}} for available ones. If \code{transformation = NULL}, no transformation is assumed (default).
 }
 \item{usagehistory}{
 Character string or vector used for history of usage
@@ -104,7 +108,7 @@ Label of wavelength data to be used for plots etc.
 Label of spectral signal to be used for plots etc.
 }
 \item{rastermeta}{
-List of meta information for SpatialGridDataFrame or HyperSpecRaster. If missing, meta data in speclib is used. Use function \code{\link{rastermeta}} to create valid objects.
+List of meta information for SpatialGridDataFrame. If missing, meta data in speclib is used. Use function \code{\link{rastermeta}} to create valid objects.
 }
 \item{...}{
 Further arguments passed to specific (generic) functions or createspeclib
@@ -126,7 +130,7 @@ An object of class \code{Speclib} containing the following slots is returned:
       \item{spectra_ra:}{ RasterBrick-object which is used if fromRaster == TRUE.}
     }
     Contains reflectance, transmittance or absorbance values. Handle with function \code{\link[=spectra.Speclib]{spectra}}.}
-  \item{attributes:}{ Data frame containing additional data to each spectrum. May be used for linear regression etc. Handle with function \code{\link[=attribute.speclib]{attribute}}.}
+  \item{SI:}{ Data frame containing additional data to each spectrum. May be used for linear regression etc. Handle with function \code{\link[=SI.speclib]{SI}}.}
   \item{usagehistory:}{ Vector giving information on history of usage of speclib. Handle with function \code{\link{usagehistory}}.}
   \item{rastermeta:}{ List containing meta information to create *Raster objects from Speclib. Handle with function \code{\link{rastermeta}}.}
 }
@@ -144,7 +148,7 @@ Lukas Lehnert
 
 \code{\link{idSpeclib}}, \code{\link[=dim.speclib]{dim}}, \code{\link[=spectra.Speclib]{spectra}},
 
-\code{\link[=attribute.speclib]{attribute}}
+\code{\link[=SI.speclib]{SI}}
 }
 \examples{
 data(spectral_data)

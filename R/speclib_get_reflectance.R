@@ -1,10 +1,25 @@
-# if (!isGeneric("get_reflectance")) {
-#   setGeneric("get_reflectance", function(spectra, ...)
-#   standardGeneric("get_reflectance"))
-# }
-
 get_reflectance <- function(spectra, wavelength, position, weighted = FALSE, ...)
 {
+  if (class(spectra) == "Speclib")
+  {
+    if (missing(position))
+    {
+      return(get_reflectance(spectra = spectra(spectra), 
+                             wavelength = wavelength(spectra),
+                             position = wavelength, 
+                             weighted = weighted, ...))
+    } else {      
+      if (missing(wavelength))
+      {
+        return(get_reflectance(spectra = spectra(spectra), 
+                               wavelength = wavelength(spectra),
+                               position = position, 
+                               weighted = weighted, ...))
+      } else {
+        stop("Either wavelenghth or position is not correcly set")
+      }
+    }
+  }
   if (wavelength[1]<=position & wavelength[length(wavelength)]>=position)
   {
     if (weighted)
@@ -27,11 +42,3 @@ get_reflectance <- function(spectra, wavelength, position, weighted = FALSE, ...
   }
 }
 
-setMethod("get_reflectance", signature(spectra = "Speclib"), 
-          function(spectra, position, ...)
-{
-  wavelength <- if (is.data.frame(spectra@wavelength)) rowMeans(spectra@wavelength) else spectra@wavelength
-  spectra <- spectra(spectra)
-  return(get_reflectance(spectra, wavelength, position, ...))  
-}
-)

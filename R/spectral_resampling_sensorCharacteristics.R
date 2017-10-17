@@ -26,7 +26,7 @@ list.available.sensors <- function(returnHelp = FALSE)
     for (i in 1:length(available))
     {
       reponse_function_available <- c(reponse_function_available,
-                                      !is.null(get_response_function(available[i])))
+                                      !is.null(.get_response_function(available[i])))
     }
     sensor <- data.frame(a=c(1:length(available))[order(available)],b=reponse_function_available[order(available)])
     row.names(sensor) <- sort(available)
@@ -71,7 +71,7 @@ get.sensor.characteristics <- function (
     nch <- 19
     found <- TRUE
     fwhm <- FALSE
-    if (response_function) response <- get_response_function(sensor)
+    if (response_function) response <- .get_response_function(sensor)
   }
   if (sensor==available[2]) # RapidEye
   {
@@ -80,7 +80,7 @@ get.sensor.characteristics <- function (
     nch <- 5
     found <- TRUE
     fwhm <- FALSE
-    if (response_function) response <- get_response_function(sensor)
+    if (response_function) response <- .get_response_function(sensor)
   }  
   if (sensor==available[3]) # WorldView2 (8 bands)
   {
@@ -89,7 +89,7 @@ get.sensor.characteristics <- function (
     nch <- 8
     found <- TRUE
     fwhm <- FALSE
-    if (response_function) response <- get_response_function(sensor)
+    if (response_function) response <- .get_response_function(sensor)
   }
   if (sensor==available[4]) # Landsat 5
   {
@@ -98,7 +98,7 @@ get.sensor.characteristics <- function (
     nch <- 6
     found <- TRUE
     fwhm <- FALSE
-    if (response_function) response <- get_response_function(sensor)
+    if (response_function) response <- .get_response_function(sensor)
   }
   if (sensor==available[5]) # ALI
   {
@@ -107,7 +107,7 @@ get.sensor.characteristics <- function (
     nch <- 9
     found <- TRUE
     fwhm <- FALSE
-    if (response_function) response <- get_response_function(sensor)
+    if (response_function) response <- .get_response_function(sensor)
   }
   
   if (sensor==available[6]) # Hyperion
@@ -143,7 +143,7 @@ get.sensor.characteristics <- function (
     nch <- length(lb)
     found <- TRUE
     fwhm <- FALSE
-    if (response_function) response <- get_response_function(sensor)
+    if (response_function) response <- .get_response_function(sensor)
   }
   
   if (sensor==available[7]) # Quickird
@@ -153,7 +153,7 @@ get.sensor.characteristics <- function (
     nch <- 4
     found <- TRUE
     fwhm <- FALSE
-    if (response_function) response <- get_response_function(sensor)
+    if (response_function) response <- .get_response_function(sensor)
   }
   
   if (sensor==available[8]) # WorldView2 (4 bands)
@@ -163,7 +163,7 @@ get.sensor.characteristics <- function (
     nch <- 4
     found <- TRUE
     fwhm <- FALSE
-    if (response_function) response <- get_response_function(sensor)
+    if (response_function) response <- .get_response_function(sensor)
   }
   
   if (sensor==available[9]) # Landsat 4
@@ -173,7 +173,7 @@ get.sensor.characteristics <- function (
     nch <- 6
     found <- TRUE
     fwhm <- FALSE
-    if (response_function) response <- get_response_function(sensor)
+    if (response_function) response <- .get_response_function(sensor)
   }
   
   if (sensor==available[10]) # Landsat 7
@@ -183,7 +183,7 @@ get.sensor.characteristics <- function (
     nch <- 6
     found <- TRUE
     fwhm <- FALSE
-    if (response_function) response <- get_response_function(sensor)
+    if (response_function) response <- .get_response_function(sensor)
   }
   
   if (sensor==available[11]) # EnMAP
@@ -289,7 +289,7 @@ get.sensor.characteristics <- function (
     nch <- length(fwhm)
     found <- TRUE
     fwhm <- TRUE
-    if (response_function) response <- get_response_function(sensor)
+    if (response_function) response <- .get_response_function(sensor)
   }
   if (sensor==available[12]) # Landsat 8
   {
@@ -298,7 +298,7 @@ get.sensor.characteristics <- function (
     nch <- 8
     found <- TRUE
     fwhm <- FALSE
-    if (response_function) response <- get_response_function(sensor)
+    if (response_function) response <- .get_response_function(sensor)
   }
   
   if (sensor==available[13]) # Sentinel 2A
@@ -311,7 +311,7 @@ get.sensor.characteristics <- function (
     nch <- length(lb)
     found <- TRUE
     fwhm <- FALSE
-    if (response_function) response <- get_response_function(sensor)
+    if (response_function) response <- .get_response_function(sensor)
   }
   
   if (!found) 
@@ -329,7 +329,7 @@ get.sensor.characteristics <- function (
     attr(result, "fwhm") <- fwhm
     if (response_function)
     {
-      response <- get_response_function(sensor)
+      response <- .get_response_function(sensor)
       if (is.null(response)) stop(paste("Response function for '",sensor,"' not implemented",sep=""))
       return(list(characteristics=result, response=response))
     } else {

@@ -128,3 +128,39 @@ setMethod("readAll", signature(object = "Speclib"),
   return(object)
 }
 )
+
+setMethod("setValues", signature(x      = "RasterBrick", 
+                                 values = "Speclib"), 
+          definition = function(x, values, ...)
+{
+  values <- .restore_missing_values(values)
+  return(writeValues(x, values, ...))
+}
+)
+
+setMethod("setValues", signature(x      = "RasterStack", 
+                                 values = "Speclib"), 
+          definition = function(x, values, ...)
+{
+  values <- .restore_missing_values(values)
+  return(writeValues(x, values, ...))
+}
+)
+
+setMethod("writeValues", signature(x = "RasterBrick", 
+                                   v = "Speclib"), 
+          definition = function(x, v, start)
+{
+  v <- .restore_missing_values(v)
+  return(writeValues(x, v, start))
+})
+
+# setMethod("getValuesBlock", signature(x = "Speclib"), 
+#           definition = function(x, ...)
+# {
+#   if (!x@spectra@fromRaster)
+#     stop("Function 'getValuesBlock' only useful if spectral data is stored as a raster* object")
+#   v <- getValuesBlock(x@spectra@spectra_ra, ...)
+#   v <- .get.finite.spectra(v)
+#   return(v)
+# })

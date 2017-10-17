@@ -5,7 +5,7 @@
 Merge speclibs
 }
 \description{
-Merge 2 \code{Speclib}s and their attributes data 
+Merge 2 \code{Speclib}s and their SI data 
 }
 \usage{
 \S4method{merge}{Speclib,Speclib}(x, y, ...)

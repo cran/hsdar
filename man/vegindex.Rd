@@ -26,7 +26,7 @@ If TRUE, the result will be of class HyperSpecRaster, otherwise it is a data fra
 Factor for SAVI index. Unused for other indices.
 }
 \item{weighted}{
-Logical indicating if reflectance values should be interpolated to fit wavelength position. If \code{FALSE} the reflectance values of nearest neighbour to passed position are returned. See \code{\link[=get_reflectance.speclib]{get_reflectance}} for further explanation.
+Logical indicating if reflectance values should be interpolated to fit wavelength position. If \code{FALSE} the reflectance values of nearest neighbour to passed position are returned. See \code{\link{get_reflectance}} for further explanation.
 }
   \item{...}{
 Further arguments passed to derivative functions. Only used for indices requiring derivations.
@@ -148,7 +148,7 @@ PRI*CI2 \tab \eqn{\textnormal{PRI} \cdot \textnormal{CI}2}{PRI*CI2}             
 PSRI \tab \eqn{(R_{678}-R_{500}/R_{750}}                                                        \tab Merzlyak et al. (1999)\cr
 PSSR \tab \eqn{R_{800}/R_{635}}                                                                 \tab Blackburn (1998)\cr
 PSND \tab \eqn{(R_{800}-R_{470})/(R_{800}-R_{470})}                                             \tab Blackburn (1998)\cr
-PWI \tab \eqn{R_{970}/R_{900}}                                                                  \tab Penuelas et al. (1997)\cr
+PWI \tab \eqn{R_{900}/R_{970}}                                                                  \tab Penuelas et al. (1997)\cr
 RDVI \tab \eqn{(R_{800}-R_{670})/\sqrt{R_{800}+R_{670}}}                                        \tab Roujean and Breon (1995)\cr
 % RDVI \tab \eqn{(R_{800}-R_{670})/(R_{800}+R_{670})^{0.5}}                                     \tab Roujean and Breon (1995)\cr
 REP_LE \tab Red-edge position through linear extrapolation.                                     \tab Cho and Skidmore (2006)\cr
@@ -241,7 +241,7 @@ Hanna Meyer and Lukas Lehnert
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{soilindex}}, \code{\link{derivative.speclib}}, \code{\link{rededge}}, \code{\link[=get_reflectance.speclib]{get_reflectance}}
+\code{\link{soilindex}}, \code{\link{derivative.speclib}}, \code{\link{rededge}}, \code{\link{get_reflectance}}
 }
 \examples{
 ## Example calculating NDVI

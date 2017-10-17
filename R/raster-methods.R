@@ -48,7 +48,7 @@ setMethod('extract', signature(x='Speclib', y='ANY'),
   {
     res <- speclib(res, wavelength(x))
     if (gotID)
-      attribute(res) <- data.frame(ID = id)
+      SI(res) <- data.frame(ID = id)
     usagehistory(res) <- usagehistory(x)
     usagehistory(res) <- paste("Values extracted using object of class '",
                                class(y), "' as overlay", sep = "")

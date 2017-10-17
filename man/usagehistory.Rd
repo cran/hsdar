@@ -7,7 +7,7 @@
 History of usage
 }
 \description{
-Handling history of usage of Speclibs
+Function to read and write history of usage for \code{Speclibs}. Similar to a log file, the history of usage records processing steps applied to a \code{Speclib}.
 }
 \usage{
 usagehistory(x)
@@ -24,7 +24,7 @@ Character string to be added to usagehistory or NULL, if usagehistory should be 
 }
 
 \value{
-For \code{usagehistory<-}, the updated object. Otherwise a vector giving the history of usage of Speclib is returned.
+For \code{usagehistory<-}, the updated object. Otherwise a vector containing the history of usage of \code{Speclib} is returned.
 }
 
 \author{
@@ -43,11 +43,11 @@ data(spectral_data)
 usagehistory(spectral_data)
 
 ## Deleting history of usage
-usagehistory(spectral_data) <- character() 
+usagehistory(spectral_data) <- NULL
 spectral_data
 
 ## Adding entries
-usagehistory(spectral_data) <- "New entry" ## Adding new entry
+usagehistory(spectral_data) <- "New entry"   ## Adding new entry
 usagehistory(spectral_data) <- "New entry 2" ## Adding second entry
 spectral_data
 

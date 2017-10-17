@@ -41,7 +41,7 @@ if (recursive)
                 dimnames = list(Band_1 = paste("B_", wavelength, sep = ""),
                                 Band_2 = paste("B_", wavelength, sep = ""),
                                 Sample = idSpeclib(x)),
-                attributes = attribute(x)                
+                SI = x@SI                
                )
   if (!is.null(attr(x, "caretParameters")))
     attr(result, "caretParameters") <- attr(x, "caretParameters")

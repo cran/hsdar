@@ -28,7 +28,7 @@ Lukas Lehnert
  The algorithm fits a Gaussian function to the continuum points of the spectra in the spectral region between approx. 1500 to 2500 nm. The continuum points are derived constructing the convex hull of the spectra (see \code{\link{transformSpeclib}}). The Gaussian function requires three parameter: (1) the mean values which is set to the water fundamental of 2800 nm, (2) the absorption depth at 2800 nm, and (3) the distance to the inflection point of the function. The latter two parameters are iteratively chosen using a grid search. The mesh size of the grid can be adjusted with the \code{gridsize} parameter. Note that the function requires the spectral reflectance values to be in interval [0, 100].
 }
 \value{
-  Object of class \code{Speclib} containing the fitted Gaussian spectra and the parameters derived from the Gaussian curve. The three parameters (absorption depth, R0; distance to the inflection point, sigma; area between the curve and 100 \% reflectance, area) are stored in the attributes of the new Speclib. Additionally, the function returns the final root mean square error of the Gaussian fit.
+  Object of class \code{Speclib} containing the fitted Gaussian spectra and the parameters derived from the Gaussian curve. The three parameters (absorption depth, R0; distance to the inflection point, sigma; area between the curve and 100 \% reflectance, area) are stored in the SI of the new Speclib. Additionally, the function returns the final root mean square error of the Gaussian fit.
 }
 \references{
 Whiting, M. L., Li, L. and Ustin, S. L. (2004): Predicting water content using Gaussian model on soil spectra. Remote Sensing of Environment, 89, 535-552.
@@ -49,5 +49,5 @@ smgm_val <- smgm(Spektr.lib)
 for (i in 1:nspectra(smgm_val))
   plot(smgm_val, FUN = i, new = i==1, col = i)
 
-attribute(smgm_val)
+SI(smgm_val)
 }

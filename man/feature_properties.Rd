@@ -5,7 +5,7 @@
 Calculation of properties of features
 }
 \description{
-Function to calculate feature properties such as the area, the position of the maximum and several other parameters.
+Function to calculate feature properties such as the area, the position of the maximum and several other parameters. This function can only be used for spectral data transformed using any kind of continuum removal (see \code{\link{transformSpeclib}}).
 }
 \usage{
 feature_properties(x)
@@ -37,7 +37,7 @@ The function calculates several parameters:
 }
 
 \value{
-An object of class \code{Specfeat} containing the properties as (part of the) attribute table.
+An object of class \code{Specfeat} containing the properties as (part of the) SI table.
 }
 
 \author{
@@ -66,6 +66,9 @@ featureSelection <- specfeat(features, c(450,700,1200,1500))
 
 ## Calculate properties of features
 featureProp <- feature_properties(featureSelection)
+
+## See resulting feature property variables
+head(SI(featureProp))
 % }
 }
 \keyword{multivariate}

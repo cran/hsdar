@@ -5,9 +5,9 @@
 \alias{HyperSpecRaster-class}
 \alias{show,HyperSpecRaster-method}
 
-\title{ HyperSpecRaster* class}
+\title{ HyperSpecRaster* class (deprecated)}
 \description{
-Extension of *RasterBrick-class to handle hyperspectral data
+This is a deprecated class. Use \code{\linkS4class{Speclib}}-class instead.
 }
 \author{
 Lukas Lehnert
@@ -17,7 +17,7 @@ Extension of *RasterBrick-class with three additional slots:
 \describe{
     \item{\code{wavelength}:}{ A numeric vector giving the center wavelength for each band.}
     \item{\code{fwhm} (optional):}{ A numeric vector giving the full-width-half-max values for each band.}
-    \item{\code{attributes} (optional):}{ A \code{data.frame} containing additional information for each pixel.}
+    \item{\code{SI} (optional):}{ A \code{data.frame} containing additional information for each pixel.}
 }
 The information in the three slots are used for the convertion to \code{\linkS4class{Speclib}}.
 }

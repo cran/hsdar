@@ -84,7 +84,7 @@ unmix_res <- unmix(spectral_data_qb, em)
 
 unmix_res
 
-plot(unmix_res$fractions[1,] ~ attribute(spectral_data_qb)$LAI, type = "l",
+plot(unmix_res$fractions[1,] ~ SI(spectral_data_qb)$LAI, type = "l",
      xlab = "LAI", ylab = "Unmixed fraction of vegetation")
 }
 }

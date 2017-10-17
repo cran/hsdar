@@ -5,7 +5,7 @@
 Gaussian response function
 }
 \description{
-Simulate Gaussian response function for satellite sensor
+Simulate Gaussian response function for band(s) of a (satellite) sensor. Each band is either defined by center and full-width-half-maximum values or by passing its upper and lower border.
 }
 \usage{
 get.gaussian.response(fwhm)
@@ -17,10 +17,10 @@ Object of class \code{data.frame} with three columns. See details and examples s
 }
 }
 \details{
-The characteristics of the sensor must be passed as a \code{data.frame} with three columns: first column is used as name for bands, second with lower bounds of channels and third column with upper bounds. Alternatively, the \code{data.frame} may encompass band centre wavelength and full-width-half-maximum values of the sensor. Function will check the kind of data passed by partially matching the names of the data frame: If any column is named \code{"fwhm"} or \code{"center"}, it is assumed that data are band centre and full-width-half-maximum values. 
+The characteristics of the sensor must be passed as a \code{data.frame} with three columns: first column is used as name for bands, second with lower bounds of channels and third column with upper bounds (5\% sensitivity). Alternatively, the \code{data.frame} may encompass band centre wavelength and full-width-half-maximum values of the sensor. Function will check the kind of data passed by partially matching the names of the data frame: If any column is named \code{"fwhm"} or \code{"center"}, it is assumed that data are band centre and full-width-half-maximum values. 
 }
 \value{
-Data frame with response values for all bands covering the entire spectral range of satellite sensor.
+Data frame with response values for all bands covering the entire spectral range of sensor passed to the function.
 }
 
 \author{
@@ -31,7 +31,7 @@ Lukas Lehnert
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{get.sensor.characteristics}}, \code{\link{get.gaussian.response}}
+\code{\link{get.sensor.characteristics}}, \code{\link{spectralResampling}}
 }
 \examples{
 par(mfrow=c(1,2))

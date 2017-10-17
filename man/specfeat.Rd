@@ -1,6 +1,7 @@
 \name{specfeat}
 \alias{specfeat}
 \alias{plot,Specfeat-method}
+\alias{[,Specfeat,ANY,ANY,ANY-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Function to isolate spectral features
@@ -27,7 +28,7 @@ Features which include these specified wavelengths will be isolated.
 Index of feature(s) to be plotted.
 }
   \item{stylebysubset}{
-Name of variable to be used as grouping factor. May be selected from attributes table, groups or subgroups and must be convertible to \code{factors}.
+Name of variable to be used as grouping factor. May be selected from SI table, groups or subgroups and must be convertible to \code{factors}.
 }
   \item{changecol}{
 Flag, if line colour should be varied among groups
@@ -71,13 +72,13 @@ features <- define.features(bd)
 featureSelection <- specfeat(features, c(450,700,1200,1500))
 
 ## Plot features
-plot(featureSelection, 1:4)
+plot(featureSelection, fnumber = 1:4)
 
 ## Advanced plotting example
-plot(featureSelection, 1:4, stylebysubset = "season")
+plot(featureSelection, fnumber = 1:4, stylebysubset = "season")
 
-plot(featureSelection, 1:4, stylebysubset = "season", changecol = FALSE, 
-     changetype = TRUE)
+plot(featureSelection, fnumber = 1:4, stylebysubset = "season", 
+     changecol = FALSE, changetype = TRUE)
 % }
 }
 \keyword{classes}

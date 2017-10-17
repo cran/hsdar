@@ -10,8 +10,8 @@ setMethod("subset", signature(x = "Nri"),
 .subset.nri <- function(x, e, fuzzy = FALSE, ...)
 {
   target <- data.frame(id.nri = x@dimnames$Sample)
-  if (nrow(attribute(x)) == nrow(target))
-    target <- cbind(target, attribute(x))
+  if (nrow(SI(x)) == nrow(target))
+    target <- cbind(target, SI(x))
 
   if (!fuzzy)
   {
@@ -57,8 +57,8 @@ setMethod("subset", signature(x = "Nri"),
   
   x@dimnames$Sample <- x@dimnames$Sample[r]
 
-  if (nrow(attribute(x)) == nrow(target))
-    attribute(x) <- attribute(x)[r,] 
+  if (nrow(SI(x)) == nrow(target))
+    SI(x) <- SI(x, i = r) 
   e_str <- gsub("\"", "'", as.character(paste(enquote(e)))[2])
   if (length(e_str) == 1)
   {

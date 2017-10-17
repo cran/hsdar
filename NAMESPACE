@@ -14,12 +14,13 @@ importFrom("signal", sgolayfilt)
 importFrom("stats", "cor", "na.fail")
 importFrom("utils", "read.table")
 
-useDynLib(hsdar)
+useDynLib(hsdar, .registration = TRUE)
 
 exportPattern("^[[:alpha:]]+")
 exportMethods(
     "apply",
-    "attribute",
+    "SI",
+    "SI<-",
     "as.array",
     "as.matrix",
     "[<-",
@@ -28,7 +29,6 @@ exportMethods(
     "cor.test",
     "dim",
     "distMat3D",
-    "get_reflectance",
     "getValuesBlock",
     "HyperSpecRaster",
     "initialize",
@@ -50,7 +50,7 @@ exportMethods(
     "writeValues" 
 )
 exportClasses(
-    "Clman",
+     "Clman",
      "DistMat3D",
      "HyperSpecRaster",
      "Nri",

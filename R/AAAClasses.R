@@ -1,13 +1,41 @@
+# setClass(".ValidDataFromRaster",
+#          representation(
+#            removedPixel = "numeric",
+#            validPixel   = "logical"
+#          ),
+#          prototype(
+#            removedPixel = 0,
+#            validPixel   = TRUE
+#          )
+#          )
+
 setClass(".Spectra",
          representation(
            fromRaster = "logical",
            spectra_ma = "matrix",
-           spectra_ra = 'RasterBrick'
+           spectra_ra = 'RasterBrick'#,
+#            valid_spec = '.ValidDataFromRaster'
          ),
          prototype(
            fromRaster = FALSE,
            spectra_ma = matrix(),
-           spectra_ra = new("RasterBrick")
+           spectra_ra = new("RasterBrick")#,
+#            valid_spec = new(".ValidDataFromRaster")
+         )
+)
+
+setClass(".SI",
+         representation(
+           SI_data      = "list",
+           dim          = "numeric",
+           rasterObject = "logical",
+           numericVar   = "logical"
+         ), 
+         prototype(
+           SI_data      = list(),
+           dim          = numeric(),
+           rasterObject = logical(),
+           numericVar   = logical()        
          )
 )
 
@@ -15,7 +43,7 @@ setClass("Speclib",
          representation(
            spectra = ".Spectra", 
            wavelength = "numeric",
-           attributes = "data.frame",
+           SI = ".SI",
            fwhm = "numeric",
            continuousdata = "logical",
            wlunit = "character",
@@ -30,7 +58,7 @@ setClass("Speclib",
          prototype(
            spectra = new(".Spectra"),                   
            wavelength = numeric(),
-           attributes = data.frame(),
+           SI = new(".SI"),
            fwhm = 1,
            continuousdata = TRUE,
            wlunit = "nm",
@@ -45,12 +73,12 @@ setClass("Speclib",
          validity = function(object)
          {
            c1 <- TRUE
-           if (nrow(object@attributes) > 0)
+           if (nrow(object@SI) > 0)
            {
-             c1 <- nrow(object@attributes) == nrow(object@spectra)
+             c1 <- nrow(object@SI) == nrow(object@spectra)
              if (!c1)
              {
-               stop("Invalid attribute data.frame for spectra")
+               stop("Invalid SI data.frame for spectra")
              }
            }
            c2 <- ncol(object@spectra) == length(object@wavelength)
@@ -67,12 +95,12 @@ setClass('HyperSpecRaster',
          representation(
            wavelength = 'numeric',
            fwhm       = 'numeric',
-           attributes = 'data.frame'
+           SI         = 'data.frame'
          ),
          prototype (
            wavelength = numeric(),
            fwhm       = numeric(),
-           attributes = data.frame()
+           SI         = data.frame()
                    )
         )
 
@@ -101,7 +129,7 @@ setClass("Nri",
            wavelength = "numeric",
            dimnames = "list",
            multivariate = "list",
-           attributes = "data.frame",
+           SI = ".SI",
            usagehistory = "character"
          ),
          prototype(
@@ -110,7 +138,7 @@ setClass("Nri",
            wavelength = 0,
            dimnames = list(),
            multivariate = list(),                   
-           attributes = data.frame(),
+           SI = new(".SI"),
            usagehistory = ""
          ),
          validity = function(object)
@@ -163,7 +191,9 @@ setClass('Specfeat',
 #            return(TRUE)
 #          }
         )
+        
 
+         
 setClassUnion(".CaretHyperspectral", c("Speclib", "Nri", "Specfeat"))
 
 if (!isGeneric("speclib")) {
@@ -189,13 +219,13 @@ if (!isGeneric("mask<-")) {
   standardGeneric("mask<-"))
 }
 
-if (!isGeneric("attribute")) {
-  setGeneric("attribute", function(object)
-  standardGeneric("attribute"))
+if (!isGeneric("SI")) {
+  setGeneric("SI", function(object, i, j, ...)
+  standardGeneric("SI"))
 }
-if (!isGeneric("attribute<-")) {
-  setGeneric("attribute<-", function(object, value)
-  standardGeneric("attribute<-"))
+if (!isGeneric("SI<-")) {
+  setGeneric("SI<-", function(object, value)
+  standardGeneric("SI<-"))
 }
 
 if (!isGeneric("wavelength")) {
@@ -242,3 +272,17 @@ if (!isGeneric("nrow")) {
 if (!isGeneric("as.data.frame")) {
   setGeneric("as.data.frame")
 }
+
+if (!isGeneric("blockSize")) {
+  setGeneric("blockSize")
+}
+
+if (!isGeneric("names")) {
+  setGeneric("names", function(object, ...)
+  standardGeneric("names"))
+}
+# 
+# if (!isGeneric("get_reflectance")) {
+#   setGeneric("get_reflectance", function(spectra, ...)
+#   standardGeneric("get_reflectance"))
+# }

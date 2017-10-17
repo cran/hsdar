@@ -8,7 +8,7 @@
 
 \title{Methods for Function \code{safs}}
 \description{
-Methods for function \code{safs} in package \pkg{caret}.
+Methods for function \code{safs} in package \pkg{caret}. Please refer to help pages in the \pkg{caret}-package for further information.
 }
 \usage{
 \S4method{safs}{Speclib}(x, y, cutoff = 0.95, returnData = TRUE, ...)
@@ -56,7 +56,7 @@ data(spectral_data)
 ## Set response variable (Chlorophyll content)
 spectral_data <- setResponse(spectral_data, "chlorophyll")
 
-## Set additional predictor variables from the attributes
+## Set additional predictor variables from the SI
 spectral_data <- setPredictor(spectral_data, "season")
 
 ## Supervised feature selection using simulated annealing

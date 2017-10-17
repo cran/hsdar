@@ -130,8 +130,16 @@ setReplaceMethod("spectra", signature(object = "Speclib", value = "RasterBrick")
       rownames(spec) <- paste("ID_", c(1:nspectra(object)), sep = "")
     }
   }
+  
+  if (object@spectra@fromRaster)
+  {
+    if (options()$na.action != "na.fail")
+      spec <- .get.finite.spectra(spec)
+  }
+  
   return(spec)
 }
+
 
 setMethod("[", signature(x = ".Spectra"), 
           function(x, i, j, ...)
@@ -142,7 +150,12 @@ setMethod("[", signature(x = ".Spectra"),
   if (missing(j)) 
   {
     if (missing(i)) 
-      return(getValues(x@spectra_ra))
+    {
+      res <- getValues(x@spectra_ra)
+      if (options()$na.action != "na.fail")
+        res <- .get.finite.spectra(res)
+      return(res)
+    }
     j <- c(1:nlayers(x@spectra_ra))
   }
   if (is.logical(j))
@@ -192,6 +205,8 @@ setMethod("[", signature(x = ".Spectra"),
 #       return(getValuesBlock(x, row=cr[1], nrows=1, col=cr[2], ncols=1, lyr=lyr))
 #     }, x@spectra_ra, j))
   }
+  if (options()$na.action != "na.fail")
+    res <- .get.finite.spectra(res)
   return(res)     
 })
 
@@ -215,3 +230,33 @@ setMethod("show", signature(object = ".Spectra"),
     print(object@spectra_ma)
   }
 })
+
+
+
+.get.finite.spectra <- function(spec)
+{
+  valid <- apply(spec, 1, function(i) !all(!is.finite(i)))
+  
+  if (sum(valid) > 1)
+  {
+    spec <- spec[valid,]
+  } else {
+    spec <- matrix(spec[valid,], nrow = 1)
+  }
+  attr(spec, "valid_data") <- valid
+  return(spec)
+}
+
+.restore_missing_values <- function(object)
+{
+  value <- spectra(object)
+#   valid_data <- value@valid_spec@validPixel#
+  valid_data <- attr(value, "valid_data")
+  if (!any(c(is.null(valid_data), all(valid_data))))
+  {
+    value_na <- matrix(NA, ncol = nbands(object), nrow = length(valid_data))
+    value_na[valid_data,] <- value
+    return(value_na)
+  }
+  return(value)
+}

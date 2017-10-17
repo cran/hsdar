@@ -1,4 +1,4 @@
-get.response <- function(sensor, range=NULL, response_function=TRUE, continuousdata = "auto")
+.get.response <- function(sensor, range=NULL, response_function=TRUE, continuousdata = "auto")
 {
 if (!is.null(range))
   wavelength <- if (is.speclib(range)) range$wavelength else range

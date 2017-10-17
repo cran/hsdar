@@ -24,7 +24,7 @@ glm.nri <- function(formula, preddata=NULL, ...)
   if (!is.null(preddata))
   {
     if (is.speclib(preddata))
-      preddata <- preddata$attributes
+      preddata <- SI(preddata)
     data <- preddata
 #     attach(data)
     formula <- terms(formula, data=data)

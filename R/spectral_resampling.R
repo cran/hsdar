@@ -34,8 +34,8 @@ if (!is.null(attr(result, "setmask")))
 wavelength <- x$wavelength
 x <- spectra(x)
 
-response <- get.response(sensor, range=wavelength, response_function=response_function, 
-                         continuousdata = continuousdata)
+response <- .get.response(sensor, range=wavelength, response_function=response_function, 
+                          continuousdata = continuousdata)
 nch <- dim(response)[1]
 lb <- attr(response, "lb")
 ub <- attr(response, "ub")

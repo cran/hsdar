@@ -50,14 +50,19 @@ Various files in this package have different copyrights.
        scr/PRO4SAIL.f90 
        scr/volscatt.f90
 
-     PROSPECT:
+     PROSPECT 5B:
        scr/dataSpec_P5B_PROSPECT.f90 
-       scr/main_PROSPECT.f90  
+       scr/main_PROSPECT_5B.f90
       
-     Files used in both:
+     Files used in PROSAIL and PROSPECT 5B:
        scr/prospect_5B.f90
-       scr/tav_abs.f90
-
+       scr/tav_abs_PROSPECT_5B.f90
+       
+     PROSPECT D:
+       scr/dataSpec_PDB_PROSPECT.f90 
+       scr/main_PROSPECT_D.f90 
+       scr/prospect_DB.f90  
+       scr/tav_abs_PROSPECT_D.f90
 
   b) The unmixing routine is based on code originally
      written by Markus NETELER for Grass GIS Version 5 

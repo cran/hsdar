@@ -36,7 +36,7 @@ lm.nri <- function(formula, preddata=NULL, ...)
   if (mode(preddata)!="NULL")
   {
     if (is.speclib(preddata))
-      preddata <- preddata$attributes
+      preddata <- SI(preddata)
     data <- preddata
     formula <- terms(formula, data=data)
   } else {

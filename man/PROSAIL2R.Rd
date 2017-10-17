@@ -107,7 +107,7 @@ Functions for distribution of leaf angles within the canopy may work in two mode
 }
 }
 \value{
-An object of class \code{Speclib}. If parameterList is used, the parameter are stored in attributes table of \code{Speclib}.
+An object of class \code{Speclib}. If parameterList is used, the parameter are stored in SI table of \code{Speclib}.
 }
 \references{
 Jacquemoud, S., Verhoef, W., Baret, F., Bacour, C., Zarco-Tejada, P.J., Asner, G.P., Francois, C., and Ustin, S.L. (2009): PROSPECT + SAIL models: a review of use for vegetation characterization, Remote Sensing of Environment, 113, S56-S66.
@@ -132,8 +132,8 @@ parameter <- data.frame(N = c(rep.int(seq(0.5, 1.5, 0.5), 2)),
                         LAI = c(rep.int(0.5, 3), rep.int(1, 3)))
 spectra <- PROSAIL(parameterList = parameter)
 
-## Print attributes table
-attribute(spectra)
+## Print SI table
+SI(spectra)
 
 ## Plot spectra
 plot(subset(spectra, LAI == 0.5), col = "red", ylim = c(0, 0.3))

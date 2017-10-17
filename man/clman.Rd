@@ -2,90 +2,37 @@
 
 \docType{class}
 \alias{Clman}
-\alias{plot,Clman-method}
 
-
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 * Clman class
 }
 \description{
-Class to store and handle manual continuum lines
-}
-\usage{
-Clman(wavelength, cp, hull, spectra, outdatedhull = NULL, mask = NULL)
-
-\S4method{plot}{Clman}(x, ispec, subset = NULL, numeratepoints = TRUE, 
-    hull.style = NULL, points.style = list(), ...)
-
-}
-\arguments{
-
-\item{wavelength}{
-Vector with corresponding wavelength for each band.
-}
-\item{cp}{
-Data frame or matrix containing fix points. Fix points have numbers greater than 0, all other bands are 0.
-}
-\item{hull}{
-Data frame or matrix containing linear hull.
-}
-\item{spectra}{
-Data frame, matrix of raster object of class 'SpatialGridDataFrame' with spectral data.
-}
-\item{outdatedhull}{
-Data frame or matrix containing hull of step before for undo porposes.
-}
-\item{mask}{
-Data frame with masked parts in the spectra. See \code{\link{mask}}.
-}
-\item{x}{
-Object of class \code{clman}.
-}
-\item{ispec}{
-Name or index of spectrum to be plotted.
-}
-\item{subset}{
-Lower and upper spectral limits used for plot.
-}
-\item{numeratepoints}{
-Flag if points should be numerated in plot.
-}
-\item{hull.style}{
-List of arguments passed to \code{\link{lines}} to construct the continuum line.
-}
-\item{points.style}{List of arguments passed to \code{\link{points}} to construct the continuum points. May be \code{NULL} to suppress plotting of fix points.}
-\item{...}{
-Further arguments passed to plot.default.
-}
-}
-\value{
-Object of class \code{\linkS4class{Clman}}.
+Class to store and handle manual continuum lines. 
 }
 
+
+\details{
+  The class is only required if a continuum line is manually adopted or entirely manually created. This is useful if the automatic approaches are not able to identify absorption features because, for instance, the spectrum has two pronounced maxima within the absortion feature of interest. 
+  
+  \code{Clman} is defined as \code{\linkS4class{Speclib}} extended by the following two slots:
+  \itemize{
+  \item{cp:}{ Matrix containing the fix points (continuum points) of each spectrum.}
+  \item{hull:}{ Matrix containing the hull of each spectrum.}
+  }
+  
+  Normally, it is not necessary to manually change the values in any of the slots above. Use the functions \code{\link{addcp}} and \code{\link{deletecp}} to change the hulls manually. Functionality for conversion back to a \code{\linkS4class{Speclib}} with the final hull and the transformed spectra provides function \code{\link{updatecl}}.
+}
+\note{
+See figure in \code{\link{hsdar-package}} for an overview of classes in hsdar.
+}
 \author{
 Lukas Lehnert and Hanna Meyer
 }
 
 
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
 \seealso{
-\code{\link{transformSpeclib}}, \code{\link[=plot.Speclib]{plot}}
+\code{\link{transformSpeclib}}, \code{\link[=plot.Speclib]{plot}}, \code{\linkS4class{Speclib}}, \code{\link{addcp}}, \code{\link{deletecp}}, \code{\link{updatecl}}
 }
-\examples{
-## Model spectra using PROSAIL
-parameter <- data.frame(N = rep.int(c(1, 1.5),2), LAI = c(1,1,3,3))
-spec <- PROSAIL(parameterList=parameter)
 
-## Transform spectra
-spec_clman <- transformSpeclib(spec, method = "sh", out = "raw")
-
-## Plot clman
-plot(spec_clman, ispec = 1, subset = c(400, 1000))
-}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
 \keyword{classes}
-\keyword{aplot}
+

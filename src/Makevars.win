@@ -4,15 +4,21 @@ all: $(SHLIB)
 
 main_PROSAIL.o: PRO4SAIL.o MODULE_PRO4SAIL.o dataSpec_P5B_PROSAIL.o
 
-main_PROSPECT.o: dataSpec_P5B_PROSPECT.o
+main_PROSPECT_5B.o: dataSpec_P5B_PROSPECT.o
+
+main_PROSPECT_D.o: dataSpec_PDB_PROSPECT.o
 
 PRO4SAIL.o: MODULE_PRO4SAIL.o dataSpec_P5B_PROSAIL.o
 
 prospect_5B.o: dataSpec_P5B_PROSPECT.o
 
+prospect_DB.o: dataSpec_PDB_PROSPECT.o
+
 volscatt.o: MODULE_PRO4SAIL.o
 
-tav_abs.o: dataSpec_P5B_PROSPECT.o
+tav_abs_PROSPECT_5B.o: dataSpec_P5B_PROSPECT.o
+
+tav_abs_PROSPECT_D.o: dataSpec_PDB_PROSPECT.o
 
 clean:
 	rm *.o *.mod *.dll

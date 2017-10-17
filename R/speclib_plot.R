@@ -104,8 +104,22 @@ setMethod("plot", signature(x = "Speclib"),
     if (any(names(call_fu)=="xlab")) xlab <- call_fu$xlab
     else xlab <- paste(x@xlabel," (", x@wlunit,")", sep = "")
     
-    if (any(names(call_fu)=="ylab")) ylab <- call_fu$ylab
-    else ylab <- x@ylabel 
+    if (any(names(call_fu)=="ylab"))
+    {
+      ylab <- call_fu$ylab
+    } else {
+      if (is.na(.get_transformation(x)))
+      {
+        if (mean(spectra2plot, na.rm = TRUE) > 1)
+        {
+          ylab <- paste(x@ylabel, "(%)")
+        } else {
+          ylab <- x@ylabel
+        }        
+      } else {
+        ylab <- x@ylabel
+      }      
+    }
       
     if (any(names(call_fu)=="main")) main <- call_fu$main
     else main <- ""

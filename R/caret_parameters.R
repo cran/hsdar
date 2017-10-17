@@ -22,7 +22,7 @@ setMethod("setResponse", signature(x = ".CaretHyperspectral", response = "charac
       if (length(ind) == 0)
         stop(paste("'", response, "' not found in ", class(x), " x", sep = ""))
       return(ind)
-    }, names(attribute(x)))
+    }, names(SI(x)))
   
   x <- .setCaretParameter(x, "response", response_index)
   x <- .setCaretParameter(x, "responseName", response)
@@ -41,7 +41,7 @@ setMethod("setPredictor", signature(x = ".CaretHyperspectral", predictor = "char
       if (length(ind) == 0)
         stop(paste("'", predictor, "' not found in ", class(x), " x", sep = ""))
       return(ind)
-    }, names(attribute(x)))
+    }, names(SI(x)))
   
   x <- .setCaretParameter(x, "predictor", predictor_index)
   x <- .setCaretParameter(x, "predictorName", predictor)
@@ -101,7 +101,7 @@ setMethod("setPredictor", signature(x = ".CaretHyperspectral", predictor = "char
             } else {
               return(ind)
             }
-          }, names(attribute(x)))
+          }, names(SI(x)))
         x <- eval(parse(text = paste("set", toupper(substr(parameters[i], 1, 1)),
                                      substr(parameters[i], 2, nchar(parameters[i])), 
                                      "(x, paraName[still_valid > 0])", 
@@ -148,7 +148,7 @@ setMethod("setPredictor", signature(x = ".CaretHyperspectral", predictor = "char
   varIndex <- .getCaretParameter(x, "predictor", ...)
   if (is.na(varIndex[1]))
     return(NA)
-  attribute(x)[,varIndex]
+  SI(x)[,varIndex]
 }
 
 .getResponseVar <- function(x, ...)
@@ -156,7 +156,7 @@ setMethod("setPredictor", signature(x = ".CaretHyperspectral", predictor = "char
   varIndex <- .getCaretParameter(x, "response", ...)
   if (is.na(varIndex[1]))
     return(NA)
-  attribute(x)[,varIndex]
+  SI(x)[,varIndex]
 }
 
 setMethod("showCaretParameters", signature(x = ".CaretHyperspectral"),
@@ -179,7 +179,7 @@ setMethod("showCaretParameters", signature(x = ".CaretHyperspectral"),
 
 .getAllPredictors <- function(x, cutoff)
 {
-  useAttributesAsPredicants <- !is.na(.getPredicantVar(x, stopifmissing = FALSE))[1]
+  useSIAsPredicants <- !is.na(.getPredicantVar(x, stopifmissing = FALSE))[1]
 
   all_spectra_vals <- as.data.frame(x)
   if (is.finite(cutoff))
@@ -191,7 +191,7 @@ setMethod("showCaretParameters", signature(x = ".CaretHyperspectral"),
   all_vals <- as.data.frame(all_vals)
   
   spectral <- ncol(all_vals)
-  if (useAttributesAsPredicants)
+  if (useSIAsPredicants)
   {
     addVar <- .getPredicantVar(x)
     all_vals <- cbind(all_vals, addVar)

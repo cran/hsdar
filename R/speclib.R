@@ -61,6 +61,13 @@ setMethod("speclib", signature(spectra = "numeric", wavelength = "matrix"),
   }
 )
 
+setMethod("speclib", signature(spectra = "character", wavelength = "numeric"), 
+          function(spectra, wavelength, ...)
+  {
+    return(speclib(brick(spectra), wavelength, ...))
+  }
+)
+
 setMethod("speclib", signature(spectra = "HyperSpecRaster"), 
           function(spectra, ...)
   {
@@ -69,7 +76,7 @@ setMethod("speclib", signature(spectra = "HyperSpecRaster"),
     v <- getValues(spectra)
     
     res <- speclib(v, spectra@wavelength, fwhm = if (length(spectra@fwhm) > 0) spectra@fwhm else NULL, 
-                   attributes = if (nrow(spectra@attributes) > 0) spectra@attributes else NULL, 
+                   SI = if (nrow(spectra@SI) > 0) spectra@SI else NULL, 
                    rastermeta = rastermeta(spectra))
     return(res)                                    
   }
@@ -86,6 +93,13 @@ setMethod("speclib", signature(spectra = "RasterBrick", wavelength = "data.frame
           function(spectra, wavelength, ...)
   {
     return(createspeclib(spectra, wavelength, ...))
+  }
+)
+
+setMethod("speclib", signature(spectra = "Speclib", wavelength = "numeric"), 
+          function(spectra, wavelength, ...)
+  {
+    return(createspeclib(spectra(spectra), wavelength, ...))
   }
 )
 
@@ -111,8 +125,8 @@ setMethod("as.data.frame", signature(x = "Speclib"),
     if (!includeAttr)
       return(x_dat)
       
-    if (ncol(attribute(x)) > 0)
-      return(cbind(x_dat, attribute(x)))
+    if (ncol(SI(x)) > 0)
+      return(cbind(x_dat, SI(x)))
   }
 )
 
@@ -125,7 +139,7 @@ setMethod("speclib", signature(spectra = "hyperSpec"),
 createspeclib <- function (spectra,
                            wavelength,
                            fwhm = NULL,
-                           attributes = NULL,
+                           SI = NULL,
                            usagehistory = NULL,
                            transformation = NULL,
                            continuousdata = "auto",
@@ -138,9 +152,18 @@ createspeclib <- function (spectra,
   if (class(spectra) %in% c("RasterBrick", "HyperSpecRaster"))
   {
     fromRaster <- TRUE
-  } else {
-    fromRaster <- FALSE
-    dim_spectra <- c(nrow(spectra), ncol(spectra))
+    
+#     valid_data <- NULL
+  } else {   
+    if (class(spectra) == "RasterLayer")
+    {
+      spectra <- brick(spectra)
+      fromRaster <- TRUE
+    } else {
+#        valid_data <- attr(spectra, "valid_data")
+      fromRaster <- FALSE
+      dim_spectra <- c(nrow(spectra), ncol(spectra))
+    }
   }
   wavelength.is.range <- FALSE
   if (class(wavelength)=="data.frame" || class(wavelength)=="matrix")
@@ -230,11 +253,16 @@ createspeclib <- function (spectra,
   
   if (!wavelength.is.range)
   {
-    range <- wavelength[-1] - wavelength[-1*length(wavelength)]
-    range <- c(as.numeric(range),range[length(range)])
-    if (sd(range)==0)
-      range <- mean(range)
-    fwhm <- range
+    if (length(wavelength) > 1)
+    {
+      range <- wavelength[-1] - wavelength[-1*length(wavelength)]
+      range <- c(as.numeric(range),range[length(range)])
+      if (sd(range)==0)
+        range <- mean(range)
+      fwhm <- range
+    } else {
+      fwhm <- 1
+    }
   } else {
     if (!is.null(fwhm))
     {
@@ -242,9 +270,9 @@ createspeclib <- function (spectra,
         wavelength <- rowMeans(wavelength)
     }
   }
-    
-  if (is.null(attributes)) 
-    attributes <- data.frame()
+  
+  if (is.null(SI)) 
+    SI <- data.frame()
     
   if (is.null(usagehistory))   
     usagehistory <- character()
@@ -261,7 +289,7 @@ createspeclib <- function (spectra,
                 fwhm = fwhm,
                 wavelength.is.range = wavelength.is.range,
                 continuousdata = continuousdata,
-                attributes = attributes,
+                SI = SI,
                 transformation = transformation,
                 usagehistory = usagehistory,
                 wlunit = wlunit,
@@ -271,6 +299,11 @@ createspeclib <- function (spectra,
                )
   idSpeclib(result) <- rn
   bandnames(result) <- cn
+#   if (!is.null(valid_data))
+#   {
+#     result@spectra@valid_spec@removedPixel <- sum(!valid_data)
+#     result@spectra@valid_spec@validPixel <- valid_data
+#   }
   if (validObject(result))
   { 
     return(result)
@@ -289,7 +322,12 @@ setMethod("initialize", signature(.Object = "Speclib"),
         stop("continuousdata must be 'auto', TRUE or FALSE")
       continuousdata <- dots$continuousdata
     } else {
-      continuousdata <- max(dots$wavelength[-1*length(dots$wavelength)]-dots$wavelength[-1]) <= 20
+      if (length(dots$wavelength) > 1)
+      {
+        continuousdata <- max(dots$wavelength[-1*length(dots$wavelength)]-dots$wavelength[-1]) <= 20
+      } else {
+        continuousdata <- FALSE
+      }
     }
   } else {
     continuousdata <- TRUE
@@ -316,11 +354,11 @@ setMethod("initialize", signature(.Object = "Speclib"),
 #     stop("Spectra required")
   }
 
-  if (any(names(dots) == "attributes"))
+  if (any(names(dots) == "SI"))
   {
-    attributes <- dots$attributes
+    SI <- dots$SI
   } else {
-    attributes <- data.frame()
+    SI <- data.frame()
   }
 
   if (any(names(dots) == "fwhm"))
@@ -388,7 +426,7 @@ setMethod("initialize", signature(.Object = "Speclib"),
   object@continuousdata      <- continuousdata
   object@wavelength.is.range <- wavelength.is.range
   object@transformation      <- transformation
-  object@attributes          <- attributes
+  object@SI                  <- new(".SI", SI)
   object@usagehistory        <- usagehistory
   object@wlunit              <- wlunit
   object@xlabel              <- xlabel

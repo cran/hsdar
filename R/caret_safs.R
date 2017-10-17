@@ -19,7 +19,7 @@ setMethod("safs", signature(x = "Speclib"),
                                     "This is only required if you do not specify 'y'."))
   }
   
-  useAttributesAsPredicants <- !is.na(.getPredicantVar(x, stopifmissing = FALSE))[1]
+  useSIAsPredicants <- !is.na(.getPredicantVar(x, stopifmissing = FALSE))[1]
   
   x_dat <- as.data.frame(spectra(x))
   if (is.finite(cutoff))
@@ -30,7 +30,7 @@ setMethod("safs", signature(x = "Speclib"),
   
   spec_nam <- names(x_dat)
   
-  if (useAttributesAsPredicants)
+  if (useSIAsPredicants)
   {
     addVar <- .getPredicantVar(x)  
     x_dat <- cbind(x_dat, addVar)
@@ -53,23 +53,23 @@ setMethod("safs", signature(x = "Speclib"),
 
   x <- x[,sapply(spec_nam, FUN = function(x, pred) any(pred == x), pred), usagehistory = FALSE]
   
-  if (useAttributesAsPredicants)
+  if (useSIAsPredicants)
   {
-    warning(paste("Attibute data.frame will only contain relevant variables", 
+    warning(paste("SI data.frame will only contain relevant variables", 
                   if (y_missing) " and the response variable", ".", sep = ""))
     if (y_missing)
-      pred <- c(pred, names(attribute(x))[.getCaretParameter(x, "response")])
-    cols_keep <- sapply(names(attribute(x)), FUN = function(x, pred) any(pred == x), pred)
+      pred <- c(pred, names(SI(x))[.getCaretParameter(x, "response")])
+    cols_keep <- sapply(names(SI(x)), FUN = function(x, pred) any(pred == x), pred)
     if (sum(cols_keep) > 0)
     {
       if (sum(cols_keep) == 1)
       {
-        tmp <- as.data.frame(matrix(attribute(x)[,cols_keep], ncol = 1))
-        names(tmp) <- names(attribute(x))[cols_keep]
+        tmp <- as.data.frame(matrix(SI(x)[,cols_keep], ncol = 1))
+        names(tmp) <- names(SI(x))[cols_keep]
       } else {
-        tmp <- attribute(x)[,sapply(names(attribute(x)), FUN = function(x, pred) any(pred == x), pred)]
+        tmp <- SI(x)[,sapply(names(SI(x)), FUN = function(x, pred) any(pred == x), pred)]
       }
-      attribute(x) <- tmp
+      SI(x) <- tmp
     }         
     x <- .updateCaretParameters(x, c("response", "predictor"))
   }
@@ -95,7 +95,7 @@ setMethod("safs", signature(x = "Nri"),
                                     "This is only required if you do not specify 'y'."))
   }  
     
-  useAttributesAsPredicants <- !is.na(.getPredicantVar(x, stopifmissing = FALSE))[1]
+  useSIAsPredicants <- !is.na(.getPredicantVar(x, stopifmissing = FALSE))[1]
   
   nri_vals_all <- as.data.frame(x)
   if (is.finite(cutoff))
@@ -106,7 +106,7 @@ setMethod("safs", signature(x = "Nri"),
   }  
   nri_vals <- as.data.frame(nri_vals)
   
-  if (useAttributesAsPredicants)
+  if (useSIAsPredicants)
   {
     addVar <- .getPredicantVar(x)
     nri_vals <- cbind(nri_vals, addVar)
@@ -144,23 +144,23 @@ setMethod("safs", signature(x = "Nri"),
   
   x@nri <- distMat3D(values, ncol = ncol(x@nri), nlyr = nrow(nri_vals))  
 
-  if (useAttributesAsPredicants)
+  if (useSIAsPredicants)
   {
-    warning(paste("Attibute data.frame will only contain relevant variables", 
+    warning(paste("SI data.frame will only contain relevant variables", 
                   if (y_missing) " and the response variable", ".", sep = ""))
     if (y_missing)
-      pred <- c(pred, names(attribute(x))[.getCaretParameter(x, "response")])
-    cols_keep <- sapply(names(attribute(x)), FUN = function(x, pred) any(pred == x), pred)
+      pred <- c(pred, names(SI(x))[.getCaretParameter(x, "response")])
+    cols_keep <- sapply(names(SI(x)), FUN = function(x, pred) any(pred == x), pred)
     if (sum(cols_keep) > 0)
     {
       if (sum(cols_keep) == 1)
       {
-        tmp <- as.data.frame(matrix(attribute(x)[,cols_keep], ncol = 1))
-        names(tmp) <- names(attribute(x))[cols_keep]
+        tmp <- as.data.frame(matrix(SI(x)[,cols_keep], ncol = 1))
+        names(tmp) <- names(SI(x))[cols_keep]
       } else {
-        tmp <- attribute(x)[,sapply(names(attribute(x)), FUN = function(x, pred) any(pred == x), pred)]
+        tmp <- SI(x)[,sapply(names(SI(x)), FUN = function(x, pred) any(pred == x), pred)]
       }
-      attribute(x) <- tmp
+      SI(x) <- tmp
     }
     x <- .updateCaretParameters(x, c("response", "predictor"))
   }

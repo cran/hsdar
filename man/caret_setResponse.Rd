@@ -6,7 +6,7 @@
 
 \title{Set response variable}
 \description{
-Set response variable to be used in functions of package \pkg{caret}.
+Set response variable to be used in model-fitting functions of package \pkg{caret}. The response variable must be set upon any model training using a \pkg{hsdar}-object in \pkg{caret}.
 }
 \usage{
 \S4method{setResponse}{.CaretHyperspectral,character}(x, response)
@@ -19,7 +19,7 @@ Set response variable to be used in functions of package \pkg{caret}.
   }.
 }
   \item{response}{
-  Character. Name of response variable (from the attributes).
+  Character. Name of response variable (from the SI).
 }
 }
 
@@ -30,16 +30,18 @@ The updated object.
 \author{
 Lukas Lehnert
 }
-
+\seealso{
+\code{\link{showCaretParameters}}, \code{\link{setPredictor}}
+}
 \examples{
 \dontrun{
 data(spectral_data)
 
-## Use subset of data
-x <- spectral_data[c(1:31),] 
+## Set response variable (Chlorophyll content)
+spectral_data <- setResponse(spectral_data, "chlorophyll")
 
-## Set response variable (Percentage of green vegetation)
-x <- setResponse(x, "PV")
+## Show caret related parameters stored in the Speclib
+showCaretParameters(spectral_data)
 }
 }
 \keyword{methods}

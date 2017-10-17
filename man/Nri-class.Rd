@@ -16,7 +16,7 @@ Object with slots:
   \item{wavelength: }{Vector with wavelength information.}
   \item{dimnames: }{Character vector containing band names used to calculate nri-values.}
   \item{multivariate: }{List defining the kind of test/model applied to the data and the model data. Only used after object has passed e.g. \code{\link[=glm.nri]{(g)lm.nri}}.}
-  \item{attributes: }{Data.frame containing additional data}
+  \item{SI: }{Data.frame containing additional data}
   \item{usagehistory: }{Vector giving information on history of usage of the object.}
 }
 }

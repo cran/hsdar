@@ -10,8 +10,8 @@ setMethod("subset", signature(x = "Speclib"),
 .subset.speclib <- function(x, e, fuzzy = FALSE, ...)
 {
   target <- data.frame(id.speclib = idSpeclib(x))
-  if (nrow(attribute(x)) == nrow(target))
-    target <- cbind(target, attribute(x))
+  if (nrow(SI(x)) == nrow(target))
+    target <- cbind(target, SI(x))
 
   if (!fuzzy)
   {
@@ -56,17 +56,17 @@ setMethod("subset", signature(x = "Speclib"),
   id_speclib <- as.character(idSpeclib(x))[r]
   spectra(x) <- if (sum(r) == 1) matrix(data=spectra(x)[r,], nrow=1) else spectra(x)[r,]
 
-  if (ncol(attribute(x)) == 1)
+  if (ncol(SI(x)) == 1)
   {
-    if (nrow(attribute(x)) == nrow(target))
+    if (nrow(SI(x)) == nrow(target))
     {
-      tmp <- data.frame(tmp = attribute(x)[r,])
-      names(tmp) <- names(attribute(x))
-      attribute(x) <- tmp
+      tmp <- data.frame(tmp = SI(x, i = r))
+      names(tmp) <- names(SI(x))
+      SI(x) <- tmp
     }
   } else {
-    if (nrow(attribute(x)) == nrow(target))
-      attribute(x) <- attribute(x)[r,] 
+    if (nrow(SI(x)) == nrow(target))
+      SI(x) <- SI(x, i = r) 
   }
   e_str <- gsub("\"", "'", as.character(paste(enquote(e)))[2])
   if (length(e_str) == 1)

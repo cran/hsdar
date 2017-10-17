@@ -51,5 +51,5 @@ Lukas Lehnert
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{glm.nri}}, \code{\link{glm}}
+\code{\link{glm.nri}}, \code{\link{glm}}, \code{\link{nri}}
 }

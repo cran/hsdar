@@ -8,7 +8,7 @@
 
 \title{Methods for Function \code{sbf}}
 \description{
-Methods for function \code{sbf} in package \pkg{caret}.
+Methods for function \code{sbf} in package \pkg{caret}. Please refer to help pages in the \pkg{caret}-package for further information.
 }
 \usage{
 \S4method{sbf}{Speclib}(x, y, cutoff = 0.95, returnData = TRUE, ...)
@@ -17,11 +17,11 @@ Methods for function \code{sbf} in package \pkg{caret}.
 
 \S4method{sbf}{Specfeat}(x, y, cutoff = 0.95, returnData = TRUE, ...)
 
-get_sbf(x)
+get_sbf(sbf_obj)
 }
 \arguments{
   \item{x}{
-  Object of class \code{Speclib}, \code{Nri} or \code{Specfeat}. For \code{get_sbf}, \code{x} must be the output of \code{sbf} as \code{Speclib} or \code{Nri}.
+  Object of class \code{Speclib}, \code{Nri} or \code{Specfeat}. 
 }
   \item{y}{
   A numeric or factor vector containing the outcome for each sample. If missing, the response variable set by \code{\link{setResponse}} is used.
@@ -35,6 +35,9 @@ get_sbf(x)
 }
 \item{...}{
   Further aruments passed to \code{\link{sbf}}.
+}
+  \item{sbf_obj}{
+  Object of class \code{Speclib}, \code{Nri} or \code{Specfeat} as output of \code{sbf}-function.
 }
 }
 
@@ -56,7 +59,7 @@ data(spectral_data)
 ## Set response variable (Chlorophyll content)
 spectral_data <- setResponse(spectral_data, "chlorophyll")
 
-## Set additional predictor variables from the attributes
+## Set additional predictor variables from the SI
 spectral_data <- setPredictor(spectral_data, "season")
 
 ## Selection by filtering

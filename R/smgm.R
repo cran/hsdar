@@ -85,7 +85,7 @@ smgm <- function(x, percentage = TRUE, gridsize = 50)
   ## Convert to Speclib
   valid <- colSums(is.na(res.spectra)) < nrow(res.spectra)
   spec <- speclib(res.spectra[,valid], res.wavelength[valid], usagehistory = usagehistory(x))
-  attribute(spec) <- result
+  SI(spec) <- result
   usagehistory(spec) <- "Gaussian model on soil spectra (SMGM)"
   return(spec)
 }

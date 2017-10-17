@@ -5,7 +5,7 @@
 \description{
 Show caret related parameters in objects of classes \Sexpr[echo=TRUE,results=rd]{
     paste(hsdar:::.getCaretCompatibleClasses(), collapse = ", ")
-  }.
+  }. Several parameters such as predictor and response variables are internally stored and used for model training and validation in the \pkg{caret}-package.
 }
 \usage{
 showCaretParameters(x)

@@ -41,12 +41,14 @@
   backup <- get(speclib_obj, envir = calling_envir)
 
   ## Get blocksize
-  tr <- blockSize(backup@spectra@spectra_ra)
+  tr <- blockSize(backup)
 
   pb <- pbCreate(tr$n, 'text', style = 3, label = 'Progress')
 
   ## Run first block to determine size of output
-  v <- getValuesBlock(backup@spectra@spectra_ra, row=tr$row[1], nrows=tr$nrows[1])
+  v <- spectra(getValuesBlock(backup, row=tr$row[1], nrows=tr$nrows[1]))
+  v <- .get.finite.spectra(v)
+  valid_data <- attr(v, "valid_data")
   assign(speclib_obj, speclib(v, wavelength(backup)), envir = calling_envir) 
   res <- eval(ca, envir = calling_envir)
   res <- .coerce2Speclib(res)
@@ -56,19 +58,23 @@
   ## Create output temporary file
   out <- .allocateOutput(backup@spectra@spectra_ra, nl = nbands(res))
 
+  attr(res@spectra@spectra_ma, "valid_data") <- valid_data
   ## Write result of first block 
-  out <- writeValues(out, spectra(res), tr$row[1])
+  out <- writeValues(out, res, tr$row[1])
 
   ## Run other blocks
   if (tr$n > 1)
   {
     for (i in 2:tr$n) 
     {
-      v <- getValuesBlock(backup@spectra@spectra_ra, row=tr$row[i], nrows=tr$nrows[i])
+      v <- spectra(getValuesBlock(backup, row=tr$row[i], nrows=tr$nrows[i]))
+      v <- .get.finite.spectra(v)
+      valid_data <- attr(v, "valid_data")
       assign(speclib_obj, speclib(v, wavelength(backup)), envir = calling_envir) 
       res <- eval(ca, envir = calling_envir)
       res <- .coerce2Speclib(res)
-      out <- writeValues(out, spectra(res), tr$row[i])
+      attr(res@spectra@spectra_ma, "valid_data") <- valid_data
+      out <- writeValues(out, res, tr$row[i])
       pbStep(pb, step = NULL, label = '')
     }
   }

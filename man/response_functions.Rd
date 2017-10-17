@@ -15,7 +15,6 @@
 \alias{get_landsat7_response}
 \alias{get_landsat8_response}
 \alias{get_quickbird_response}
-\alias{get_reflectance}
 \alias{get_wv2_4_response}
 \alias{get_wv2_8_response}
 \alias{get_sentinel2_response}
@@ -30,7 +29,7 @@ Satellite sensor response functions for all sensor channels
 % data(satellite_response)
 % }
 \details{
-Please do not access this data directly, since it contains only the response values without any spectral information. To get response functions use function \code{\link{get.response}}, instead.
+Please do not access this data directly, since it contains only the response values without any spectral information. %To get response functions use function \code{\link{get.response}}, instead.
 }
 \note{
 This data is kindly provided by operators of satellites. See \code{\link{hsdardocs}("Copyright")} for copyright information on spectral response functions.

@@ -73,7 +73,6 @@ if (returnHCR)
 
 if (length(index)>1)
 {
-  
     
   result <- as.data.frame(matrix(data = NA,
                                  nrow = dim(x)[1],
@@ -81,7 +80,7 @@ if (length(index)>1)
     
   for (i in 1:length(index))
   {
-    temp <- vegindex(x, index[i], returnHCR=FALSE)
+    temp <- vegindex(x, index[i], returnHCR=FALSE, ...)
     if (!is.null(temp))
     {
       result[,i] <- temp
@@ -151,7 +150,7 @@ if (index=="NDWI")
 }
 if (index=="PWI")
 {
-  return(return_index(get_reflectance(y,x,970,weighted)/get_reflectance(y,x,900,weighted)))
+  return(return_index(get_reflectance(y,x,900,weighted)/get_reflectance(y,x,970,weighted)))
 }
 if (index=="MSI")  
 {

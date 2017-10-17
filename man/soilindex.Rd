@@ -22,7 +22,7 @@ Character string. Name or definition of index or vector with names/definitions o
 If TRUE, the result will be of class HyperSpecRaster, otherwise it is a data frame. If "auto", the class is automatically determined by passed Speclib.
 }
 \item{weighted}{
-Logical indicating if reflectance values should be interpolated to fit wavelength position. If \code{FALSE} the reflectance values of nearest neighbour to passed position are returned. See \code{\link[=get_reflectance.speclib]{get_reflectance}} for further explanation.
+Logical indicating if reflectance values should be interpolated to fit wavelength position. If \code{FALSE} the reflectance values of nearest neighbour to passed position are returned. See \code{\link{get_reflectance}} for further explanation.
 }
   \item{...}{
 Further arguments passed to derivative functions. Only used for indices requiring derivations.
@@ -78,7 +78,7 @@ Lukas Lehnert
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{vegindex}}, \code{\link[=get_reflectance.speclib]{get_reflectance}}
+\code{\link{vegindex}}, \code{\link{get_reflectance}}
 }
 \examples{
 data(spectral_data)

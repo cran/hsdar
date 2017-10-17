@@ -1,20 +1,44 @@
-setMethod("attribute", signature(object = "Nri"), 
-          function(object)
-  return(.attributes(object))
+setMethod("SI", signature(object = "Nri", i = "missing", j = "missing"), 
+          function(object, i, j)
+  return(.SI(object@SI))
 )
 
-setReplaceMethod("attribute", signature(object = "Nri", value = "matrix"), 
+setMethod("SI", signature(object = "Nri", i = "ANY", j = "missing"), 
+          function(object, i, j)
+  return(object@SI[i,])
+)
+
+setMethod("SI", signature(object = "Nri", i = "missing", j = "ANY"), 
+          function(object, i, j)
+  return(object@SI[,j])
+)
+
+setMethod("SI", signature(object = "Nri", i = "ANY", j = "ANY"), 
+          function(object, i, j)
+  return(object@SI[i,j])
+)
+
+
+setReplaceMethod("SI", signature(object = "Nri", value = "matrix"), 
                  function(object, value)
 {
-  object@attributes <- as.data.frame(value)
+  object@SI <- new(".SI", value)
   return(object)
 }
 )
 
-setReplaceMethod("attribute", signature(object = "Nri", value = "data.frame"),
+setReplaceMethod("SI", signature(object = "Nri", value = "data.frame"),
                  function(object, value)
 {
-  object@attributes <- value
+  object@SI <- new(".SI", value)
+  return(object)
+}
+)
+
+setReplaceMethod("SI", signature(object = "Nri", value = "ANY"),
+                 function(object, value)
+{
+  object@SI <- new(".SI", value)
   return(object)
 }
 )

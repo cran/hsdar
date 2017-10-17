@@ -35,7 +35,7 @@ x <- x$wavelength
 usagehistory(result) <- paste("Reflectance = transform (",method,"), ",out,sep="")
 
 pp <- .process_parallel()
-
+# pp <- list(a = FALSE)
 if (method == "ch")
 {
   methodfound=TRUE

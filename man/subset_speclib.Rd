@@ -24,7 +24,7 @@ Further arguments passed to \code{\link{agrep}}.
 }
 }
 \details{
-Matchable objects are attributes data. Use column names to identify the respectrive attribute. See \code{\link{attribute}} to access attributes of a \code{Speclib}. IDs of spectra may be accessed using "id.speclib" as variable name. 
+Matchable objects are SI data. Use column names to identify the respective SI. See \code{\link{SI}} to access SI of a \code{Speclib}. IDs of spectra may be accessed using "id.speclib" as variable name. To subset certain wavelength ranges of a \code{Speclib} refer to \code{\link{mask}}.
 }
 \value{
 Object of class \code{Speclib}.
@@ -38,14 +38,14 @@ Lukas Lehnert
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\linkS4class{Speclib}}, \code{\link{attribute}}
+\code{\linkS4class{Speclib}}, \code{\link{SI}}, \code{\link{mask}}
 }
 \examples{
 %   \dontrun{
 data(spectral_data)
 
-## Return names of attributes data
-names(attribute(spectral_data))
+## Return names of SI data
+names(SI(spectral_data))
 
 ## Devide into both seasons
 sp_summer <- subset(spectral_data, season == "summer")

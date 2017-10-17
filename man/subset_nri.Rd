@@ -24,7 +24,7 @@ Further arguments passed to \code{\link{agrep}}.
 }
 }
 \details{
-Matchable objects are attributes data. Use column names to identify the respectrive attribute. See \code{\link{attribute}} to access attributes of a \code{Nri}. IDs of samples may be accessed using "id.nri" as variable name. 
+Matchable objects are SI data. Use column names to identify the respectrive SI. See \code{\link{SI}} to access SI of a \code{Nri}. IDs of samples may be accessed using "id.nri" as variable name. 
 }
 \value{
 Object of class \code{Nri}.
@@ -38,7 +38,7 @@ Lukas Lehnert
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\linkS4class{Nri}}, \code{\link{attribute}}
+\code{\linkS4class{Nri}}, \code{\link{SI}}
 }
 \examples{
 %   \dontrun{
@@ -49,8 +49,8 @@ spec_WV <- spectralResampling(spectral_data, "WorldView2-8",
                               response_function = FALSE)
 nri_WV <- nri(spec_WV, recursive = TRUE)
 
-## Return names of attributes data
-names(attribute(nri_WV))
+## Return names of SI data
+names(SI(nri_WV))
 
 ## Devide into both seasons
 sp_summer <- subset(nri_WV, season == "summer")

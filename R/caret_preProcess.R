@@ -35,7 +35,7 @@ setMethod("predict", signature(object = ".preProcessHyperspectral"),
   
   predicted_spectral <- newdata_all[,attr(newdata_all, "spectral")]
   if (attr(newdata_all, "useattributes"))
-    attribute(backup)[,.getCaretParameter(object, "predictor")] <- newdata_all[,attr(newdata_all, "spectral")*(-1)]
+    SI(backup)[,.getCaretParameter(object, "predictor")] <- newdata_all[,attr(newdata_all, "spectral")*(-1)]
   
   if (class(backup) == "Speclib")
     spectra(backup) <- as.matrix(predicted_spectral)

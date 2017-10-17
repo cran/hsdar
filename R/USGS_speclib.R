@@ -99,14 +99,14 @@ USGS_retrieve_files <- function(avl = USGS_get_available_files(), pattern = NULL
       if (i == 1)
       {
         ref <- .read.USGS.asc(filename[i])
-        title[i] <- as.character(attribute(ref)$title[1])
+        title[i] <- as.character(SI(ref)$title[1])
       } else {
         dat <- .read.USGS.asc(filename[i])
-        title[i] <- as.character(attribute(dat)$title[1])
+        title[i] <- as.character(SI(dat)$title[1])
         ref <- .alignSpeclibs(ref, dat, tol = tol)
       }      
     }
-    attribute(ref) <- data.frame(title = title)
+    SI(ref) <- data.frame(title = title)
     idSpeclib(ref) <- as.character(basename(filename))
     return(ref)
   } else {
@@ -146,7 +146,7 @@ USGS_retrieve_files <- function(avl = USGS_get_available_files(), pattern = NULL
     dat <- read.table(filename, skip = dataline - 1, header = FALSE, dec = ".")
     dat[dat[,2] < 0, 2] <- NA
     dat <- speclib(spectra = dat[,2]*100, wavelength = dat[,1]*1000)
-    attribute(dat) <- data.frame(title = title)
+    SI(dat) <- data.frame(title = title)
     return(dat)
   }
 }
@@ -154,11 +154,11 @@ USGS_retrieve_files <- function(avl = USGS_get_available_files(), pattern = NULL
 .alignSpeclibs <- function(x, y, tol = .01)
 {
   al_attr <- TRUE
-  test <- try(rbind(attribute(x), attribute(y)), silent = TRUE)
+  test <- try(rbind(SI(x), SI(y)), silent = TRUE)
   if (inherits(test, "try-error"))
   {
     al_attr <- FALSE
-    warning("Attribute information lost")
+    warning("SI information lost")
   }
   if (c("NONE", x@transformation)[length(x@transformation)+1] != c("NONE", y@transformation)[length(y@transformation)+1])
     stop("Transformation method between x and y differs")
@@ -187,7 +187,7 @@ USGS_retrieve_files <- function(avl = USGS_get_available_files(), pattern = NULL
   idSpeclib(spec) <- as.character(c(idSpeclib(x), idSpeclib(y)))
   
   if (al_attr)
-    attribute(spec) <- rbind(attribute(x), attribute(y))
+    SI(spec) <- rbind(SI(x), SI(y))
   
   return(spec)
 }

@@ -19,11 +19,11 @@ setMethod("featurePlot", signature(x = ".CaretHyperspectral"),
                                     "This is only required if you do not specify 'y'.")) 
   }
   
-  useAttributesAsPredicants <- !is.na(.getPredicantVar(x, stopifmissing = FALSE))[1]
+  useSIAsPredicants <- !is.na(.getPredicantVar(x, stopifmissing = FALSE))[1]
   
   all_vals <- as.data.frame(x)
   
-  if (useAttributesAsPredicants)
+  if (useSIAsPredicants)
   {
     addVar <- .getPredicantVar(x)
     all_vals <- cbind(all_vals, addVar)

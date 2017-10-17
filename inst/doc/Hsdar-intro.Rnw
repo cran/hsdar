@@ -17,7 +17,7 @@
   vegetation indices, red edge parameters, spectral resampling, PROSPECT, PROSAIL},
   urlcolor=blue%
 ]{hyperref}
-\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
 \usepackage{xspace}
 
 \usepackage{geometry}
@@ -28,8 +28,23 @@
 
 \newcommand{\hsdar}{\textsf{hsdar}\xspace}
 
+\newenvironment{framed}
+  {
+    \par\noindent
+    \makebox[\linewidth]{\textcolor{gray}{\rule{\textwidth}{0.4pt}}}
+%     \vspace{-.2cm}
+    \color{darkgray}
+  }{
+%     \vspace{-.4cm}
+%     \noindent
+      \textcolor{gray}{\rule{\textwidth}{0.4pt}}\normalcolor}
+%     \normalcolor
+% %     \\
+%     \par\noindent
+%   }
 
 \begin{document}
+
 
 \maketitle
 \tableofcontents
@@ -63,7 +78,6 @@ covering the integrated spectrum of a circle of approx.~50 cm on the ground. Thu
 
 \subsection{How to start}
 To work with the tutorial, first install the \hsdar package and load the library as well as the sample data:
-
 \begin{framed}
 <<echo=TRUE,eval=TRUE,results=hide>>=
 #install.packages("hsdar")
@@ -71,7 +85,6 @@ library(hsdar)
 data(spectral_data) #Load the data used in the tutorial
 @
 \end{framed}
-
 If you need help, see
 \begin{framed}
 <<echo=TRUE,eval=FALSE,results=hide>>=
@@ -87,17 +100,14 @@ To learn how to handle Speclibs, we will first have a look on the structure of t
 \subsection{Structure}
 Hyperspectral data as well as further information related to these data are stored in a class called "Speclib".  
 To understand the structure of a Speclib, have a look on the sample Speclib "spectral$\_$data"
-
 \begin{framed}
 <<echo=TRUE,eval=TRUE>>=
 spectral_data #See how Speclibs are printed
 @
 \end{framed}
-
 The printed information of a Speclib contain the number of spectra, the number of spectral bands and the width of the bands. 
 %It also shows that the spectra are grouped according to the sampling site. 
 However, there are more information stored in the Speclib. Have a look on the structure of "spectral$\_$data" to see all its information:
-
 \begin{framed}
 <<echo=TRUE,eval=FALSE>>=
 str(spectral_data)
@@ -110,8 +120,8 @@ str(spectral_data)
 \end{framed}
 
 
-Only considering the most important components (slots), the Speclib contains spectra, wavelengths, different attributes (optional) and some  metadata (optional).
-The spectra are stored in a matrix with the spectral bands organized in columns and the different samples (or pixels) organized in rows. The vector "wavelength" indicates the corresponding wavelength of each band. The "attributes" data.frame offers a possibility to store further information related to the spectra, in this case, these are "location", "ID" and several environmental variables like e.g., the soil moisture. Thus, the wavelength contains the metadata of the column and the attributes contain the information of the rows of the spectra-matrix.
+Only considering the most important components (slots), the Speclib contains spectra, wavelengths, supplementary data (SI, optional) and some  metadata (optional).
+The spectra are stored in a matrix with the spectral bands organized in columns and the different samples (or pixels) organized in rows. Alternatively, it is possible to use a RasterBrick-object to store the spectra. The vector "wavelength" indicates the corresponding wavelength of each band. The "SI"-slot offers a possibility to store further information related to the spectra, in this case, these are "year", "season", "site" and "chlorophyll" content. Thus, the wavelength contains the metadata of the column and the SI contain the information of the rows of the spectra-matrix. Of note is that the SI may contain data from additional raster files if the spectra are stored in a RasterBrick object. For further information on handling of large raster files in \hsdar, see section \ref{sec:SpeclibsRaster}.
 Finally, some metadata are given like "reflectance" as the type of the spectra or "nm" as the unit of the wavelength.
 
 \subsection{Creating Speclibs}
@@ -128,7 +138,6 @@ spectra <- spectra(spectral_data)
 \end{framed}
 %alternatively: spectra <- as.matrix(spectral_data$spectra)
 See what happened:
-
 \begin{framed}
 <<echo=TRUE,eval=TRUE>>=
 str(spectra)
@@ -166,21 +175,20 @@ idSpeclib(newSpeclib) <- as.character(ids) #...and assign them to the
                                            #new Speclib
 @
 \end{framed}
-Still the attributes are missing in the new Speclib. Those can be handled with the function "attribute":
-If you extract the attributes from "spectral$\_$data" using "attribute", you get a data.frame containing the values for each attribute at each site:
+Still the SI (containing any associated supplementary information on spectra) is missing in the new Speclib. Those can be handled with the function "SI":
+If you extract the SI from "spectral$\_$data" using "SI", you get a data.frame containing the values for each attribute in the SI at each site:
 \begin{framed}
 <<echo=TRUE,eval=TRUE>>=
-attributes <- attribute(spectral_data) 
-head(attributes)
+SI <- SI(spectral_data) 
+head(SI)
 @
 \end{framed}
 You can now use this data.frame to complete your new Speclib:
 \begin{framed}
 <<echo=TRUE,eval=TRUE,results=hide>>=
-attribute(newSpeclib) <- attributes
+SI(newSpeclib) <- SI
 @
 \end{framed}
-
 Finally you have a Speclib which is well comparable to the exemplary Speclib:
 \begin{framed}
 <<echo=TRUE,eval=FALSE>>=
@@ -196,14 +204,14 @@ str(newSpeclib)
 \subsubsection{Speclibs from raster files}
 \label{sec:SpeclibsRaster}
 
-The investigation of data taken with a hyperspectral camera or by hyperspectral satellite sensors (e.g.,~Hyperion) brings along that a huge number of spectra must be analyzed. Unless you are working on a large cluster, R won't be able to store all of the data in RAM in this case. A workaround is, to analyze each row of the image separately. This is possible as far as you are using techniques which do not take the neighboring spectra into account. This is the case for almost all functions in this tutorial above except the correlation and linear regression techniques. A very good starting point for the row-wise analysis of large raster files is given in the tutorials of the "raster"-package the \hsdar-package is depending on. Nevertheless, there are two specific difficulties if hyperspectral data should be analyzed:
+The investigation of data taken with a hyperspectral camera or by hyperspectral satellite sensors (e.g.,~Hyperion) brings along that a huge number of spectra must be analyzed. Unless you are working on a large cluster, R won't be able to store all of the data in RAM in this case. A workaround is, to analyze a small number of rows of the image separately. This is possible as far as you are using techniques which do not take the neighboring spectra into account. This is the case for almost all functions in this tutorial except the correlation and linear regression techniques. A very good starting point for the row-wise analysis of large raster files is given in the tutorials of the "raster"-package the \hsdar-package is depending on. Nevertheless, there are two specific difficulties if hyperspectral data should be analyzed:
 \begin{enumerate}
 \item The wavelength information must be stored along the spectra
 \item Most of the function in the \hsdar-package require that data is transferred to functions as Speclib.
 \end{enumerate}
-Thus, a small extension of the raster-classes is provided by the \hsdar-package: the class HyperSpecRaster. This class is more or less a RasterBrick-object with wavelength information.
+Consequently, \hsdar supports the iterative reading and writing functionality of the raster package without the need to care about wavelength or data in the SI.
 
-In the following example which is taken from the help page of HyperSpecRaster, we will first create a small hyperspectral raster file using PROSAIL (for explanation of PROSAIL see section \ref{sec:PROSAIL}): 
+In the following example, we will first create a small hyperspectral raster file using PROSAIL (for explanation of PROSAIL see section \ref{sec:PROSAIL}): 
 \begin{framed}
 <<echo=TRUE,eval=TRUE,fig=FALSE>>=
 ## Create raster file using PROSAIL
@@ -228,16 +236,16 @@ x <- SpatialPixelsDataFrame(grd,
 writeGDAL(x, fname = "example_in.tif", drivername = "GTiff")
 @
 \end{framed}
-Once the file is created, we will read it back into R and create an object of class HyperSpecRaster from it:
+Once the file is created, we will read it back into R and create an object of class Speclib from it:
 \begin{framed}
 <<echo=TRUE,eval=TRUE,fig=FALSE>>=
 infile <- "example_in.tif"
-wavelength <- spectra$wavelength
-ra <- HyperSpecRaster(infile, wavelength)
+wavelength <- wavelength(spectra)
+ra <- speclib(infile, wavelength)
 tr <- blockSize(ra)
 @
 \end{framed}
-Note that we haven't read the values of the file into memory, yet. This is now performed in a small loop over all rows: Let's assume that we want to calculate all available vegetation indices from the hyperspectral image. Thus, we will read each row into memory, calculate the vegetation indices from the subset of pixels in the memory and store the output in a new file:
+Note that we haven't read the values of the file into memory, yet. This is now performed in a small loop over all rows: Let's assume that we want to calculate all available vegetation indices from the hyperspectral image. Thus, we will read each block of rows into memory, calculate the vegetation indices from the subset of pixels in the memory and store the output in a new file:
 \begin{framed}
 <<echo=TRUE,eval=TRUE,fig=FALSE>>=
 outfile <- "example_result.tif" 
@@ -256,6 +264,44 @@ res <- writeStop(res)
 Note that \hsdar is automatically transferring the data to an object of class Speclib during each step in the loop (so, \ttfamily v \rmfamily is a Speclib). 
 
 Depending on the number of columns in your image and on the amount of memory of your computer the loop may significantly speed up if you read multiple rows per iteration step. See the tutorial in the raster package mentioned above for further examples and information.
+
+Additionally, it is possible to include raster file(s) as variables in the SI data of the Speclib-object created from the hyperspectral raster file. Therefore, we first need to create a raster file, which contain some kind of additional information. In our example, we will use the LAI information stored in the Speclib created by PROSAIL:
+
+\begin{framed}
+<<echo=TRUE,eval=TRUE,fig=FALSE>>=
+LAI <- SI(spectra)$LAI
+SI_file <- "example_SI.tif" 
+SI_raster <- setValues(raster(infile), LAI)
+SI_raster <- writeRaster(SI_raster, SI_file)
+@
+\end{framed}
+Now, we can use this file as an attribute in the SI of the Speclib object and calculate e.g., the NDVI for all spectra with LAI values greater than 1:
+\begin{framed}
+<<echo=TRUE,eval=TRUE,fig=FALSE>>=
+outfile <- "example_result_ndvi.tif" 
+SI(ra) <- raster(SI_file)
+names(SI(ra)) <- "LAI"
+res <- writeStart(ra, outfile, overwrite = TRUE, nl = 1)
+for (i in 1:tr$n) 
+{
+  v <- getValuesBlock(ra, row=tr$row[i], nrows=tr$nrows[i])
+  mask(v) <- c(1350, 1450)
+  LAI <- SI(v)$LAI
+  v <- as.matrix(vegindex(v, index="NDVI"))
+  v[LAI <= 1] <- NA
+  res <- writeValues(res, v, tr$row[i])
+}
+res <- writeStop(res)
+@
+\end{framed}
+If plotting the resulting NDVI-image (\ttfamily plot(raster("example\_result\_ndvi.tif"))\rmfamily), we will see that the upper part with the LAI-values below or equal to 1 does not contain valid NDVI-values.
+\begin{framed}
+\resizebox{1\textwidth}{!}{
+<<echo=FALSE,eval=TRUE,fig=TRUE>>=
+plot(raster("example_result_ndvi.tif"))
+@
+}
+\end{framed}
 
 
 
@@ -362,7 +408,7 @@ Beside these specific arguments to plot spectra, any arguments known from the de
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Simulating spectra with PROSPECT and PROSAIL}
 \label{sec:PROSAIL}
-PROSPECT is a widely used leaf reflectance (or transmittance) model which simulates reflectance values between 400 and 2500 nm. For a detailed description of PROSPECT see \cite{Jacquemoud1990a}. PROSPECT requires a set of parameters describing structure  and chemical composition of leafs. In \hsdar there are default values for each parameter. However, these default values were included with the intention to provide an easy access to the model and should be used with care in any scientific approach! But now, let's jump into the simulation of reflectance values:
+PROSPECT is a widely used leaf reflectance (or transmittance) model which simulates reflectance values between 400 and 2500 nm. For a detailed description of PROSPECT see \cite{Jacquemoud1990a} and for the recently published version "D" see \cite{Feret2017}. PROSPECT requires a set of parameters describing structure  and chemical composition of leafs. In \hsdar there are default values for each parameter. However, these default values were included with the intention to provide an easy access to the model and should be used with care in any scientific approach! But now, let's jump into the simulation of reflectance values:
 \begin{framed}
 <<echo=TRUE,eval=TRUE,fig=FALSE>>=
 ## Simulate first spectrum with lower chlorophyll content
@@ -399,32 +445,32 @@ head(parameter)
 spectra <- PROSAIL(parameterList = parameter)
 spectra
 
-## Let's see the attributes
-summary(spectra$attributes)
+## Let's see the SI
+summary(SI(spectra))
 @
 \end{framed}
 We can visualize the effect of the solar zenith angle simply plotting the spectra in different colours:
 \begin{framed}
 <<echo=TRUE,eval=TRUE,fig=FALSE>>=
 colours <- colorRamp(c("darkorange4", "yellow"))
-plot(spectra, FUN = 1, ylim = c(0, 0.3),
-     col = rgb(colours(spectra$attributes$tts[1]/85),
+plot(spectra[1,], ylim = c(0, 0.3),
+     col = rgb(colours(SI(spectra)$tts[1]/85),
                maxColorValue = 255))
 for (i in 2:nspectra(spectra))
-  plot(spectra, FUN = i, new = FALSE,
-       col = rgb(colours(spectra$attributes$tts[i]/85),
+  plot(spectra[i,], new = FALSE,
+       col = rgb(colours(SI(spectra)$tts[i]/85),
                  maxColorValue = 255))
 @
 \resizebox{1\textwidth}{!}{
 <<fig=TRUE, echo=FALSE>>=
 par(mar = c(4,4,0.1,0.1), cex = 0.75)
 colours <- colorRamp(c("darkorange4", "yellow"))
-plot(spectra, FUN = 1, ylim = c(0, 0.3),
-     col = rgb(colours(spectra$attributes$tts[1]/85),
+plot(spectra[1,], ylim = c(0, 0.3),
+     col = rgb(colours(SI(spectra)$tts[1]/85),
                maxColorValue = 255))
 for (i in 2:nspectra(spectra))
-  plot(spectra, FUN = i, new = FALSE,
-       col = rgb(colours(spectra$attributes$tts[i]/85),
+  plot(spectra[i,], new = FALSE,
+       col = rgb(colours(SI(spectra)$tts[i]/85),
                  maxColorValue = 255))
 @
 }
@@ -455,28 +501,27 @@ LIDF_type <- as.factor(c(rep.int("Planophile", 3),
                          rep.int("Extremophile", 3), 
                          rep.int("Spherical", 3)))
 
-plot(spectra, FUN = 1, ylim = c(0, 0.5),
-     col = colours[spectra$attributes$LAI[1]], 
+plot(spectra[1,], ylim = c(0, 0.5),
+     col = colours[SI(spectra)$LAI[1]], 
      lty = which(levels(LIDF_type) == LIDF_type[1]))
 for (i in 2:nspectra(spectra))
-  plot(spectra, FUN = i, new= FALSE,
-       col = colours[spectra$attributes$LAI[i]],
+  plot(spectra[i,], new= FALSE,
+       col = colours[SI(spectra)$LAI[i]],
        lty = which(levels(LIDF_type) == LIDF_type[i]))
 legend("topright", 
        legend = c(paste("LAI =", c(1:3)), "", levels(LIDF_type)), 
-       col = c(colours,
-               rep.int("black", 1 + length(levels(LIDF_type)))),
+       col = c(colours, rep.int("black", 1 + length(levels(LIDF_type)))),
        lty = c(rep.int(1, 3), 0, 1:length(levels(LIDF_type))))
 @
 \resizebox{1\textwidth}{!}{
 <<fig=TRUE, echo=FALSE>>=
 par(mar = c(4,4,0.1,0.1), cex = 0.75)
-plot(spectra, FUN = 1, ylim = c(0, 0.5),
-     col = colours[spectra$attributes$LAI[1]], 
+plot(spectra[1,], ylim = c(0, 0.5),
+     col = colours[SI(spectra)$LAI[1]], 
      lty = which(levels(LIDF_type) == LIDF_type[1]))
 for (i in 2:nspectra(spectra))
-  plot(spectra, FUN = i, new= FALSE,
-       col = colours[spectra$attributes$LAI[i]],
+  plot(spectra[i,], new= FALSE,
+       col = colours[SI(spectra)$LAI[i]],
        lty = which(levels(LIDF_type) == LIDF_type[i]))
 legend("topright", 
        legend = c(paste("LAI =", c(1:3)), "", levels(LIDF_type)), 
@@ -490,14 +535,14 @@ legend("topright",
 The Speclib-class provides several routines for data manipulation which will be described in the following.
 
 \subsection{Subsets of spectra}
-Subsets of Speclibs can be built using the subset function. This function separates the spectra according to a condition. Usually the conditions are derived from attributes stored in the Speclib like study site, season or vegetation type. For example you could split "spectral$\_$data" to get a subset for the summer and the spring spectra:
+Subsets of Speclibs can be built using the subset function. This function separates the spectra according to a condition. Usually the conditions are derived from the SI stored in the Speclib like study site, season or vegetation type. For example you could split "spectral$\_$data" to get a subset for the summer and the spring spectra:
 \SweaveOpts{width=5.2, height=4.5}
 \begin{framed}
 <<echo=TRUE,eval=TRUE,fig=FALSE>>=
-## Return names of attributes data
-names(attribute(spectral_data))
+## Return names of SI data
+names(SI(spectral_data))
 
-## Devide into both seasons using to the attribute "season"
+## Devide into both seasons using to the SI attribute "season"
 sp_spring <- subset(spectral_data, season == "spring")
 sp_summer <- subset(spectral_data, season == "summer")
 #
@@ -520,7 +565,6 @@ As you can see the Speclib is split into two Speclibs, one containing all spectr
 \label{sec:mask}
 Usually, there are parts in the spectrum which are associated with errors or which are simply not of interest. \hsdar allows you to mask these parts so that they don't appear in further analysis any more. In "spectral$\_$data", the areas between 1040 and 1060 nm are errors due to channel crossing of the spectrometer and the wavelengths 1300 to 1450 are affected by water absorption. These areas should be masked in the following.
 There are several ways of how to enter the lower and upper limits of the wavelengths to be masked. For example you can set these values from a vector which simply consists of a sequence of lower and upper wavelengths. All wavelength between lower and upper wavelength are then masked. See ?mask for further options of how to specify these values.
-
 \SweaveOpts{width=7.4, height=3.7}
 \begin{framed}
 <<echo=TRUE,eval=TRUE,fig=FALSE>>=
@@ -541,9 +585,7 @@ plot(spectral_data_masked, FUN = 1)
 @
 }
 \end{framed}
-
 Beside of masking these wavelength you can also assign "new" values to them by linear interpolation. Note that interpolation is not working if start or end point of the whole spectrum were masked.
-
 \SweaveOpts{width=5.2, height=4.5}
 \begin{framed}
 <<echo=TRUE,eval=TRUE,fig=FALSE>>=
@@ -591,7 +633,6 @@ spline <- smoothSpeclib(spectral_data, method = "spline",
                          n = round(nbands(spectral_data)/10, 0))
 @
 \end{framed}
-
 Now plot the results:
 \begin{framed}
 <<echo=TRUE,eval=FALSE,fig=FALSE>>=
@@ -671,7 +712,6 @@ plot(spectral_data_2deriv, FUN = 1, xlim = c(600,800),
 @
 }
 \end{framed}
-
 However, depending on the objectives it might be favorable to first smooth the spectra before calculating the derivations:
 \begin{framed}
 <<echo=TRUE,eval=TRUE,fig=FALSE>>=
@@ -710,7 +750,6 @@ See which sensors are already implemented:
 get.sensor.characteristics(0)
 @
 \end{framed}
-
 For some sensors the spectral response functions are available. The spectra can be resampled in three ways. One possibility is the use of the spectral response functions, if available.  Otherwise spectra can be resampled assuming a Gaussian distribution (responsefunction = FALSE) or the mean value (responsefunction = NA) of reflectances between the limiting wavelength of a satellites channel. 
 \SweaveOpts{width=5.2, height=4.5}
 \begin{framed}
@@ -736,7 +775,6 @@ plot(spectral_data_resampled)
 @
 }
 \end{framed}
-
 You can see that the number of bands is now reduced to the 8 WorldView2 bands instead of 1401 hyperspectral channels. The wavelengths are automatically adapted in the speclib attribute.
 Note that standard deviations are now not longer plotted as dashed line by default but as error bars because the data are not longer continuous.
 
@@ -761,11 +799,9 @@ Then have a look at the transformSpeclib function:
 str(transformSpeclib)
 @
 \end{framed}
-
 "data" defines the speclib which is to be transformed. Concerning the "methods" parameter, currently the mentioned \textbf{c}onvex \textbf{h}ull ("ch") and the \textbf{s}egmented \textbf{h}ull ("sh") are implemented. The "out" parameter indicates if the continuum line ("raw"), the continuum removed spectra (\textbf{b}and \textbf{d}epth, "bd") or the "ratio" will be returned. Have a look on the help page of transform.speclib and the listed literature for details on these methods or for help with interpretation. The output type of "ratio" the "bd" is a speclib, out="raw" returns an object of "clman". "clman" is a class designed to store and handle manual continuum lines. 
 
 The following example will show you how to calculate the continuum line (just for visualization) and the band depth using the convex hull as well as the segmented hull approach:
-
 \begin{framed}
 \SweaveOpts{width=6, height=6}
 <<echo=TRUE,eval=TRUE>>=
@@ -886,14 +922,12 @@ After all uncertainties are removed, the hull can be re-calculated using "makehu
 sh_clineUpdate <- makehull(sh_cline, 1) #update the hull of spectrum 1
 @
 \end{framed}
-
 After all hulls of the Speclib are modified and corrected, the transformed Speclib has to be updated with the new hulls:
 \begin{framed}
 <<echo=TRUE,eval=TRUE>>=
 sh_bd <- updatecl(sh_bd, sh_clineUpdate) #update the band depth
 @
 \end{framed}
-
 Now, we can plot the resulting continuum removed spectra between 300 and 800 nm:
 \begin{framed}
 <<echo=TRUE,eval=FALSE,fig=FALSE>>=
@@ -1003,94 +1037,91 @@ plot(featuresCut, 1:2)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Basic data analysis tools}
-
-\subsection{T-Test}
-You can compare the distribution of two subsets of a Speclib by a T-test. At each wavelength subset one is compared to subset two:
-First, split "spectral$\_$data" into Speclibs of summer and spring spectra:
-\SweaveOpts{width=5.2, height=4.5}
-\begin{framed}
-<<echo=TRUE,eval=TRUE>>=
-#split into subsets:
-sp_spring <- subset(spectral_data, season == "spring")
-sp_summer <- subset(spectral_data, season == "summer")
-@
-\end{framed}
-Then perform a T-test:
+% \section{Basic data analysis tools}
+% 
+% \subsection{T-Test}
+% You can compare the distribution of two subsets of a Speclib by a T-test. At each wavelength subset one is compared to subset two:
+% First, split "spectral$\_$data" into Speclibs of summer and spring spectra and calculate nri-values:
+% \SweaveOpts{width=5.2, height=4.5}
 % \begin{framed}
 % <<echo=TRUE,eval=TRUE>>=
-% #Perform T-Test:
-% ttestResults <- t.test(sp_namco, sp_kailash)
+% ## Resample to 10 nm for red-edge (to reduce computation time)
+% spectral_data_re <- spectral_data[,wavelength(spectral_data) > 680 &
+%                                    wavelength(spectral_data) < 1000]
+% spectral_data_re <- spectralResampling(spectral_data_re, 
+%   sensor = data.frame(lb = seq(680, 990, 10), 
+%                       ub = seq(690, 1000, 10)))
+% ## Split into subsets:
+% sp_spring <- subset(spectral_data_re, season == "spring")
+% sp_summer <- subset(spectral_data_re, season == "summer")
+% 
+% ## Calculate nri-values
+% nri_spring <- nri(sp_spring, recursive = TRUE)
+% nri_summer <- nri(sp_summer, recursive = TRUE)
 % @
 % \end{framed}
-% The results are stored in a data.frame. See how the results look like for the wavelengths 748-752 nm:
+% Then perform a T-test:
 % \begin{framed}
 % <<echo=TRUE,eval=TRUE>>=
-% ttestResults[match(748:752, wavelength(ttestResults)),]
+% ttestResults <- t.test(nri_spring, nri_summer)
 % @
 % \end{framed}
-The table shows the statistical parameters of the T-test (e.g. p-value, confidence intervals, mean values) for each wavelength.
-E.g.~for the wavelength 750 nm the differences are highly significant with higher reflectance at the Kailash site (31.11$\%$) than on the Namco site (24.99$\%$).
-Let's visualize how the reflexion at the red edge reflexion shoulder (around 750 nm) of the Kailash samples compares to the reflexion at the same position of the Namco sites:
-\begin{framed}
-<<echo=TRUE,eval=FALSE,fig=FALSE>>=
-boxplot(spectra(sp_spring)[,wavelength(sp_spring) == 750],
-        spectra(sp_summer)[,wavelength(sp_summer) == 750],
-        names=c("Spring","Summer"), ylab = "Reflectance")
-@
-\resizebox{1\textwidth}{!}{
-<<fig=TRUE, echo=FALSE>>=
-par(mar = c(4,4,0.1,0.1), cex = 0.75)
-boxplot(spectra(sp_spring)[,wavelength(sp_spring) == 750],
-        spectra(sp_summer)[,wavelength(sp_summer) == 750],
-        names=c("Spring","Summer"), ylab = "Reflectance")
-@
-}
-\end{framed}
-
-
-\subsection{Regressions}
-
-Currently, \hsdar provides no special tools for regressions, however you can use the standard R routines.
-E.g.~if you want to test each wavelength for its relation to plant fraction, write a loop over each wavelength and access the spectra and the attribute "chlorophyll" from the Speclib:
-\begin{framed}
-<<echo=TRUE,eval=TRUE>>=
-result <- list()
-for (i in 1:length(wavelength(spectral_data)))
-{
-  result[[i]] <- summary(lm(spectra(spectral_data)[,i] ~
-                            attribute(spectral_data)$chlorophyll))
-}
-names(result) <- wavelength(spectral_data)
-@
-\end{framed}
-In this way you can access the results using the wavelengths as string. E.g.~let's have a look on the results at 650 nm:
-\begin{framed}
-<<echo=TRUE,eval=FALSE>>=
-result$"650"
-@
-\begin{scriptsize}
-<<echo=FALSE,eval=TRUE>>=
-result$"650"
-@
-\end{scriptsize}
-\end{framed}
-You can easily plot this relation by a scatterplot with PV on th the x-axis and the reflectance at the wavelength 650 nm on the y-axis.
-\begin{framed}
-<<echo=TRUE,eval=FALSE,fig=FALSE>>=
-plot(attribute(spectral_data)$chlorophyll, 
-     spectra(spectral_data)[,wavelength(spectral_data)==650],
-     xlab = "Chlorophyll content", ylab = "Reflectance at 650nm")
-@
-\resizebox{1\textwidth}{!}{
-<<fig=TRUE, echo=FALSE>>=
-par(mar = c(4,4,0.1,0.1), cex = 0.75)
-plot(attribute(spectral_data)$chlorophyll, 
-     spectra(spectral_data)[,wavelength(spectral_data)==650],
-     xlab = "Chlorophyll content", ylab = "Reflectance at 650nm")
-@
-}
-\end{framed}
+% The results are stored in an object of class "Nri". Thus, we can use the plot-function to visualize the p-values of the T-tests:
+% \begin{framed}
+% <<echo=TRUE,eval=FALSE,fig=FALSE>>=
+% plot(ttestResults)
+% @
+% \resizebox{1\textwidth}{!}{
+% <<fig=TRUE, echo=FALSE>>=
+% par(mar = c(4,4,0.2,0.2), cex = 0.75)
+% plot(ttestResults)
+% @
+% }
+% \end{framed}
+% 
+% 
+% \subsection{Regressions}
+% 
+% Currently, \hsdar provides no special tools for regressions, however you can use the standard R routines.
+% E.g.~if you want to test each wavelength for its relation to plant fraction, write a loop over each wavelength and access the spectra and the attribute "chlorophyll" from the Speclib:
+% \begin{framed}
+% <<echo=TRUE,eval=TRUE>>=
+% result <- list()
+% for (i in 1:length(wavelength(spectral_data)))
+% {
+%   result[[i]] <- summary(lm(spectra(spectral_data)[,i] ~
+%                             SI(spectral_data)$chlorophyll))
+% }
+% names(result) <- wavelength(spectral_data)
+% @
+% \end{framed}
+% In this way you can access the results using the wavelengths as string. E.g.~let's have a look on the results at 650 nm:
+% \begin{framed}
+% <<echo=TRUE,eval=FALSE>>=
+% result$"650"
+% @
+% \begin{scriptsize}
+% <<echo=FALSE,eval=TRUE>>=
+% result$"650"
+% @
+% \end{scriptsize}
+% \end{framed}
+% You can easily plot this relation by a scatterplot with PV on the x-axis and the reflectance at the wavelength 650 nm on the y-axis.
+% \begin{framed}
+% <<echo=TRUE,eval=FALSE,fig=FALSE>>=
+% plot(SI(spectral_data)$chlorophyll, 
+%      spectra(spectral_data)[,wavelength(spectral_data)==650],
+%      xlab = "Chlorophyll content", ylab = "Reflectance at 650nm")
+% @
+% \resizebox{1\textwidth}{!}{
+% <<fig=TRUE, echo=FALSE>>=
+% par(mar = c(4,4,0.1,0.1), cex = 0.75)
+% plot(SI(spectral_data)$chlorophyll, 
+%      spectra(spectral_data)[,wavelength(spectral_data)==650],
+%      xlab = "Chlorophyll content", ylab = "Reflectance at 650nm")
+% @
+% }
+% \end{framed}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Calculating spectral indices}
 There are three different kinds of spectral indices implemented in \hsdar: A variety of common as well as recently developed vegetation indices, red edge parameters and normalised ratio indices.
@@ -1098,7 +1129,7 @@ There are three different kinds of spectral indices implemented in \hsdar: A var
 \subsection{Vegetation indices}
 To see the whole set of implemented indices and how they are calculated please read the \hsdar help or manual.
 The indices are calculated for each sample in the Speclib. 
-For example calculate the NDVI like this:
+For example calculate the normalized difference vegetation index (NDVI) like this:
 \begin{framed}
 <<echo=TRUE,eval=TRUE>>=
 data(spectral_data)
@@ -1125,7 +1156,6 @@ Shape and location of the red edge are commonly described by four parameters:
 \end{itemize}
 
 The red edge parameters are calculated as proposed in \cite{Bach1995} from the spectral area between 600 and 900 nm. l0 is calculated as the last root before the maximum value of the 2nd derivation. The minimum reflectance is the reflectance at (l0). The inflection point is the root of the 2nd derivative function between the maximum value and the minimum value. The shoulder wavelength is the first root beyond the minimum value of the 2nd derivation.
-
 \SweaveOpts{width=5.2, height=4.5}
 \begin{framed}
 <<echo=TRUE,eval=TRUE>>=
@@ -1136,12 +1166,12 @@ rd <- rededge(spectral_data)
 Results can be presented as boxplot. For example create a boxplot for R0:
 \begin{framed}
 <<echo=TRUE,eval=FALSE,fig=FALSE>>=
-boxplot(rd$R0 ~ spectral_data$attributes$season, ylab = "R0")
+boxplot(rd$R0 ~ SI(spectral_data)$season, ylab = "R0")
 @
 \resizebox{1\textwidth}{!}{
 <<fig=TRUE, echo=FALSE>>=
 par(mar = c(4,4,0.1,0.1), cex = 0.75)
-boxplot(rd$R0 ~ spectral_data$attributes$season, ylab = "R0")
+boxplot(rd$R0 ~ SI(spectral_data)$season, ylab = "R0")
 @
 }
 \end{framed}
@@ -1192,8 +1222,8 @@ nri_WV$nri[,,1]
 \end{framed}
 Note that the resulting matrix only contains the indices for one side of the matrix because the information content would be the same for the other side of the matrix only with opposite algebraic sign.
 
-\subsection{Comparing distributions of NRI}
-See section \ref{sec:nrienv} for how to relate NRIs to environmental variables which is most likely what you want to achieve with your NRIs.
+% \subsection{Comparing distributions of NRI}
+% See section \ref{sec:nrienv} for how to relate NRIs to environmental variables which is most likely what you want to achieve with your NRIs.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1212,10 +1242,10 @@ nri_WV <- nri(spec_WV, recursive = TRUE)
 
 \subsection{Correlations}
 In this example we want to correlate each NRI to the chlorophyll content of the vegetation. Use the Speclib and NRI data created in section \ref{sec:nrienv}.
-First create a new variable from the attributes of the Speclib containing the chlorophyll content per sample:
+First create a new variable from the SI of the Speclib containing the chlorophyll content per sample:
 \begin{framed}
 <<echo=TRUE,eval=TRUE>>=
-chlorophyll <- attribute(spec_WV)$chlorophyll
+chlorophyll <- SI(spec_WV)$chlorophyll
 @
 \end{framed}
 Then you can correlate this to the NRI: 
@@ -1269,7 +1299,7 @@ str(lm.nri)
 @
 \end{framed}
 The function requires the formula of the model as well as "preddata" which is a Speclib or a data.frame containing the environmental variables.
-Use the Speclib and NRI data created in section \ref{sec:nrienv} to perform a linear regression between NRI and fraction of vegetation which is stored as attribute in "spec$\_$WV":
+Use the Speclib and NRI data created in section \ref{sec:nrienv} to perform a linear regression between NRI and fraction of vegetation which is stored as SI-attribute in "spec$\_$WV":
 \begin{framed}
 <<echo=TRUE,eval=TRUE>>=
 lmnri <- lm.nri(nri_WV ~ chlorophyll, preddata = spec_WV)
@@ -1325,7 +1355,6 @@ plot(lmnri, coefficient = "r.squared", main = "R squared")
 @
 }
 \end{framed}
-
 For each band combination, the r.squared value of the model of NRI and the environmental variable is represented by colour. Maybe you want to limit your plot to only these band combinations whose NRI were significantly related to the environmental variable. You can do this using the "constraint" parameter. Assign your constraint as string. For example: constraint = "p.value<0.01" means that only r.squared values of models with p value less than 0.01 will be drawn:
 \begin{framed}
 <<echo=TRUE,eval=FALSE,fig=FALSE>>=
@@ -1381,7 +1410,6 @@ grass_spectra_qb <- speclib(spectra = matrix(c(3.190627, 5.137504, 5.797486, 29.
 limestone_qb <- speclib(spectra = matrix(c(16.93489, 18.97302, 21.407, 23.98981), nrow = 1), wavelength = c(485, 560, 660, 830))
 @
 \end{framed}
-
 Now, we merge the endmember spectra into one Speclib (and make sure that the range of the spectra is in [0,1]) and finally start the unmixing approach:
 \begin{framed}
 <<echo=TRUE,eval=TRUE,fig=FALSE>>=
@@ -1404,14 +1432,14 @@ Finally, we can generate a simple plot to visualize our results.
 \SweaveOpts{width=5.2, height=4.5}
 \begin{framed}
 <<echo=TRUE,eval=TRUE,fig=FALSE>>=
-plot(unmix_res$fractions[1,] ~ attribute(spectral_data_qb)$LAI,
+plot(unmix_res$fractions[1,] ~ SI(spectral_data_qb)$LAI,
      type = "l", xlab = "LAI", 
      ylab = "Unmixed fraction of vegetation")
 @
 \resizebox{1\textwidth}{!}{
 <<fig=TRUE, echo=FALSE>>=
 par(mar = c(4,4,0,0.1), cex = 0.75)
-plot(unmix_res$fractions[1,] ~ attribute(spectral_data_qb)$LAI, type = "l",
+plot(unmix_res$fractions[1,] ~ SI(spectral_data_qb)$LAI, type = "l",
      xlab = "LAI", ylab = "Unmixed fraction of vegetation")
 @
 }

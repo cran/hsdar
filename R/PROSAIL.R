@@ -59,7 +59,7 @@ PROSAIL <- function(
     parameterList <- as.matrix(parameterList[,match(parameter, names(parameterList))])
     spec <- t(apply(parameterList, 1, FUN = iterate_prosail, rsoil))
     return(speclib(spectra=spec, wavelength=c(1:2101)+399, 
-                   attributes = as.data.frame(parameterList)))
+                   SI = as.data.frame(parameterList)))
   }
   nw <- 2101
   RT <- array(0, dim=c(nw,1))

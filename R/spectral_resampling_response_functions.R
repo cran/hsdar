@@ -1,24 +1,24 @@
-get_response_function <- function(sensor)
+.get_response_function <- function(sensor)
 {
   pc <- if (nchar(deparse(sys.calls()[[sys.nframe()-1]])) > 22) 
     substr(deparse(sys.calls()[[sys.nframe()-1]]),1, 22) != "list.available.sensors" else TRUE
   response <- switch(sensor,
-                     "RapidEye"=get_RapidEye_response(),
-                     "WorldView2-8"=get_wv2_8_response(pc),
-                     "Quickbird"=get_quickbird_response(pc),                 
-                     "WorldView2-4"=get_wv2_4_response(pc),
-                     "Landsat4"=get_landsat4_response(),
-                     "Landsat5"=get_landsat5_response(),
-                     "Landsat7"=get_landsat7_response(),
-                     "Landsat8"=get_landsat8_response(),
-                     "Sentinel2"=get_sentinel2_response(),
+                     "RapidEye"=.get_RapidEye_response(),
+                     "WorldView2-8"=.get_wv2_8_response(pc),
+                     "Quickbird"=.get_quickbird_response(pc),                 
+                     "WorldView2-4"=.get_wv2_4_response(pc),
+                     "Landsat4"=.get_landsat4_response(),
+                     "Landsat5"=.get_landsat5_response(),
+                     "Landsat7"=.get_landsat7_response(),
+                     "Landsat8"=.get_landsat8_response(),
+                     "Sentinel2"=.get_sentinel2_response(),
 #                      "Modis"=get_TerraModis_response(),
                      NULL
               )
   return(response)
 }
 
-get_RapidEye_response <- function ()
+.get_RapidEye_response <- function ()
 {
   RapidEye_response <- NULL
   rm(RapidEye_response)
@@ -31,7 +31,7 @@ get_RapidEye_response <- function ()
   return(response)
 }
 
-get_wv2_8_response <- function (pc)
+.get_wv2_8_response <- function (pc)
 {
   WV_2_8_response <- NULL
   rm(WV_2_8_response)
@@ -49,7 +49,7 @@ get_wv2_8_response <- function (pc)
   return(response)
 }
 
-get_wv2_4_response <- function (pc)
+.get_wv2_4_response <- function (pc)
 {
   WV_2_8_response <- NULL
   rm(WV_2_8_response)
@@ -68,7 +68,7 @@ get_wv2_4_response <- function (pc)
   return(response)
 }
 
-get_quickbird_response <- function (pc)
+.get_quickbird_response <- function (pc)
 {
   Quickbird_response <- NULL
   rm(Quickbird_response)
@@ -86,7 +86,7 @@ get_quickbird_response <- function (pc)
   return(response)
 }
 
-get_landsat4_response <- function ()
+.get_landsat4_response <- function ()
 {
   Landsat_4_response <- NULL
   rm(Landsat_4_response)
@@ -99,7 +99,7 @@ get_landsat4_response <- function ()
   return(response)
 }
 
-get_landsat5_response <- function ()
+.get_landsat5_response <- function ()
 {
   Landsat_5_response <- NULL
   rm(Landsat_5_response)
@@ -112,7 +112,7 @@ get_landsat5_response <- function ()
   return(response)
 }
 
-get_landsat7_response <- function ()
+.get_landsat7_response <- function ()
 {
   Landsat_7_response <- NULL
   rm(Landsat_7_response)
@@ -125,7 +125,7 @@ get_landsat7_response <- function ()
   return(response)
 }
 
-get_landsat8_response <- function ()
+.get_landsat8_response <- function ()
 {
   Landsat_8_response <- NULL
   rm(Landsat_8_response)
@@ -138,7 +138,7 @@ get_landsat8_response <- function ()
   return(response)
 }
 
-get_sentinel2_response <- function ()
+.get_sentinel2_response <- function ()
 {
   Sentinel2A_response <- NULL
   rm(Sentinel2A_response)

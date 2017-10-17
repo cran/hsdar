@@ -2,7 +2,7 @@
 {
   pros_spectra <- spectra(PROSPECT(N = P[1]/10, Cab = P[2], Car = P[3], Cbrown = P[4]/100,
                                    Cw = P[5]/100, Cm = P[6]/100, transmittance = FALSE,
-                                   parameterList = NULL))[1,]
+                                   parameterList = NULL, version = "5B"))[1,]
   pros_spectra[!is.finite(pros_spectra)] <- 0                                   
   if (is.null(transmittance_spectra))
   {
@@ -25,7 +25,7 @@
   } else {
     pros_spectra_t <- spectra(PROSPECT(N = P[1]/10, Cab = P[2], Car = P[3], Cbrown = P[4]/100,
                                        Cw = P[5]/100, Cm = P[6]/100, transmittance = FALSE,
-                                       parameterList = NULL))[1,]
+                                       parameterList = NULL, version = "5B"))[1,]
     chi2 <- sqrt(sum((pros_spectra-reflectance_spectra)^2+(pros_spectra_t-transmittance_spectra)^2))
   }
   return(chi2)
@@ -49,12 +49,12 @@ PROSPECTinvert <- function(x, P0 = NULL, transmittance_spectra = NULL, sam = FAL
   } else {
     t_spec <- spectra(transmittance_spectra)[1,]
   }
-  res <- pracma::nelder_mead(x0 = P0, f = .inversionFUN, 
-                             lb = c(10, 0, 0, -0.00000001, 0.005, 0.2),
-                             ub = c(30, 100, 30, 100, 4, 1.8),
-                             reflectance_spectra = x_spec, 
-                             transmittance_spectra = t_spec, 
-                             sam = sam, ...)
+  res <- pracma::anms(x0 = P0, fn = .inversionFUN, 
+                      lb = c(10, 0, 0, -0.00000001, 0.005, 0.2),
+                      ub = c(30, 100, 30, 100, 4, 1.8),
+                      reflectance_spectra = x_spec, 
+                      transmittance_spectra = t_spec, 
+                      sam = sam, ...)
   res$xmin <- c(N = res$xmin[1]/10, Cab = res$xmin[2], Car = res$xmin[3], 
                 Cbrown = res$xmin[4]/100, Cw = res$xmin[5]/100, Cm = res$xmin[6]/100)
   return(res)

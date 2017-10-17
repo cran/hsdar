@@ -5,7 +5,7 @@
 % \alias{print.ttestnri}
 \title{ t-test for nri values}
 \description{
-Performs t-tests for nri values.
+Performs Student's t-tests for normalized ratio index values.
 }
 
 \usage{
@@ -31,7 +31,7 @@ Performs t-tests for nri values.
 }
 \author{ Lukas Lehnert & Hanna Meyer }
 \seealso{
- \code{\link{t.test}}, \code{\link{cor.test,Nri-method}}
+ \code{\link{t.test}}, \code{\link{cor.test,Nri-method}}, \code{\linkS4class{Nri}} 
 }
 \examples{
 %   \dontrun{
@@ -44,7 +44,7 @@ spec_WV <- spectralResampling(spectral_data, "WorldView2-8",
 nri_WV <- nri(spec_WV, recursive = TRUE)
 
 ## Perform t.tests between nri-values of both sites 
-season <- spec_WV$attributes$season
+season <- SI(spec_WV)$season
 ttestres <- t.test(x = nri_WV, y = season, alternative = "two.sided")
 ttestres
 

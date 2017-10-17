@@ -24,7 +24,7 @@ setMethod("t.test", signature(x = "Nri"),
       while (i > 1 & goty == 0)
       {
         i <- i - 1
-        if (class(dots[[i]]) == "nri")
+        if (class(dots[[i]]) == "Nri")
           goty <- i      
       }
     }
@@ -103,3 +103,4 @@ setMethod("t.test", signature(x = "Nri"),
   }
 }
 )
+
