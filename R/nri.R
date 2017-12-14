@@ -52,6 +52,9 @@ if (recursive)
   
   stopifnot(length(b1) == length(b2))
   
+  b1 <- b1 * .ConvWlBwd(x@wlunit)
+  b2 <- b2 * .ConvWlBwd(x@wlunit)
+  
   if (length(b1) > 1)
   {
     res <- apply(matrix(1:length(b1), ncol = 1), 1, 

@@ -24,7 +24,7 @@ Object of class \code{Speclib}.
 }
 
 \value{
-Vector of length = 2 or single integer value.
+Vector of length = 2 for \code{dim} or single integer value for \code{nspectra} and \code{nbands}.
 }
 \author{
 Lukas Lehnert

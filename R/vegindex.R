@@ -111,6 +111,7 @@ m <- c(rep.int(1,length(d_indexs)))
 if (any(index==d_indexs)) 
   x <- derivative.speclib(x, m=m[d_indexs==index], ...)
 
+wlunit <- x@wlunit
 y <- spectra(x)
 x <- wavelength(x)
 
@@ -772,13 +773,15 @@ if (index=="SWIR VI")
 	              26.27*(get_reflectance(y,x,2280,weighted)-get_reflectance(y,x,2090,weighted)) + 0.57))
 }
 
+x <- x * .ConvWlBwd(wlunit)
 
-index <- gsub("R", "", gsub("(R[0-9]+)", "get_reflectance(y,x,\\1,weighted)", index, 
+index <- gsub("R", "", gsub("(R[.0-9]+)", "get_reflectance(y,x,\\1,weighted)", index, 
                             perl = TRUE)
               )
-index <- gsub("D", "", gsub("(D[0-9]+)", "get_reflectance(spectra(derivative.speclib(x_back, m=1, ...)),x,\\1,weighted)", index, 
+index <- gsub("D", "", gsub("(D[.0-9]+)", "get_reflectance(spectra(derivative.speclib(x_back, m=1, ...)),x,\\1,weighted)", index, 
                             perl = TRUE)
               )
+
 index_val <- try(return_index(eval(parse(text = index))), silent = TRUE)
 if (inherits(index_val, "try-error"))
 {

@@ -77,11 +77,11 @@ The inversion uses the function \code{\link[pracma]{anms}} from the \pkg{pracma}
 An object of class \code{Speclib}.
 }
 \references{
-Jacquemoud, S. and Baret, F. (1990). PROSPECT: A model of leaf optical properties spectra, Remote Sensing of Environment 34: 75 - 91.
-
 Feret J.B., Francois C., Asner G.P., Gitelson A.A., Martin R.E., Bidel L.P.R., Ustin S.L., le Maire G., & Jacquemoud S. (2008), PROSPECT-4 and 5: advances in the leaf optical properties model separating photosynthetic pigments. Remote Sensing of Environment, 112, 3030-3043.
 
 Feret J.B., Gitelson A.A., Noble S.D., & Jacquemoud S. (2017), PROSPECT-D: towards modeling leaf optical properties through a complete lifecycle, Remote Sensing of Environment, 193, 204-215. 
+
+Jacquemoud, S. and Baret, F. (1990). PROSPECT: A model of leaf optical properties spectra, Remote Sensing of Environment 34: 75 - 91.
 }
 \author{
 Lukas Lehnert

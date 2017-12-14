@@ -1,8 +1,8 @@
-smoothSpeclib <- function(
-                           x,
-                           method="mean",
-                           ...
-                          )
+noiseFiltering <- function(
+                            x,
+                            method="mean",
+                            ...
+                           )
 {
   if (x@spectra@fromRaster)
     return(.blockwise(speclib_obj =  "x", pos = 1))
@@ -12,7 +12,7 @@ smoothSpeclib <- function(
     stop("x must be of class 'Speclib'")
     
   if (!x@continuousdata)
-    stop("Smoothing is only useful for continuous spectra")
+    stop("Filtering is only useful for continuous spectra")
   
   setmask <- FALSE  
   
@@ -27,10 +27,25 @@ smoothSpeclib <- function(
   
   res <- x
   
+  pp <- .process_parallel()
+  i <- 0
+  
   if (method=="sgolay")
   {
-    spectra(res) <- t(apply(spectra(x), 1, FUN = sgolayfilt, ...))
-    usagehistory(res) <- paste("Smoothed with Savitzky-Golay smoothing filter")
+    if (!pp[[1]])
+    {
+      spectra(res) <- t(apply(spectra(x), 1, FUN = sgolayfilt, ...))
+    } else {
+      `%op%` <- pp[[2]]
+      y <- spectra(x)
+      y_smoothed <- foreach::foreach(i=1:nrow(y), .combine = 'rbind') %op%
+      {
+        sgolayfilt(y[i,], ...)
+      }
+      spectra(res) <- y_smoothed
+      .restoreParallel()
+    }
+    usagehistory(res) <- paste("Filtered with Savitzky-Golay filter")
     predefinedmethod <- TRUE
   }
   
@@ -39,9 +54,22 @@ smoothSpeclib <- function(
     lowessFUN <- function(y, x, ...) lowess(x=x, y=y, ...)$y
     
     wavelength(res) <- lowess(x=wavelength(x), y=spectra(x)[1,], ...)$x
-    spectra(res) <- t(apply(spectra(x), 1, FUN = lowessFUN, 
-                            x=wavelength(x), ...))
-    usagehistory(res) <- paste("Smoothed with lowess function")
+    if (!pp[[1]])
+    {
+      spectra(res) <- t(apply(spectra(x), 1, FUN = lowessFUN, 
+                              x=wavelength(x), ...))
+    } else {
+      `%op%` <- pp[[2]]
+      y <- spectra(x)
+      wav <- wavelength(x)
+      y_smoothed <- foreach::foreach(i=1:nrow(y), .combine = 'rbind') %op%
+      {
+        lowessFUN(y[i,], wav, ...)
+      }
+      spectra(res) <- y_smoothed
+      .restoreParallel()
+    }
+    usagehistory(res) <- paste("Filtered with lowess function")
     predefinedmethod <- TRUE
   } 
   if (method=="spline")
@@ -49,9 +77,22 @@ smoothSpeclib <- function(
     splineFUN <- function(y, x, ...) spline(x=x, y=y, ...)$y
     
     wavelength(res) <- spline(x=wavelength(x), y=spectra(x)[1,], ...)$x
-    spectra(res) <- t(apply(spectra(x), 1, FUN = splineFUN, 
-                            x=wavelength(x), ...))
-    usagehistory(res) <- paste("Smoothed with spline function")
+    if (!pp[[1]])
+    {
+      spectra(res) <- t(apply(spectra(x), 1, FUN = splineFUN, 
+                              x=wavelength(x), ...))
+    } else {
+      `%op%` <- pp[[2]]
+      y <- spectra(x)
+      wav <- wavelength(x)
+      y_smoothed <- foreach::foreach(i=1:nrow(y), .combine = 'rbind') %op%
+      {
+        splineFUN(y[i,], wav, ...)
+      }
+      spectra(res) <- y_smoothed
+      .restoreParallel()
+    }
+    usagehistory(res) <- paste("Filtered with spline function")
     predefinedmethod <- TRUE
   } 
   if (any(method==c("mean","mean_gliding")))
@@ -59,22 +100,30 @@ smoothSpeclib <- function(
     spectra  <- spectra(res)
     
     spectra(res) <- meanfilter(spectra, ...)
-    usagehistory(res) <- paste("Smoothed with meanfilter")
+    usagehistory(res) <- paste("Filtered with meanfilter")
     predefinedmethod <- TRUE
   }
   
   if (!predefinedmethod)
   {
     spectra(res) <- t(apply(spectra(x), 1, FUN = method, ...))
-    usagehistory(res) <- paste("Smoothed with ", method," smoothing filter")
+    usagehistory(res) <- paste("Filtered with '", method, "'")
   }
   
-  if (setmask) mask(res) <- attr(res, "dropped")
+  if (setmask) mask(res) <- attr(res, "dropped")*.ConvWlBwd(res@wlunit)
   return(res)            
 }
 
 meanfilter <- function(spectra, p=5)
 {
+  if (is.speclib(spectra))
+  {
+    backup <- spectra
+    spectra <- spectra(spectra)
+  } else {
+    backup <- NULL
+  } 
+   
   gliding  <- FALSE
   spectra  <- as.matrix(spectra)
   nwl      <- ncol(spectra)
@@ -108,7 +157,14 @@ meanfilter <- function(spectra, p=5)
                         )
   }
   
-  external$smoothed <- as.data.frame(external$smoothed)
-  
-  return(external$smoothed)
+  external$smoothed <- as.matrix(as.data.frame(external$smoothed))
+  if (!is.null(backup))
+  {
+    spectra(backup) <- external$smoothed
+    usagehistory(backup) <- paste("Filtered with meanfilter")
+  } else {
+    backup <- external$smoothed
+  }
+  return(backup)
 }
+smoothSpeclib <- noiseFiltering

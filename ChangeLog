@@ -1,4 +1,30 @@
 ------------------------------------------------------------------------------------------
+--- 14-December-2017, version 0.7.0
+- New functionalities:
+   - Parallel processing in 'smoothSpeclic' enabled
+   - Function meanfilter can process Speclibs and matrix
+   - Parallel computing supports doMPI package for windows
+   - Brick method for Speclib added
+   - Speclib-method for function merge accepts more than two Speclibs
+   - Apply.speclib works in parallel
+   - plotRGB automatically selects r, g, b bands
+   - Print function of Speclib returns SI information
+   - Function define.features integrated into function specfeat
+   - spectralResampling accepts a Speclib as spectral response function
+   - Conversion between wavelength units enabled
+- Bug fixes:
+   - New example for manual continuum line in vignette
+   - Bug in comparison between values in two DistMat3D-objects fixed
+   - get.sensor.name renamed in .get.sensor.name since the function is only internally 
+     used
+   - Help files comprehensively revised
+   - Bug from hsdardocs removed
+   - vegindex recognizes decimal seperator in wavelength information if indices are 
+     self-defined
+- Other changes:
+   - smoothSpeclib renamed in noiseFiltering (smoothSpeclib still works as well)
+     
+------------------------------------------------------------------------------------------
 --- 16-October-2017, version 0.6.0
 - Major changes:
    - Attributes in the Speclib-objects are called "SI". Functions to get and replace SI 

@@ -26,7 +26,6 @@ Further arguments passed to generic functions. Currently ignored.
 }
 }
 \details{
-
 Function performs a continuum removal transformation by firstly establishing a continuum 
 line/hull which connects the local maxima of the reflectance
 spectrum. Two kinds of this hull are well established in scientific community: the
@@ -51,7 +50,7 @@ the wavelength \eqn{\lambda}.}
 \deqn{BD_\lambda = \frac{R_\lambda}{CV_\lambda}.}
 }
 }
-In some cases it might be useful to apply \code{\link{smoothSpeclib}} before the transformation if too many small local maxima
+In some cases it might be useful to apply \code{\link{noiseFiltering}} before the transformation if too many small local maxima
 are present in the spectra. Anyway, a manual improvement of the continuum line is possible 
 using \code{\link{addcp}} and \code{\link{deletecp}}.
 
@@ -68,19 +67,54 @@ Mutanga, O. and Skidmore, A. K. (2004): Hyperspectral band depth analysis for a 
 \author{
 Hanna Meyer and Lukas Lehnert
 }
-
+\note{For large Speclibs, it may be feasible to run the function on multiple cores. See \code{\link{hsdar_parallel}()} for further information.}
 
 \seealso{
 \code{\link{Clman}}, \code{\link{addcp}}, \code{\link{deletecp}}, \code{\link{checkhull}}
 }
 \examples{
-data(spectral_data)
+## Example spectrum for wavelength values 
+## between 400 and 1000 nm
+example_spectrum <- PROSPECT()[,c(1:600)]
 
-transformed_spectra <- transformSpeclib(spectral_data)
+## Default (convex hull and band depth)
+ch_bd <- transformSpeclib(example_spectrum)
 
-par(mfrow=c(1,2))
-plot(spectral_data)
-plot(transformed_spectra)
+## Construct convex hull but calculate ratios
+ch_ratio <- transformSpeclib(example_spectrum, out = "ratio")
+
+## Return continuum line of convex hull
+ch_raw <- transformSpeclib(example_spectrum, out = "raw")
+
+## Plot results
+par(mfrow=c(2,2))
+plot(example_spectrum)
+plot(ch_raw, ispec = 1, main = "Continuum line", 
+     ylim = c(0,0.5))
+plot(ch_bd, main = "Band depth")
+plot(ch_ratio, main = "Ratio")
+
+## Same example but with segmented hull
+
+## Segmented hull and band depth
+sh_bd <- transformSpeclib(example_spectrum, method = "sh", 
+                          out = "bd")
+
+## Segmented hull and ratios
+sh_ratio <- transformSpeclib(example_spectrum, method = "sh", 
+                             out = "ratio")
+
+## Return continuum line of segmented hull
+sh_raw <- transformSpeclib(example_spectrum, method = "sh",
+                           out = "raw")
+
+## Plot results
+par(mfrow=c(2,2))
+plot(example_spectrum)
+plot(sh_raw, ispec = 1, main = "Continuum line",
+     ylim = c(0,0.5))
+plot(sh_bd, main = "Band depth")
+plot(sh_ratio, main = "Ratio")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

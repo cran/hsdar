@@ -1,13 +1,13 @@
 setMethod("speclib", signature(spectra = "matrix", wavelength = "numeric"), 
           function(spectra, wavelength, ...)
-  return(createspeclib(spectra, wavelength, ...))
+  return(.createspeclib(spectra, wavelength, ...))
 )
 
 setMethod("speclib", signature(spectra = "SpatialGridDataFrame", wavelength = "numeric"), 
           function(spectra, wavelength, ...)
   {
     spectra <- t(as.matrix(.getImgMatrix_SpatialGridDataFrame(spectra)))
-    return(createspeclib(spectra, wavelength, ...))
+    return(.createspeclib(spectra, wavelength, ...))
   }
 )
 
@@ -15,20 +15,20 @@ setMethod("speclib", signature(spectra = "numeric", wavelength = "numeric"),
           function(spectra, wavelength, ...)
   {
     spectra <- matrix(spectra, ncol = length(wavelength))
-    return(createspeclib(spectra, wavelength, ...))
+    return(.createspeclib(spectra, wavelength, ...))
   }
 )
 
 setMethod("speclib", signature(spectra = "matrix", wavelength = "data.frame"), 
           function(spectra, wavelength, ...)
-  return(createspeclib(spectra, wavelength, ...))
+  return(.createspeclib(spectra, wavelength, ...))
 )
 
 setMethod("speclib", signature(spectra = "SpatialGridDataFrame", wavelength = "data.frame"), 
           function(spectra, wavelength, ...)
   {
     spectra <- t(as.matrix(.getImgMatrix_SpatialGridDataFrame(spectra)))
-    return(createspeclib(spectra, wavelength, ...))
+    return(.createspeclib(spectra, wavelength, ...))
   }
 )
 
@@ -36,20 +36,20 @@ setMethod("speclib", signature(spectra = "numeric", wavelength = "data.frame"),
           function(spectra, wavelength, ...)
   {
     spectra <- matrix(spectra, ncol = nrow(wavelength))
-    return(createspeclib(spectra, wavelength, ...))
+    return(.createspeclib(spectra, wavelength, ...))
   }
 )
 
 setMethod("speclib", signature(spectra = "matrix", wavelength = "matrix"), 
           function(spectra, wavelength, ...)
-  return(createspeclib(spectra, wavelength, ...))
+  return(.createspeclib(spectra, wavelength, ...))
 )
 
 setMethod("speclib", signature(spectra = "SpatialGridDataFrame", wavelength = "matrix"), 
           function(spectra, wavelength, ...)
   {
     spectra <- t(as.matrix(.getImgMatrix_SpatialGridDataFrame(spectra)))
-    return(createspeclib(spectra, wavelength, ...))
+    return(.createspeclib(spectra, wavelength, ...))
   }
 )
 
@@ -57,7 +57,7 @@ setMethod("speclib", signature(spectra = "numeric", wavelength = "matrix"),
           function(spectra, wavelength, ...)
   {
     spectra <- matrix(spectra, ncol = nrow(wavelength))
-    return(createspeclib(spectra, wavelength, ...))
+    return(.createspeclib(spectra, wavelength, ...))
   }
 )
 
@@ -85,28 +85,57 @@ setMethod("speclib", signature(spectra = "HyperSpecRaster"),
 setMethod("speclib", signature(spectra = "RasterBrick", wavelength = "numeric"), 
           function(spectra, wavelength, ...)
   {
-    return(createspeclib(spectra, wavelength, ...))
+    return(.createspeclib(spectra, wavelength, ...))
   }
 )
 
 setMethod("speclib", signature(spectra = "RasterBrick", wavelength = "data.frame"), 
           function(spectra, wavelength, ...)
   {
-    return(createspeclib(spectra, wavelength, ...))
+    return(.createspeclib(spectra, wavelength, ...))
   }
 )
 
 setMethod("speclib", signature(spectra = "Speclib", wavelength = "numeric"), 
           function(spectra, wavelength, ...)
   {
-    return(createspeclib(spectra(spectra), wavelength, ...))
+    return(.createspeclib(spectra(spectra), wavelength, ...))
   }
 )
 
 setMethod("speclib", signature(spectra = "RasterBrick", wavelength = "matrix"), 
           function(spectra, wavelength, ...)
   {
-    return(createspeclib(spectra, wavelength, ...))
+    return(.createspeclib(spectra, wavelength, ...))
+  }
+)
+
+setMethod("brick", signature(x = "Speclib"),
+          function(x, ...)
+  {
+    if (!x@spectra@fromRaster)
+      stop("Cannot convert Speclib to brick if spectra are stored as matrix")
+    dots <- list(...)
+    dots$x <- x@spectra@spectra_ra
+
+    b <- do.call(brick, dots)
+    if (any(names(dots) == "values"))
+    {
+      if (!dots$values)
+        return(b)
+    }
+    if (nlayers(b) <= nbands(x))
+    {
+      if (nlayers(b) > 1)
+      {
+        b1 <- try(setValues(b, spectra(x, j = 1:nlayers(b))), silent = TRUE)
+      } else {
+        b1 <- try(setValues(b, as.numeric(spectra(x))), silent = TRUE)
+      }
+      if (!inherits(b1, "try-error"))
+        return(b1)
+    }
+    return(b)  
   }
 )
 
@@ -132,11 +161,11 @@ setMethod("as.data.frame", signature(x = "Speclib"),
 
 setMethod("speclib", signature(spectra = "hyperSpec"), 
           function(spectra, ...)
-  return(createspeclib(as.matrix(spectra), spectra@wavelength, ...))
+  return(.createspeclib(as.matrix(spectra), spectra@wavelength, ...))
 )
 
 
-createspeclib <- function (spectra,
+.createspeclib <- function (spectra,
                            wavelength,
                            fwhm = NULL,
                            SI = NULL,
@@ -282,6 +311,9 @@ createspeclib <- function (spectra,
     
   if (is.null(rastermeta))   
     rastermeta <- list()
+  
+  wavelength <- wavelength * .ConvWlFwd(wlunit)
+  fwhm       <- fwhm * .ConvWlFwd(wlunit)   
   
   result <- new("Speclib", 
                 spectra = spectra, 

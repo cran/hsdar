@@ -45,10 +45,21 @@ if (is.data.frame(sensor))
     lb <- centerwl - fwhm/2
     ub <- centerwl + fwhm/2
   }
+  
   nch <- length(centerwl)
-  sc <- data.frame(No=c(1:nch), center=centerwl, fwhm=fwhm)
-  attr(sc, "fwhm") <- TRUE
-  response <- get.gaussian.response(sc)
+  if (is.speclib(response_function))
+  {
+    response <- as.data.frame(t(spectra(response_function)))
+    names(response) <- paste("Band",c(1:nspectra(response_function)),sep="_")
+    attr(response,"minwl") <- wavelength(response_function)[1]
+    attr(response,"maxwl") <- wavelength(response_function)[nbands(response_function)]
+    attr(response,"stepsize") <- response_function@fwhm
+    attr(response,"wlunit") <- response_function@wlunit
+  } else {    
+    sc <- data.frame(No=c(1:nch), center=centerwl, fwhm=fwhm)
+    attr(sc, "fwhm") <- TRUE
+    response <- get.gaussian.response(sc)
+  }
   if (is.null(range))
     wavelength <- c(lb[1]:ub[nch])
 } else {
@@ -91,7 +102,6 @@ responsedim <- c(as.double(attr(response, "minwl")),
                  as.double(attr(response, "stepsize")))
 cha_names <- names(response)
 nwlresponse <- nrow(response)
-nwlresponse <- nrow(response)
 response <- as.double(as.matrix(response))
 response_transformed <- matrix(data=0, nrow=length(wavelength), ncol=nch)
 response_transformed <- .Fortran("transform_response",
@@ -119,4 +129,30 @@ attr(result, "ub") <- ub
 attr(result, "is.response") <- TRUE
 return(result)
   
+}
+
+.transform_irr_response <- function(spectral_response, wavelength = NULL)
+{
+  if (is.null(wavelength))
+    wavelength <- c(floor(wavelength(spectral_response)[1]):ceiling(wavelength(spectral_response)[nbands(spectral_response)]))
+    
+  response <- spectra(spectral_response)
+
+  nch <- nspectra(spectral_response)
+  nwlresponse <- ncol(response)
+  response <- as.double(t(as.matrix(response)))
+  response_transformed <- matrix(data=0, nrow=length(wavelength), ncol=nch)
+  response_transformed <- .Fortran("transform_irregular_response",
+                                   nwl=as.integer(length(wavelength)), 
+                                   nband=as.integer(nch), 
+                                   nwlresponse=as.integer(nwlresponse), 
+                                   response=response,
+                                   response_transformed=as.double(response_transformed),
+                                   wl=as.double(wavelength),
+                                   wl_response=as.double(wavelength(spectral_response)),
+                                   package="hsdar"
+                                  )
+
+  response_transformed_2 <- speclib(matrix(response_transformed$response_transformed, ncol = nch, byrow = FALSE), wavelength)
+  return(response_transformed_2)
 }

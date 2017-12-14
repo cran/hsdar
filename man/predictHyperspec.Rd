@@ -49,7 +49,7 @@ Lukas Lehnert
   
 data(spectral_data)
 
-spectral_data <- smoothSpeclib(spectral_data, method = "sgolay", p = 15)
+spectral_data <- noiseFiltering(spectral_data, method = "sgolay", p = 15)
 
 ## Convert the chlorophyll measurements stored in the SI dataframe 
 ## from SPAD-values into mg.
@@ -65,13 +65,9 @@ spectral_data <- spectral_data[, wavelength(spectral_data) >= 310 &
 ## continuum removal.  
 spec_bd <- transformSpeclib(spectral_data, method = "sh", out = "bd")
 
-## Search for fix points in the hull and define the parts of the spectra between 
-## two fix points as absorption "features"
-features <- define.features(spec_bd)
-
 ## Select the chlorophyll absorption features at 460 nm and 670 nm for further
 ## processing
-featureSpace <- specfeat(features, c(460, 670))
+featureSpace <- specfeat(spec_bd, c(460, 670))
 
 ## Calculate all parameters from both selected features such as area, distance
 ## to Gauss curve etc.

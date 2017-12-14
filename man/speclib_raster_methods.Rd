@@ -9,10 +9,10 @@
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Functions for processing of large hyperspectral raster files
+Functions for processing large hyperspectral raster files
 }
 \description{
-Functions for processing of large hyperspectral raster files using the low-level functions provided by the raster-package. For a detailed overview see the vignette "Writing functions for large raster files" shipped along with the raster-package.
+Functions for processing large hyperspectral raster files using the low-level functions provided by the \pkg{raster}-package. For a detailed overview see the vignette "Writing functions for large raster files" shipped along with the \pkg{raster}-package.
 }
 \usage{
 \S4method{blockSize}{Speclib}(x)
@@ -42,7 +42,7 @@ Functions for processing of large hyperspectral raster files using the low-level
     Integer. Row number (counting starts at 1) from where to start writing v.
 }
 \item{...}{
-    Further arguements passed to respective functions in the raster-packages.
+    Further arguements passed to respective functions in the \pkg{raster}-packages.
 }
 }
 

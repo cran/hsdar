@@ -5,7 +5,7 @@
 (Generalised) Linear models from normalised ratio indices
 }
 \description{
-Build (generalised) linear models of normalised ratio indices as response and predictor variables
+Build (generalised) linear models of normalised ratio indices as response and predictor variables usually stored in the SI.
 }
 \usage{
 lm.nri(formula, preddata = NULL, ...)

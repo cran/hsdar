@@ -6,13 +6,17 @@ setMethod("[", "Speclib",
   if (missing(i)) 
   {
     tmp <- spectra(x, j = j)
-    if (nspectra(x) == 1)
-    { 
-      x@spectra@fromRaster <- FALSE      
-      spectra(x) <- matrix(tmp, ncol = length(tmp))
+    if (x@spectra@fromRaster)
+    {
+      tmp_2 <- brick(x@spectra@spectra_ra, nl = if (!is.null(dim(tmp))) ncol(tmp) else 1)
+      spectra(x) <- setValues(tmp_2, tmp)
     } else {
-      x@spectra@fromRaster <- FALSE
-      spectra(x) <- tmp
+      if (is.null(dim(tmp)))
+      { 
+        spectra(x) <- matrix(tmp, ncol = length(tmp))
+      } else {
+        spectra(x) <- tmp
+      }
     }
     wavelength(x) <- wavelength(x)[j]
     if (!is.null(attr(x, "bandnames")))
@@ -45,13 +49,18 @@ setMethod("[", "Speclib",
     return(x)
   }
   tmp <- spectra(x, i = i, j = j)
-  if (class(tmp) == "numeric")
+  if (x@spectra@fromRaster)
   {
-    ncols <- sum(rep.int(1, nbands(x))[j])
-    nrows <- sum(rep.int(1, nspectra(x))[i])
-    tmp <- matrix(tmp, ncol = ncols, nrow = nrows)
+    tmp_2 <- brick(x@spectra@spectra_ra, nl = if (!is.null(dim(tmp))) ncol(tmp) else 1)
+    tmp <- setValues(tmp_2, tmp)
+  } else {
+    if (class(tmp) == "numeric")
+    {
+      ncols <- sum(rep.int(1, nbands(x))[j])
+      nrows <- sum(rep.int(1, nspectra(x))[i])
+      tmp <- matrix(tmp, ncol = ncols, nrow = nrows)
+    }
   }
-  x@spectra@fromRaster <- FALSE
   spectra(x) <- tmp
   wavelength(x) <- wavelength(x)[j]
   if (!is.null(attr(x, "bandnames")))

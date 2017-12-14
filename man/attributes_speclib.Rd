@@ -37,9 +37,7 @@ Handling supplementary information (SI) of spectra
 Supplementary information (SI) can be any additional data available for each spectrum in a \code{Speclib}- or \code{Nri}-object. These functions are used to set or return SI-data of a \code{Speclib} or \code{Nri}-object. Note that SI-data is automatically subsetted if indexing and extracting single spectra from a \code{Speclib}- or \code{Nri}-object. SI-data may encompass (several) raster files which must have the same extent, resolution and x- and y-dimensions as the raster file used as spectral information.
 }
 \usage{
-\S4method{SI}{Speclib}(object)
-
-\S4method{SI}{Speclib,ANY,ANY}(object, i, j)
+\S4method{SI}{Speclib}(object, i, j)
 
 \S4method{SI}{Speclib,data.frame}(object) <- value
 
@@ -72,7 +70,7 @@ Data frame with \code{nrow(value) == nspectra(object)}, NULL or vector with leng
 For \code{SI<-}, the updated object. \code{SI} returns a data frame with SI data.% The return value of \code{setSI} is an object of class speclib.
 }
 \details{
-Names of items in \code{SI} are used within the function \code{\link{subset}} to select/deselect spectra via logical expression. Values can be accessed via the "\$"-sign (see examples).
+Names of items in \code{SI} are used within the function \code{\link{subset}} to select/deselect spectra via logical expression. Values can be accessed via the "\$"-sign (see examples). Note that the function does not check the integrity of the data stored in the SI (e.g., if there are values for each spectrum).
 }
 
 \author{
@@ -97,6 +95,18 @@ head(SI(spectral_data))
 SI(spectral_data) <- SI(spectral_data)[,c(1:3)]
 head(SI(spectral_data))
 
+## Adding SI to a Speclib without SI
+spec_new <- speclib(spectra(spectral_data), wavelength(spectral_data))
+## This throws an error
+#SI(spec_new)$NewColumn <- 1:nspectra(spec_new)
+## This works:
+SI(spec_new) <- data.frame(NewColumn = 1:nspectra(spec_new))
+## Now, you can add a column as explained above:
+SI(spec_new)$SecondCol <- c(1:nspectra(spec_new))*100
+## Print SI
+SI(spec_new)
+
+\dontrun{
 ## Example for raster file in SI
 
 ## Create raster file using PROSAIL
@@ -146,6 +156,7 @@ for (i in 1:tr$n)
   res <- writeValues(res, v, tr$row[i])
 }
 res <- writeStop(res)
+}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

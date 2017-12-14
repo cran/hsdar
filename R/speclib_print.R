@@ -9,9 +9,15 @@ setMethod("print", signature(x = "Speclib"),
   cat(paste("\nNumber of bands :",dim(x)[2]))
   if (length(x@fwhm)==1)
   {
-    cat(paste("\nWidth of bands :",x@fwhm))
+    cat(paste("\nWidth of bands :",x@fwhm * .ConvWlBwd(x@wlunit)))
   } else {
-    cat(paste("\nMean width of bands :",round(mean(x@fwhm),2)))
+    cat(paste("\nMean width of bands :",round(mean(x@fwhm) * .ConvWlBwd(x@wlunit),
+                                              .ConvWlRnd(x@wlunit))))
+  }
+  if (x@wlunit != "nm")
+  {
+    cat(paste("\nWavelengths are in", x@wlunit))
+    cat("\n    Note that wavelength are internally in stored in nm\n")
   }
   cat("\n")
   if (x@spectra@fromRaster)
@@ -23,7 +29,39 @@ setMethod("print", signature(x = "Speclib"),
     } else {
       cat(paste(" stored at\n'", x@spectra@spectra_ra@file@name, "'\n", sep =""))
     }
-  }    
+  }
+  
+  
+   if (x@SI@dim[2] > 0)
+  {
+    cat("\n\nSpeclib contains SI\n---------------------\n")
+#     cat("Columns:\n")
+#     nam <- " "
+#     nc <- 0
+#     for (i in names(x@SI@SI_data))
+#     {
+#       if (nc > 90)
+#       {
+#         nam <- paste0(nam, "\n")
+#         nc <- 0
+#       }
+#       nc <- nc + nchar(i) + 2
+#       if (nchar(nam) > 1)
+#       {
+#         nam <- paste0(nam, ", ", i)
+#       } else {
+#         nam <- i
+#       }
+#     }
+#     cat(nam)
+#     cat("Classes of data:\n")
+    
+    si_info <- data.frame(Variables = names(x@SI@SI_data),
+                          Classes = unlist(lapply(x@SI@SI_data, function (x) class(x))), 
+                          row.names = 1:x@SI@dim[2])
+    print(si_info)
+    
+  } 
 }
 )
 

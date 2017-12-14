@@ -1,30 +1,39 @@
 \name{Clman-class}
+
 \docType{class}
+\alias{Clman}
 \alias{Clman-class}
 
 \title{
 * Clman class
 }
 \description{
-Class to handle continuum removal objects (extends \code{\linkS4class{Speclib}} class).
+Class to store and handle manual continuum lines. 
 }
+
+
 \details{
-The class extends \code{\linkS4class{Speclib}}s and adds two additional slots:
-\itemize{
-  \item{cp:}{ Object of class \code{matrix} containing continuum points for all spectra (rows) and bands (columns).}
-  \item{hull:}{ Object of class \code{matrix} containing hull lines for all spectra (rows) and bands (columns).}  
-}
+  The class is only required if a continuum line is manually adopted or entirely manually created. This is useful if the automatic approaches are not able to identify absorption features because, for instance, the spectrum has two pronounced maxima within the absortion feature of interest. 
+  
+  \code{Clman} is defined as \code{\linkS4class{Speclib}} extended by the following two slots:
+  \itemize{
+  \item{cp:}{ Matrix containing the fix points (continuum points) of each spectrum.}
+  \item{hull:}{ Matrix containing the hull of each spectrum.}
+  }
+  
+  Normally, it is not necessary to manually change the values in any of the slots above. Use the functions \code{\link{addcp}} and \code{\link{deletecp}} to change the hulls manually. Functionality for conversion back to a \code{\linkS4class{Speclib}} with the final hull and the transformed spectra provides function \code{\link{updatecl}}.
 }
 \note{
 See figure in \code{\link{hsdar-package}} for an overview of classes in hsdar.
 }
-
 \author{
-Lukas Lehnert
+Lukas Lehnert and Hanna Meyer
 }
 
 
 \seealso{
-\code{\linkS4class{Speclib}}, \code{\link[=plot.Speclib]{plot}}
+\code{\link{transformSpeclib}}, \code{\link[=plot.Speclib]{plot}}, \code{\linkS4class{Speclib}}, \code{\link{addcp}}, \code{\link{deletecp}}, \code{\link{updatecl}}
 }
+
 \keyword{classes}
+

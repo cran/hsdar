@@ -5,7 +5,7 @@
 hyperSpec
 }
 \description{
-Conversion from \code{Speclib}- to \code{hyperSpec}-object
+Conversion from \code{Speclib}- to \code{hyperSpec}-object. The \code{hyperSpec}-class is the most important class in package \pkg{hyperSpec} which provides methods to analyze spectroscopic datasets.
 }
 \usage{
 as.hyperSpec(object)
@@ -23,7 +23,7 @@ Object of class \code{hyperSpec}.
 \author{
 Lukas Lehnert
 }
-\note{Package hyperSpec must be installed.}
+\note{Package \pkg{hyperSpec} must be installed.}
 
 \seealso{
 \code{\linkS4class{Speclib}}

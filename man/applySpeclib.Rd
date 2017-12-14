@@ -6,7 +6,7 @@
 Apply function for class Speclib
 }
 \description{
-Apply function over all spectra or a subset of spectra
+Apply function over all spectra or a subset of spectra in a \code{Speclib}.
 }
 \usage{
 \S4method{apply}{Speclib}(X, FUN, bySI = NULL, ...)
@@ -28,7 +28,7 @@ Further arguments passed to FUN.
 }
 
 \value{
-Object of class Speclib.
+Object of class \code{Speclib}.
 }
 
 \author{
@@ -46,8 +46,8 @@ plot(mean_spectrum)
 
 ## Same as above but seperately for both seasons
 mean_spectra <- apply(spectral_data, FUN = mean, bySI = "season")
-plot(mean_spectra, FUN = 1, ylim = c(0,50))
-plot(mean_spectra, FUN = 2, new = FALSE)
+plot(mean_spectra[1, ], ylim = c(0,50))
+plot(mean_spectra[2, ], new = FALSE)
 SI(mean_spectra)
 
 }

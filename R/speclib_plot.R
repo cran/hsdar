@@ -82,6 +82,8 @@ setMethod("plot", signature(x = "Speclib"),
   if (any(names(call_fu) == "lmitre")) 
     lmitre <- call_fu$lmitre
     
+  wavelength(x) <- wavelength(x) * .ConvWlBwd(x@wlunit)
+  
   nlines <- nrow(spectra2plot) 
   
   lty    <- .adopt_dotsvar(lty, nlines)

@@ -1,3 +1,4 @@
+\encoding{utf-8}
 \name{Speclib-class}
 
 \docType{class}
@@ -23,13 +24,13 @@ Class to store and handle hyperspectral data in R
   }
   The kind of data may be chosen by the user by setting the flag \code{"continuousdata"} (\code{attr(x,} \code{"continuousdata")}) or passing \code{continuousdata = TRUE/FALSE}, when initially converting data to \code{\linkS4class{Speclib}}-class. Take care of doing so, because some functions as \code{\link{spectralResampling}} may only work correctly with continuous data!
   
-  The unit of spectral data must be set initially, when converting data to speclib. Note that the package currently supports only "nm" as unit. This is particularly important for function like \code{\link{vegindex}}, which need to get correct bands out of the spectral data.
+  The internal and recommended wavelength unit is nm. If Speclibs are created with wavelength values in other units than nm as passed by \code{wlunit}-argument, wavelength values are automatically converted to nm. In this case, functions requiring to pass wavelength information (e.g., \code{mask} etc) expect the unit to match the one initially set. The only exception is the Nri-class which always uses and expects nm as unit of passed wavelength values. The following units are automatically detected: \eqn{mu}, \eqn{\mu m}{µm}, \eqn{nm}, \eqn{mm}, \eqn{cm}, \eqn{dm}, \eqn{m}.
 }
 \subsection{Technical description}{
 An object of class \code{Speclib} contains the following slots:
 
 \itemize{
-  \item{wavelength:}{ Vector with wavelength information.}
+  \item{wavelength:}{ Vector with wavelength information. Always stored in nm.}
   \item{fwhm:}{ Vector or single numerical value giving the full-width-half-max value(s) for each band.}
   \item{spectra:}{ Object of class '.Spectra' with three slots:
     \itemize{

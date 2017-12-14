@@ -1,7 +1,6 @@
 import(
   raster,
   rgdal,
-  rootSolve,
   methods,
   caret
   )

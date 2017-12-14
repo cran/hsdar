@@ -34,6 +34,14 @@ The function calculates several parameters:
     }
   }
 }
+
+The typical workflow to obtain feature properties is to first calculate the band depth
+\code{\link{transformSpeclib}}, then isolate the absorption features 
+\code{\link{specfeat}}. 
+Optionally, \code{\link{cut_specfeat}} allows to cut the features at specified wavelengths. 
+Finally use \code{\link{feature_properties}}
+to retrieve characteristics of the features.
+
 }
 
 \value{
@@ -41,11 +49,11 @@ An object of class \code{Specfeat} containing the properties as (part of the) SI
 }
 
 \author{
-Hanna Meyer \& Lukas Lehnert
+Hanna Meyer & Lukas Lehnert
 }
 
 \seealso{
-\code{\link{define.features}}, \code{\link{specfeat}}
+\code{\link{specfeat}}
 }
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
@@ -58,11 +66,8 @@ data(spectral_data)
 bd <- transformSpeclib(subset(spectral_data, season == "summer"),
                        method = "sh", out = "bd")
 
-## Define features
-features <- define.features(bd)
-
 ## Convert speclib to specfeat giving center wavelength of features
-featureSelection <- specfeat(features, c(450,700,1200,1500))
+featureSelection <- specfeat(bd, c(450,700,1200,1500))
 
 ## Calculate properties of features
 featureProp <- feature_properties(featureSelection)

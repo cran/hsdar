@@ -89,3 +89,55 @@ do iband=1, nband
 return
 
 end subroutine
+
+
+
+subroutine transform_irregular_response (nwl, nband, nwlresponse, response, &
+                                         response_transformed, wl, wl_response)
+implicit none
+
+integer, intent (in)           :: nwl, nwlresponse, nband
+double precision, intent (in)  :: response(nwlresponse,nband)
+double precision, intent (out) :: response_transformed(nwl,nband)
+double precision, intent (in)  :: wl(nwl), wl_response(nwlresponse)
+
+integer          :: i, k, iband
+double precision :: slope, aspect
+
+response_transformed = 0.0
+
+do iband=1, nband
+  if (wl(1) .lt. wl_response(1)) then
+    k = 1
+  else
+    k = 1
+    do while (wl(1) .gt. wl_response(k))
+      k = k + 1
+    enddo
+  endif
+  i = 1
+  do while (k .le. nwlresponse .and. i .le. nwl .and. &
+            wl(i) .le. wl_response(nwlresponse))
+    if (wl(i) .ge. wl_response(1) .and. wl(i) .le.  wl_response(nwlresponse)) then
+      if (wl(i) .eq. wl_response(k)) then
+        response_transformed(i,iband) = response(k,iband)
+        k = k + 1
+      else
+        do while (wl_response(k) .lt. wl(i) .and. k .lt. nwlresponse) 
+          k = k + 1
+        enddo
+        slope = (response(k,iband) - response(k-1,iband))/(wl_response(k) - wl_response(k-1))
+        aspect = response(k,iband) - slope * wl_response(k) 
+        response_transformed(i,iband) = slope * wl(i) + aspect
+      endif
+    endif
+    
+    i = i + 1
+    
+    if (i .gt. nwl)  goto 100  
+  enddo
+100 enddo
+
+return
+
+end subroutine

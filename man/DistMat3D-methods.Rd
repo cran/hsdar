@@ -10,8 +10,10 @@
 \alias{distMat3D,matrix-method}
 \alias{distMat3D,numeric-method}
 \alias{distMat3D,array-method}
+\alias{[,DistMat3D-method}
 \alias{[,DistMat3D,ANY,ANY-method}
 \alias{[,DistMat3D,ANY,ANY,ANY-method}
+\alias{[<-,DistMat3D-method}
 \alias{[<-,DistMat3D,ANY,ANY-method}
 \alias{[<-,DistMat3D,ANY,ANY,ANY-method}
 \alias{<,DistMat3D,ANY-method}
@@ -58,9 +60,9 @@ Methods to create, manipulate and query objects of class 'DistMat3D'. The follow
 \S4method{nrow}{DistMat3D}(x)
 
 ## Manipulate and query data in objects
-\S4method{[}{DistMat3D,ANY,ANY}(x, i, j, n)
+\S4method{[}{DistMat3D}(x, i, j, n)
 
-\S4method{[}{DistMat3D,ANY,ANY}(x, i, j, n) <- value
+\S4method{[}{DistMat3D}(x, i, j, n) <- value
 
 
 \S4method{show}{DistMat3D}(object)
@@ -104,7 +106,7 @@ Lukas Lehnert
 \examples{
 data(spectral_data)
 
-## Mask channel crossing part (arround 1050 nm) and strong 
+## Mask channel crossing part (around 1050 nm) and strong 
 ## water absorption part (above 1350 nm)
 mask(spectral_data) <- c(1045, 1055, 1350, 1706)
 
@@ -114,7 +116,20 @@ sam_dist <- dist.speclib(subset(spectral_data, season == "summer"))
 ## Convert to class 'distMat3D'
 sam_dist <- distMat3D(as.matrix(sam_dist))
 
+## Default print of DistMat3D-object
 sam_dist
+
+## Convert back to matrix
+as.matrix(sam_dist)
+
+## Get number of rows and samples
+dim(sam_dist)
+
+## Compare values in DistMat3D-object
+small_dists <- sam_dist < 0.02
+
+## Convert small_dists-object to DistMat3D
+distMat3D(as.numeric(small_dists), 15, 1)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

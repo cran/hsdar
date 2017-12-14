@@ -2,23 +2,32 @@
 { 
   if (side == 1)
   {
-    test <- spectra(getValuesBlock(ra, row = nrow[1], nrows = 1, col = 1))
-    png_height <- nrow(ra)
+    test <- getValuesBlock(ra@spectra@spectra_ra,
+                                   row = nrow[1], nrows = 1, 
+                                   col = 1)
+    png_height <- nrow(ra@spectra@spectra_ra)
   }
   if (side == 2)
   {
-    test <- spectra(getValuesBlock(ra, row = 1, nrows = nrow(ra), col = ncol[1], ncol = 1))
-    png_height <- ncol(ra)
+    test <- getValuesBlock(ra@spectra@spectra_ra, 
+                                   row = 1, nrows = nrow(ra@spectra@spectra_ra), 
+                                   col = ncol[1], ncol = 1)
+    png_height <- ncol(ra@spectra@spectra_ra)
   }
   if (side == 3)
   {
-    test <- spectra(getValuesBlock(ra, row = 1 + nrow(ra) - nrow[2], nrows = 1, col = 1))
-    png_height <- nrow(ra)
+    test <- getValuesBlock(ra@spectra@spectra_ra, 
+                                   row = 1 + nrow(ra@spectra@spectra_ra) - nrow[2], 
+                                   nrows = 1, col = 1)
+    png_height <- nrow(ra@spectra@spectra_ra)
   }
   if (side == 4)
   {
-    test <- spectra(getValuesBlock(ra, row = 1, nrows = nrow(ra), col = 1 + ncol(ra) - ncol[2], ncol = 1))
-    png_height <- ncol(ra)
+    test <- getValuesBlock(ra@spectra@spectra_ra, row = 1, 
+                                   nrows = nrow(ra@spectra@spectra_ra), 
+                                   col = 1 + ncol(ra@spectra@spectra_ra) - ncol[2], 
+                                   ncol = 1)
+    png_height <- ncol(ra@spectra@spectra_ra)
   }
   
   png(filename = fi, height = png_height, width = nbands(ra))
@@ -38,8 +47,8 @@
   fi <- tempfile(fileext = ".png")
   if (is.null(side))
   {
-    png(filename = fi, width = ncol(ras), height = nrow(ras))
-    plotRGB(ras, ...)
+    png(filename = fi, width = ncol(ras@spectra@spectra_ra), height = nrow(ras@spectra@spectra_ra))
+    plotRGB(ras@spectra@spectra_ra, ...)
     dev.off()
   } else {
     if (length(ncol) == 1)
@@ -56,7 +65,11 @@ cubePlot <- function(x, r, g, b, ncol = 1, nrow = 1, sidecol = colorRamp(palette
 {
   if (!requireNamespace("rgl", quietly = TRUE))
     stop("Library 'rgl' is required to plot 3D cube of hyperspectral data")
-  
+  if (!is.speclib(x))
+    stop("'x' must be object of class Speclib")
+  if (!x@spectra@fromRaster)
+    stop("'x' does not contain raster image. cubePlot does not support spectra stored in matrix. Please restart function passing a Speclib with a raster image")
+    
   ra <- x
   
   if (missing(r))
@@ -68,11 +81,26 @@ cubePlot <- function(x, r, g, b, ncol = 1, nrow = 1, sidecol = colorRamp(palette
   if (missing(b))
     b <- which.min(abs(wavelength(ra) - 470))
   
-  z <- matrix(0, ncol = ncol(ra), nrow = nrow(ra))
+  z <- matrix(0, ncol = ncol(ra@spectra@spectra_ra), nrow = nrow(ra@spectra@spectra_ra))
   x <- c(1:nrow(z))-1
   y <- c(1:ncol(z))-1
+  
+  dots <- list(...)
+  if (any(names(dots) == "stretch"))
+  {
+    stretch <- dots$stretch
+  } else {
+    stretch <- "hist"
+  }
+  if (any(names(dots) == "scale"))
+  {
+    scale <- dots$scale
+  } else {
+    scale <- max(spectra(ra)[,c(r,g,b)], na.rm = TRUE)
+  }
+  
 
-  texture <- .plotRGB_temp(ras = ra, r = r, g = g, b = b, stretch = "hist")
+  texture <- .plotRGB_temp(ras = ra, r = r, g = g, b = b, stretch = stretch, scale = scale)
   texture_side_1 <- .plotRGB_temp(ras = ra, side = 1, ncol = ncol, nrow = nrow, sidecol = sidecol)
   texture_side_2 <- .plotRGB_temp(ras = ra, side = 2, ncol = ncol, nrow = nrow, sidecol = sidecol)
   texture_side_3 <- .plotRGB_temp(ras = ra, side = 3, ncol = ncol, nrow = nrow, sidecol = sidecol)
@@ -83,26 +111,26 @@ cubePlot <- function(x, r, g, b, ncol = 1, nrow = 1, sidecol = colorRamp(palette
                    axes = FALSE, box = FALSE,
                    texture = texture)
 
-  z <- matrix(0, ncol = nrow(ra), nrow = nbands(ra))
+  z <- matrix(0, ncol = nrow(ra@spectra@spectra_ra), nrow = nbands(ra@spectra@spectra_ra))
   x <- c(1:nrow(z))-1
   y <- c(1:ncol(z))-1
   rgl::rgl.surface(x, y, z, col = "white",
                    axes = FALSE, box = FALSE, coords = c(2,3,1),
                    texture = texture_side_1, add = TRUE)
 
-  z <- z + ncol(ra)-1
+  z <- z + ncol(ra@spectra@spectra_ra)-1
   rgl::rgl.surface(x, y, z, col = "white",
                    axes = FALSE, box = FALSE, coords = c(2,3,1),
                    texture = texture_side_3, add = TRUE)
 
-  z <- matrix(0, ncol = ncol(ra), nrow = nbands(ra))
+  z <- matrix(0, ncol = ncol(ra@spectra@spectra_ra), nrow = nbands(ra@spectra@spectra_ra))
   x <- c(1:nrow(z))-1
   y <- c(1:ncol(z))-1
   rgl::rgl.surface(x, y, z, col = "white",
                    axes = FALSE, box = FALSE, coords = c(2,1,3),
                    texture = texture_side_2, add= TRUE)
 
-  z <- z + nrow(ra)-1
+  z <- z + nrow(ra@spectra@spectra_ra)-1
   rgl::rgl.surface(x, y, z, col = "white",
                    axes = FALSE, box = FALSE, coords = c(2,1,3),
                    texture = texture_side_4, add= TRUE)

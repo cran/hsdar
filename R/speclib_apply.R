@@ -35,11 +35,22 @@ setMethod("apply", signature(X = "Speclib"),
                     )
     idSpeclib(result) <- FUN_str  
     
-    spectra <- t(spectra(x))
+    pp <- .process_parallel()
+    
+    spectra <- spectra(x)
     x <- wavelength(x)
     n <- ncol(spectra)
-    
-    spec <- apply(spectra, 1, FUN = FUN, ...)
+    if (!pp[[1]])
+    {
+      spec <- apply(spectra, 2, FUN = FUN, ...)
+    } else {
+      `%op%` <- pp[[2]]
+      spec <- foreach::foreach(i=1:ncol(spectra), .combine = 'rbind') %op%
+      {
+        do.call(FUN, list(spectra[,i], ...))
+      }
+      .restoreParallel()
+    }
     spec <- matrix(spec, nrow = 1)
     spectra(result) <- spec
     idSpeclib(result) <- FUN_str

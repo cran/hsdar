@@ -283,31 +283,31 @@ setMethod("==", signature(e1='DistMat3D'),
 
 setMethod("<", signature(e1='DistMat3D', e2='DistMat3D'),
     function(e1, e2){ 
-    e1@values < e2@value
+    e1@values < e2@values
   }
 )
 
 setMethod("<=", signature(e1='DistMat3D', e2='DistMat3D'),
     function(e1, e2){ 
-    e1@values <= e2@value
+    e1@values <= e2@values
   }
 )
 
 setMethod(">", signature(e1='DistMat3D', e2='DistMat3D'),
     function(e1, e2){ 
-    e1@values > e2@value
+    e1@values > e2@values
   }
 )
 
 setMethod(">=", signature(e1='DistMat3D', e2='DistMat3D'),
     function(e1, e2){ 
-    e1@values >= e2@value
+    e1@values >= e2@values
   }
 )
 
 setMethod("==", signature(e1='DistMat3D', e2='DistMat3D'),
     function(e1, e2){ 
-    e1@values == e2@value
+    e1@values == e2@values
   }
 )
 

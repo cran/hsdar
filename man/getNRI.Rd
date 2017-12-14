@@ -6,7 +6,7 @@
 Return nri-values
 }
 \description{
-Return normalized ratio index values giving the wavelength
+Return normalized ratio index values at a given wavelength combination.
 }
 \usage{
 getNRI(nri, wavelength)

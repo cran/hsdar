@@ -6,7 +6,7 @@
 Subsetting speclibs
 }
 \description{
- Return subsets of \code{Speclib}s which meet conditions.
+ Function to return subsets of \code{Speclib}s by defined conditions.
 }
 \usage{
 \S4method{subset}{Speclib}(x, subset, ...)
@@ -17,7 +17,7 @@ Subsetting speclibs
 Object of class 'Speclib'.
 }
   \item{subset}{
-Logical expression indicating spectra to keep: missing values are taken as false. See details section. 
+Logical expression indicating spectra to keep: missing values are taken as false. Multiple expressions can be applied using logical operators AND and OR. See details section. 
 }
 \item{...}{
 Further arguments passed to \code{\link{agrep}}.
@@ -31,7 +31,7 @@ Object of class \code{Speclib}.
 }
 
 \author{
-Lukas Lehnert
+Lukas Lehnert, Wolfgang Obermeier
 }
 
 
@@ -42,18 +42,24 @@ Lukas Lehnert
 }
 \examples{
 %   \dontrun{
+
 data(spectral_data)
 
 ## Return names of SI data
 names(SI(spectral_data))
 
-## Devide into both seasons
+## Divide into both seasons
 sp_summer <- subset(spectral_data, season == "summer")
 sp_spring <- subset(spectral_data, season == "spring")
 
-## Plot both speclibs
-plot(sp_summer, col="darkgreen")
-plot(sp_spring, col="darkred", new=FALSE)
+## Divide into both seasons and years
+sp_summer_14 <- subset(spectral_data, season == "summer" & year == 2014)
+sp_spring_14 <- subset(spectral_data, season == "spring" & year == 2014)
+
+## Plot all speclibs
+plot(sp_spring_14, col="green", ylim = c(0,80))
+plot(sp_summer_14, col="red", new = FALSE)
+
 %   }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

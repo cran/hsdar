@@ -13,7 +13,7 @@ hsdardocs(doc)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{doc}{
-Name of document to load. Currently, only \code{"References.pdf"} and 
+Name of document to load. Currently, \code{"Hsdar-intro.pdf"}, \code{"References.pdf"} and 
 \code{"Copyright"} are available
 }
 
@@ -25,6 +25,9 @@ Lukas Lehnert
 
 \examples{
 \dontrun{
+## Open introduction to hsdar (PDF-file)
+hsdardocs("Hsdar-intro.pdf")  
+  
 ## Open references of hyperspectral vegetation indices (PDF-file)
 hsdardocs("References.pdf")
 

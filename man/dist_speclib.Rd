@@ -20,7 +20,7 @@ sam_distance(x)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-Object of class \code{Speclib}.
+Object of class \code{Speclib}. Note that spectra in \code{x} must be in range [0,1].
 }
   \item{method}{
 The distance measure to be used. This must be one of "sam", "euclidean", "maximum", "manhattan", "canberra", "binary" or "minkowski".
@@ -33,7 +33,7 @@ Further arguments, passed to other methods.
 }
 }
 \details{
-  Available distance measures are "spectral angle mapper" (\code{sam}) and all distance measures available in \code{\link{dist}}. Spectral angle mapper is calculated with the following formula:
+  Available distance measures are "spectral angle mapper" (\code{sam}, Kruse et al. 1993) and all distance measures available in \code{\link{dist}}. Spectral angle mapper is calculated with the following formula:
   \deqn{sam=\cos^{-1}\left(\frac{\sum_{i=1}^{nb}{t_i r_i}}{\sqrt{\sum_{i=1}^{nb}{t_i^2}}\sqrt{\sum_{i=1}^{nb}{r_i^2}}}\right)}{
     \cos^{-1}(\sum_{i=1}^{nb}{t_i r_i} \sum_{i=1}^{nb}{t_i^2}^{-0.5} \sum_{i=1}^{nb}{r_i^2}^{-0.5})}
   \eqn{nb} is the number of bands in Speclib. \eqn{t_i} and \eqn{r_i} are the reflectances of target and reference spectrum in band \eqn{i}, respectively.
@@ -57,7 +57,7 @@ Lukas Lehnert
 \examples{
 data(spectral_data)
 
-## Mask channel crossing part (arround 1050 nm) and strong 
+## Mask channel crossing part (around 1050 nm) and strong 
 ## water absorption part (above 1350 nm)
 mask(spectral_data) <- c(1045, 1055, 1350, 1706)
 

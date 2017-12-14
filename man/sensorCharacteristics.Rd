@@ -6,7 +6,7 @@
 Sensor characteristics
 }
 \description{
-Get channel wavelength of satellite sensor
+Get channel wavelength of implemented (multispectral) satellite sensors. 
 }
 \usage{
 get.sensor.characteristics(sensor, response_function = FALSE)
@@ -17,8 +17,17 @@ get.sensor.characteristics(sensor, response_function = FALSE)
 Character or integer. Name or numerical abbreviation of sensor. See 'sensor="help"' or 'sensor=0' for an overview of available sensors.
 }
   \item{response_function}{
-If TRUE, the spectral response function is returned
+If TRUE, the spectral response function is returned. 
 }
+}
+\details{
+The following sensors are currently implemented: \Sexpr[echo=TRUE,results=text]{
+paste(row.names(hsdar:::get.sensor.characteristics(0)), collapse = ", ")
+}.
+
+Spectral response functions are available for the following ones: \Sexpr[echo=TRUE,results=text]{
+paste(row.names(hsdar:::get.sensor.characteristics(0))[hsdar:::get.sensor.characteristics(0)[,2]], collapse = ", ")
+}.
 }
 
 \author{

@@ -42,7 +42,8 @@ The code is based on the IDL functions written by  Michael L. Whiting.
 
 \examples{
 ## Use PROSAIL to simulate spectra with different soil moisture content
-Spektr.lib <- smoothSpeclib(PROSAIL(parameterList = data.frame(psoil = seq(0,1,0.1), LAI = 0)))
+Spektr.lib <- noiseFiltering(PROSAIL(parameterList = data.frame(psoil = seq(0,1,0.1),
+                                                                LAI = 0)))
 
 smgm_val <- smgm(Spektr.lib)
 

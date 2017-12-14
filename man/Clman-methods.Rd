@@ -6,7 +6,7 @@
 \alias{spectra<-,Clman,matrix-method}
 \alias{spectra<-,Clman,numeric-method}
 \alias{plot,Clman-method}
-
+\alias{plot,Clman,ANY-method}
 \title{
 Methods to create, manipulate and query objects of class 'Clman'.
 }
@@ -38,7 +38,7 @@ Methods to create, manipulate and query objects of class 'Clman'. The class 'Clm
   Object of class numeric, matrix or array which is used for replacement of the values in x.
 }
 \item{...}{
-  Arguments passed to \code{\link{createspeclib}} or \code{plot.default}.
+  Arguments passed to \code{\link{speclib}} or \code{plot.default}.
 }
 \item{x}{
 Object of class \code{clman}.

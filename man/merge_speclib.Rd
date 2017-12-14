@@ -5,7 +5,7 @@
 Merge speclibs
 }
 \description{
-Merge 2 \code{Speclib}s and their SI data 
+Merge two \code{Speclib}s and their SI data 
 }
 \usage{
 \S4method{merge}{Speclib,Speclib}(x, y, ...)
@@ -19,7 +19,7 @@ Merge 2 \code{Speclib}s and their SI data
 2nd Object of class \code{Speclib} to be merged.
 }
   \item{...}{
-Further arguments passed to generic functions. Currently ignored.
+Further (optional) objects of class \code{Speclib}.
 }
 }
 
@@ -38,6 +38,13 @@ data(spectral_data)
 sp1 <- spectral_data[c(1:10),]
 sp2 <- spectral_data[c(11:20),]
 
-speclib_merged <- merge(sp1, sp2)
+## Merge two Speclibs
+speclib_merged_1 <- merge(sp1, sp2)
+nspectra(speclib_merged_1)
+
+## Merge multiple Speclibs
+sp3 <- spectral_data[c(21:30),]
+speclib_merged_2 <- merge(sp1, sp2, sp3)
+nspectra(speclib_merged_2)
 }
 \keyword{utilities}

@@ -23,6 +23,15 @@ setMethod("merge", signature(x = "Speclib", y = "Speclib"),
   spectra(x) <- as.matrix(rbind(spectra(x),spectra(y))) 
   idSpeclib(x) <- as.character(ids)
   
+  dots <- list(...)
+  if (length(dots) > 0)
+  {
+    for (i in 1:length(dots))
+    {
+      stopifnot(is.speclib(dots[[i]]))
+      x <- merge(x, dots[[i]])
+    }
+  }
   return(x)
 }
 )

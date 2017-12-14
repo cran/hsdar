@@ -1,15 +1,15 @@
 Package: hsdar
 Type: Package
 Title: Manage, Analyse and Simulate Hyperspectral Data
-Version: 0.6.0
-Date: 2017-10-16
+Version: 0.7.0
+Date: 2017-12-14
 Author: Lukas W. Lehnert [cre, aut], 
   Hanna Meyer [aut], 
   Joerg Bendix [aut]
 Maintainer: Lukas W. Lehnert <lukaslehnert@googlemail.com>
-Depends: R (>= 3.3.1), raster (>= 2.5-8), rgdal (>= 1.1-10), rootSolve,
-        signal, methods, caret
-Suggests: rgl, RCurl, pracma (>= 2.0.1), foreach, hyperSpec
+Depends: R (>= 3.3.1), raster (>= 2.5-8), rgdal (>= 1.1-10), signal,
+        methods, caret
+Suggests: rgl (>= 0.98.1), RCurl, pracma (>= 2.0.1), foreach, hyperSpec
 Description: Transformation of reflectance spectra, calculation of vegetation indices and red edge parameters, spectral resampling for hyperspectral remote sensing, simulation of reflectance and transmittance using the leaf reflectance model PROSPECT and the canopy reflectance model PROSAIL.
 License: GPL
 LazyLoad: yes
@@ -18,6 +18,6 @@ Copyright: see file COPYRIGHTS
 URL: http://vhrz669.hrz.uni-marburg.de:8070/lcrs/,
         http://teledetection.ipgp.jussieu.fr/prosail/
 NeedsCompilation: yes
-Packaged: 2017-10-17 07:30:48 UTC; lehnert
+Packaged: 2017-12-14 15:29:11 UTC; lehnert
 Repository: CRAN
-Date/Publication: 2017-10-17 09:31:42
+Date/Publication: 2017-12-14 16:17:37 UTC

@@ -54,6 +54,10 @@ maskSpeclib <- function(object, lb, ub)
   ## Check mask boudaries
   if (any((ub-lb)<=0))
     stop("Inconsistency found in mask boundaries")
+  
+  lb <- lb * .ConvWlFwd(object@wlunit)  
+  ub <- ub * .ConvWlFwd(object@wlunit)  
+  
     
   restorable <- ub*0+1
   if (any(ub < (wavelength(object)[1]-range_of_wl[1])) |
@@ -75,7 +79,8 @@ maskSpeclib <- function(object, lb, ub)
     spectra(object) <- if (nspectra(object) == 1) matrix(data = spectra(object)[,rm_vector], nrow = 1) else spectra(object)[,rm_vector]  
   }
   attr(object, "setmask") <- TRUE
-  attr(object, "dropped") <- data.frame(lb=lb, ub=ub)
+  attr(object, "dropped") <- data.frame(lb = lb,
+                                        ub = ub)
   attr(object, "restorable") <- restorable
   usagehistory(object) <- "Apply mask to spectra"
   return(object)
@@ -121,6 +126,8 @@ interpolate.mask <- function(object)
       spec2 <- c(spec2, spec[c(xpos2[[i]]:length(spec))])
     return(spec2)
   }
+  wlunit <- object@wlunit
+  object@wlunit <- "nm"
   x <- object
   mask_frame <- attr(x, "dropped")
   if (is.null(mask_frame)) 
@@ -180,6 +187,7 @@ interpolate.mask <- function(object)
       range <- mean(range)
     x@fwhm <- range
   }
+  x@wlunit <- wlunit
   return(x)
 }
   

@@ -6,6 +6,7 @@
 \alias{HyperSpecRaster,RasterLayer,numeric-method}
 \alias{HyperSpecRaster,RasterBrick,numeric-method}
 \alias{brick,Speclib,ANY-method}
+\alias{HyperSpecRaster,Speclib-method}
 \alias{HyperSpecRaster,Speclib,ANY-method}
 
 \alias{writeStart,HyperSpecRaster,character-method}
@@ -39,9 +40,7 @@ The HyperSpecRaster-Class is deprecated. Use \code{\linkS4class{Speclib}} instea
 
 \S4method{HyperSpecRaster}{HyperSpecRaster}(x, wavelength)
 
-\S4method{brick}{Speclib,ANY}(x, nrow, ncol, xmn, xmx, ymn, ymx, crs)
-
-\S4method{HyperSpecRaster}{Speclib,ANY}(x, nrow, ncol, xmn, xmx, ymn, ymx, crs)
+\S4method{HyperSpecRaster}{Speclib}(x, nrow, ncol, xmn, xmx, ymn, ymx, crs)
 
 \S4method{writeStart}{HyperSpecRaster,character}(x, filename, ...)
 
@@ -105,7 +104,7 @@ writeGDAL(x, fname = "example_in.tif", drivername = "GTiff")
 
 ## Examples for HyperSpecRaster using file example_in.tif
 ## Example 1:
-## smoothing spectra
+## Noise reduction in spectra
 infile <- "example_in.tif"
 outfile <- "example_result_1.tif"
 wavelength <- spectra$wavelength
@@ -117,7 +116,7 @@ res <- writeStart(ra, outfile, overwrite = TRUE)
 for (i in 1:tr$n) 
 {
   v <- getValuesBlock(ra, row=tr$row[i], nrows=tr$nrows[i])
-  v <- smoothSpeclib(v, method="sgolay", n=25)
+  v <- noiseFiltering(v, method="sgolay", n=25)
   res <- writeValues(res, v, tr$row[i])
 }
 res <- writeStop(res)

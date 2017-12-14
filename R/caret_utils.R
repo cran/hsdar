@@ -3,7 +3,7 @@
   c("response", "predictor")
   
 .getCaretCompatibleClasses <- function()
-  c("Speclib", "Nri")
+  c("Speclib", "Nri", "Specfeat")
  
 setClassUnion(".CaretHyperspectral", .getCaretCompatibleClasses())
 

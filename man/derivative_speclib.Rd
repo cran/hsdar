@@ -5,7 +5,7 @@
 Derivation
 }
 \description{
-Calculate derivations of spectra
+Calculate derivations of spectra in \code{Speclib}. 
 }
 \usage{
 derivative.speclib(x, m = 1, method = "sgolay", ...)
@@ -31,7 +31,7 @@ Further arguments passed to \code{\link{sgolayfilt}}.
     \item{Finite approximation (\code{finApprox}):}{
       \deqn{\frac{dr}{d\lambda}=\frac{r(\lambda_i)-r(\lambda_{i+1})}{\Delta\lambda},}
       where \eqn{r_i} is the reflection in band \eqn{i} and \eqn{\Delta\lambda} the spectral difference between adjacent bands.}
-    \item{Savitzky-Golay derivative computation (\code{sgolay})%:
+    \item{Savitzky-Golay derivative computation (\code{sgolay}, default method)%:
       
     }{
 %       \deqn{\frac{dr^q}{d\lambda}=\sum_{i=-m}^{m}P_i^{(q)}r_{j+i},}
@@ -48,7 +48,7 @@ Tsai, F. & Philpot, W. (1998): Derivative analysis of hyperspectral data. Remote
 Lukas Lehnert
 }
 \seealso{
-\code{\link{sgolayfilt}}, \code{\link{vegindex}}
+\code{\link{sgolayfilt}}, \code{\link{vegindex}}, \code{\link{soilindex}}
 }
 \examples{
 data(spectral_data)

@@ -4,17 +4,17 @@
 Unmix spectra
 }
 \description{
-Unmix spectra or spectra resampled to satellite bands using endmember spectra
+Perform linear spectral unmixing on hyperspectral data or spectra resampled to satellite bands using endmember spectra.
 }
 \usage{
 unmix(spectra, endmember, returnHCR = "auto", scale = FALSE, ...)
 }
 \arguments{
   \item{spectra}{
-Input spectra of class 'speclib'
+Input spectra of class 'Speclib'
 }
   \item{endmember}{
-Endmember spectra of class 'speclib'
+Endmember spectra of class 'Speclib'
 }
 \item{returnHCR}{
 Set class of value. If TRUE, value will be of class '\code{HyperSpecRaster}', otherwise a list is returned. If \code{auto}, function will switch to mode depending on input data characteristics.

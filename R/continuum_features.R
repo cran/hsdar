@@ -7,11 +7,10 @@
   return(x@transformation)
 }
 
-define.features <- function(
-                            x,    
-                            tol = 1.0e-7,
-                            FWL = NULL
-                           )
+.define.features <- function(
+                             x,    
+                             tol = 1.0e-7
+                            )
 {
   if (!is.speclib(x)) 
     stop("x must be of class 'Speclib'")
@@ -50,27 +49,25 @@ define.features <- function(
     featureLimits[[i]] <- data.frame(ll=seppoints[-length(seppoints)],ul=seppoints[-1])
   }
   attr(result, "featureLimits") <- featureLimits
-  if (is.null(FWL)) 
-  {
-    return(result) 
-  } else {
-    return(specfeat(result, FWL))
-  }
+  return(result) 
 }
 
 
 specfeat <- function(
                      x, 
-                     FWL
+                     FWL,
+                     tol = 1.0e-7
                     )
 {
 #   tr <- x@transformation
 #   yl <- x@ylabel 
+    
+  x <- .define.features(x, tol = tol)
+  if (missing(FWL))
+    return(x)
+  
   if (class(x)!="Speclib") 
     stop("x must be of class 'Speclib'")
-  
-  if (is.null(attr(x, "featureLimits")))
-    stop("x does not contain feature limits!\nPlease run define.features(x)")
     
   setmask <- .isMasked(x)
   
@@ -203,7 +200,7 @@ setMethod("plot", signature(x = "Specfeat"),
   
   Reflectance <- .range.specfeat(x)
   Reflectance <- c(rep.int(Reflectance[1],length(x@wavelength)-1), Reflectance[2])  
-  Wavelength  <- x@wavelength
+  Wavelength  <- x@wavelength * .ConvWlBwd(x@wlunit)
   
 
   spectra <- c(1:length(x@features[[fnumber[1]]]))

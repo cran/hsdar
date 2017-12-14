@@ -44,7 +44,7 @@ Lukas Lehnert and Hanna Meyer
   Object of class \code{specfeat} containing the updated version of x.
 }
 \seealso{
-\code{\link{transformSpeclib}}, \code{\link{define.features}}, \code{\link{specfeat}}
+\code{\link{transformSpeclib}}, \code{\link{specfeat}}
 }
 
 \examples{
@@ -55,12 +55,9 @@ data(spectral_data)
 bd <- transformSpeclib(subset(spectral_data, season == "summer"),
                        method = "sh", out = "bd")
 
-## Define features automatically
-features <- define.features(bd)
-
 ## Isolate the features around 450nm, 700nm, 1200nm and 1500nm and 
 ## convert to specfeat.
-featureSelection <- specfeat(features, c(450,700,1200,1500))
+featureSelection <- specfeat(bd, c(450,700,1200,1500))
 
 ## Plot features
 plot(featureSelection,1:4)

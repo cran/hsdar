@@ -1,6 +1,7 @@
 \name{plot.Specfeat}
+\alias{plot.Specfeat}
 \alias{plot,Specfeat,ANY-method}
-
+\alias{plot,Specfeat-method}
 \title{
 Plot Specfeat
 }
@@ -8,7 +9,7 @@ Plot Specfeat
 Plot spectra in  objects of class \code{\linkS4class{Specfeat}}. Specfeats contain spectral data after applying a transformation such as continuum removal (see function \code{\link{transformSpeclib}}.
 }
 \usage{
-\S4method{plot}{Specfeat,ANY}(x, fnumber = 1, stylebysubset = NULL, changecol = TRUE,
+\S4method{plot}{Specfeat}(x, fnumber = 1, stylebysubset = NULL, changecol = TRUE,
         changetype = FALSE, autolegend = TRUE, new = TRUE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -56,11 +57,8 @@ data(spectral_data)
 ## Transform speclib
 bd <- transformSpeclib(spectral_data, method = "sh", out = "bd")
 
-## Define features automatically
-features <- define.features(bd)
-
 ##Example to isolate the features around 450nm, 700nm, 1200nm and 1500nm.
-featureSelection <- specfeat(features, c(450,700,1200,1500))
+featureSelection <- specfeat(bd, c(450,700,1200,1500))
 
 ## Plot features
 plot(featureSelection, 1:4)

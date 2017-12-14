@@ -164,3 +164,4 @@ setMethod("writeValues", signature(x = "RasterBrick",
 #   v <- .get.finite.spectra(v)
 #   return(v)
 # })
+

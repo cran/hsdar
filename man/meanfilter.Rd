@@ -6,7 +6,7 @@
 Apply mean filter
 }
 \description{
-Apply mean filter to data frame with spectra as rows and bands as columns. Filter size is passed as number of bands averaged at both sites of the respective band value.
+Apply mean filter to spectra. Filter size is passed as number of bands averaged at both sides of the respective band value.
 }
 \usage{
 meanfilter(spectra, p = 5)
@@ -14,7 +14,7 @@ meanfilter(spectra, p = 5)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{spectra}{
-Data frame containing spectra
+Data.frame, matrix or Speclib containing spectra
 }
   \item{p}{
 Filter size.
@@ -22,7 +22,7 @@ Filter size.
 }
 
 \value{
-Filtered data frame of same dimension as input data frame
+Filtered matrix or Speclib of same dimension as input matrix/Speclib
 }
 
 \author{
@@ -33,13 +33,14 @@ Lukas Lehnert
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-  \code{\link{smoothSpeclib}}
+  \code{\link{noiseFiltering}}
 }
 \examples{
 data(spectral_data)
 
-spectra_filtered <- meanfilter(spectra(spectral_data), p = 10)
-spectra(spectral_data) <- spectra_filtered 
+spectra_filtered <- meanfilter(spectral_data, p = 10)
+plot(spectra_filtered[1,])
+plot(spectral_data[1,], new = FALSE)
 
   
 }

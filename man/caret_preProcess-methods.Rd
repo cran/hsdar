@@ -7,7 +7,7 @@
 \alias{preProcess-class}
 \title{Methods for Function \code{preProcess}}
 \description{
-Methods for function \code{preProcess} in package \pkg{caret}. The function is mainly internally required.
+Methods for function \code{preProcess} in package \pkg{caret}. The function is mainly internally required, but can be also used to transform the reflectance values and the SI e.g., by centering, scaling etc. 
 }
 \section{Methods}{
 \describe{

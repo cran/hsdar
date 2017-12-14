@@ -180,7 +180,9 @@ setMethod('getValuesBlock', signature(x = 'Speclib'),
    x_brick <- x@spectra@spectra_ra
    v <- getValuesBlock(x_brick, ...)
    SI_data <- .getValuesBlockSI(x, ...)
-   return(speclib(v, wavelength(x), SI = SI_data))
+   v <- speclib(v, wavelength(x), SI = SI_data)
+   v@wlunit <- x@wlunit
+   return(v)
  } 
 )
 

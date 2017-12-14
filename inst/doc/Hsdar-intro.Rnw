@@ -619,17 +619,17 @@ plot(spectral_data, FUN = 1, subset = c(1200,1300)) #raw spectrum
 }
 \end{framed}
 \hsdar implements several methods to smooth spectra. These are Savitzky-Golay, Spline, locally weighted scatterplot smoothing (Lowess) and Mean-filter.
-smoothSpeclib needs a Speclib as input and the method to be used. Depending on the method there are further parameters to be set. Have a look on the \hsdar help to find more information on these additional parameters. 
+noiseFiltering needs a Speclib as input and the method to be used. Depending on the method there are further parameters to be set. Have a look on the \hsdar help to find more information on these additional parameters. 
 \SweaveOpts{width=6, height=6}
 \begin{framed}
 <<echo=TRUE,eval=TRUE>>=
 #
 #Filter Speclib:
 #
-sgolay <- smoothSpeclib(spectral_data, method = "sgolay", n = 25)
-lowess <- smoothSpeclib(spectral_data, method = "lowess", f = .01)
-meanflt <- smoothSpeclib(spectral_data, method = "mean", p = 5)
-spline <- smoothSpeclib(spectral_data, method = "spline", 
+sgolay <- noiseFiltering(spectral_data, method = "sgolay", n = 25)
+lowess <- noiseFiltering(spectral_data, method = "lowess", f = .01)
+meanflt <- noiseFiltering(spectral_data, method = "mean", p = 5)
+spline <- noiseFiltering(spectral_data, method = "spline", 
                          n = round(nbands(spectral_data)/10, 0))
 @
 \end{framed}
@@ -715,9 +715,9 @@ plot(spectral_data_2deriv, FUN = 1, xlim = c(600,800),
 However, depending on the objectives it might be favorable to first smooth the spectra before calculating the derivations:
 \begin{framed}
 <<echo=TRUE,eval=TRUE,fig=FALSE>>=
-spectral_data_1deriv <- derivative.speclib(smoothSpeclib(
+spectral_data_1deriv <- derivative.speclib(noiseFiltering(
   spectral_data, method = "sgolay", n = 35), m = 1)
-spectral_data_2deriv <- derivative.speclib(smoothSpeclib(
+spectral_data_2deriv <- derivative.speclib(noiseFiltering(
   spectral_data, method = "sgolay", n = 35), m = 2)
 #
 #Plot results:
@@ -785,12 +785,11 @@ Continuum removal is a commonly used method in hyperspectral remote sensing to n
 The continuum removal transformation is performed by firstly establishing a continuum line/hull which connects the local maxima of the reflectance spectrum. Two kinds of this hull are well established in scientific community: the convex hull (e.g. \cite{Mutanga2004b}) and the segmented hull (e.g. \cite{Clark1987}). Both hulls are established by connecting the local maxima, however, the precondition of the convex hull is that the resulting continuum line must be convex whereas considering the segmented hull it might be concave or convex but the algebraic sign of the slope is not allowed to change from the global maximum of the spectrum downwards to the sides. In contrast to a convex hull, the segmented hull is able to identify small absorption features.
 
 Because the continuum removal transformation is sensitive to errors in the spectrum, it's advisable to first mask erroneous parts of the spectrum. Further you should consider to smooth the spectra very slightly to avoid small local maxima which are not associated with reflection maxima. Read section \ref{sec:filter} and \ref{sec:mask} for more details on the preprocessing.
+For this example we use simulated spectra from the PROSAIL model (see section \ref{sec:PROSAIL})
 \begin{framed}
 <<echo=TRUE,eval=TRUE>>=
-data(spectral_data)
-spectral_data_preproc <- smoothSpeclib(spectral_data, 
-                                       method = "sgolay", n = 5)
-mask(spectral_data_preproc) <- c(1040,1060,1300,1450)
+parameter <- data.frame(N = c(0.5,1),LAI = 0.5,Car=3)
+spectra <- PROSAIL(parameterList = parameter)
 @
 \end{framed}
 Then have a look at the transformSpeclib function:
@@ -806,16 +805,16 @@ The following example will show you how to calculate the continuum line (just fo
 \SweaveOpts{width=6, height=6}
 <<echo=TRUE,eval=TRUE>>=
 #convex hull:
-ch_cline <- transformSpeclib(spectral_data_preproc[16:30,],
+ch_cline <- transformSpeclib(spectra,
                              method = "ch", out = "raw")
-ch_bd <- transformSpeclib(spectral_data_preproc,
+ch_bd <- transformSpeclib(spectra,
                           method = "ch", out = "bd")
 #
 #segmented hull:
 #
-sh_cline <- transformSpeclib(spectral_data_preproc,
+sh_cline <- transformSpeclib(spectra,
                              method = "sh", out = "raw")
-sh_bd <- transformSpeclib(spectral_data_preproc,
+sh_bd <- transformSpeclib(spectra,
                           method = "sh", out = "bd")
 @
 \end{framed}
@@ -852,17 +851,17 @@ Let's have a look on the segmented hull in more detail and compare it to another
 <<echo=TRUE,eval=FALSE,fig=FALSE>>=
 par(mfrow = c(1,2))
 plot(sh_cline, ispec = 1, main = "Continuum line, Spectrum 1",
-     subset = c(500,800)) #first spectrum
-plot(sh_cline, ispec = 5, main = "Continuum line, Spectrum 5",
-     subset = c(500,800)) #fifth spectrum
+     xlim = c(500,800)) #first spectrum
+plot(sh_cline, ispec = 2, main = "Continuum line, Spectrum 2",
+     xlim = c(500,800)) #fifth spectrum
 @
 \resizebox{1\textwidth}{!}{
 <<fig=TRUE, echo=FALSE>>=
 par(mfrow=c(1,2), mar = c(4,4,3,0.1), cex = 0.75)
 plot(sh_cline, ispec = 1, main = "Continuum line, Spectrum 1",
-     subset = c(500,800)) #first spectrum
-plot(sh_cline, ispec = 5, main = "Continuum line, Spectrum 5",
-     subset = c(500,800)) #fifth spectrum
+     xlim = c(500,800)) #first spectrum
+plot(sh_cline, ispec = 2, main = "Continuum line, Spectrum 2",
+     xlim = c(500,800)) #fifth spectrum
 @
 }
 \end{framed}
@@ -871,7 +870,7 @@ By the way: Plotting an object of the class "clman" allows you to numerate the l
 Comparing the first spectrum and the fifth spectrum it is obvious that in the first there are several small local maxima around 600 nm whilst the fifth spectrum features clearly one larger absorption feature between the local maxima around 550 nm and 750 nm.
 Thus, if your objectives include to compare the absorption in the red edge of different spectra, these two spectra would not be comparable due to the fact that this large feature is split into several smaller features in spectrum 1.
 
-However, you might have the impression that some of the local maxima could be removed because they are very small and maybe afflicted with uncertainties which might legitimate it to manipulate the continuum line. Therefore, \hsdar provides functions to remove and add "continuum points" to a continuum line which allows to adapt the continuum line which can be used to also adapt band depth or ratio transformation. Handle these functions with care to avoid continuum lines too much build by subjective methods. 
+However, you might have the impression that some of the local maxima could be removed because they are very small and maybe afflicted with uncertainties which might legitimate it to manipulate the continuum line. Therefore, \hsdar provides functions to remove and add "continuum points" to a continuum line which allows to adapt the continuum line which can be used to also adapt band depth or ratio transformation. Handle these functions with care to avoid continuum lines too much build by subjective decisions. 
 
 If you have a large Speclib, its quite labor-intensive to manually adapt the continuum lines because you have to go through every sample in you Speclib.
 In the following example the procedure will be shown with one exemplary sample:
@@ -882,13 +881,13 @@ Continuum points can be deleted using the deletecp function:
 str(deletecp)
 @
 \end{framed}
-with x is the continuum line, ispec is the name or index of the spectrum to be modified and cpdelete is a single value or vector of wavelength containing fix points to be deleted. Comparing spectrum 1 and spectrum 5 we have seen that the continuum line of spectrum 1 features additional local maxima beyond 580 nm which are, however, not physically explainable so that you might want to delete all points between 580nm and 700nm:
+with x is the continuum line, ispec is the name or index of the spectrum to be modified and cpdelete is a single value or vector of wavelength containing fix points to be deleted. Comparing spectrum 1 and spectrum 2 we have seen that the continuum line of spectrum 1 features additional local maxima beyond 530 nm which are, however, not physically explainable so that you might want to delete all points between 530nm and 600nm:
 \begin{framed}
 <<echo=TRUE,eval=TRUE>>=
-getcp(sh_cline, 1, subset = c(500, 700)) #see all points
+getcp(sh_cline, 1, subset = c(500, 600)) #see all points
 sh_cline <- deletecp(sh_cline, 1, 
-                     c(500:700)) #delete all between 500 and 700 nm
-getcp(sh_cline, 1, subset = c(500, 700)) #see what happened
+                     c(530:600)) #delete all between 500 and 700 nm
+getcp(sh_cline, 1, subset = c(500, 600)) #see what happened
 @
 \end{framed}
 Similarly you could add a continuum point by specifying the wavelength of the point to be added. Though it doesn't make sense in this context you could add a point at the wavelength 460:
@@ -904,10 +903,10 @@ After modifying the continuum line by adding and/or deleting continuum points, y
 checkhull(sh_cline, 1)$error
 @
 \end{framed}
-If there are any errors, additional continuum points have to be defined to meet the constraint that the hull does not cross the spectrum. In this case, we have to add a point at 1060 nm which is an issue due to the mask. Please note that the point at 1060 nm does not affect the following example.
+If there are any errors, additional continuum points have to be defined to meet the constraint that the hull does not cross the spectrum. In this case, we have to add points at 2487 and 2495 which is an issue due to the mask. As often the start and the end of the spectra are affected with problems, we add points for all wavelengths between 2487 and 2498 nm to avoid further problems. Please note that these points do not affect the following example as they are out of the range of interest.
 \begin{framed}
 <<echo=TRUE,eval=TRUE>>=
-sh_cline <- addcp(sh_cline, 1, 1060)
+sh_cline <- addcp(sh_cline, 1, c(2487:2498))
 @
 \end{framed}
 Again, we check for errors:
@@ -951,78 +950,72 @@ plot(sh_bd[1,], main="Updated hull - Band depth",
 }
 \end{framed}
 
-\begin{framed}
-<<echo=TRUE,eval=FALSE,fig=FALSE>>=
-data(spectral_data)
-
-spectral_data_preproc <- smoothSpeclib(spectral_data,
-                                        method = "sgolay", n = 5)
-mask(spectral_data_preproc) <- c(1040,1060,1300,1450)
-
-sh_cline <- transformSpeclib(spectral_data_preproc,
-                             method = "sh", out = "raw")
-par (mfrow = c(2,1))
-plot(sh_cline, 1, subset = c(550, 650))
-plot(sh_cline, 5, subset = c(550, 650))
-
-getcp(sh_cline, 1, subset = c(500, 700)) 
-getcp(sh_cline, 5, subset = c(500, 700))
-
-sh_cline <- deletecp(sh_cline, 1, c(550:700)) #delete 
-
-checkhull(sh_cline, 1)$error
-
-sh_cline <- addcp(sh_cline, 1, 560)
-
-sh_clineUpdate <- makehull(sh_cline, 1)
- 
-sh_bd <- transformSpeclib(spectral_data_preproc,
-                          method = "sh", out = "bd")
-
-sh_bd <- updatecl(sh_bd, sh_clineUpdate) 
-  
-  
-par (mfrow = c(1,2))
-plot(sh_cline, 1, main = "Updated Segmented hull",
-     subset = c(500,800))
-#plot new band depth
-plot(sh_bd, 1, main="Updated hull - Band depth",
-     subset = c(500,800))
-  
-@
-\end{framed}
+%\begin{framed}
+%<<echo=TRUE,eval=FALSE,fig=FALSE>>=
+%data(spectral_data)
+%
+%spectral_data_preproc <- noiseFiltering(spectral_data,
+%                                        method = "sgolay", n = 5)
+%mask(spectral_data_preproc) <- c(1040,1060,1300,1450)
+%
+%sh_cline <- transformSpeclib(spectral_data_preproc,
+%                             method = "sh", out = "raw")
+%par (mfrow = c(2,1))
+%plot(sh_cline, 1, subset = c(550, 650))
+%plot(sh_cline, 5, subset = c(550, 650))
+%
+%getcp(sh_cline, 1, subset = c(500, 700)) 
+%getcp(sh_cline, 5, subset = c(500, 700))
+%
+%sh_cline <- deletecp(sh_cline, 1, c(550:700)) #delete 
+%
+%checkhull(sh_cline, 1)$error
+%
+%sh_cline <- addcp(sh_cline, 1, 560)
+%
+%sh_clineUpdate <- makehull(sh_cline, 1)
+% 
+%sh_bd <- transformSpeclib(spectral_data_preproc,
+%                          method = "sh", out = "bd")
+%
+%sh_bd <- updatecl(sh_bd, sh_clineUpdate) 
+%  
+%  
+%par (mfrow = c(1,2))
+%plot(sh_cline, 1, main = "Updated Segmented hull",
+%     subset = c(500,800))
+%#plot new band depth
+%plot(sh_bd, 1, main="Updated hull - Band depth",
+%     subset = c(500,800))
+%  
+%@
+%\end{framed}
 \subsection{Extracting absorption features}
 
-Let's continue with the preprocessed spectra from section \ref{sec_cr}
+For some cases, it is of interest to inspect and characterize individual absorption features (e.g. considering chlorophyll absorption of plants). To do so, let's continue with the preprocessed spectra from section \ref{sec_cr} and extract the major absorption features.
+As w've already seen, there are major features around the wavelengths 450, 600, 1500 and 2000 nm. The following example shows how to extract these four featurss.
 \SweaveOpts{width=5.2, height=4.5}
 \begin{framed}
 <<echo=TRUE,eval=TRUE,fig=FALSE>>=
-sh_bd <- transformSpeclib(spectral_data_preproc,
-                          method = "sh", out = "bd")
-
-## Define features automatically
-features <- define.features(sh_bd)
-
-##Example to isolate the features around 450,700,1200 and 1500nm.
-featureSelection <- specfeat(features, c(450,700,1200,1500))
+##Example to isolate the features around 450, 600, 1500 and 2000 nm.
+featureSelection <- specfeat(sh_bd, c(450,600, 1500, 2000))
 
 ## Plot features
-plot(featureSelection, 1:4)
+plot(featureSelection, fnumber= 1:4)
 @
 \resizebox{1\textwidth}{!}{
 <<fig=TRUE, echo=FALSE>>=
 par(mar = c(4,4,0.1,0.1), cex = 0.75)
-plot(featureSelection, 1:4)
+plot(featureSelection, fnumber=1:4)
 @
 }
 \end{framed}
-Some features are larger than others. For some research questions it might be important to cut the features at specific wavelengths.
-
-The following example shows how to cut the first two features:
+In some cases it might appear that the features of some spectra are larger than others as the fix points of the continuum removed spectra are usually not equal. If this is the case (not present in the current example), hsdar gives functionality to cut the features at fixed wavelengths to ensure comparability.
+The following example shows how to cut the first two features at defined wavelengths to clearly separate the first two absorption features for all spectra in the Speclib:
 \begin{framed}
 <<echo=TRUE,eval=TRUE,fig=FALSE>>=
 featuresCut <- cut_specfeat(featureSelection, fnumber = c(1,2), 
-                            limits = c(c(310, 560), c(589, 800)))
+                            limits = c(c(310, 525), c(530, 800)))
 
 ## Plot result
 plot(featuresCut, 1:2)
@@ -1030,12 +1023,23 @@ plot(featuresCut, 1:2)
 \resizebox{1\textwidth}{!}{
 <<fig=TRUE, echo=FALSE>>=
 par(mar = c(4,4,0.1,0.1), cex = 0.75)
-plot(featuresCut, 1:2)
+plot(featuresCut, fnumber= 1:2)
 @
 }
 \end{framed}
 
+The isolated and cleaned features can then be characterized by calculating e.g. the area of the features. This information can be added to the supplementary information of the speclib, e.g. for a later statistical analysis of the relationships between the size of specific absorption features and vegetation characteristics.
 
+
+\begin{framed}
+<<echo=TRUE,eval=TRUE>>=
+## Calculate properties of features
+featureProp <- feature_properties(featureSelection)
+
+## See resulting feature property variables
+head(SI(featureProp))
+@
+\end{framed}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \section{Basic data analysis tools}
 % 
@@ -1147,15 +1151,41 @@ vi <- vegindex(spectral_data, index = avl)
 \end{framed}
 
 \subsection{Red edge parameters}
-Shape and location of the red edge are commonly described by four parameters:
+Shape and location of the red edge can be described by the following parameters:
 \begin{itemize}
-\item[R0] the minimum reflectance in the red spectrum
-\item[l0] wavelength of the minimum reflectance
-\item[lp] inflection point
-\item[Rs] shoulder wavelength
+\item[$l0$] wavelength of the minimum reflectance in the red spectrum
+\item[$R0$] minimum reflectance in the red spectrum
+\item[$lp$] wavelength of the inflection point
+\item[$Rp$] reflectance at the inflection point
+\item[$ls$] wavelength of the reflection shoulder
+\item[$Rs$] Reflectance at the shoulder
 \end{itemize}
+See the figure below for an example where the parameters are located in a reflectance spectrum.
+\SweaveOpts{width=5.2, height=3}
+\begin{framed}
+\resizebox{1\textwidth}{!}{
+<<fig=TRUE, echo=FALSE>>=
+data(spectral_data)
+rd <- rededge(spectral_data)
+D2 <- derivative.speclib(spectral_data[1,],method="sgolay",m=2, n=33)
+par(mfrow=c(1,2), mar = c(4,4,0.4,.4))
+plot(D2,xlim=c(500,900),ylim=c(-0.03,0.03),ylab="Second derivation")
+points(rd[1,4],get_reflectance(D2,rd[1,4]))
+points(rd[1,6],get_reflectance(D2,rd[1,6]))
+text(c(rd$lp[1],rd$ls[1]),c(get_reflectance(D2,rd$lp[1]),get_reflectance(D2,rd$ls[1])),
+     labels=c("lp","ls"), cex= 0.8,pos=3)
+plot(spectral_data[1,],xlim=c(500,900),ylim=c(0,50))
+points(matrix(c(rd$l0[1],rd$R0[1],rd$lp[1],rd$Rp[1],rd$ls[1],rd$Rs[1]),
+              nrow=3,byrow = TRUE))
+text(c(rd$l0[1],rd$lp[1],rd$ls[1]),c(rd$R0[1],rd$Rp[1],rd$Rs[1]),
+     labels=c("l0/R0","lp/Rp","ls/Rs"), cex= 0.8, offset =0.5,pos=2)
+@
+}
+\end{framed}
 
-The red edge parameters are calculated as proposed in \cite{Bach1995} from the spectral area between 600 and 900 nm. l0 is calculated as the last root before the maximum value of the 2nd derivation. The minimum reflectance is the reflectance at (l0). The inflection point is the root of the 2nd derivative function between the maximum value and the minimum value. The shoulder wavelength is the first root beyond the minimum value of the 2nd derivation.
+
+
+Red edge parameters in hsdar are calculated as proposed in \cite{Bach1995} from the spectral area between 600 and 900 nm. l0 is calculated as the last root before the maximum value of the 2nd derivation. The minimum reflectance is the reflectance at (l0). The inflection point is the root of the 2nd derivative function between the maximum value and the minimum value. The shoulder wavelength is the first root beyond the minimum value of the 2nd derivation.
 \SweaveOpts{width=5.2, height=4.5}
 \begin{framed}
 <<echo=TRUE,eval=TRUE>>=

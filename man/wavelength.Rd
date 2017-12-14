@@ -35,14 +35,14 @@ Methods to access and set wavelength (band center) and full-width-half-max (fwhm
 Object of class \code{Speclib}.
 }
   \item{value}{
-Numeric vector or data.frame containing wavelength values.
+Numeric vector or data.frame containing wavelength values. Must always be in nm!
 }
 }
 \details{
-Wavelength (band center) and full-width-half-max (fwhm) values are given for each spectral band. The wavelength is mandatory for creation of \code{Speclib} and is used within the whole functionality of the package (e.g., smoothSpeclib, spectralResampling, vegindex, nri, plot, mask).
+Wavelength (band center) and full-width-half-max (fwhm) values are given for each spectral band. The wavelength is mandatory for creation of \code{Speclib} and is used within the whole functionality of the package (e.g., \code{\link{noiseFiltering}}, \code{\link{spectralResampling}}, \code{\link{vegindex}}, \code{\link{nri}}, \code{\link{plot.Speclib}}, \code{\link{mask}}).
 }
 \value{
-For \code{wavelength<-} and \code{fwhm<-}, the updated object. Otherwise a numeric vector of the wavelength and fwhm-values is returned.
+For \code{wavelength<-} and \code{fwhm<-}, the updated object. Otherwise a numeric vector of the wavelength and fwhm-values in nm is returned.
 }
 
 \author{

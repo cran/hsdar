@@ -1,12 +1,12 @@
 hsdar_parallel <- function()
 {
-  sort(c("transformSpeclib", "glm.nri"
+  sort(c("transformSpeclib", "glm.nri", "noiseFiltering", "apply"
          ))
 }
 
 .process_parallel <- function()
 {
-  process_parallel <- list(parallel = any(search() == "package:doMC"), dofun = NULL, donestedfun = NULL)
+  process_parallel <- list(parallel = any(search() %in% c("package:doMC", "package:doMPI")), dofun = NULL, donestedfun = NULL)
   if (process_parallel[[1]])
   {
     if (.getParallel())

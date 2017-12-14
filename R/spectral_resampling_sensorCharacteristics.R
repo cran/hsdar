@@ -338,7 +338,7 @@ get.sensor.characteristics <- function (
   }
 }
 
-get.sensor.name <- function(sensor)
+.get.sensor.name <- function(sensor)
 {
   if (!is.numeric(sensor)) return (sensor)
   avl <- get.sensor.characteristics(0)
