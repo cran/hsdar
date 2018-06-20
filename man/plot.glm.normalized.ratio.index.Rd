@@ -15,7 +15,7 @@ Plot values in (generalised) linear modes and correlation tests from narrow band
      ylab = "Wavelength band 2 (nm)", legend = TRUE,
      colspace = "hcl", col = c(10, 90, 60, 60, 10, 80),                
      digits = 2, range = "auto", constraint  = NULL,
-     uppertriang = FALSE, ...)
+     uppertriang = FALSE, zlog = FALSE, ...)
 }
 \arguments{
   \item{x}{
@@ -54,6 +54,9 @@ A character string giving a constraint which values should be plotted. See examp
 }
 \item{uppertriang}{
 Flag if upper triangle is used for the plot. Note that if \code{TRUE} the current plot is used instead of starting a new plot
+}
+\item{zlog}{
+  Flag indicating if color should be logarithmically scaled. Useful e.g. for p-values.
 }
   \item{...}{
 Further arguments passed to \code{plot.default}.
@@ -112,7 +115,7 @@ glmnri <- glm.nri(nri_EM ~ chlorophyll, preddata = spec_EM)
 ## Enlarge margins for legends
 par(mar = c(5.1, 4.1, 4.1, 5))
 plot(glmnri, coefficient = "t.value", legend = "outer")
-plot(glmnri, coefficient = "p.value", uppertriang = TRUE)
+plot(glmnri, coefficient = "p.value", uppertriang = TRUE, zlog = TRUE)
 lines(c(400,1705),c(400,1705))
 }
 }

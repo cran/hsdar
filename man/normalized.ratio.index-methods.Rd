@@ -4,6 +4,7 @@
 \alias{as.data.frame,Nri-method}
 \alias{show,Nri-method}
 \alias{print,Nri-method}
+\alias{dim,Nri-method}
 \alias{wavelength,Nri-method}
 \alias{[,Nri,ANY,ANY-method}
 \alias{[,Nri,ANY,ANY,ANY-method}
@@ -23,12 +24,14 @@ Methods to handle data in objects of class Nri.
 
 \S4method{wavelength}{Nri}(object)
 
+\S4method{dim}{Nri}(x)
+
 getFiniteNri(x)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x,object}{
-List of class 'Nri'
+Object of class 'Nri'
 }
 \item{na.rm}{Remove indices containing NA-values. Note that if TRUE, all indices are removed which have at least one NA value.}
   \item{named_matrix}{

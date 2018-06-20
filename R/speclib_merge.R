@@ -26,12 +26,17 @@ setMethod("merge", signature(x = "Speclib", y = "Speclib"),
   dots <- list(...)
   if (length(dots) > 0)
   {
+    oldhist <- usagehistory(x)
     for (i in 1:length(dots))
     {
       stopifnot(is.speclib(dots[[i]]))
       x <- merge(x, dots[[i]])
     }
+    usagehistory(x) <- NULL
+    usagehistory(x) <- oldhist
   }
+  uh <- as.character(.get_args(-1))
+  usagehistory(x) <- paste0("Speclibs '", paste(uh[-1], collapse = "', '"), "' merged")
   return(x)
 }
 )

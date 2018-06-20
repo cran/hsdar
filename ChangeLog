@@ -1,4 +1,21 @@
 ------------------------------------------------------------------------------------------
+--- 12-March-2018, version 0.7.1 (under development)
+- New functionalities:
+   - Logarithmic scale of color in nri-plots
+   - dim-Method for class Nri added
+   - Function nspectra accepts object of class Nri
+   - print and show methods of Speclib return units of wavelength and spectral range
+   - PROSPECTinvert resamples spectra according to PROSPECT bands
+   - crop-Method for Speclib added
+- Bug fixes:
+   - Columns and rows correctly shown in cubePlot
+   - lm.nri and glm.nri accepts object of class Nri in argument preddata 
+   - SI accepts variables of classes POSIXlt and POSIXt
+   - Bug from PROSPECTinvert fixed (thanks to Collins Kukunda)
+   - Bug from cubePlot removed
+   - Indexing in samples dimension works if spectra are stored as Brick
+   
+------------------------------------------------------------------------------------------
 --- 14-December-2017, version 0.7.0
 - New functionalities:
    - Parallel processing in 'smoothSpeclic' enabled

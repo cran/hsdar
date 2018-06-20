@@ -58,7 +58,10 @@ boxplot(rd$R0 ~ SI(spectral_data)$season, ylab = "R0")
 
 # visualize red edge parameter of one spectrum
 plot(spectral_data[1,],xlim=c(500,900),ylim=c(0,50))
-points(matrix(c(rd$l0,rd$R0,rd$lp,rd$Rp,rd$ls,rd$Rs),
-              nrow=3,byrow = TRUE))
+plot(spectral_data[1,],xlim=c(500,900),ylim=c(0,50))
+x <- c(rd$l0[1], rd$lp[1], rd$ls[1])
+y <- c(rd$R0[1], rd$Rp[1], rd$Rs[1])
+points(x, y)
+text(x, y, c("l0", "lp", "ls"), pos = 3, offset = 1)
 }
 \keyword{multivariate}

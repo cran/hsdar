@@ -30,7 +30,12 @@ setMethod("[", "Speclib",
   } 
   if (missing(j))
   {
-    tmp <- spectra(x, i = i) 
+    if (x@spectra@fromRaster)
+    {
+      tmp <- x@spectra[i,]
+    } else {    
+      tmp <- spectra(x, i = i) 
+    }
     if (class(tmp) == "numeric")
       tmp <- matrix(tmp, ncol = if (nbands(x) > 1) length(tmp) else 1)
     x@spectra@fromRaster <- FALSE

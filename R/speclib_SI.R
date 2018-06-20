@@ -58,9 +58,15 @@ setReplaceMethod("SI", signature(object = "Speclib", value = "ANY"),
     sample2keep <- c(1:nrow(object))[row2keep]
   }
   
+  
+#   classes <- unlist(lapply(object@SI_data, function(x) class(x)[1]))
+  
+  
   var2keep <- c(1:ncol(object))*0
   var2keep[col2keep] <- 1
   var2keep[(var2keep == 1) & object@rasterObject] <- 2
+  
+#   var2keep[(var2keep == 1) & classes %in% c("POSIXlt", "POSIXt")] <- 3
   if (any(var2keep == 2))
   {
     first_raster <- c(1:ncol(object))[var2keep == 2]
@@ -69,30 +75,72 @@ setReplaceMethod("SI", signature(object = "Speclib", value = "ANY"),
     minmax <- apply(idx, 2, range)
   }
   
-  res <- as.data.frame(matrix(NA, ncol = sum(var2keep > 0), nrow = length(sample2keep)))
+#   res <- as.data.frame(matrix(NA, ncol = sum(var2keep > 0), nrow = length(sample2keep)))
+#   ivar <- 0
+#   if (ncol(res) > 0)
+#   {
+#     for (i in 1:ncol(object))
+#     {
+#       if (var2keep[i] == 1)
+#       {
+#         ivar <- ivar + 1
+#         res[,ivar] <- object@SI_data[[i]][sample2keep]
+#       } 
+#       if (var2keep[i] == 2)
+#       {
+#         ivar <- ivar + 1
+#         res[,ivar] <- unlist(getValuesBlock(object@SI_data[[i]],
+#                                             row = minmax[1,1], 
+#                                             nrows = minmax[2,1] - minmax[1,1] + 1,
+#                                             col = minmax[1,2],
+#                                             ncols = minmax[2,2] - minmax[1,2] + 1))
+#       }
+#     }
+#   }
+#   names(res) <- names(object@SI_data)[var2keep > 0]
+#   return(res)
+#   res <- as.data.frame(matrix(NA, ncol = sum(var2keep > 0), nrow = length(sample2keep)))
   ivar <- 0
-  if (ncol(res) > 0)
+  nam <- names(object@SI_data)[var2keep > 0]
+  if (sum(var2keep > 0) > 0)
   {
     for (i in 1:ncol(object))
     {
       if (var2keep[i] == 1)
       {
         ivar <- ivar + 1
-        res[,ivar] <- object@SI_data[[i]][sample2keep]
+        tmp <- data.frame(XXX = object@SI_data[[i]][sample2keep])
+        if (ivar == 1)
+        { 
+          res <- tmp
+          names(res) <- nam[i]
+        } else {
+          names(tmp) <- nam[i]
+          res <- cbind(res, tmp)
+        }
       } 
       if (var2keep[i] == 2)
       {
         ivar <- ivar + 1
-        res[,ivar] <- unlist(getValuesBlock(object@SI_data[[i]],
-                                            row = minmax[1,1], 
-                                            nrows = minmax[2,1] - minmax[1,1] + 1,
-                                            col = minmax[1,2],
-                                            ncols = minmax[2,2] - minmax[1,2] + 1))
+        tmp <- data.frame(XXX = unlist(getValuesBlock(object@SI_data[[i]],
+                                                      row = minmax[1,1], 
+                                                      nrows = minmax[2,1] - minmax[1,1] + 1,
+                                                      col = minmax[1,2],
+                                                      ncols = minmax[2,2] - minmax[1,2] + 1)))
+        if (ivar == 1)
+        { 
+          res <- tmp
+          names(res) <- nam[i]
+        } else {
+          names(tmp) <- nam[i]
+          res <- cbind(res, tmp)
+        }
       }
     }
-  }
-  names(res) <- names(object@SI_data)[var2keep > 0]
-  return(res)
+    return(res)
+  } else {
+    return(data.frame())
+  }  
 }
   
         

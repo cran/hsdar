@@ -5,7 +5,7 @@
 Simulate plant spectrum
 }
 \description{
-Simulate plant spectrum using PROSPECT 5b or PROSPECT D. The inversion uses the concept after Feret et al. (2008) and uses PROSPECT 5B.
+Simulate plant spectrum using PROSPECT 5b or PROSPECT D. The inversion uses the concept after Feret et al. (2008) based on PROSPECT 5B.
 }
 \usage{
 PROSPECT(N = 1.5, Cab = 40, Car = 8, Anth = 1.0, Cbrown = 0.0, 
@@ -50,7 +50,7 @@ Dry matter content% (\eqn{\textnormal{g}/\textnormal{cm}^2}{g/cm^2})
 \item{x, transmittance_spectra}{Speclib(s) containing the reflectance/transmittance values to be simulated during inversion of PROSPECT.}
 \item{P0}{Initial set of parameters (N, Cab etc.).}
 \item{sam}{Logical if spectral angle mapper is used as distance measurement. If FALSE, the root mean square error is used. Note that this flag has only an effect if no transmittance spectra are passed.}
-\item{...}{Parameters passed to \code{\link[pracma]{anms}} from the \pkg{pracma}-package}
+\item{...}{Parameters passed to \code{\link{optim}}}
 }
 \details{
 This function uses the FORTRAN code of PROSPECT model (Version 5B an D). For a general introduction see following web page and the links to articles provided there:
@@ -71,7 +71,7 @@ Cbrown \tab Brown pigment \tab NA \cr
 Cm\tab  Dry matter content\tab  g/cm\eqn{^2}{2}\cr
 }
 
-The inversion uses the function \code{\link[pracma]{anms}} from the \pkg{pracma}-package and implements the Matlab-Code developed by Feret et al. (2008). Please note that the inversion currently only uses version 5B.
+The inversion uses the function \code{\link{optim}} and implements the Matlab-Code developed by Feret et al. (2008). Please note that the inversion currently only uses version 5B.
 }
 \value{
 An object of class \code{Speclib}.
@@ -90,7 +90,7 @@ Lukas Lehnert
 The function is based on the FORTRAN version of the PROSPECT-code initially developed by Jean-Baptiste FERET, Stephane JACQUEMOUD and Christophe FRANCOIS.
 }
 \seealso{
-\code{\link{PROSAIL}}, \code{\link[pracma]{anms}}, \code{\linkS4class{Speclib}}
+\code{\link{PROSAIL}}, \code{\link{optim}}, \code{\linkS4class{Speclib}}
 }
 \examples{
 ## Single spectrum
@@ -114,4 +114,31 @@ spectra <- spectra[,wavelength(spectra) >= 400 &
 
 plot(subset(spectra, Cab == 20), col = "red", ylim = c(0, 0.5))
 plot(subset(spectra, Cab == 40), col = "green", new = FALSE)
+
+## Example for inversion
+## Create spectrum using PROSAIL
+spectrum <- PROSAIL(LAI = 4)
+
+## Invert PROSPECT using Euclidean and SAM distances
+param_rmse <- PROSPECTinvert(spectrum, transmittance_spectra = NULL)
+param_sam <- PROSPECTinvert(spectrum, transmittance_spectra = NULL, sam = TRUE)
+
+## Model spectrum based on parameters from inversion
+pro_rmse <- PROSPECT(N = param_rmse$par[1], Cab = param_rmse$par[2], 
+                     Car = param_rmse$par[3], Cbrown = param_rmse$par[4], 
+                     Cw = param_rmse$par[5], Cm = param_rmse$par[6], 
+                     version = "5B")
+
+pro_sam <- PROSPECT(N = param_sam$par[1], Cab = param_sam$par[2], 
+                    Car = param_sam$par[3], Cbrown = param_sam$par[4], 
+                    Cw = param_sam$par[5], Cm = param_sam$par[6],  
+                    version = "5B")
+
+## Plot result
+plot(spectrum, ylim = c(0,0.55))
+plot(pro_rmse, new = FALSE, col = "red")
+plot(pro_sam, new = FALSE, col = "blue")
+legend("topright", legend = c("original spectrum", "inverted with RMSE", 
+                              "inverted with SAM"), lty = "solid", 
+       col = c("black", "red", "blue"))
 }

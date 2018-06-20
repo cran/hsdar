@@ -11,6 +11,7 @@ setMethod("plot", signature(x = "Nri"),
                    range       = "auto",
                    constraint  = NULL,
                    uppertriang = FALSE,
+                   zlog        = FALSE,
                    ...
                   )
 {
@@ -107,6 +108,8 @@ setMethod("plot", signature(x = "Nri"),
   if (!uppertriang)
     plot(x@wavelength,x@wavelength,type="n", xlab=xlab, ylab=ylab, ...)
   
+  if (zlog)
+    coefficient <- log(coefficient)
   
   if (range[1]=="auto")
   {
@@ -116,7 +119,7 @@ setMethod("plot", signature(x = "Nri"),
     minval <- range[1]
     maxval <- range[2]
   }
-  
+      
   if (!is.null(constraint))
   {
     cons_eval <- try(eval(parse(text = constraint)), silent = TRUE)
@@ -246,8 +249,8 @@ setMethod("plot", signature(x = "Nri"),
               lty = "blank")
         }
         ycoor <- c(p[4]-0.12*(p[4]-p[3]),p[4]-0.05*(p[4]-p[3]))
-        text(xcoor[1],ycoor[1],round(minval,digits))
-        text(xcoor[2],ycoor[1],round(maxval,digits))
+        text(xcoor[1],ycoor[1],round(if (zlog) exp(1)^minval else minval,digits))
+        text(xcoor[2],ycoor[1],round(if (zlog) exp(1)^maxval else maxval,digits))
       } else {
         old.par <- par(no.readonly = TRUE)
         x_leg <- c(.1,.3,0)
@@ -269,8 +272,23 @@ setMethod("plot", signature(x = "Nri"),
               lty = "blank")
         }
         xcoor <- sum(x_leg)
-        text(xcoor[1],ycoor[1],round(minval,digits), pos = 4)
-        text(xcoor[1],ycoor[2],round(maxval,digits), pos = 4)
+        text(xcoor[1],ycoor[1],round(if (zlog) exp(1)^minval else minval,digits), pos = 4)
+        text(xcoor[1],ycoor[2],round(if (zlog) exp(1)^maxval else maxval,digits), pos = 4)
+        
+        val2 <- mean(c(maxval, minval))
+        val1 <- mean(c(val2, minval))
+        val3 <- mean(c(val2, maxval))
+        if (zlog)
+        {          
+          text(xcoor[1], ycoor[1] + (ycoor[2]-ycoor[1])/4,signif(exp(1)^(val1), digits), pos = 4)
+          text(xcoor[1], ycoor[1] + (ycoor[2]-ycoor[1])/2,signif(exp(1)^(val2), digits), pos = 4)
+          text(xcoor[1], ycoor[1] + (ycoor[2]-ycoor[1])/4*3,signif(exp(1)^(val3), digits), pos = 4)        
+        } else {
+          text(xcoor[1], ycoor[1] + (ycoor[2]-ycoor[1])/4,signif(val1, digits), pos = 4)
+          text(xcoor[1], ycoor[1] + (ycoor[2]-ycoor[1])/2,signif(val2, digits), pos = 4)
+          text(xcoor[1], ycoor[1] + (ycoor[2]-ycoor[1])/4*3,signif(val3, digits), pos = 4) 
+        }
+        
         par(old.par)
 #         par(mfg=old.par$mfg)   
       }
@@ -286,6 +304,7 @@ setMethod("plot", signature(x = "Nri"),
       plot(c(0:1),c(0:1), type = "n", xaxt = "n", yaxt = "n", bty = "n")
       xcoor <- c(0, 1)
       ycoor <- c(y_leg[1], y_leg[1] + y_leg[2])
+      
       for (i in 1:100)
       {
         xrect <- c(xcoor[1]+(i-1)*(xcoor[2]-xcoor[1])/100,
@@ -295,8 +314,21 @@ setMethod("plot", signature(x = "Nri"),
             lty = "blank")
       }
       ycoor <- sum(y_leg)
-      text(xcoor[1],ycoor[1],round(minval,digits), pos = 3)
-      text(xcoor[2],ycoor[1],round(maxval,digits), pos = 3)
+      text(xcoor[1],ycoor[1],round(if (zlog) exp(1)^minval else minval,digits), pos = 3)
+      text(xcoor[2],ycoor[1],round(if (zlog) exp(1)^maxval else maxval,digits), pos = 3)
+      val2 <- mean(c(maxval, minval))
+      val1 <- mean(c(val2, minval))
+      val3 <- mean(c(val2, maxval))
+      if (zlog)
+      {        
+        text(xcoor[1] + (xcoor[2]-xcoor[1])/4,ycoor[1],signif(exp(1)^(val1), digits), pos = 3)
+        text(xcoor[1] + (xcoor[2]-xcoor[1])/2,ycoor[1],signif(exp(1)^(val2), digits), pos = 3)
+        text(xcoor[1] + (xcoor[2]-xcoor[1])/4*3,ycoor[1],signif(exp(1)^(val3), digits), pos = 3)        
+      } else {
+        text(xcoor[1] + (xcoor[2]-xcoor[1])/4,ycoor[1],signif(val1, digits), pos = 3)
+        text(xcoor[1] + (xcoor[2]-xcoor[1])/2,ycoor[1],signif(val2, digits), pos = 3)
+        text(xcoor[1] + (xcoor[2]-xcoor[1])/4*3,ycoor[1],signif(val3, digits), pos = 3)  
+      }
       par(old.par)
 #       par(mfg=old.par$mfg)   
     }

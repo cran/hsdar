@@ -93,3 +93,11 @@ setMethod("as.data.frame", signature(x = "Nri"),
   }
   return(nri_data)
 })
+
+setMethod("dim", signature(x = "Nri"), 
+                 definition = function(x)
+{
+  dimX <- dim(x@nri)
+  return(dimX)
+}
+)

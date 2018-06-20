@@ -7,11 +7,18 @@ setMethod("dim", signature(x = "Speclib"),
 )
 
 nspectra <- function(x)
+{
+  if (class(x) == "Nri")
+    return(dim(x)[3])
   return(dim(x)[1])
+}
 
 
 nbands <- function(x)
+{
+  stopifnot(is.speclib(x))
   return(dim(x)[2])
+}
 
 
 is.speclib <- function(x)

@@ -23,7 +23,7 @@ glm.nri <- function(formula, preddata=NULL, ...)
 
   if (!is.null(preddata))
   {
-    if (is.speclib(preddata))
+    if (any(c(is.speclib(preddata), class(preddata) == "Nri")))
       preddata <- SI(preddata)
     data <- preddata
 #     attach(data)

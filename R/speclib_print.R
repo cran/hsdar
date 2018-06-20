@@ -12,13 +12,12 @@ setMethod("print", signature(x = "Speclib"),
     cat(paste("\nWidth of bands :",x@fwhm * .ConvWlBwd(x@wlunit)))
   } else {
     cat(paste("\nMean width of bands :",round(mean(x@fwhm) * .ConvWlBwd(x@wlunit),
-                                              .ConvWlRnd(x@wlunit))))
+                                              .ConvWlRnd(x@wlunit)), x@wlunit))
   }
+  ra <- range(wavelength(x), na.rm = T) * .ConvWlBwd(x@wlunit)  
+  cat(paste("\nSpectral range of data :", prettyNum(ra[1]), "-", prettyNum(ra[2]), x@wlunit))
   if (x@wlunit != "nm")
-  {
-    cat(paste("\nWavelengths are in", x@wlunit))
     cat("\n    Note that wavelength are internally in stored in nm\n")
-  }
   cat("\n")
   if (x@spectra@fromRaster)
   {

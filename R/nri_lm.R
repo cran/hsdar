@@ -35,7 +35,7 @@ lm.nri <- function(formula, preddata=NULL, ...)
 
   if (mode(preddata)!="NULL")
   {
-    if (is.speclib(preddata))
+    if (any(c(is.speclib(preddata), class(preddata) == "Nri")))
       preddata <- SI(preddata)
     data <- preddata
     formula <- terms(formula, data=data)

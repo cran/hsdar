@@ -155,6 +155,15 @@ setMethod("writeValues", signature(x = "RasterBrick",
   return(writeValues(x, v, start))
 })
 
+setMethod("crop", signature(x = "Speclib"), 
+          definition = function(x, y, ...)
+{
+  stopifnot(x@spectra@fromRaster)
+  x@spectra@spectra_ra <- crop(x@spectra@spectra_ra, y, ...)
+  usagehistory(x) <- "Image cropped to extent"
+  return(x)
+})
+
 # setMethod("getValuesBlock", signature(x = "Speclib"), 
 #           definition = function(x, ...)
 # {

@@ -32,7 +32,9 @@
   
   png(filename = fi, height = png_height, width = nbands(ra))
  
+  test[!is.finite(test)] <- 0
   test <- (test - min(test))/(max(test)-min(test))
+  
   test_col <- rgb(col(test), maxColorValue = 255)
   test_col <- matrix(test_col, ncol = ncol(test), nrow = nrow(test))
   
@@ -82,8 +84,8 @@ cubePlot <- function(x, r, g, b, ncol = 1, nrow = 1, sidecol = colorRamp(palette
     b <- which.min(abs(wavelength(ra) - 470))
   
   z <- matrix(0, ncol = ncol(ra@spectra@spectra_ra), nrow = nrow(ra@spectra@spectra_ra))
-  x <- c(1:nrow(z))-1
-  y <- c(1:ncol(z))-1
+  x <- c(1:ncol(z))-1
+  y <- c(1:nrow(z))-1
   
   dots <- list(...)
   if (any(names(dots) == "stretch"))
@@ -110,27 +112,26 @@ cubePlot <- function(x, r, g, b, ncol = 1, nrow = 1, sidecol = colorRamp(palette
   rgl::rgl.surface(x, y, z, col = "white", 
                    axes = FALSE, box = FALSE,
                    texture = texture)
-
-  z <- matrix(0, ncol = nrow(ra@spectra@spectra_ra), nrow = nbands(ra@spectra@spectra_ra))
+  z <- matrix(0, ncol = ncol(ra@spectra@spectra_ra), nrow = nbands(ra))
   x <- c(1:nrow(z))-1
   y <- c(1:ncol(z))-1
   rgl::rgl.surface(x, y, z, col = "white",
                    axes = FALSE, box = FALSE, coords = c(2,3,1),
                    texture = texture_side_1, add = TRUE)
-
-  z <- z + ncol(ra@spectra@spectra_ra)-1
+  
+  z <- z + nrow(ra@spectra@spectra_ra)-1
   rgl::rgl.surface(x, y, z, col = "white",
                    axes = FALSE, box = FALSE, coords = c(2,3,1),
                    texture = texture_side_3, add = TRUE)
 
-  z <- matrix(0, ncol = ncol(ra@spectra@spectra_ra), nrow = nbands(ra@spectra@spectra_ra))
+  z <- matrix(0, ncol = nrow(ra@spectra@spectra_ra), nrow = nbands(ra))
   x <- c(1:nrow(z))-1
   y <- c(1:ncol(z))-1
   rgl::rgl.surface(x, y, z, col = "white",
                    axes = FALSE, box = FALSE, coords = c(2,1,3),
                    texture = texture_side_2, add= TRUE)
 
-  z <- z + nrow(ra@spectra@spectra_ra)-1
+  z <- z + ncol(ra@spectra@spectra_ra)-1
   rgl::rgl.surface(x, y, z, col = "white",
                    axes = FALSE, box = FALSE, coords = c(2,1,3),
                    texture = texture_side_4, add= TRUE)
