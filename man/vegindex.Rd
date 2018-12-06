@@ -169,7 +169,7 @@ SR2 \tab \eqn{R_{752}/R_{690}}                                                  
     \tab                                                                                        \tab (1997)\cr
 SR3 \tab \eqn{R_{750}/R_{550}}                                                                  \tab Gitelson and Merzlyak  \cr
     \tab                                                                                        \tab (1997)\cr
-SR4 \tab \eqn{R_{700}/R_{670}}                                                                  \tab McMurtey et al. (1994)\cr
+SR4 \tab \eqn{R_{700}/R_{670}}                                                                  \tab McMurtrey et al. (1994)\cr
 SR5 \tab \eqn{R_{675}/R_{700}}                                                                  \tab Chappelle et al. (1992)\cr
 SR6 \tab \eqn{R_{750}/R_{710}}                                                                  \tab Zarco-Tejada and Miller  \cr
     \tab                                                                                        \tab (1999)\cr
@@ -220,6 +220,7 @@ Self-defined indices may be passed using the following syntax:
 \itemize{
   \item{Rxxx: }{Reflectance at wavelength 'xxx'. Note that R must be upper case.}
   \item{Dxxx: }{First derivation of reflectance values at wavelength 'xxx'. Note that D must be upper case.}
+  \item{Sxxx: }{Second derivation of reflectance values at wavelength 'xxx'. Note that S must be upper case.}
 }
 Using this syntax, complex indices can be easily defined. Note that the entire definition of the index must be passed as one character string. Consequently, the NDVI would be written as\cr
 "(R800-R680)/(R800+R680)".
@@ -262,6 +263,8 @@ vi <- vegindex(spectral_data,
                "(log(1/R1510) - log(1/R1680))/(log(1/R1510) + log(1/R1680))")
 ## D1
 vi <- vegindex(spectral_data, "D730/D706")
+## Example using second derivative spectra
+vi <- vegindex(spectral_data, "(S930-S710)/(S930+S710)")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

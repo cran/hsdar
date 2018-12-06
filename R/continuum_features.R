@@ -186,12 +186,12 @@ cut_specfeat <- function(
 setMethod("plot", signature(x = "Specfeat"), 
  function(
                           x,
-                          fnumber=1,
-                          stylebysubset=NULL,
-                          changecol=TRUE,
-                          changetype=FALSE,
-                          autolegend=TRUE,
-                          new=TRUE,
+                          fnumber = 1:n_features(x),
+                          stylebysubset = NULL,
+                          changecol = TRUE,
+                          changetype = FALSE,
+                          autolegend = TRUE,
+                          new = TRUE,
                           ...
                          )
 {
@@ -398,8 +398,8 @@ setMethod("plot", signature(x = "Specfeat"),
 
 bdri <- function(
                  x,
-                 fnumber,
-                 index="ndbi"
+                 fnumber = 1:n_features(x),
+                 index = "ndbi"
                 )
 {
   make.feature.list <- function(x,fnumber,feature)  
@@ -527,3 +527,13 @@ setMethod("as.data.frame", signature(x = "Specfeat"),
   class(x) <- "Speclib"
   return(x)
 }
+
+setMethod("n_features", signature(object = "Specfeat"), 
+          function(
+            object,
+            ...
+          )
+{
+  return(length(object@features))
+})
+ 

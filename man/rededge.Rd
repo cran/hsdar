@@ -42,6 +42,8 @@ A data frame containing parameters for each spectrum.
 Bach, H. (1995): Die Bestimmung hydrologischer und landwirtschaftlicher Oberflaechenparameter aus hyperspektralen Fernerkundungsdaten. 
 Muenchner Geographische Abhandlungen Reihe B, Band B21.
 
+
+Hamilton, R. M., Foster, R. E., Gibb, T. J., Johannsen, C. J. and Santini, J. B. (2009): Pre-visible detection of Grub Feeding in turfgrass using remote sensing. Photogrammetric Engineering & Remote Sensing, 75, 179-192.
 }
 \author{
 Hanna Meyer

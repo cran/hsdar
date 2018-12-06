@@ -109,17 +109,28 @@ setMethod("plot", signature(x = "Nri"),
     plot(x@wavelength,x@wavelength,type="n", xlab=xlab, ylab=ylab, ...)
   
   if (zlog)
-    coefficient <- log(coefficient)
+  {
+    zlog_fun <- eval(parse(text = paste("function(x) return((x-", min(coefficient, na.rm = TRUE), ")/(", max(coefficient, na.rm = TRUE), "-", min(coefficient, na.rm = TRUE), "))+1")))
+    zexp_fun <- eval(parse(text = paste("function(x) return((exp(1)^(x) - 1)*","(", max(coefficient, na.rm = TRUE), "-", min(coefficient, na.rm = TRUE), ")+", min(coefficient, na.rm = TRUE),")")))  
+
+    coefficient <- zlog_fun(coefficient)
+  }
   
   if (range[1]=="auto")
   {
     minval <- min(coefficient, na.rm = TRUE)
     maxval <- max(coefficient, na.rm = TRUE)
   } else {
-    minval <- range[1]
-    maxval <- range[2]
+    if (zlog)
+    {
+      minval <- zlog_fun(range[1])
+      maxval <- zlog_fun(range[2])
+    } else {
+      minval <- range[1]
+      maxval <- range[2]
+    }
   }
-      
+
   if (!is.null(constraint))
   {
     cons_eval <- try(eval(parse(text = constraint)), silent = TRUE)
@@ -249,8 +260,8 @@ setMethod("plot", signature(x = "Nri"),
               lty = "blank")
         }
         ycoor <- c(p[4]-0.12*(p[4]-p[3]),p[4]-0.05*(p[4]-p[3]))
-        text(xcoor[1],ycoor[1],round(if (zlog) exp(1)^minval else minval,digits))
-        text(xcoor[2],ycoor[1],round(if (zlog) exp(1)^maxval else maxval,digits))
+        text(xcoor[1],ycoor[1],round(if (zlog) zexp_fun(minval) else minval,digits))
+        text(xcoor[2],ycoor[1],round(if (zlog) zexp_fun(maxval) else maxval,digits))
       } else {
         old.par <- par(no.readonly = TRUE)
         x_leg <- c(.1,.3,0)
@@ -272,17 +283,17 @@ setMethod("plot", signature(x = "Nri"),
               lty = "blank")
         }
         xcoor <- sum(x_leg)
-        text(xcoor[1],ycoor[1],round(if (zlog) exp(1)^minval else minval,digits), pos = 4)
-        text(xcoor[1],ycoor[2],round(if (zlog) exp(1)^maxval else maxval,digits), pos = 4)
+        text(xcoor[1],ycoor[1],round(if (zlog) zexp_fun(minval) else minval,digits), pos = 4)
+        text(xcoor[1],ycoor[2],round(if (zlog) zexp_fun(maxval) else maxval,digits), pos = 4)
         
         val2 <- mean(c(maxval, minval))
         val1 <- mean(c(val2, minval))
         val3 <- mean(c(val2, maxval))
         if (zlog)
         {          
-          text(xcoor[1], ycoor[1] + (ycoor[2]-ycoor[1])/4,signif(exp(1)^(val1), digits), pos = 4)
-          text(xcoor[1], ycoor[1] + (ycoor[2]-ycoor[1])/2,signif(exp(1)^(val2), digits), pos = 4)
-          text(xcoor[1], ycoor[1] + (ycoor[2]-ycoor[1])/4*3,signif(exp(1)^(val3), digits), pos = 4)        
+          text(xcoor[1], ycoor[1] + (ycoor[2]-ycoor[1])/4,signif(zexp_fun(val1), digits), pos = 4)
+          text(xcoor[1], ycoor[1] + (ycoor[2]-ycoor[1])/2,signif(zexp_fun(val2), digits), pos = 4)
+          text(xcoor[1], ycoor[1] + (ycoor[2]-ycoor[1])/4*3,signif(zexp_fun(val3), digits), pos = 4)        
         } else {
           text(xcoor[1], ycoor[1] + (ycoor[2]-ycoor[1])/4,signif(val1, digits), pos = 4)
           text(xcoor[1], ycoor[1] + (ycoor[2]-ycoor[1])/2,signif(val2, digits), pos = 4)
@@ -314,16 +325,16 @@ setMethod("plot", signature(x = "Nri"),
             lty = "blank")
       }
       ycoor <- sum(y_leg)
-      text(xcoor[1],ycoor[1],round(if (zlog) exp(1)^minval else minval,digits), pos = 3)
-      text(xcoor[2],ycoor[1],round(if (zlog) exp(1)^maxval else maxval,digits), pos = 3)
+      text(xcoor[1],ycoor[1],round(if (zlog) zexp_fun(minval) else minval,digits), pos = 3)
+      text(xcoor[2],ycoor[1],round(if (zlog) zexp_fun(maxval) else maxval,digits), pos = 3)
       val2 <- mean(c(maxval, minval))
       val1 <- mean(c(val2, minval))
       val3 <- mean(c(val2, maxval))
       if (zlog)
       {        
-        text(xcoor[1] + (xcoor[2]-xcoor[1])/4,ycoor[1],signif(exp(1)^(val1), digits), pos = 3)
-        text(xcoor[1] + (xcoor[2]-xcoor[1])/2,ycoor[1],signif(exp(1)^(val2), digits), pos = 3)
-        text(xcoor[1] + (xcoor[2]-xcoor[1])/4*3,ycoor[1],signif(exp(1)^(val3), digits), pos = 3)        
+        text(xcoor[1] + (xcoor[2]-xcoor[1])/4,ycoor[1],signif(zexp_fun(val1), digits), pos = 3)
+        text(xcoor[1] + (xcoor[2]-xcoor[1])/2,ycoor[1],signif(zexp_fun(val2), digits), pos = 3)
+        text(xcoor[1] + (xcoor[2]-xcoor[1])/4*3,ycoor[1],signif(zexp_fun(val3), digits), pos = 3)        
       } else {
         text(xcoor[1] + (xcoor[2]-xcoor[1])/4,ycoor[1],signif(val1, digits), pos = 3)
         text(xcoor[1] + (xcoor[2]-xcoor[1])/2,ycoor[1],signif(val2, digits), pos = 3)

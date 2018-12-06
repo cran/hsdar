@@ -52,7 +52,7 @@ feature_properties <- function(x)
   {
     for (k in 1:length(x[[1]])) 
     {
-      maxval[i,k] <- max(x[[i]][[k]]$y)
+      maxval[i,k] <- max(x[[i]][[k]]$y, na.rm = TRUE)
     }
   }
   
@@ -116,7 +116,7 @@ feature_properties <- function(x)
     {
       tmp <- wl[c(which(wl == x[[i]][[k]]$x1):length(wl))]
       tmp <- tmp[1:length(x[[i]][[k]]$y)]
-      maxval <- max(x[[i]][[k]]$y)
+      maxval <- max(x[[i]][[k]]$y, na.rm = TRUE)
       tmp_1 <- 1:which(tmp == m[i, k])
       tmp_2 <- which(tmp == m[i, k]):length(tmp)
       tmp_x_1 <- tmp[tmp_1]

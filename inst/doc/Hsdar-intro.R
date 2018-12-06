@@ -2,13 +2,13 @@
 ### Encoding: UTF-8
 
 ###################################################
-### code chunk number 1: Hsdar-intro.Rnw:53-54
+### code chunk number 1: Hsdar-intro.Rnw:54-55
 ###################################################
 options(width=70)
 
 
 ###################################################
-### code chunk number 2: Hsdar-intro.Rnw:82-85
+### code chunk number 2: Hsdar-intro.Rnw:83-86
 ###################################################
 #install.packages("hsdar")
 library(hsdar)
@@ -16,67 +16,67 @@ data(spectral_data) #Load the data used in the tutorial
 
 
 ###################################################
-### code chunk number 3: Hsdar-intro.Rnw:90-91 (eval = FALSE)
+### code chunk number 3: Hsdar-intro.Rnw:91-92 (eval = FALSE)
 ###################################################
 ## help(hsdar)
 
 
 ###################################################
-### code chunk number 4: Hsdar-intro.Rnw:104-105
+### code chunk number 4: Hsdar-intro.Rnw:105-106
 ###################################################
 spectral_data #See how Speclibs are printed
 
 
 ###################################################
-### code chunk number 5: Hsdar-intro.Rnw:112-113 (eval = FALSE)
+### code chunk number 5: Hsdar-intro.Rnw:113-114 (eval = FALSE)
 ###################################################
 ## str(spectral_data)
 
 
 ###################################################
-### code chunk number 6: Hsdar-intro.Rnw:116-117
+### code chunk number 6: Hsdar-intro.Rnw:117-118
 ###################################################
 str(spectral_data)
 
 
 ###################################################
-### code chunk number 7: Hsdar-intro.Rnw:135-136
+### code chunk number 7: Hsdar-intro.Rnw:136-137
 ###################################################
 spectra <- spectra(spectral_data)
 
 
 ###################################################
-### code chunk number 8: Hsdar-intro.Rnw:142-143
+### code chunk number 8: Hsdar-intro.Rnw:143-144
 ###################################################
 str(spectra)
 
 
 ###################################################
-### code chunk number 9: Hsdar-intro.Rnw:149-150
+### code chunk number 9: Hsdar-intro.Rnw:150-151
 ###################################################
 wavelength <- wavelength(spectral_data)
 
 
 ###################################################
-### code chunk number 10: Hsdar-intro.Rnw:155-156
+### code chunk number 10: Hsdar-intro.Rnw:156-157
 ###################################################
 newSpeclib <- speclib(spectra, wavelength)
 
 
 ###################################################
-### code chunk number 11: Hsdar-intro.Rnw:161-162 (eval = FALSE)
+### code chunk number 11: Hsdar-intro.Rnw:162-163 (eval = FALSE)
 ###################################################
 ## str(newSpeclib)
 
 
 ###################################################
-### code chunk number 12: Hsdar-intro.Rnw:165-166
+### code chunk number 12: Hsdar-intro.Rnw:166-167
 ###################################################
 str(newSpeclib)
 
 
 ###################################################
-### code chunk number 13: Hsdar-intro.Rnw:172-175
+### code chunk number 13: Hsdar-intro.Rnw:173-176
 ###################################################
 ids <- idSpeclib(spectral_data) #extract ID from "spectral_data"
 idSpeclib(newSpeclib) <- as.character(ids) #...and assign them to the 
@@ -84,32 +84,32 @@ idSpeclib(newSpeclib) <- as.character(ids) #...and assign them to the
 
 
 ###################################################
-### code chunk number 14: Hsdar-intro.Rnw:181-183
+### code chunk number 14: Hsdar-intro.Rnw:182-184
 ###################################################
 SI <- SI(spectral_data) 
 head(SI)
 
 
 ###################################################
-### code chunk number 15: Hsdar-intro.Rnw:188-189
+### code chunk number 15: Hsdar-intro.Rnw:189-190
 ###################################################
 SI(newSpeclib) <- SI
 
 
 ###################################################
-### code chunk number 16: Hsdar-intro.Rnw:194-195 (eval = FALSE)
+### code chunk number 16: Hsdar-intro.Rnw:195-196 (eval = FALSE)
 ###################################################
 ## str(newSpeclib)
 
 
 ###################################################
-### code chunk number 17: Hsdar-intro.Rnw:198-199
+### code chunk number 17: Hsdar-intro.Rnw:199-200
 ###################################################
 str(newSpeclib)
 
 
 ###################################################
-### code chunk number 18: Hsdar-intro.Rnw:216-236
+### code chunk number 18: Hsdar-intro.Rnw:217-237
 ###################################################
 ## Create raster file using PROSAIL
 ## Run PROSAIL
@@ -134,7 +134,7 @@ writeGDAL(x, fname = "example_in.tif", drivername = "GTiff")
 
 
 ###################################################
-### code chunk number 19: Hsdar-intro.Rnw:241-245
+### code chunk number 19: Hsdar-intro.Rnw:242-246
 ###################################################
 infile <- "example_in.tif"
 wavelength <- wavelength(spectra)
@@ -143,7 +143,7 @@ tr <- blockSize(ra)
 
 
 ###################################################
-### code chunk number 20: Hsdar-intro.Rnw:250-261
+### code chunk number 20: Hsdar-intro.Rnw:251-262
 ###################################################
 outfile <- "example_result.tif" 
 n_veg <- as.numeric(length(vegindex()))
@@ -159,7 +159,7 @@ res <- writeStop(res)
 
 
 ###################################################
-### code chunk number 21: Hsdar-intro.Rnw:271-275
+### code chunk number 21: Hsdar-intro.Rnw:272-276
 ###################################################
 LAI <- SI(spectra)$LAI
 SI_file <- "example_SI.tif" 
@@ -168,7 +168,7 @@ SI_raster <- writeRaster(SI_raster, SI_file)
 
 
 ###################################################
-### code chunk number 22: Hsdar-intro.Rnw:280-294
+### code chunk number 22: Hsdar-intro.Rnw:281-295
 ###################################################
 outfile <- "example_result_ndvi.tif" 
 SI(ra) <- raster(SI_file)
@@ -187,13 +187,13 @@ res <- writeStop(res)
 
 
 ###################################################
-### code chunk number 23: Hsdar-intro.Rnw:300-301
+### code chunk number 23: Hsdar-intro.Rnw:301-302
 ###################################################
 plot(raster("example_result_ndvi.tif"))
 
 
 ###################################################
-### code chunk number 24: Hsdar-intro.Rnw:356-361 (eval = FALSE)
+### code chunk number 24: Hsdar-intro.Rnw:357-362 (eval = FALSE)
 ###################################################
 ## par(mfrow = c(2,2))
 ## plot(spectral_data, main = "Default Plot")
@@ -203,7 +203,7 @@ plot(raster("example_result_ndvi.tif"))
 
 
 ###################################################
-### code chunk number 25: Hsdar-intro.Rnw:364-369
+### code chunk number 25: Hsdar-intro.Rnw:365-370
 ###################################################
 par(mfrow = c(2,2), mar = c(4,4,3,0.1), cex = 0.75)
 plot(spectral_data, main = "Default Plot", ylim = c(0, 70))
@@ -213,7 +213,7 @@ plot(spectral_data, FUN = "mean", main = "Mean spectrum", ylim = c(0, 70))
 
 
 ###################################################
-### code chunk number 26: Hsdar-intro.Rnw:378-381 (eval = FALSE)
+### code chunk number 26: Hsdar-intro.Rnw:379-382 (eval = FALSE)
 ###################################################
 ## plot(spectral_data, FUN = 1, col = "red") 
 ## plot(spectral_data, FUN = 2, col = "blue", new = FALSE)
@@ -221,7 +221,7 @@ plot(spectral_data, FUN = "mean", main = "Mean spectrum", ylim = c(0, 70))
 
 
 ###################################################
-### code chunk number 27: Hsdar-intro.Rnw:384-388
+### code chunk number 27: Hsdar-intro.Rnw:385-389
 ###################################################
 par(mar = c(4,4,0.1,0.1), cex = 0.75)
 plot(spectral_data, FUN = 1, col = "red") 
@@ -230,7 +230,7 @@ plot(spectral_data, FUN = 3, col = "orange", new = FALSE)
 
 
 ###################################################
-### code chunk number 28: Hsdar-intro.Rnw:413-424
+### code chunk number 28: Hsdar-intro.Rnw:414-425
 ###################################################
 ## Simulate first spectrum with lower chlorophyll content
 spectrum1 <- PROSPECT(N = 1.3, Cab = 30, Car = 10, Cbrown = 0, 
@@ -246,7 +246,7 @@ plot(spectrum2, col = "darkgreen", new = FALSE)
 
 
 ###################################################
-### code chunk number 29: Hsdar-intro.Rnw:427-431
+### code chunk number 29: Hsdar-intro.Rnw:428-432
 ###################################################
 par(mar = c(4,4,0.1,0.1), cex = 0.75)
 plot(spectrum1, col = "darkorange4", ylim = c(0,0.5), 
@@ -255,7 +255,7 @@ plot(spectrum2, col = "darkgreen", new = FALSE)
 
 
 ###################################################
-### code chunk number 30: Hsdar-intro.Rnw:438-449
+### code chunk number 30: Hsdar-intro.Rnw:439-450
 ###################################################
 ## Defining parameter
 parameter <- data.frame(tts = seq(15, 85, 0.5))
@@ -271,7 +271,7 @@ summary(SI(spectra))
 
 
 ###################################################
-### code chunk number 31: Hsdar-intro.Rnw:454-462
+### code chunk number 31: Hsdar-intro.Rnw:455-463
 ###################################################
 colours <- colorRamp(c("darkorange4", "yellow"))
 plot(spectra[1,], ylim = c(0, 0.3),
@@ -284,7 +284,7 @@ for (i in 2:nspectra(spectra))
 
 
 ###################################################
-### code chunk number 32: Hsdar-intro.Rnw:465-474
+### code chunk number 32: Hsdar-intro.Rnw:466-475
 ###################################################
 par(mar = c(4,4,0.1,0.1), cex = 0.75)
 colours <- colorRamp(c("darkorange4", "yellow"))
@@ -298,7 +298,7 @@ for (i in 2:nspectra(spectra))
 
 
 ###################################################
-### code chunk number 33: Hsdar-intro.Rnw:480-514
+### code chunk number 33: Hsdar-intro.Rnw:481-515
 ###################################################
 ## Defining parameter
 parameter <- data.frame(LAI = rep.int(c(1,2,3),5),
@@ -337,7 +337,7 @@ legend("topright",
 
 
 ###################################################
-### code chunk number 34: Hsdar-intro.Rnw:517-529
+### code chunk number 34: Hsdar-intro.Rnw:518-530
 ###################################################
 par(mar = c(4,4,0.1,0.1), cex = 0.75)
 plot(spectra[1,], ylim = c(0, 0.5),
@@ -354,7 +354,7 @@ legend("topright",
 
 
 ###################################################
-### code chunk number 35: Hsdar-intro.Rnw:541-552
+### code chunk number 35: Hsdar-intro.Rnw:542-553
 ###################################################
 ## Return names of SI data
 names(SI(spectral_data))
@@ -370,7 +370,7 @@ plot(sp_summer, FUN = "mean", col = "darkred", new = FALSE)
 
 
 ###################################################
-### code chunk number 36: Hsdar-intro.Rnw:555-558
+### code chunk number 36: Hsdar-intro.Rnw:556-559
 ###################################################
 par(mar = c(4,4,0.1,0.1), cex = 0.75)
 plot(sp_spring, FUN = "mean", col = "darkgreen", ylim = c(0,70))
@@ -378,7 +378,7 @@ plot(sp_summer, FUN = "mean", col = "darkred", new = FALSE)
 
 
 ###################################################
-### code chunk number 37: Hsdar-intro.Rnw:570-578
+### code chunk number 37: Hsdar-intro.Rnw:571-579
 ###################################################
 spectral_data_masked <- spectral_data
 mask(spectral_data_masked) <- c(1040,1060,1300,1450)
@@ -391,7 +391,7 @@ plot(spectral_data_masked, FUN = 1)
 
 
 ###################################################
-### code chunk number 38: Hsdar-intro.Rnw:581-584
+### code chunk number 38: Hsdar-intro.Rnw:582-585
 ###################################################
 par(mfrow=c(1,2), mar = c(4,4,0.1,0.1), cex = 0.75)
 plot(spectral_data, FUN = 1)
@@ -399,40 +399,40 @@ plot(spectral_data_masked, FUN = 1)
 
 
 ###################################################
-### code chunk number 39: Hsdar-intro.Rnw:591-593
+### code chunk number 39: Hsdar-intro.Rnw:592-594
 ###################################################
 spectral_data_interpolated <- interpolate.mask(spectral_data_masked)
 plot(spectral_data_interpolated, FUN = 1)
 
 
 ###################################################
-### code chunk number 40: Hsdar-intro.Rnw:596-598
+### code chunk number 40: Hsdar-intro.Rnw:597-599
 ###################################################
 par(mar = c(4,4,0,0.1), cex = 0.75)
 plot(spectral_data_interpolated, FUN = 1)
 
 
 ###################################################
-### code chunk number 41: Hsdar-intro.Rnw:602-603
+### code chunk number 41: Hsdar-intro.Rnw:603-604
 ###################################################
 spectral_data <- spectral_data_masked
 
 
 ###################################################
-### code chunk number 42: Hsdar-intro.Rnw:611-612 (eval = FALSE)
+### code chunk number 42: Hsdar-intro.Rnw:612-613 (eval = FALSE)
 ###################################################
 ## plot(spectral_data, FUN = 1, subset = c(1200,1300)) #raw spectrum
 
 
 ###################################################
-### code chunk number 43: Hsdar-intro.Rnw:615-617
+### code chunk number 43: Hsdar-intro.Rnw:616-618
 ###################################################
 par(mar = c(4,4,0.1,0.1), cex = 0.75)
 plot(spectral_data, FUN = 1, subset = c(1200,1300)) #raw spectrum
 
 
 ###################################################
-### code chunk number 44: Hsdar-intro.Rnw:625-633
+### code chunk number 44: Hsdar-intro.Rnw:626-634
 ###################################################
 #
 #Filter Speclib:
@@ -445,7 +445,7 @@ spline <- noiseFiltering(spectral_data, method = "spline",
 
 
 ###################################################
-### code chunk number 45: Hsdar-intro.Rnw:638-654 (eval = FALSE)
+### code chunk number 45: Hsdar-intro.Rnw:639-655 (eval = FALSE)
 ###################################################
 ## par(mfrow = c(2,2))
 ## plot(sgolay, FUN = 1, subset = c(1200,1300), col = "red",
@@ -466,7 +466,7 @@ spline <- noiseFiltering(spectral_data, method = "spline",
 
 
 ###################################################
-### code chunk number 46: Hsdar-intro.Rnw:657-673
+### code chunk number 46: Hsdar-intro.Rnw:658-674
 ###################################################
 par(mfrow=c(2,2), mar = c(4,4,3,0.1), cex = 0.75)
 plot(sgolay, FUN = 1, subset = c(1200,1300), col = "red",
@@ -487,7 +487,7 @@ plot(spectral_data, FUN = 1, new = FALSE) #raw spectrum
 
 
 ###################################################
-### code chunk number 47: Hsdar-intro.Rnw:684-703
+### code chunk number 47: Hsdar-intro.Rnw:685-704
 ###################################################
 spectral_data_1deriv <- derivative.speclib(spectral_data, m = 1)
 spectral_data_2deriv <- derivative.speclib(spectral_data, m = 2)
@@ -511,7 +511,7 @@ plot(spectral_data_2deriv, FUN = 1, xlim = c(600,800),
 
 
 ###################################################
-### code chunk number 48: Hsdar-intro.Rnw:706-711
+### code chunk number 48: Hsdar-intro.Rnw:707-712
 ###################################################
 par(mfrow = c(1,2), mar = c(4,4,3,0.1), cex = 0.75)
 plot(spectral_data_1deriv, FUN = 1, xlim = c(600,800),
@@ -521,7 +521,7 @@ plot(spectral_data_2deriv, FUN = 1, xlim = c(600,800),
 
 
 ###################################################
-### code chunk number 49: Hsdar-intro.Rnw:717-729
+### code chunk number 49: Hsdar-intro.Rnw:718-730
 ###################################################
 spectral_data_1deriv <- derivative.speclib(noiseFiltering(
   spectral_data, method = "sgolay", n = 35), m = 1)
@@ -538,7 +538,7 @@ plot(spectral_data_2deriv, FUN = 1, xlim = c(600,800),
 
 
 ###################################################
-### code chunk number 50: Hsdar-intro.Rnw:732-740
+### code chunk number 50: Hsdar-intro.Rnw:733-741
 ###################################################
 ## Cut spectra to red edge
 spectral_data_1deriv <- spectral_data_1deriv[,redEdgePart]
@@ -551,13 +551,13 @@ plot(spectral_data_2deriv, FUN = 1, xlim = c(600,800),
 
 
 ###################################################
-### code chunk number 51: Hsdar-intro.Rnw:749-750
+### code chunk number 51: Hsdar-intro.Rnw:750-751
 ###################################################
 get.sensor.characteristics(0)
 
 
 ###################################################
-### code chunk number 52: Hsdar-intro.Rnw:756-759
+### code chunk number 52: Hsdar-intro.Rnw:757-760
 ###################################################
 ## use spectral response function
 spectral_data_resampled <- spectralResampling(spectral_data, 
@@ -565,7 +565,7 @@ spectral_data_resampled <- spectralResampling(spectral_data,
 
 
 ###################################################
-### code chunk number 53: Hsdar-intro.Rnw:764-769
+### code chunk number 53: Hsdar-intro.Rnw:765-770
 ###################################################
 spectral_data_resampled
 wavelength(spectral_data_resampled)
@@ -575,27 +575,27 @@ plot(spectral_data_resampled)
 
 
 ###################################################
-### code chunk number 54: Hsdar-intro.Rnw:772-774
+### code chunk number 54: Hsdar-intro.Rnw:773-775
 ###################################################
 par(mar = c(4,4,0.1,0.1), cex = 0.75)
 plot(spectral_data_resampled)
 
 
 ###################################################
-### code chunk number 55: Hsdar-intro.Rnw:790-792
+### code chunk number 55: Hsdar-intro.Rnw:791-793
 ###################################################
 parameter <- data.frame(N = c(0.5,1),LAI = 0.5,Car=3)
 spectra <- PROSAIL(parameterList = parameter)
 
 
 ###################################################
-### code chunk number 56: Hsdar-intro.Rnw:797-798
+### code chunk number 56: Hsdar-intro.Rnw:798-799
 ###################################################
 str(transformSpeclib)
 
 
 ###################################################
-### code chunk number 57: Hsdar-intro.Rnw:806-818
+### code chunk number 57: Hsdar-intro.Rnw:807-819
 ###################################################
 #convex hull:
 ch_cline <- transformSpeclib(spectra,
@@ -612,7 +612,7 @@ sh_bd <- transformSpeclib(spectra,
 
 
 ###################################################
-### code chunk number 58: Hsdar-intro.Rnw:823-832 (eval = FALSE)
+### code chunk number 58: Hsdar-intro.Rnw:824-833 (eval = FALSE)
 ###################################################
 ## #plot results for the first spectrum:
 ## #
@@ -626,7 +626,7 @@ sh_bd <- transformSpeclib(spectra,
 
 
 ###################################################
-### code chunk number 59: Hsdar-intro.Rnw:835-842
+### code chunk number 59: Hsdar-intro.Rnw:836-843
 ###################################################
 par(mfrow=c(2,2), mar = c(4,4,3,0.1), cex = 0.75)
 plot(ch_cline, ispec = 1, numeratepoints = FALSE,
@@ -638,7 +638,7 @@ plot(sh_bd, ispec = 1, main = "Segmented hull - Band depth")
 
 
 ###################################################
-### code chunk number 60: Hsdar-intro.Rnw:851-856 (eval = FALSE)
+### code chunk number 60: Hsdar-intro.Rnw:852-857 (eval = FALSE)
 ###################################################
 ## par(mfrow = c(1,2))
 ## plot(sh_cline, ispec = 1, main = "Continuum line, Spectrum 1",
@@ -648,7 +648,7 @@ plot(sh_bd, ispec = 1, main = "Segmented hull - Band depth")
 
 
 ###################################################
-### code chunk number 61: Hsdar-intro.Rnw:859-864
+### code chunk number 61: Hsdar-intro.Rnw:860-865
 ###################################################
 par(mfrow=c(1,2), mar = c(4,4,3,0.1), cex = 0.75)
 plot(sh_cline, ispec = 1, main = "Continuum line, Spectrum 1",
@@ -658,13 +658,13 @@ plot(sh_cline, ispec = 2, main = "Continuum line, Spectrum 2",
 
 
 ###################################################
-### code chunk number 62: Hsdar-intro.Rnw:880-881
+### code chunk number 62: Hsdar-intro.Rnw:881-882
 ###################################################
 str(deletecp)
 
 
 ###################################################
-### code chunk number 63: Hsdar-intro.Rnw:886-890
+### code chunk number 63: Hsdar-intro.Rnw:887-891
 ###################################################
 getcp(sh_cline, 1, subset = c(500, 600)) #see all points
 sh_cline <- deletecp(sh_cline, 1, 
@@ -673,43 +673,43 @@ getcp(sh_cline, 1, subset = c(500, 600)) #see what happened
 
 
 ###################################################
-### code chunk number 64: Hsdar-intro.Rnw:895-896
+### code chunk number 64: Hsdar-intro.Rnw:896-897
 ###################################################
 #sh_cline <- addcp(sh_cline, 1, 460)
 
 
 ###################################################
-### code chunk number 65: Hsdar-intro.Rnw:902-903
+### code chunk number 65: Hsdar-intro.Rnw:903-904
 ###################################################
 checkhull(sh_cline, 1)$error
 
 
 ###################################################
-### code chunk number 66: Hsdar-intro.Rnw:908-909
+### code chunk number 66: Hsdar-intro.Rnw:909-910
 ###################################################
 sh_cline <- addcp(sh_cline, 1, c(2487:2498))
 
 
 ###################################################
-### code chunk number 67: Hsdar-intro.Rnw:914-915
+### code chunk number 67: Hsdar-intro.Rnw:915-916
 ###################################################
 checkhull(sh_cline, 1)$error
 
 
 ###################################################
-### code chunk number 68: Hsdar-intro.Rnw:920-921
+### code chunk number 68: Hsdar-intro.Rnw:921-922
 ###################################################
 sh_clineUpdate <- makehull(sh_cline, 1) #update the hull of spectrum 1
 
 
 ###################################################
-### code chunk number 69: Hsdar-intro.Rnw:926-927
+### code chunk number 69: Hsdar-intro.Rnw:927-928
 ###################################################
 sh_bd <- updatecl(sh_bd, sh_clineUpdate) #update the band depth
 
 
 ###################################################
-### code chunk number 70: Hsdar-intro.Rnw:932-939 (eval = FALSE)
+### code chunk number 70: Hsdar-intro.Rnw:933-940 (eval = FALSE)
 ###################################################
 ## #plot new line:
 ## par (mfrow = c(1,2))
@@ -721,7 +721,7 @@ sh_bd <- updatecl(sh_bd, sh_clineUpdate) #update the band depth
 
 
 ###################################################
-### code chunk number 71: Hsdar-intro.Rnw:942-948
+### code chunk number 71: Hsdar-intro.Rnw:943-949
 ###################################################
 par(mfrow=c(1,2), mar = c(4,4,3,0.1), cex = 0.75)
 plot(sh_cline, ispec = 1, main = "Updated Segmented hull", 
@@ -732,7 +732,7 @@ plot(sh_bd[1,], main="Updated hull - Band depth",
 
 
 ###################################################
-### code chunk number 72: Hsdar-intro.Rnw:999-1004
+### code chunk number 72: Hsdar-intro.Rnw:1000-1005
 ###################################################
 ##Example to isolate the features around 450, 600, 1500 and 2000 nm.
 featureSelection <- specfeat(sh_bd, c(450,600, 1500, 2000))
@@ -742,14 +742,14 @@ plot(featureSelection, fnumber= 1:4)
 
 
 ###################################################
-### code chunk number 73: Hsdar-intro.Rnw:1007-1009
+### code chunk number 73: Hsdar-intro.Rnw:1008-1010
 ###################################################
 par(mar = c(4,4,0.1,0.1), cex = 0.75)
 plot(featureSelection, fnumber=1:4)
 
 
 ###################################################
-### code chunk number 74: Hsdar-intro.Rnw:1016-1021
+### code chunk number 74: Hsdar-intro.Rnw:1017-1022
 ###################################################
 featuresCut <- cut_specfeat(featureSelection, fnumber = c(1,2), 
                             limits = c(c(310, 525), c(530, 800)))
@@ -759,14 +759,14 @@ plot(featuresCut, 1:2)
 
 
 ###################################################
-### code chunk number 75: Hsdar-intro.Rnw:1024-1026
+### code chunk number 75: Hsdar-intro.Rnw:1025-1027
 ###################################################
 par(mar = c(4,4,0.1,0.1), cex = 0.75)
 plot(featuresCut, fnumber= 1:2)
 
 
 ###################################################
-### code chunk number 76: Hsdar-intro.Rnw:1035-1040
+### code chunk number 76: Hsdar-intro.Rnw:1036-1041
 ###################################################
 ## Calculate properties of features
 featureProp <- feature_properties(featureSelection)
@@ -776,7 +776,7 @@ head(SI(featureProp))
 
 
 ###################################################
-### code chunk number 77: Hsdar-intro.Rnw:1138-1141
+### code chunk number 77: Hsdar-intro.Rnw:1139-1142
 ###################################################
 data(spectral_data)
 ndvi <- vegindex(spectral_data, "NDVI")
@@ -784,14 +784,14 @@ ndvi #see ndvi
 
 
 ###################################################
-### code chunk number 78: Hsdar-intro.Rnw:1147-1149
+### code chunk number 78: Hsdar-intro.Rnw:1148-1150
 ###################################################
 avl <- vegindex()
 vi <- vegindex(spectral_data, index = avl)
 
 
 ###################################################
-### code chunk number 79: Hsdar-intro.Rnw:1167-1181
+### code chunk number 79: Hsdar-intro.Rnw:1168-1182
 ###################################################
 data(spectral_data)
 rd <- rededge(spectral_data)
@@ -810,65 +810,65 @@ text(c(rd$l0[1],rd$lp[1],rd$ls[1]),c(rd$R0[1],rd$Rp[1],rd$Rs[1]),
 
 
 ###################################################
-### code chunk number 80: Hsdar-intro.Rnw:1191-1193
+### code chunk number 80: Hsdar-intro.Rnw:1192-1194
 ###################################################
 data(spectral_data)
 rd <- rededge(spectral_data)
 
 
 ###################################################
-### code chunk number 81: Hsdar-intro.Rnw:1198-1199 (eval = FALSE)
+### code chunk number 81: Hsdar-intro.Rnw:1199-1200 (eval = FALSE)
 ###################################################
 ## boxplot(rd$R0 ~ SI(spectral_data)$season, ylab = "R0")
 
 
 ###################################################
-### code chunk number 82: Hsdar-intro.Rnw:1202-1204
+### code chunk number 82: Hsdar-intro.Rnw:1203-1205
 ###################################################
 par(mar = c(4,4,0.1,0.1), cex = 0.75)
 boxplot(rd$R0 ~ SI(spectral_data)$season, ylab = "R0")
 
 
 ###################################################
-### code chunk number 83: Hsdar-intro.Rnw:1220-1222
+### code chunk number 83: Hsdar-intro.Rnw:1221-1223
 ###################################################
 spec_WV <- spectralResampling(spectral_data, "WorldView2-8",
                               response_function = FALSE)
 
 
 ###################################################
-### code chunk number 84: Hsdar-intro.Rnw:1227-1228
+### code chunk number 84: Hsdar-intro.Rnw:1228-1229
 ###################################################
 str(nri)
 
 
 ###################################################
-### code chunk number 85: Hsdar-intro.Rnw:1230-1231 (eval = FALSE)
+### code chunk number 85: Hsdar-intro.Rnw:1231-1232 (eval = FALSE)
 ###################################################
 ## help(nri)
 
 
 ###################################################
-### code chunk number 86: Hsdar-intro.Rnw:1236-1238
+### code chunk number 86: Hsdar-intro.Rnw:1237-1239
 ###################################################
 nri_WV <- nri(spec_WV, recursive = TRUE)
 nri_WV
 
 
 ###################################################
-### code chunk number 87: Hsdar-intro.Rnw:1243-1244 (eval = FALSE)
+### code chunk number 87: Hsdar-intro.Rnw:1244-1245 (eval = FALSE)
 ###################################################
 ## str(nri_WV)
 
 
 ###################################################
-### code chunk number 88: Hsdar-intro.Rnw:1249-1250
+### code chunk number 88: Hsdar-intro.Rnw:1250-1251
 ###################################################
 nri_WV$nri[,,1] 
 
 
 ###################################################
-### code chunk number 89: Hsdar-intro.Rnw:1266-1269
+### code chunk number 89: Hsdar-intro.Rnw:1267-1270
 ###################################################
 spec_WV <- spectralResampling(spectral_data, "WorldView2-8",
                               response_function = FALSE)
@@ -876,108 +876,108 @@ nri_WV <- nri(spec_WV, recursive = TRUE)
 
 
 ###################################################
-### code chunk number 90: Hsdar-intro.Rnw:1277-1278
+### code chunk number 90: Hsdar-intro.Rnw:1278-1279
 ###################################################
 chlorophyll <- SI(spec_WV)$chlorophyll
 
 
 ###################################################
-### code chunk number 91: Hsdar-intro.Rnw:1283-1284
+### code chunk number 91: Hsdar-intro.Rnw:1284-1285
 ###################################################
 cortestnri <- cor.test(nri_WV, chlorophyll)
 
 
 ###################################################
-### code chunk number 92: Hsdar-intro.Rnw:1289-1290
+### code chunk number 92: Hsdar-intro.Rnw:1290-1291
 ###################################################
 cortestnri
 
 
 ###################################################
-### code chunk number 93: Hsdar-intro.Rnw:1296-1297 (eval = FALSE)
+### code chunk number 93: Hsdar-intro.Rnw:1297-1298 (eval = FALSE)
 ###################################################
 ## plot(cortestnri, coefficient = "p.value")
 
 
 ###################################################
-### code chunk number 94: Hsdar-intro.Rnw:1300-1302
+### code chunk number 94: Hsdar-intro.Rnw:1301-1303
 ###################################################
 par(mar = c(4,4,0.1,0.1), cex = 0.75)
 plot(cortestnri, coefficient = "p.value")
 
 
 ###################################################
-### code chunk number 95: Hsdar-intro.Rnw:1309-1310 (eval = FALSE)
+### code chunk number 95: Hsdar-intro.Rnw:1310-1311 (eval = FALSE)
 ###################################################
 ## plot(cortestnri, coefficient = "p.value", range = c(0,0.01))
 
 
 ###################################################
-### code chunk number 96: Hsdar-intro.Rnw:1313-1315
+### code chunk number 96: Hsdar-intro.Rnw:1314-1316
 ###################################################
 par(mar = c(4,4,0.1,0.1), cex = 0.75)
 plot(cortestnri, coefficient = "p.value", range = c(0,0.01))
 
 
 ###################################################
-### code chunk number 97: Hsdar-intro.Rnw:1327-1328
+### code chunk number 97: Hsdar-intro.Rnw:1328-1329
 ###################################################
 str(lm.nri)
 
 
 ###################################################
-### code chunk number 98: Hsdar-intro.Rnw:1334-1335
+### code chunk number 98: Hsdar-intro.Rnw:1335-1336
 ###################################################
 lmnri <- lm.nri(nri_WV ~ chlorophyll, preddata = spec_WV)
 
 
 ###################################################
-### code chunk number 99: Hsdar-intro.Rnw:1340-1341
+### code chunk number 99: Hsdar-intro.Rnw:1341-1342
 ###################################################
 lmnri
 
 
 ###################################################
-### code chunk number 100: Hsdar-intro.Rnw:1347-1348
+### code chunk number 100: Hsdar-intro.Rnw:1348-1349
 ###################################################
 str(nri_best_performance)
 
 
 ###################################################
-### code chunk number 101: Hsdar-intro.Rnw:1355-1357
+### code chunk number 101: Hsdar-intro.Rnw:1356-1358
 ###################################################
 nribest <- nri_best_performance(lmnri, n = 1)
 nribest
 
 
 ###################################################
-### code chunk number 102: Hsdar-intro.Rnw:1363-1364
+### code chunk number 102: Hsdar-intro.Rnw:1364-1365
 ###################################################
 getNRI(nri_WV, nribest)
 
 
 ###################################################
-### code chunk number 103: Hsdar-intro.Rnw:1378-1379 (eval = FALSE)
+### code chunk number 103: Hsdar-intro.Rnw:1379-1380 (eval = FALSE)
 ###################################################
 ## plot(lmnri, coefficient = "r.squared", main = "R squared")
 
 
 ###################################################
-### code chunk number 104: Hsdar-intro.Rnw:1382-1384
+### code chunk number 104: Hsdar-intro.Rnw:1383-1385
 ###################################################
 par(mar = c(4,4,3,0.1), cex = 0.75)
 plot(lmnri, coefficient = "r.squared", main = "R squared")
 
 
 ###################################################
-### code chunk number 105: Hsdar-intro.Rnw:1390-1392 (eval = FALSE)
+### code chunk number 105: Hsdar-intro.Rnw:1391-1393 (eval = FALSE)
 ###################################################
 ## plot(lmnri, coefficient = "r.squared", main = "R squared",
 ##      constraint = "p.value<0.01")
 
 
 ###################################################
-### code chunk number 106: Hsdar-intro.Rnw:1395-1398
+### code chunk number 106: Hsdar-intro.Rnw:1396-1399
 ###################################################
 par(mar = c(4,4,3,0.1), cex = 0.75)
 plot(lmnri, coefficient = "r.squared", main = "R squared",
@@ -985,7 +985,7 @@ plot(lmnri, coefficient = "r.squared", main = "R squared",
 
 
 ###################################################
-### code chunk number 107: Hsdar-intro.Rnw:1410-1417
+### code chunk number 107: Hsdar-intro.Rnw:1411-1418
 ###################################################
 ## Use PROSAIL to generate some vegetation spectra with different LAI
 parameter <- data.frame(LAI = seq(0, 1, 0.01))
@@ -997,7 +997,7 @@ spectral_data_qb <- spectralResampling(spectral_data, "Quickbird")
 
 
 ###################################################
-### code chunk number 108: Hsdar-intro.Rnw:1422-1436 (eval = FALSE)
+### code chunk number 108: Hsdar-intro.Rnw:1423-1437 (eval = FALSE)
 ###################################################
 ## ## Get endmember spectra
 ## ## Retrieve all available spectra
@@ -1016,14 +1016,14 @@ spectral_data_qb <- spectralResampling(spectral_data, "Quickbird")
 
 
 ###################################################
-### code chunk number 109: Hsdar-intro.Rnw:1438-1440
+### code chunk number 109: Hsdar-intro.Rnw:1439-1441
 ###################################################
 grass_spectra_qb <- speclib(spectra = matrix(c(3.190627, 5.137504, 5.797486, 29.68515), nrow = 1), wavelength = c(485, 560, 660, 830))
 limestone_qb <- speclib(spectra = matrix(c(16.93489, 18.97302, 21.407, 23.98981), nrow = 1), wavelength = c(485, 560, 660, 830))
 
 
 ###################################################
-### code chunk number 110: Hsdar-intro.Rnw:1445-1452
+### code chunk number 110: Hsdar-intro.Rnw:1446-1453
 ###################################################
 em <- speclib(spectra = rbind(spectra(grass_spectra_qb),
                               spectra(limestone_qb))/100,
@@ -1035,7 +1035,7 @@ str(unmix_res)
 
 
 ###################################################
-### code chunk number 111: Hsdar-intro.Rnw:1464-1467
+### code chunk number 111: Hsdar-intro.Rnw:1465-1468
 ###################################################
 plot(unmix_res$fractions[1,] ~ SI(spectral_data_qb)$LAI,
      type = "l", xlab = "LAI", 
@@ -1043,7 +1043,7 @@ plot(unmix_res$fractions[1,] ~ SI(spectral_data_qb)$LAI,
 
 
 ###################################################
-### code chunk number 112: Hsdar-intro.Rnw:1470-1473
+### code chunk number 112: Hsdar-intro.Rnw:1471-1474
 ###################################################
 par(mar = c(4,4,0,0.1), cex = 0.75)
 plot(unmix_res$fractions[1,] ~ SI(spectral_data_qb)$LAI, type = "l",

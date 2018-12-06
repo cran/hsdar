@@ -1,6 +1,16 @@
 ------------------------------------------------------------------------------------------
---- 12-March-2018, version 0.7.1 (under development)
+--- 21-November-2018, version 0.7.2 (under development)
+- Bug fixes:
+   - Indexing and IDs are working
+   - Bug using zlib = TRUE together with range or constraint in plot.NRI fixed
+   - Feature properties runs if spectra are masked within features
+- Other changes:
+   - plot method for class Specfeat plots all features by default
+
+------------------------------------------------------------------------------------------
+--- 20-June-2018, version 0.7.1
 - New functionalities:
+   - Recursive simple ratio index method added
    - Logarithmic scale of color in nri-plots
    - dim-Method for class Nri added
    - Function nspectra accepts object of class Nri

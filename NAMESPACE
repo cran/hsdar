@@ -34,6 +34,7 @@ exportMethods(
     "mask<-",
     "merge",
     "ncol",
+    "n_features",
     "nrow",
     "plot",
     "print",

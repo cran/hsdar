@@ -281,6 +281,11 @@ if (!isGeneric("names")) {
   setGeneric("names", function(object, ...)
   standardGeneric("names"))
 }
+
+if (!isGeneric("n_features")) {
+  setGeneric("n_features", function(object, ...)
+  standardGeneric("n_features"))
+}
 # 
 # if (!isGeneric("get_reflectance")) {
 #   setGeneric("get_reflectance", function(spectra, ...)

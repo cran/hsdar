@@ -9,8 +9,9 @@ Plot Specfeat
 Plot spectra in  objects of class \code{\linkS4class{Specfeat}}. Specfeats contain spectral data after applying a transformation such as continuum removal (see function \code{\link{transformSpeclib}}.
 }
 \usage{
-\S4method{plot}{Specfeat}(x, fnumber = 1, stylebysubset = NULL, changecol = TRUE,
-        changetype = FALSE, autolegend = TRUE, new = TRUE, ...)
+\S4method{plot}{Specfeat}(x, fnumber = 1:n_features(x), stylebysubset = NULL,
+        changecol = TRUE, changetype = FALSE, autolegend = TRUE, new = TRUE,
+        ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -61,12 +62,12 @@ bd <- transformSpeclib(spectral_data, method = "sh", out = "bd")
 featureSelection <- specfeat(bd, c(450,700,1200,1500))
 
 ## Plot features
-plot(featureSelection, 1:4)
+plot(featureSelection)
 
 ## Advanced plotting example
-plot(featureSelection, 1:4, stylebysubset = "season")
+plot(featureSelection, 1:2, stylebysubset = "season")
 
-plot(featureSelection, 1:4, stylebysubset = "season", changecol = FALSE, 
+plot(featureSelection, 1:2, stylebysubset = "season", changecol = FALSE, 
      changetype = TRUE)
 }
 }

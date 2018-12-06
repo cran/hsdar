@@ -781,6 +781,9 @@ index <- gsub("R", "", gsub("(R[.0-9]+)", "get_reflectance(y,x,\\1,weighted)", i
 index <- gsub("D", "", gsub("(D[.0-9]+)", "get_reflectance(spectra(derivative.speclib(x_back, m=1, ...)),x,\\1,weighted)", index, 
                             perl = TRUE)
               )
+index <- gsub("S", "", gsub("(S[.0-9]+)", "get_reflectance(spectra(derivative.speclib(x_back, m=2, ...)),x,\\1,weighted)", index, 
+                            perl = TRUE)
+)
 
 index_val <- try(return_index(eval(parse(text = index))), silent = TRUE)
 if (inherits(index_val, "try-error"))

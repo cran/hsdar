@@ -3,6 +3,7 @@ setMethod("[", "Speclib",
 {
   dots <- list(...)
   upduh <- !any(names(dots) == "usagehistory")
+  idSpec <- idSpeclib(x)
   if (missing(i)) 
   {
     tmp <- spectra(x, j = j)
@@ -40,7 +41,7 @@ setMethod("[", "Speclib",
       tmp <- matrix(tmp, ncol = if (nbands(x) > 1) length(tmp) else 1)
     x@spectra@fromRaster <- FALSE
     spectra(x) <- tmp
-    idSpeclib(x) <- as.character(idSpeclib(x)[i])
+    idSpeclib(x) <- as.character(idSpec[i])
     at_x <- SI(x, i = i)
     if (! class(at_x) %in% c("matrix", "data.frame"))
     {
@@ -72,7 +73,7 @@ setMethod("[", "Speclib",
     bandnames(x) <- bandnames(x)[j]
   if (length(fwhm(x)) > 1)
     fwhm(x) <- fwhm(x)[j]
-  idSpeclib(x) <- as.character(idSpeclib(x)[i])
+    idSpeclib(x) <- as.character(idSpec[i])
 
   at_x <- SI(x, i = i)
   if (! class(at_x) %in% c("matrix", "data.frame"))

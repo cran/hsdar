@@ -1,4 +1,5 @@
 %\VignetteIndexEntry{Introduction to ``hsdar``}
+\PassOptionsToPackage{table,dvipsnames}{xcolor}
 
 \documentclass{article}
 \usepackage[ansinew]{inputenc}
@@ -17,7 +18,7 @@
   vegetation indices, red edge parameters, spectral resampling, PROSPECT, PROSAIL},
   urlcolor=blue%
 ]{hyperref}
-\usepackage[dvipsnames]{xcolor}
+\usepackage[table,dvipsnames]{xcolor}
 \usepackage{xspace}
 
 \usepackage{geometry}

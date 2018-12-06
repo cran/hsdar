@@ -16,7 +16,13 @@ setMethod("show", signature(object = "Nri"),
           function(object)
 {
   x <- object
-  cat(paste("Data: nri, dimension: ", dim(x$nri)[1], ", ",
+  if (any(usagehistory(x) == "NRI values calculated"))
+  {
+    fun_appl <- "nri"
+  } else {
+    fun_appl <- "sr"
+  }
+  cat(paste("Data: ", fun_appl, " dimension: ", dim(x$nri)[1], ", ",
             dim(x$nri)[2], ", ", dim(x$nri)[3], "\n", sep=""))
   print(x$nri)
   cat(paste("      wavelength of length =",

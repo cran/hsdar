@@ -1,6 +1,8 @@
 \name{specfeat}
 \alias{specfeat}
 \alias{[,Specfeat,ANY,ANY,ANY-method}
+\alias{n_features}
+\alias{n_features,Specfeat-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Function to isolate absorption features
@@ -60,13 +62,13 @@ bd <- transformSpeclib(spectral_data, method = "sh", out = "bd")
 featureSelection <- specfeat(bd, c(450,700,1200,1500))
 
 ## Plot features
-plot(featureSelection, fnumber = 1:4)
+plot(featureSelection)
 
 ## Advanced plotting example
-plot(featureSelection, fnumber = 1:4, stylebysubset = "season")
+plot(featureSelection, 1:2, stylebysubset = "season")
 
-plot(featureSelection, fnumber = 1:4, stylebysubset = "season", 
-     changecol = FALSE, changetype = TRUE)
+plot(featureSelection, 1:2, stylebysubset = "season", changecol = FALSE, 
+     changetype = TRUE)
 % }
 }
 \keyword{classes}
