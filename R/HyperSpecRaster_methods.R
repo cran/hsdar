@@ -9,10 +9,11 @@ setMethod('writeStart', signature(x = 'Speclib', filename = "character"),
    mc <- match.call(definition = sys.function(-1), 
                     call = sys.call(-1), expand.dots = TRUE)
    args <- as.list(mc)[-1]
+   dots <- eval(substitute(list(...), env = parent.frame()))
    got_wv <- FALSE
    if (any(names(args) == "wavelength"))
    {
-     wv <- list(...)$wavelength
+     wv <- dots$wavelength
      got_wv <- TRUE
    } else {
      wv <- wavelength(x)
@@ -21,8 +22,8 @@ setMethod('writeStart', signature(x = 'Speclib', filename = "character"),
    if (any(names(args) == "nl"))
    {
      if (!got_wv)
-       wv <- 1:eval(parse(text = args$nl))
-     x_brick <- brick(x_brick, nl = eval(parse(text = args$nl)))
+       wv <- 1:dots$nl
+     x_brick <- brick(x_brick, nl = dots$nl)
    } 
    x_brick <- writeStart(x_brick, filename, ...)
    
@@ -44,10 +45,11 @@ setMethod('writeStart', signature(x = 'HyperSpecRaster', filename = "character")
    mc <- match.call(definition = sys.function(-1), 
                     call = sys.call(-1), expand.dots = TRUE)
    args <- as.list(mc)[-1]
+   dots <- eval(substitute(list(...), env = parent.frame()))
    if (any(names(args) == "nl"))
    {
      x <- as(x, "RasterBrick")
-     x <- brick(x, nl = eval(parse(text = args$nl)))
+     x <- brick(x, nl = dots$nl)
    }
    return(callNextMethod(x, filename, ...))
  } 

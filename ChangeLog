@@ -1,5 +1,14 @@
 ------------------------------------------------------------------------------------------
---- 21-November-2018, version 0.7.2 (under development)
+--- 25-May-2019, version 1.0.0
+- New functionalities:
+   - Function to read ENVI header files added
+   - Function to linearly interpolate spectra added
+   - cubePlot interpolates side textures
+- Bug fixes:
+   - writeStart correctly interprets dots arguments
+   
+------------------------------------------------------------------------------------------
+--- 21-November-2018, version 0.7.2
 - Bug fixes:
    - Indexing and IDs are working
    - Bug using zlib = TRUE together with range or constraint in plot.NRI fixed

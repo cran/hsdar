@@ -10,7 +10,8 @@ Plotting 3D cube of hyperspectral data using \pkg{rgl}-package
 }
 \usage{
 cubePlot(x, r, g, b, ncol = 1, nrow = 1, 
-         sidecol = colorRamp(palette(heat.colors(100))), ...)
+         sidecol = colorRamp(palette(heat.colors(100))), 
+         z_interpolate = FALSE, ...)
 }
 
 \arguments{
@@ -34,6 +35,9 @@ Integer giving the row(s) in \code{x} which is/are used to plot the spectral dim
 }
 \item{sidecol}{
 ColorRamp used to illustrate spectral dimension.
+}
+\item{z_interpolate}{
+  Interpolate spectral dimension. This is useful if a cube is plotted which has a much larger spatial compared to spectral dimension. If \code{TRUE} the spectral dimension will be interpolated to the minimum of the spatial dimension. Alternatively, an integer value may be passed.
 }
   \item{...}{
 Further arguments passed to \code{\link{plotRGB}} for the top of the cube. Currently, the following two arguments are supported:

@@ -58,6 +58,22 @@ setMethod("print", signature(x = "Speclib"),
     si_info <- data.frame(Variables = names(x@SI@SI_data),
                           Classes = unlist(lapply(x@SI@SI_data, function (x) class(x))), 
                           row.names = 1:x@SI@dim[2])
+    if (!is.na(.getCaretParameter(x, "predictor", stopifmissing = FALSE)[1]))
+    {
+      varIndex <- .getCaretParameter(x, "predictor", stopifmissing = FALSE)
+      varIndex_col <- rep.int(" ", nrow(si_info))
+      varIndex_col[varIndex] <- "*"
+      si_info$Predictors <- varIndex_col
+    }
+    
+    if (!is.na(.getCaretParameter(x, "response", stopifmissing = FALSE)[1]))
+    {
+      varIndex <- .getCaretParameter(x, "response", stopifmissing = FALSE)
+      varIndex_col <- rep.int(" ", nrow(si_info))
+      varIndex_col[varIndex] <- "*"
+      si_info$Response <- varIndex_col
+    }
+      
     print(si_info)
     
   } 

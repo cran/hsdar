@@ -109,7 +109,7 @@ if (spectral_response_function)
                           response=response_transformed,
                           integrated=as.double(spectra),
                           no_data = as.double(no_data),
-                          package="hsdar"
+                         PACKAGE="hsdar"
                           )
   integrated$integrated[abs(integrated$integrated - no_data) < 1.0e-6] <- NA                        
   spectra <- matrix(data=integrated$integrated,ncol=nch)

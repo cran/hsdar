@@ -112,7 +112,7 @@ response_transformed <- .Fortran("transform_response",
                                  response=response,
                                  response_transformed=as.double(response_transformed),
                                  wl=as.double(wavelength),
-                                 package="hsdar"
+                                 PACKAGE="hsdar"
                                 )
 response_transformed <- matrix(response_transformed$response_transformed,ncol=nch)
 
@@ -150,7 +150,7 @@ return(result)
                                    response_transformed=as.double(response_transformed),
                                    wl=as.double(wavelength),
                                    wl_response=as.double(wavelength(spectral_response)),
-                                   package="hsdar"
+                                   PACKAGE="hsdar"
                                   )
 
   response_transformed_2 <- speclib(matrix(response_transformed$response_transformed, ncol = nch, byrow = FALSE), wavelength)

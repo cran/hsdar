@@ -60,7 +60,7 @@ unmix <- function(spectra, endmember, returnHCR = "auto", scale = FALSE, ...)
                spec_vector = spec_matrix, 
                fractions   = fractions,
                error       = error,
-               package     = "hsdar"
+               PACKAGE     = "hsdar"
               )
   fractions <- matrix(un_mix$fractions, ncol = n_spec)
   error <- un_mix$error

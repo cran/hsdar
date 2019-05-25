@@ -1,19 +1,27 @@
-citHeader("To cite package 'hsdar' in publications use:")
-
-year <- sub(".*(2[[:digit:]]{3})-.*", "\\1", meta$Date, perl = TRUE)
-vers <- paste("R package version", meta$Version)
-
-citEntry(entry = "Manual",
-         title = "hsdar: Manage, analyse and simulate hyperspectral data in R",
-         author = personList(as.person("Lukas W. Lehnert"),
-                             as.person("Hanna Meyer"),
-                             as.person("J\\\"{o}rg Bendix")),
-         year = year,
-         note = vers,
-
-         textVersion =
-         paste("Lukas W. Lehnert, Hanna Meyer, Joerg Bendix (",
-                year,
-                "). hsdar: Manage, analyse and simulate hyperspectral data in R. ",
-                vers, ".",sep = ""))
+bibentry(bibtype = "Article",
+         title        = "Hyperspectral Data Analysis in {R}: The {hsdar} Package",
+         author       = c(person(given = c("Lukas", "W."),
+                                 family = "Lehnert",
+                                 email = "lukaslehnert@googlemail.com"),
+                          person(given = "Hanna",
+                                 family = "Meyer"),
+                          person(given = c("Wolfgang", "A."),
+                                 family = "Obermeier"),
+                          person(given = "Brenner",
+                                 family = "Silva"),
+                          person(given = "Bianca",
+                                 family = "Regeling"),
+                          person(given = "Boris",
+                                 family = "Thies"),
+                          person(given = "J\\\"{o}rg",
+                                 family = "Bendix")),
+         journal      = "Journal of Statistical Software",
+         year         = "2019",
+         volume       = "89",
+         number       = "12",
+         pages        = "1--23",
+         doi          = "10.18637/jss.v089.i12",
+         
+         header       = "To cite hsdar in publications use:"
+)
 

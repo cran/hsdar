@@ -63,7 +63,7 @@
   return(fi)
 }
 
-cubePlot <- function(x, r, g, b, ncol = 1, nrow = 1, sidecol = colorRamp(palette(heat.colors(100))), ...)
+cubePlot <- function(x, r, g, b, ncol = 1, nrow = 1, sidecol = colorRamp(palette(heat.colors(100))), z_interpolate = FALSE, ...)
 {
   if (!requireNamespace("rgl", quietly = TRUE))
     stop("Library 'rgl' is required to plot 3D cube of hyperspectral data")
@@ -74,6 +74,20 @@ cubePlot <- function(x, r, g, b, ncol = 1, nrow = 1, sidecol = colorRamp(palette
     
   ra <- x
   
+  
+  if (z_interpolate == 0)
+    z_interpolate <- nbands(ra)
+    
+  if (is.logical(z_interpolate))
+  {
+    if (z_interpolate)
+    {
+      z_interpolate <- min(c(ncol(ra@spectra@spectra_ra), nrow(ra@spectra@spectra_ra)))
+    } else {
+      z_interpolate <- 0
+    }
+  } 
+    
   if (missing(r))
     r <- which.min(abs(wavelength(ra) - 680))
     
@@ -112,7 +126,7 @@ cubePlot <- function(x, r, g, b, ncol = 1, nrow = 1, sidecol = colorRamp(palette
   rgl::rgl.surface(x, y, z, col = "white", 
                    axes = FALSE, box = FALSE,
                    texture = texture)
-  z <- matrix(0, ncol = ncol(ra@spectra@spectra_ra), nrow = nbands(ra))
+  z <- matrix(0, ncol = ncol(ra@spectra@spectra_ra), nrow = z_interpolate)
   x <- c(1:nrow(z))-1
   y <- c(1:ncol(z))-1
   rgl::rgl.surface(x, y, z, col = "white",
@@ -124,7 +138,7 @@ cubePlot <- function(x, r, g, b, ncol = 1, nrow = 1, sidecol = colorRamp(palette
                    axes = FALSE, box = FALSE, coords = c(2,3,1),
                    texture = texture_side_3, add = TRUE)
 
-  z <- matrix(0, ncol = nrow(ra@spectra@spectra_ra), nrow = nbands(ra))
+  z <- matrix(0, ncol = nrow(ra@spectra@spectra_ra), nrow = z_interpolate)
   x <- c(1:nrow(z))-1
   y <- c(1:ncol(z))-1
   rgl::rgl.surface(x, y, z, col = "white",

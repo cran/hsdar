@@ -1,11 +1,15 @@
 Package: hsdar
 Type: Package
 Title: Manage, Analyse and Simulate Hyperspectral Data
-Version: 0.7.2
-Date: 2018-12-04
-Author: Lukas W. Lehnert [cre, aut], 
-  Hanna Meyer [aut], 
-  Joerg Bendix [aut]
+Version: 1.0.0
+Date: 2019-05-25
+Authors@R: c(
+	person("Lukas W.", "Lehnert", role = c("cre", "aut"),
+			email = "lukaslehnert@googlemail.com", 
+			comment = c(ORCID = "0000-0002-5229-2282")),
+	person("Hanna", "Meyer", role = "ctb"),
+	person("Joerg", "Bendix", role = "ctb")
+	)
 Maintainer: Lukas W. Lehnert <lukaslehnert@googlemail.com>
 Depends: R (>= 3.3.1), raster (>= 2.5-8), rgdal (>= 1.1-10), signal,
         methods, caret
@@ -18,6 +22,9 @@ Copyright: see file COPYRIGHTS
 URL: http://vhrz669.hrz.uni-marburg.de/lcrs/,
         http://teledetection.ipgp.jussieu.fr/prosail/
 NeedsCompilation: yes
-Packaged: 2018-12-06 16:35:19 UTC; lehnert
+Packaged: 2019-05-25 21:02:19 UTC; lehnert
+Author: Lukas W. Lehnert [cre, aut] (<https://orcid.org/0000-0002-5229-2282>),
+  Hanna Meyer [ctb],
+  Joerg Bendix [ctb]
 Repository: CRAN
-Date/Publication: 2018-12-06 22:50:03 UTC
+Date/Publication: 2019-05-25 21:40:03 UTC
