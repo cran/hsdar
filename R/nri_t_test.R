@@ -9,7 +9,7 @@ setMethod("t.test", signature(x = "Nri"),
     return(c(t_res$statistic, t_res$p.value))
   }
   
-  stopifnot(class(x) == "Nri")
+  stopifnot(class(x)[1] == "Nri")
   
   dots <- list(...)
   goty <- 0
@@ -24,7 +24,7 @@ setMethod("t.test", signature(x = "Nri"),
       while (i > 1 & goty == 0)
       {
         i <- i - 1
-        if (class(dots[[i]]) == "Nri")
+        if (class(dots[[i]])[1] == "Nri")
           goty <- i      
       }
     }
@@ -56,7 +56,7 @@ setMethod("t.test", signature(x = "Nri"),
     }
     mc <- paste("x =", deparse(substitute(x)))
   }
-  if (class(y) == "Nri")
+  if (class(y)[1] == "Nri")
   {
     environment_apply <- new.env(parent = .GlobalEnv)
     assign("eval_text", eval_text, environment_apply)

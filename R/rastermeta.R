@@ -7,7 +7,7 @@ rastermeta <- function(x, dim, ext, crs)
     if (missing(x))
       stop("'x' required if not all other arguments are passed")
     
-    if (!(class(x) %in% c("Raster", 
+      if (!(class(x)[1] %in% c("Raster", 
                           "RasterBrick", 
                           "Raster", 
                           "HyperSpecRaster",
@@ -27,14 +27,14 @@ rastermeta <- function(x, dim, ext, crs)
     {
       ext <- extent(x)
     } else {
-      if (class(ext) != "extent")
+      if (class(ext)[1] != "extent")
         stop("'ext' must be object of class 'extent'")
     }
     if (missing(crs))
     {
       crs <- crs(x)
     } else {
-      if (class(crs) != "CRS")
+      if (class(crs)[1] != "CRS")
         stop("'crs' must be object of class 'CRS'")
     }
   } else {
@@ -42,9 +42,9 @@ rastermeta <- function(x, dim, ext, crs)
       stop("Invalid number of dimensions")
     if (!is.numeric(dim))
       stop("'dim' must be numeric")
-    if (class(ext) != "extent")
+      if (class(ext)[1] != "extent")
       stop("'ext' must be object of class 'extent'")
-    if (class(crs) != "CRS")
+      if (class(crs)[1] != "CRS")
       stop("'crs' must be object of class 'CRS'")    
   }
   return(list(dim = dim,
@@ -54,7 +54,7 @@ rastermeta <- function(x, dim, ext, crs)
 
 .is.rastermeta <- function(x)
 {
-  if (class(x) == "list")
+  if (class(x)[1] == "list")
   {
     if (length(x) < 3)
       return(FALSE)
@@ -65,7 +65,7 @@ rastermeta <- function(x, dim, ext, crs)
     if (names(x)[3] != "crs")
       return(FALSE)
   } else {
-    if (class(x) %in% c("Speclib", "Specfeat", "Clman"))
+    if (class(x)[1] %in% c("Speclib", "Specfeat", "Clman"))
       return(.is.rastermeta(x@rastermeta))
     return(FALSE)
   }

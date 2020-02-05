@@ -8,7 +8,7 @@ dist.speclib <- function(
                          ...
                          )
 {
-  if (class(x)!="Speclib") 
+  if (class(x)[1] != "Speclib") 
     stop("x must be of class 'Speclib'")
   
   if (method=="sam")
@@ -38,9 +38,9 @@ sam <- function(
   if (x@spectra@fromRaster)
     return(.blockwise(speclib_obj =  "x", pos = 1))
   
-  if (class(x)!="Speclib") 
+  if (class(x)[1] != "Speclib") 
     stop("x must be of class 'Speclib'")
-  if (class(ref)!="Speclib")
+  if (class(ref)[1] != "Speclib")
     stop("ref must be of class 'Speclib'")
     
   spec <- spectra(x)
@@ -100,7 +100,7 @@ sam <- function(
 
 sam_distance <- function (x)
 {
-  if (class(x)!="Speclib") 
+  if (class(x)[1] != "Speclib") 
     stop("x must be of class 'Speclib'")
   
     

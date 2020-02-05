@@ -22,7 +22,7 @@
 \alias{speclib,RasterBrick,matrix-method}
 \alias{speclib,RasterBrick,numeric-method}
 \alias{speclib,hyperSpec,ANY-method}
-\alias{speclib,hyperSpec-method}
+%\alias{speclib,hyperSpec-method}
 \alias{speclib,character,numeric-method}
 \alias{ncol,.Spectra-method}
 \alias{nrow,.Spectra-method}
@@ -54,8 +54,8 @@ Methods to create objects of class Speclib from various data sources such as mat
 
 \S4method{speclib}{numeric,matrix}(spectra, wavelength, ...)
 
-\S4method{speclib}{hyperSpec}(spectra, wavelength, ...)
-
+%\S4method{speclib}{hyperSpec}(spectra, wavelength, ...)
+%
 \S4method{speclib}{character,numeric}(spectra, wavelength, ...)
 
 \S4method{speclib}{Speclib,numeric}(spectra, wavelength, ...)

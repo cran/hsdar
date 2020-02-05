@@ -23,7 +23,7 @@ glm.nri <- function(formula, preddata=NULL, ...)
 
   if (!is.null(preddata))
   {
-    if (any(c(is.speclib(preddata), class(preddata) == "Nri")))
+    if (any(c(is.speclib(preddata), class(preddata)[1] == "Nri")))
       preddata <- SI(preddata)
     data <- preddata
 #     attach(data)
@@ -40,7 +40,7 @@ glm.nri <- function(formula, preddata=NULL, ...)
             )
     if (inherits(x, "try-error"))
       x <- eval(parse(text = vars[i]), data, environment(formula))
-    if (class(x)=="Nri")
+    if (class(x)[1]=="Nri")
     {
       if (is.element(vars[i], attr(formula,"term.labels")))
       {

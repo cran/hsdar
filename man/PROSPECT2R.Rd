@@ -12,8 +12,9 @@ PROSPECT(N = 1.5, Cab = 40, Car = 8, Anth = 1.0, Cbrown = 0.0,
          Cw = 0.01, Cm = 0.009, transmittance = FALSE,
          parameterList = NULL, version = "D")
 ## Inversion
-PROSPECTinvert(x, P0 = NULL, transmittance_spectra = NULL, 
-               sam = FALSE, ...)
+PROSPECTinvert(x, P0 = NULL, lower = NULL, upper = NULL,
+               transmittance_spectra = NULL, sam = FALSE, 
+               verbose = FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -48,8 +49,10 @@ Dry matter content% (\eqn{\textnormal{g}/\textnormal{cm}^2}{g/cm^2})
   Sets the version of PROSPECT to be used (either "5B" or "D").
 }
 \item{x, transmittance_spectra}{Speclib(s) containing the reflectance/transmittance values to be simulated during inversion of PROSPECT.}
-\item{P0}{Initial set of parameters (N, Cab etc.).}
+\item{P0}{Initial set of parameters (N, Cab etc.) as numeric vector.}
+\item{lower, upper}{Lower and upper boundaries of parameters as numeric vectors.}
 \item{sam}{Logical if spectral angle mapper is used as distance measurement. If FALSE, the root mean square error is used. Note that this flag has only an effect if no transmittance spectra are passed.}
+\item{verbose}{If TRUE, the set of parameters during inversion is printed at each iteration.}
 \item{...}{Parameters passed to \code{\link{optim}}}
 }
 \details{

@@ -1,6 +1,6 @@
 get_reflectance <- function(spectra, wavelength, position, weighted = FALSE, ...)
 {
-  if (class(spectra) == "Speclib")
+  if (class(spectra)[1] == "Speclib")
   {
     if (missing(position))
     {

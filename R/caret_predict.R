@@ -12,7 +12,7 @@ setMethod("predictHyperspec",
                                 preProcess = NULL,
                                 ...)
 {
-  if (class(newdata) == "Speclib")
+  if (class(newdata)[1] == "Speclib")
   {
     if (newdata@spectra@fromRaster)
       return(.blockwise(speclib_obj = "newdata", pos = 2))
@@ -20,7 +20,7 @@ setMethod("predictHyperspec",
   
   useSIAsPredicants <- !is.na(.getPredicantVar(newdata, stopifmissing = FALSE))[1]
   
-  if (class(newdata) == "Nri")
+  if (class(newdata)[1] == "Nri")
   {
     all_vals <- as.data.frame(newdata, na.rm = TRUE)
   } else {
@@ -45,7 +45,7 @@ setMethod("predictHyperspec",
                                 preProcess,
                                 ...)
 {
-  if (class(newdata) == "Speclib")
+  if (class(newdata)[1] == "Speclib")
   {
     if (newdata@spectra@fromRaster)
       return(.blockwise(speclib_obj = "newdata", pos = 2))
@@ -55,7 +55,7 @@ setMethod("predictHyperspec",
   
   useSIAsPredicants <- !is.na(.getPredicantVar(newdata, stopifmissing = FALSE))[1]
   
-  if (class(newdata) == "Nri")
+  if (class(newdata)[1] == "Nri")
   {
     all_vals <- as.data.frame(newdata, na.rm = TRUE)
   } else {

@@ -66,7 +66,7 @@ specfeat <- function(
   if (missing(FWL))
     return(x)
   
-  if (class(x)!="Speclib") 
+  if (class(x)[1] != "Speclib") 
     stop("x must be of class 'Speclib'")
     
   setmask <- .isMasked(x)
@@ -118,7 +118,7 @@ cut_specfeat <- function(
                          limits
                         )
 {
-  if (class(x)!="Specfeat") 
+  if (class(x)[1] != "Specfeat") 
     stop("x must be of class 'Specfeat'")
   
   if (length(limits)!=length(fnumber)*2)
@@ -195,7 +195,7 @@ setMethod("plot", signature(x = "Specfeat"),
                           ...
                          )
 {
-  if (class(x) != "Specfeat") 
+  if (class(x)[1] != "Specfeat") 
     stop("x must be of class 'Specfeat'")
   
   Reflectance <- .range.specfeat(x)
@@ -423,7 +423,7 @@ bdri <- function(
     return(lenval)
   }
   
-  if (class(x) != "Specfeat") 
+  if (class(x)[1] != "Specfeat") 
     stop("x must be of class 'Specfeat'")
   
   if (!any(index==c("bdr","ndbi","bna")))

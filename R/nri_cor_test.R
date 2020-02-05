@@ -19,9 +19,9 @@ setMethod("cor.test", signature(x = "Nri"),
     return(c(t_res$p.value, t_res$estimate))
   }
   
-  if (class(x) == "Nri")
+  if (class(x)[1] == "Nri")
   {
-    if (class(y) == "Nri")
+    if (class(y)[1] == "Nri")
     {
       nri_response <- NA
       for (i in 1:length(dim(x$nri)))
@@ -32,7 +32,7 @@ setMethod("cor.test", signature(x = "Nri"),
     }
     nri_data <- x
   } else {
-    if (class(y) == "Nri")
+    if (class(y)[1] == "Nri")
     {
       nri_response <- TRUE
       nri_data <- y

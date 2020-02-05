@@ -21,7 +21,7 @@ setMethod("train", signature(x = ".CaretHyperspectral"),
   
   useSIAsPredicants <- !is.na(.getPredicantVar(x, stopifmissing = FALSE))[1]
   
-  if (class(x) == "Nri")
+  if (class(x)[1] == "Nri")
   {
     all_vals <- as.data.frame(x, na.rm = TRUE)
   } else {

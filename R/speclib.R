@@ -159,10 +159,10 @@ setMethod("as.data.frame", signature(x = "Speclib"),
   }
 )
 
-setMethod("speclib", signature(spectra = "hyperSpec"), 
-          function(spectra, ...)
-  return(.createspeclib(as.matrix(spectra), spectra@wavelength, ...))
-)
+# setMethod("speclib", signature(spectra = "hyperSpec"), 
+#           function(spectra, ...)
+#   return(.createspeclib(as.matrix(spectra), spectra@wavelength, ...))
+# )
 
 
 .createspeclib <- function (spectra,
@@ -178,13 +178,14 @@ setMethod("speclib", signature(spectra = "hyperSpec"),
                            rastermeta = NULL
                           )
 {
-  if (class(spectra) %in% c("RasterBrick", "HyperSpecRaster"))
+  
+  if (class(spectra)[1] %in% c("RasterBrick", "HyperSpecRaster"))
   {
     fromRaster <- TRUE
     
 #     valid_data <- NULL
   } else {   
-    if (class(spectra) == "RasterLayer")
+    if (class(spectra)[1] == "RasterLayer")
     {
       spectra <- brick(spectra)
       fromRaster <- TRUE
@@ -194,8 +195,9 @@ setMethod("speclib", signature(spectra = "hyperSpec"),
       dim_spectra <- c(nrow(spectra), ncol(spectra))
     }
   }
+
   wavelength.is.range <- FALSE
-  if (class(wavelength)=="data.frame" || class(wavelength)=="matrix")
+  if (class(wavelength)[1] == "data.frame" || class(wavelength)[1] == "matrix")
   {
     wavelength <- as.data.frame(wavelength)
     if (ncol(wavelength)==1)
@@ -254,6 +256,7 @@ setMethod("speclib", signature(spectra = "hyperSpec"),
       }
     }
   }
+
   if (!fromRaster)
   {
     names <- NULL
@@ -279,7 +282,7 @@ setMethod("speclib", signature(spectra = "hyperSpec"),
     rn <- character()    
   }
   
-  
+
   if (!wavelength.is.range)
   {
     if (length(wavelength) > 1)
@@ -299,7 +302,7 @@ setMethod("speclib", signature(spectra = "hyperSpec"),
         wavelength <- rowMeans(wavelength)
     }
   }
-  
+
   if (is.null(SI)) 
     SI <- data.frame()
     
@@ -314,7 +317,7 @@ setMethod("speclib", signature(spectra = "hyperSpec"),
   
   wavelength <- wavelength * .ConvWlFwd(wlunit)
   fwhm       <- fwhm * .ConvWlFwd(wlunit)   
-  
+
   result <- new("Speclib", 
                 spectra = spectra, 
                 wavelength = wavelength,
@@ -336,6 +339,7 @@ setMethod("speclib", signature(spectra = "hyperSpec"),
 #     result@spectra@valid_spec@removedPixel <- sum(!valid_data)
 #     result@spectra@valid_spec@validPixel <- valid_data
 #   }
+
   if (validObject(result))
   { 
     return(result)
@@ -346,6 +350,7 @@ setMethod("initialize", signature(.Object = "Speclib"),
           function(.Object, ...)
 {  
   dots <- list(...)
+
   if (any(names(dots) == "continuousdata"))
   {
     if (dots$continuousdata != "auto")
@@ -364,7 +369,7 @@ setMethod("initialize", signature(.Object = "Speclib"),
   } else {
     continuousdata <- TRUE
   }
-  
+
   if (any(names(dots) == "wavelength"))
   {
     wavelength <- dots$wavelength
@@ -376,7 +381,7 @@ setMethod("initialize", signature(.Object = "Speclib"),
   if (any(names(dots) == "spectra"))
   {
     spectra <- dots$spectra
-    fromRaster <- class(spectra) %in% c("RasterBrick", "HyperSpecRaster")
+    fromRaster <- class(spectra)[1] %in% c("RasterBrick", "HyperSpecRaster")
     spectra <- new(".Spectra",
                    fromRaster = fromRaster,
                    spectra_ma = if (fromRaster) matrix() else spectra,

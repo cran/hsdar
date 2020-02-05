@@ -156,7 +156,7 @@ setMethod("initialize", signature(.Object = ".SI"),
   j    <- 0
   if (length(dots) > 0)
   {
-    if (class(dots[[1]]) %in% c("matrix", "data.frame"))
+    if (class(dots[[1]])[1] %in% c("matrix", "data.frame"))
     {
       dims <- c(nrow(dots[[1]]), 0)
     } else {
@@ -164,7 +164,7 @@ setMethod("initialize", signature(.Object = ".SI"),
     }    
     for (i in 1:length(dots))
     {
-      if (class(dots[[i]]) %in% c("matrix", "data.frame"))
+      if (class(dots[[i]])[1] %in% c("matrix", "data.frame"))
       {
         if (nrow(dots[[i]]) != dims[1])
           stop("Length of SI variables not identical")
@@ -180,9 +180,9 @@ setMethod("initialize", signature(.Object = ".SI"),
           }
         }
       } else {
-        if (class(dots[[i]]) %in% c("RasterLayer", "RasterBrick", "RasterStack"))
+        if (class(dots[[i]])[1] %in% c("RasterLayer", "RasterBrick", "RasterStack"))
         {
-          if (class(dots[[i]]) != "RasterLayer")
+          if (class(dots[[i]])[1] != "RasterLayer")
             stop("Only objects of class 'RasterLayer' can be currently added to SI.\nUse multiple RasterLayers to include RasterBrick/RasterStack.")
           j <- j + 1
           res[[j]] <- dots[[i]]

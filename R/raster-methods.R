@@ -63,16 +63,16 @@ setMethod("extract", signature(x = "Speclib"),
   if (x@spectra@fromRaster)
   {
     vals <- extract(x@spectra@spectra_ra, y, ...)
-    if (class(vals) == "matrix")
+    if (class(vals)[1] == "matrix")
     {
       vals <- speclib(vals, wavelength(x))
       SI(vals) <- as.data.frame(y)
       usagehistory(vals) <- usagehistory(x)
       usagehistory(vals) <- paste("Values extracted using object of class '",
-                                  class(y), "' as overlay", sep = "")
+                                  class(y)[1], "' as overlay", sep = "")
       return(vals)
     }
-    if (class(vals) == "list")
+    if (class(vals)[1] == "list")
     {
       SI_data <- as.data.frame(y)
       n_px <- unlist(lapply(vals, function(i) nrow(i)))
@@ -83,16 +83,16 @@ setMethod("extract", signature(x = "Speclib"),
       SI(vals) <- SI_data_rep
       usagehistory(vals) <- usagehistory(x)
       usagehistory(vals) <- paste("Values extracted using object of class '",
-                                  class(y), "' as overlay", sep = "")
+                                  class(y)[1], "' as overlay", sep = "")
       return(vals)
     }
-    if (class(vals) == "numeric" || class(vals) == "integer")
+    if (class(vals)[1] == "numeric" || class(vals)[1] == "integer")
     {
       vals <- speclib(as.numeric(vals), wavelength(x))
       SI(vals) <- as.data.frame(y)
       usagehistory(vals) <- usagehistory(x)
       usagehistory(vals) <- paste("Values extracted using object of class '",
-                                  class(y), "' as overlay", sep = "")
+                                  class(y)[1], "' as overlay", sep = "")
       return(vals)
     }
     warning("Cannot construct Speclib from extract value")

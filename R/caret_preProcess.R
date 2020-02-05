@@ -20,7 +20,7 @@ setMethod("predict", signature(object = ".preProcessHyperspectral"),
           definition = function(object, newdata, ...)
 {
   object <- object@preProcess  
-  if (!(class(newdata) %in% .getCaretCompatibleClasses()))
+  if (!(class(newdata)[1] %in% .getCaretCompatibleClasses()))
     return(predict(object, newdata = newdata, ...))
     
   backup <- newdata  
@@ -37,10 +37,10 @@ setMethod("predict", signature(object = ".preProcessHyperspectral"),
   if (attr(newdata_all, "useattributes"))
     SI(backup)[,.getCaretParameter(object, "predictor")] <- newdata_all[,attr(newdata_all, "spectral")*(-1)]
   
-  if (class(backup) == "Speclib")
+  if (class(backup)[1] == "Speclib")
     spectra(backup) <- as.matrix(predicted_spectral)
   
-  if (class(backup) == "Nri") ### Konvertierung nicht optimal!
+  if (class(backup)[1] == "Nri") ### Konvertierung nicht optimal!
   {    
     values <- numeric(length = length(backup@nri@values))
     values[] <- NA

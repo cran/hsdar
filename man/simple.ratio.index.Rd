@@ -26,17 +26,11 @@ If TRUE indices for all possible band combinations are calculated. If FALSE, onl
   \item{bywavelength}{
 Flag to determine if b1 and b2 are band number (bywavelength = FALSE) or wavelength (bywavelength = TRUE) values.
 }
-  \item{...}{
-Further arguments passed to generic functions. Currently ignored.
 }
-%  \item{named_matrix}{
-%Flag if column names should be set to band names and row names to ids of spectra.
-%}
 
-}
 \details{
 Function performs the following calculation:
-\deqn{nri_{B1,~B2}=\frac{R_{B1}-R_{B2}}{R_{B1}-R_{B2}};}
+\deqn{nri_{B1,~B2}=\frac{R_{B1}}{R_{B2}};}
 with \eqn{R} being reflectance values at wavelength \eqn{B1} and \eqn{B2}, respectively.
 
 If recursive = TRUE, all possible band combinations are calculated.

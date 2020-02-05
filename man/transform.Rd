@@ -47,7 +47,7 @@ The output might be \code{"raw"}, \code{"bd"} or \code{"ratio"}:
 where \eqn{BD} is the band depth, \eqn{R} is the reflectance and \eqn{CV} is the continuum value at
 the wavelength \eqn{\lambda}.}
 \item{"ratio":}{ the spectra are transformed by 
-\deqn{BD_\lambda = \frac{R_\lambda}{CV_\lambda}.}
+\deqn{ratio_\lambda = \frac{R_\lambda}{CV_\lambda}.}
 }
 }
 In some cases it might be useful to apply \code{\link{noiseFiltering}} before the transformation if too many small local maxima

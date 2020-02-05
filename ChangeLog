@@ -1,4 +1,15 @@
 ------------------------------------------------------------------------------------------
+--- 04-February-2020, version 1.0.1 
+- New functionalities:
+  - PROSPECTinvert now handles lower and upper boundary values for each parameter 
+  - Wrapper function to read ASD files together with package 'asdreader' added
+  - Function to post-process ASD files added
+- Bug fixes:
+  - Typo in description of transformSpeclib fixed
+  - Functions to convert to "hyperSpec" removed because package is not longer available
+  - Code fixed to handle vector of length > 1 returned by class(x)
+
+------------------------------------------------------------------------------------------
 --- 25-May-2019, version 1.0.0
 - New functionalities:
    - Function to read ENVI header files added

@@ -1,6 +1,6 @@
 getFiniteNri <- function(x)
 {
-  if (class(x) != "Nri")
+  if (class(x)[1] != "Nri")
     stop("'x' must be of class Nri")
   
   

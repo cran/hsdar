@@ -20,7 +20,7 @@ setMethod("setResponse", signature(x = ".CaretHyperspectral", response = "charac
     {
       ind <- which(x == response)
       if (length(ind) == 0)
-        stop(paste("'", response, "' not found in ", class(x), " x", sep = ""))
+        stop(paste("'", response, "' not found in ", class(x)[1], " x", sep = ""))
       return(ind)
     }, names(SI(x)))
   
@@ -39,7 +39,7 @@ setMethod("setPredictor", signature(x = ".CaretHyperspectral", predictor = "char
     {
       ind <- which(x == predictor)
       if (length(ind) == 0)
-        stop(paste("'", predictor, "' not found in ", class(x), " x", sep = ""))
+        stop(paste("'", predictor, "' not found in ", class(x)[1], " x", sep = ""))
       return(ind)
     }, names(SI(x)))
   

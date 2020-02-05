@@ -17,3 +17,4 @@ setMethod("nrow", signature(x = ".Spectra"),
     return(nrow(x@spectra_ma))
   }
 )
+

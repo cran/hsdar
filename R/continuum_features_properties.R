@@ -17,7 +17,7 @@ feature_properties <- function(x)
                           x
                          ) 
 {
-  if (class(x)!="Specfeat") 
+  if (class(x)[1] != "Specfeat") 
     stop("x must be of class 'Specfeat'")
   
   x <- x@features
@@ -41,7 +41,7 @@ feature_properties <- function(x)
                           x
                          ) 
 {
-  if (class(x)!="Specfeat") 
+  if (class(x)[1] != "Specfeat") 
     stop("x must be of class 'Specfeat'")
   
   x <- x@features
@@ -65,7 +65,7 @@ feature_properties <- function(x)
                           x
                          ) 
 {
-  if (class(x)!="Specfeat") 
+  if (class(x)[1] != "Specfeat") 
     stop("x must be of class 'Specfeat'")
   wl <- wavelength(x)
   x <- x@features
@@ -100,7 +100,7 @@ feature_properties <- function(x)
     if (percent) sqrt(mean((obs-pred)^2))/(max(obs)-min(obs))*100 else sqrt(mean((obs-pred)^2)) 
   }
   
-  if (class(x)!="Specfeat") 
+  if (class(x)[1] != "Specfeat") 
     stop("x must be of class 'Specfeat'")
   m <- t(as.matrix(.maxwl.specfeat(x)))
   wl <- wavelength(x)

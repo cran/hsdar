@@ -6,7 +6,8 @@ integer, intent(in)            :: nri_length
 real, intent(in)               :: reflectance(nspec,nwl)      ! Reflectance values
 real, intent(out)              :: nri(nri_length)             ! Normalized ratio index values
 
-integer i, k, m, n
+integer i, k, m
+integer(8) n
 
 nri = 0.0
 n = 0
@@ -20,3 +21,4 @@ do m=1, nspec
   enddo
 enddo
 end subroutine recursive_nri
+

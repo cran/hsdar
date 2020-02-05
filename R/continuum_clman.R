@@ -217,7 +217,7 @@ getcp <- function(
                   subset=NULL                 
                  )
 {
-  if (class(x)!="Clman")
+  if (class(x)[1] != "Clman")
     stop("x must be of class 'Clman'")
   
   if (length(ispec)!=1)
@@ -261,7 +261,7 @@ deletecp <- function (
                       cpdelete
                      )
 {
-  if (class(x)!="Clman")
+  if (class(x)[1] != "Clman")
     stop("x must be of class 'Clman'")
     
   ptscon <- getcp(x,ispec)
@@ -280,7 +280,7 @@ addcp <- function (
                    cpadd
                   )
 {
-  if (class(x)!="Clman")
+  if (class(x)[1] != "Clman")
     stop("x must be of class 'Clman'")
     
   ptscon <- getcp(x,ispec)

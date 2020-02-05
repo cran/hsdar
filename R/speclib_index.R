@@ -37,13 +37,13 @@ setMethod("[", "Speclib",
     } else {    
       tmp <- spectra(x, i = i) 
     }
-    if (class(tmp) == "numeric")
+    if (class(tmp)[1] == "numeric")
       tmp <- matrix(tmp, ncol = if (nbands(x) > 1) length(tmp) else 1)
     x@spectra@fromRaster <- FALSE
     spectra(x) <- tmp
     idSpeclib(x) <- as.character(idSpec[i])
     at_x <- SI(x, i = i)
-    if (! class(at_x) %in% c("matrix", "data.frame"))
+    if (! class(at_x)[1] %in% c("matrix", "data.frame"))
     {
       at_x <- data.frame(x = at_x)
       names(at_x) <- names(SI(x))
@@ -60,7 +60,7 @@ setMethod("[", "Speclib",
     tmp_2 <- brick(x@spectra@spectra_ra, nl = if (!is.null(dim(tmp))) ncol(tmp) else 1)
     tmp <- setValues(tmp_2, tmp)
   } else {
-    if (class(tmp) == "numeric")
+    if (class(tmp)[1] == "numeric")
     {
       ncols <- sum(rep.int(1, nbands(x))[j])
       nrows <- sum(rep.int(1, nspectra(x))[i])
@@ -76,7 +76,7 @@ setMethod("[", "Speclib",
     idSpeclib(x) <- as.character(idSpec[i])
 
   at_x <- SI(x, i = i)
-  if (! class(at_x) %in% c("matrix", "data.frame"))
+  if (! class(at_x)[1] %in% c("matrix", "data.frame"))
   {
     at_x <- data.frame(x = at_x)
     names(at_x) <- names(SI(x))

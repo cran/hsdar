@@ -35,7 +35,7 @@ lm.nri <- function(formula, preddata=NULL, ...)
 
   if (mode(preddata)!="NULL")
   {
-    if (any(c(is.speclib(preddata), class(preddata) == "Nri")))
+    if (any(c(is.speclib(preddata), class(preddata)[1] == "Nri")))
       preddata <- SI(preddata)
     data <- preddata
     formula <- terms(formula, data=data)
@@ -49,9 +49,9 @@ lm.nri <- function(formula, preddata=NULL, ...)
     x <- try(eval(parse(text = vars[i])),
              silent = TRUE
             )
-    if (class(x) == "try-error")
+    if (class(x)[1] == "try-error")
       x <- eval(parse(text = vars[i]), data, environment(formula))
-    if (class(x)=="Nri")
+    if (class(x)[1]=="Nri")
     {
       if (is.element(vars[i], attr(formula,"term.labels")))
       {

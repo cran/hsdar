@@ -76,9 +76,8 @@ if (recursive)
     posb2 <- b2
   }
   result <- (reflectance[,posb1]-reflectance[,posb2])/(reflectance[,posb1]+reflectance[,posb2])
-  if (class(result)=="data.frame")
+  if (class(result)[1] == "data.frame")
     names(result)<-"NRI"
 }
 return(result)  
 }
-

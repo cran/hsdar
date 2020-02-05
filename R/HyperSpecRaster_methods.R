@@ -61,7 +61,7 @@ setMethod('writeStop', signature(x = 'Speclib'),
    if (!x@spectra@fromRaster)
      stop("Speclib does not contain spectra from *Raster-object")
    res <- writeStop(x@spectra@spectra_ra)
-   if (class(res) == "RasterLayer")
+   if (class(res)[1] == "RasterLayer")
      res <- brick(res)
    x@spectra@spectra_ra <- res
    return(x)
