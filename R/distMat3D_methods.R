@@ -72,8 +72,21 @@ setMethod("as.array", signature(x = "DistMat3D"),
 }         
 )
 
-setMethod("apply", signature(X = "DistMat3D"),
-          function(X, MARGIN, FUN, ...)
+# if("simplify" %in% names(formals(base::apply))) 
+# {
+  setMethod("apply", signature(X = "DistMat3D"),
+            function(X, MARGIN, FUN, ...,
+                     simplify = TRUE)
+            .apply_method_DistMat3D(X, MARGIN, FUN, ...))
+# } else {    
+#   setMethod("apply", signature(X = "DistMat3D"), 
+#             function(X, MARGIN, FUN, 
+#                      ...)
+#             .apply_method_DistMat3D(X, MARGIN, FUN, ...))
+# }
+
+
+.apply_method_DistMat3D  <- function(X, MARGIN, FUN, ...)
 {
   if (length(MARGIN) > 3)
     stop("Got unvalid MARGINs")
@@ -124,7 +137,7 @@ setMethod("apply", signature(X = "DistMat3D"),
            )
   }
 }
-)
+
 
 setMethod("[", signature(x = "DistMat3D"), 
           function(x, i, j, n)

@@ -8,9 +8,11 @@ Apply function for class Speclib
 \description{
 Apply function over all spectra or a subset of spectra in a \code{Speclib}.
 }
+
 \usage{
-\S4method{apply}{Speclib}(X, FUN, bySI = NULL, ...)
+  \S4method{apply}{Speclib}(X, FUN, bySI = NULL, ..., simplify = TRUE)
 }
+
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{X}{
@@ -24,6 +26,9 @@ Character string giving the name of the column in the SI to be used as subsets t
 }
 \item{...}{
 Further arguments passed to FUN.
+}
+\item{simplify}{
+  Currently ignored.
 }
 }
 

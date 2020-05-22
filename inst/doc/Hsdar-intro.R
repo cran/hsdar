@@ -1,4 +1,5 @@
 ### R code from vignette source 'Hsdar-intro.Rnw'
+### Encoding: UTF-8
 
 ###################################################
 ### code chunk number 1: Hsdar-intro.Rnw:54-55

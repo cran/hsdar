@@ -8,9 +8,11 @@ Apply function for class DistMat3D
 \description{
 Apply function to values in a 3-D distance matrix. The 3-D distance matrix is an S4-class in \pkg{hsdar} to efficiently store distance values in hyperspectral datasets.
 }
+
 \usage{
-\S4method{apply}{DistMat3D}(X, MARGIN, FUN, ...)
+  \S4method{apply}{DistMat3D}(X, MARGIN, FUN, ..., simplify = TRUE)
 }
+
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{X}{
@@ -25,8 +27,10 @@ Function to be applied. Matched with \code{\link{match.fun}}.
 \item{...}{
 Further arguments passed to FUN.
 }
+\item{simplify}{
+  Currently ignored.
 }
-
+}
 %\details{
 %  
 %  The specified function is either applied to the distances of all samples (MARGIN = 1) or to all distances for each sample (MARGIN = 3). In the %first case, if \code{X} would be replaced by an array of same dimensions, the return value would be equal if the following code is applied: 

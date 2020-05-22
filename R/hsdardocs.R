@@ -31,3 +31,47 @@ if (doc == "Hsdar-intro.pdf")
   }
 }
 }
+
+
+.applyInHelp <- function(fun_name, usage)
+{
+  if (usage)
+  {
+    if ("simplify" %in% names(formals(base::apply))) 
+    {
+      return(paste0("\\usage{\n",
+                    "\\S4method{apply}{", fun_name, "}(X, MARGIN, FUN, ..., simplify = TRUE)\n",
+                    "}"))
+      return(", simplify = TRUE)")
+    } else {
+      return(paste0("\\usage{\n",
+                    "\\S4method{apply}{", fun_name, "}(X, MARGIN, FUN, ...)\n",
+                    "}"))
+    }
+  } else {
+    if ("simplify" %in% names(formals(base::apply))) 
+    {
+      return("}\n\\item{simplify}{Currently ignored")
+    } else {
+      return("")
+    }
+  }
+}
+
+
+
+
+# .applyInHelp <- function(fun_name, usage)
+# {
+#   if (usage)
+#   {
+#     if ("simplify" %in% names(formals(base::apply))) 
+#     {
+#       return(paste0("\\S4method{apply}{", fun_name, "}(X, MARGIN, FUN, ..., simplify = TRUE)"))
+#     } else {
+#       return(paste0("\\S4method{apply}{", fun_name, "}(X, MARGIN, FUN, ...)"))
+#     }
+#   } else {
+#     return("\\item{simplify}{Currently ignored}")
+#   }
+# }

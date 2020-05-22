@@ -54,9 +54,6 @@ mask(spectral_data) <- c(1040, 1060, 1350, 1450)
 ## Simple example
 plot(spectral_data, legend = list(x = "topleft"))
 
-## Example with groups
-plot(spectral_data, bygroups = TRUE, legend = list(x = "topleft"))
-
 ## Example with function
 par(mfrow = c(2,3))
 plot(spectral_data, FUN = "min", main = "Minimum of speclib")
@@ -66,6 +63,9 @@ plot(spectral_data, FUN = "mean", main = "Mean of speclib")
 plot(spectral_data, FUN = "var", main = "Variance of speclib")
 
 }
+
+% ## Example with groups
+% plot(spectral_data, bygroups = TRUE, legend = list(x = "topleft"))
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{aplot}

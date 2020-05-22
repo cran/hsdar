@@ -1,5 +1,5 @@
-1ba09ec22234aa66dedf751e70dd8117 *ChangeLog
-b29d7fd562956076207303abc347c15e *DESCRIPTION
+d924ce20e1f881117131a38fca63ffea *ChangeLog
+f76133d777475652fa054717d044d9ad *DESCRIPTION
 14bf3fa85ac7bf94489a682b160f6914 *NAMESPACE
 160d068f5503b1c673e63890790568d1 *R/AAAClasses.R
 8bf60417eb79fec582e9c0ac5f896add *R/ASD_functions.R
@@ -25,10 +25,10 @@ a5555acfd49c3c6e8330cd4777406cea *R/caret_sbf.R
 39ed0ea2dead46019f2747b0b77ead05 *R/continuum_features.R
 3f495260f74dec4804f9103f8dd88b8a *R/continuum_features_properties.R
 5e06e10568329f3aa013cdb593009822 *R/continuum_transform.R
-70b2c855cddc97841086ed0ac3050b7a *R/distMat3D_methods.R
+5f55a14d614c9e8b4c6bd5859a5df46b *R/distMat3D_methods.R
 a41e89b04ce96f7713a0c3fc14bc4d7c *R/distance.R
 6381b70621a3b118f1259da2defacf30 *R/getFiniteNri.R
-d4f5cecfa6aa33483b69921540f2b7f9 *R/hsdardocs.R
+7c317559e34f9af21e0ec09e0a6ea0f2 *R/hsdardocs.R
 9b9ca13d252125bdc1a31bb6cd7bf76d *R/multicore_funtions.R
 b0d68c8624e128898e35c7028aa5a43c *R/nri.R
 68e202dcde897555c51f5a41fc5f06ba *R/nri_attributes.R
@@ -51,7 +51,7 @@ c43a16df6c3b430147f32d7e12409214 *R/smgm.R
 35dfdeeac5a940e0081d79c0ffe86805 *R/soilindex.R
 a04baa55579d40096e1a8bcb1d592215 *R/speclib.R
 5186331029579a0667d438caacb79b5b *R/speclib_SI.R
-dd5816d32ba9253b4276f6ed38972f83 *R/speclib_apply.R
+c3923ad8dc8b7c4e56870ceac21f6267 *R/speclib_apply.R
 8f05657211150601ff98a4e1074cf5e9 *R/speclib_bandnames.R
 82ba6bf9ba3b468cd2defa0eb951c5da *R/speclib_differenciate.R
 bfa50d1e1df915a49967e1f819879d2d *R/speclib_dim.R
@@ -79,8 +79,8 @@ ecce710fb132ce7f730396d7912e80f5 *R/spectral_resampling_response_functions.R
 36b47aa91a2291c423b37b458f098300 *R/unmix.R
 6d8b35a5e69fef1d58fa958a0ac608a9 *R/vegindex.R
 fe0587008dcf0de2eca52ee0be9f2123 *R/zzz.R
-c6b2cbb5d827cd680480ac248d7e3905 *build/hsdar.pdf
-c6ae8625473f647c9348eed20fb93c42 *build/vignette.rds
+6b5c066ccd924b699af74a0041abf6f9 *build/hsdar.pdf
+d982ec3216517ffe9f1c80d3e57508ee *build/vignette.rds
 3aedb092c66942f1a17137a1fc39210a *data/Landsat_4_response.csv.gz
 eb1d731813ed80e7ff9cb9a91a43e382 *data/Landsat_5_response.csv.gz
 e3fd8c826d8cd296cfc0bfec218179dd *data/Landsat_7_response.csv.gz
@@ -93,11 +93,11 @@ cb319566e0eb4f0207a37d687fc23d7b *data/cancer_spectra.RData
 e927369e9c433f118889324aff0a22c2 *data/spectral_data.RData
 6bfd532ac0d7970ce0bcb6a6b53201a8 *inst/CITATION
 7cfea7b22a707c55bf72d38e35d40d15 *inst/COPYRIGHTS
-b5c269d0e1d6fdd19d08f1d18a9c272e *inst/doc/Hsdar-intro.R
+3c770db0e0f679e151f6e844a5c96ac4 *inst/doc/Hsdar-intro.R
 eebe8e91859ad471b80594f48b0b369b *inst/doc/Hsdar-intro.Rnw
-0cad5564f8b85b86b5f09d1de3b202da *inst/doc/Hsdar-intro.pdf
+d30f151a0e2cdea3380c5397d1b48c96 *inst/doc/Hsdar-intro.pdf
 ff7d64c121d14dac51d933c3c5ea9b70 *inst/doc/References.Rnw
-52d758b484328e4c07d7de9283ca6ceb *inst/doc/References.pdf
+fc324e074037591ddd0e2ea234b6cc98 *inst/doc/References.pdf
 348f6884ea31c067beccab4a0bc6c51d *man/Clman-class.Rd
 24ddbb096789cf24a0e692edc85063c3 *man/Clman-methods.Rd
 783f612fc7ae309b188402e929288df3 *man/DistMat3D-class.Rd
@@ -111,8 +111,8 @@ a9d08dc69b216cc9ba7f07ba8c455a35 *man/Specfeat-class.Rd
 b093a079eda4cfb4cc69c40acd43d79c *man/Speclib-class.Rd
 11643742bac058ee75f3c7b1183b116b *man/USGS.Rd
 340363566535599e96fed15c2f852b10 *man/addcp.Rd
-09d7a12ada5b2ba9f57d0f03d5ffc376 *man/applyDistMat3D.Rd
-1ab797a7b7f2afd798256cba1bfe1f0b *man/applySpeclib.Rd
+ea623838ce990f99f76d434b8c8cbc2c *man/applyDistMat3D.Rd
+8699b96347c933123dd54fde01d8d8f2 *man/applySpeclib.Rd
 1006a3af48d009da71ab32e5754ea73e *man/attributes_speclib.Rd
 a027d3e9c68602b44dd9fdfb03d3ce56 *man/bandnames.Rd
 7a39030befd09c2e16b8ea73cd67516a *man/bdri.Rd
@@ -162,7 +162,7 @@ ace4be122acb7a9aa847821d3987dc8e *man/hsdar-package.Rd
 b58b1618355e0d9e722f92d1090db7fc *man/normalized.ratio.index.best.perfomance.Rd
 2c6dbcae8aef9b8cd396b2c1fdb98d26 *man/plot.glm.normalized.ratio.index.Rd
 1407ad1c3fa8c446d88cc1320aa778f1 *man/plot.specfeat.Rd
-3cea2eb16151940a87a7f9a2a704b954 *man/plot.speclib.Rd
+45ff1cedaed812058e3819b9d36b311b *man/plot.speclib.Rd
 c347176d0f4d4bf1fbceb1d64e488d70 *man/postprocess_ASD.Rd
 fc1ee81966e7dd8e96b65fa66720c289 *man/predictHyperspec.Rd
 12439370c7aeb2f0d20cc9c59739e74e *man/raster-methods.Rd
