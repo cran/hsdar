@@ -8,6 +8,7 @@ setMethod("rfe", signature(x = "Speclib"),
                                 y,
                                 cutoff = .95,
                                 returnData = TRUE,
+                                na.rm = FALSE,
                                 ...)
 {  
   y_missing <- missing(y)
@@ -18,7 +19,7 @@ setMethod("rfe", signature(x = "Speclib"),
                          advice = c("rfe", "setResponse", 
                                     "This is only required if you do not specify 'y'."))
   }
-  
+
   useSIAsPredicants <- !is.na(.getPredicantVar(x, stopifmissing = FALSE))[1]
   
   x_dat <- as.data.frame(spectra(x))
@@ -33,6 +34,18 @@ setMethod("rfe", signature(x = "Speclib"),
   if (useSIAsPredicants)
   {
     addVar <- .getPredicantVar(x)  
+    
+    if (na.rm)
+    {
+      valid_data <- apply(addVar, 2, function(x) all(is.finite(x)))
+      if (any(!valid_data))      
+      {
+        cat(paste("Remove following variables because at least one sample is not finite:\n"))
+        print(names(addVar)[!valid_data])
+        addVar <- addVar[,valid_data]
+      }
+    }
+    
     x_dat <- cbind(x_dat, addVar)
     if (nlevels(as.factor(names(x_dat))) != ncol(x_dat))
     {
@@ -42,6 +55,7 @@ setMethod("rfe", signature(x = "Speclib"),
   }
 
   dots <- list(...)
+  
   res <- if (!any(names(dots) == "rfeControl"))
            rfe(x_dat, y, rfeControl = rfeControl(functions = rfFuncs), ...)
          else
@@ -85,6 +99,7 @@ setMethod("rfe", signature(x = "Nri"),
                                 y,
                                 cutoff = .95,
                                 returnData = TRUE,
+                                na.rm = FALSE,
                                 ...)
 { 
   y_missing <- missing(y)
@@ -110,6 +125,18 @@ setMethod("rfe", signature(x = "Nri"),
   if (useSIAsPredicants)
   {
     addVar <- .getPredicantVar(x)
+    
+    if (na.rm)
+    {
+      valid_data <- apply(addVar, 2, function(x) all(is.finite(x)))
+      if (any(!valid_data))      
+      {
+        cat(paste("Remove following variables because at least one sample is not finite:\n"))
+        print(names(addVar)[!valid_data])
+        addVar <- addVar[,valid_data]
+      }
+    }
+    
     nri_vals <- cbind(nri_vals, addVar)
     if (nlevels(as.factor(names(nri_vals))) != ncol(nri_vals))
     {
@@ -175,14 +202,15 @@ setMethod("rfe", signature(x = "Specfeat"),
                                 y,
                                 cutoff = .95,
                                 returnData = TRUE,
+                                na.rm = FALSE,
                                 ...)
 {
-  x <- .as.speclib.specfeat(x)
+  x <- .as.speclib.specfeat(x, na.rm = na.rm)
   if (missing(y))
   {
-    return(rfe(x, cutoff = cutoff, returnData = returnData, ...))
+    return(rfe(x, cutoff = cutoff, returnData = returnData, na.rm = na.rm, ...))
   } else {
-    return(rfe(x, y, cutoff = cutoff, returnData = returnData, ...))
+    return(rfe(x, y, cutoff = cutoff, returnData = returnData, na.rm = na.rm, ...))
   }
 })
 

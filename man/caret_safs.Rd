@@ -11,11 +11,11 @@
 Methods for function \code{safs} in package \pkg{caret}. Please refer to help pages in the \pkg{caret}-package for further information.
 }
 \usage{
-\S4method{safs}{Speclib}(x, y, cutoff = 0.95, returnData = TRUE, ...)
+\S4method{safs}{Speclib}(x, y, cutoff = 0.95, returnData = TRUE, na.rm = FALSE, ...)
 
-\S4method{safs}{Nri}(x, y, cutoff = 0.95, returnData = TRUE, ...)
+\S4method{safs}{Nri}(x, y, cutoff = 0.95, returnData = TRUE, na.rm = FALSE, ...)
 
-\S4method{safs}{Specfeat}(x, y, cutoff = 0.95, returnData = TRUE, ...)
+\S4method{safs}{Specfeat}(x, y, cutoff = 0.95, returnData = TRUE, na.rm = FALSE, ...)
 
 get_safs(x)
 }
@@ -33,6 +33,8 @@ get_safs(x)
 \item{returnData}{
   Logical. If TRUE, the updated object of \code{x} is returned, otherwise only the result of \code{\link{safs}} is returned.
 }
+\item{na.rm}{
+  Logical. If TRUE, all variables are excluded which contain at least one non-finite value.}
 \item{...}{
   Further aruments passed to \code{\link{safs}}.
 }

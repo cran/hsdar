@@ -1,4 +1,13 @@
 ------------------------------------------------------------------------------------------
+--- 04-August-2020, version 1.0.3 
+- New functionalities: 
+  - Wrapper for Boruta as feature selection method integrated
+  - Sentinel-2B integrated
+- Bug fixes:
+  - Mask integration estimates same number of bands as in original data
+  - Spectral response function of Sentinel-2A updated
+
+------------------------------------------------------------------------------------------
 --- 15-May-2020, version 1.0.2 
 - Compatibility changes for new R version
 

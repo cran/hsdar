@@ -8,6 +8,7 @@ setMethod("gafs", signature(x = "Speclib"),
                                 y,
                                 cutoff = .95,
                                 returnData = TRUE,
+                                na.rm = FALSE,
                                 ...)
 {
   y_missing <- missing(y)
@@ -33,6 +34,18 @@ setMethod("gafs", signature(x = "Speclib"),
   if (useSIAsPredicants)
   {
     addVar <- .getPredicantVar(x)  
+    
+    if (na.rm)
+    {
+      valid_data <- apply(addVar, 2, function(x) all(is.finite(x)))
+      if (any(!valid_data))      
+      {
+        cat(paste("Remove following variables because at least one sample is not finite:\n"))
+        print(names(addVar)[!valid_data])
+        addVar <- addVar[,valid_data]
+      }
+    }
+    
     x_dat <- cbind(x_dat, addVar)
     if (nlevels(as.factor(names(x_dat))) != ncol(x_dat))
     {
@@ -85,6 +98,7 @@ setMethod("gafs", signature(x = "Nri"),
                                 y,
                                 cutoff = .95,
                                 returnData = TRUE,
+                                na.rm = FALSE,
                                 ...)
 {
   y_missing <- missing(y)
@@ -110,6 +124,18 @@ setMethod("gafs", signature(x = "Nri"),
   if (useSIAsPredicants)
   {
     addVar <- .getPredicantVar(x)
+    
+    if (na.rm)
+    {
+      valid_data <- apply(addVar, 2, function(x) all(is.finite(x)))
+      if (any(!valid_data))      
+      {
+        cat(paste("Remove following variables because at least one sample is not finite:\n"))
+        print(names(addVar)[!valid_data])
+        addVar <- addVar[,valid_data]
+      }
+    }
+    
     nri_vals <- cbind(nri_vals, addVar)
     if (nlevels(as.factor(names(nri_vals))) != ncol(nri_vals))
     {
@@ -174,14 +200,15 @@ setMethod("gafs", signature(x = "Specfeat"),
                                 y,
                                 cutoff = .95,
                                 returnData = TRUE,
+                                na.rm = FALSE,
                                 ...)
 {
-  x <- .as.speclib.specfeat(x)
+  x <- .as.speclib.specfeat(x, na.rm = na.rm)
   if (missing(y))
   {
-    return(gafs(x, cutoff = cutoff, returnData = returnData, ...))
+    return(gafs(x, cutoff = cutoff, returnData = returnData, na.rm = na.rm, ...))
   } else {
-    return(gafs(x, y, cutoff = cutoff, returnData = returnData, ...))
+    return(gafs(x, y, cutoff = cutoff, returnData = returnData, na.rm = na.rm, ...))
   }
 })
 

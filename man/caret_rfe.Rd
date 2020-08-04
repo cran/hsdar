@@ -11,11 +11,11 @@
 Methods for function \code{rfe} in package \pkg{caret}. Please refer to help pages in the \pkg{caret}-package for further information.
 }
 \usage{
-\S4method{rfe}{Speclib}(x, y, cutoff = 0.95, returnData = TRUE, ...)
+\S4method{rfe}{Speclib}(x, y, cutoff = 0.95, returnData = TRUE, na.rm = FALSE, ...)
 
-\S4method{rfe}{Nri}(x, y, cutoff = 0.95, returnData = TRUE, ...)
+\S4method{rfe}{Nri}(x, y, cutoff = 0.95, returnData = TRUE, na.rm = FALSE, ...)
 
-\S4method{rfe}{Specfeat}(x, y, cutoff = 0.95, returnData = TRUE, ...)
+\S4method{rfe}{Specfeat}(x, y, cutoff = 0.95, returnData = TRUE, na.rm = FALSE, ...)
 
 get_rfe(x)
 }
@@ -33,6 +33,8 @@ get_rfe(x)
 \item{returnData}{
   Logical. If TRUE, the updated object of \code{x} is returned, otherwise only the result of \code{\link{rfe}} is returned.
 }
+\item{na.rm}{
+  Logical. If TRUE, all variables are excluded which contain at least one non-finite value.}
 \item{...}{
   Further aruments passed to \code{\link{rfe}}.
 }

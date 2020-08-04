@@ -16,7 +16,7 @@ get_reflectance <- function(spectra, wavelength, position, weighted = FALSE, ...
                                position = position, 
                                weighted = weighted, ...))
       } else {
-        stop("Either wavelenghth or position is not correcly set")
+        stop("Either wavelength or position is not correctly set")
       }
     }
   }
@@ -35,7 +35,7 @@ get_reflectance <- function(spectra, wavelength, position, weighted = FALSE, ...
       }
     } else {
       temp <- abs(wavelength-position)
-      return(spectra[,which(temp==min(temp))])
+      return(spectra[,which(temp==min(temp))[1]])
     }
   } else {
     return(rep.int(NA,nrow(spectra)))

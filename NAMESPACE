@@ -2,7 +2,8 @@ import(
   raster,
   rgdal,
   methods,
-  caret
+  caret,
+  Boruta
   )
 importFrom("graphics", "legend", "par", "points", "polygon", "rasterImage", "rect", "title")
 importFrom("grDevices", "chull", "colorRamp", "dev.off", "hcl", "heat.colors", "palette", "png", "rgb")

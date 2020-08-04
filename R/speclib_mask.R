@@ -13,7 +13,7 @@ setReplaceMethod("mask", signature(object = "Speclib", value = "numeric"),
 setReplaceMethod("mask", signature(object = "Speclib", value = "list"), 
                  definition = function(object, value)
 {
-  if (length(value)!=2)
+  if (length(value)<2)
     stop("In case of mask being a list it must contain exactly two entries")
   lb <- as.vector(value[[1]])
   ub <- as.vector(value[[2]])
@@ -26,7 +26,7 @@ setReplaceMethod("mask", signature(object = "Speclib", value = "list"),
 setReplaceMethod("mask", signature(object = "Speclib", value = "data.frame"), 
                  definition = function(object, value)
 {
-  if (ncol(value)!=2)
+  if (ncol(value)<2)
     stop("In case of mask being a data.frame it must contain exactly two columns")
   lb <- value[,1]
   ub <- value[,2]
@@ -37,7 +37,7 @@ setReplaceMethod("mask", signature(object = "Speclib", value = "data.frame"),
 setReplaceMethod("mask", signature(object = "Speclib", value = "matrix"), 
                  definition = function(object, value)
 {
-  if (ncol(value)!=2)
+  if (ncol(value)<2)
     stop("In case of mask being a data.frame it must contain exactly two columns")
   lb <- value[,1]
   ub <- value[,2]
@@ -62,15 +62,17 @@ maskSpeclib <- function(object, lb, ub)
   restorable <- ub*0+1
   if (any(ub < (wavelength(object)[1]-range_of_wl[1])) |
       any(lb > (wavelength(object)[length(wavelength(object))]+range_of_wl[length(wavelength(object))])))
-    warning("Mask exeeds spectral range of object")
+    warning("Mask exceeds spectral range of object")
     
   try(restorable[which(lb < (wavelength(object)[1]-range_of_wl[1]))] <- 0, silent = TRUE)
   try(restorable[which(ub > (wavelength(object)[length(wavelength(object))]+range_of_wl[length(wavelength(object))]))] <- 0, silent = TRUE)
 
+  lrm <- lb * 0
   ## Apply mask
   for (i in 1:length(lb))
   {
     rm_vector <- !(lb[i]<wavelength(object) & ub[i]>wavelength(object))
+    lrm[i] <- sum(!rm_vector)
     wavelength(object) <- wavelength(object)[rm_vector]
     if (!is.null(attr(object, "bandnames")))
       bandnames(object) <- bandnames(object)[rm_vector]
@@ -80,7 +82,9 @@ maskSpeclib <- function(object, lb, ub)
   }
   attr(object, "setmask") <- TRUE
   attr(object, "dropped") <- data.frame(lb = lb,
-                                        ub = ub)
+                                        ub = ub,
+                                        lrm = lrm
+                                       )
   attr(object, "restorable") <- restorable
   usagehistory(object) <- "Apply mask to spectra"
   return(object)
@@ -109,7 +113,12 @@ interpolate.mask <- function(object)
       m <- (y1 - y2)/(x1 - x2)
       t <- y1 - m*x1
       
-      includevec_x[[i]] <- c((x1+1):(x2-1))
+      if (ncol(masked) > 2)
+      {
+        includevec_x[[i]] <- seq(masked[i,1], masked[i,2], length.out = masked[i,3] + 2)[2:(masked[i,3]+1)]
+      } else {
+        includevec_x[[i]] <- c((x1+1):(x2-1))
+      }
 #       includevec_x[[i]] <- wavelength[xpos1[[i]]:xpos2[[i]]]
       
       includevec_y[[i]] <- includevec_x[[i]]*m+t
@@ -154,28 +163,52 @@ interpolate.mask <- function(object)
     if (!is.na(x2))
       interpolated <- c(interpolated, i)
   }
-  mask_frame <- matrix(mask_frame[interpolated,], ncol = 2)
+  mask_frame <- matrix(mask_frame[interpolated,], ncol = ncol(mask_frame))
   
   spectra(x) <- t(apply(spectra(x), 1, interpolate_FUN, 
                         wavelength=wavelength(x),
                         masked=mask_frame))
-  wavelength <- c(wavelength(x)[c(1:which(abs(mask_frame[1,1]-wavelength(x))==
-                                         min(abs(mask_frame[1,1]-wavelength(x)))))],
-                  c((mask_frame[1,1]+1):(mask_frame[1,2]-1)))
-  i <- 1
-  if (nrow(mask_frame) > 1)
+  if (ncol(mask_frame) > 2)
   {
-    for (i in 2:nrow(mask_frame))
-      wavelength <- c(wavelength, wavelength(x)[c(which(abs(mask_frame[i-1,2]-wavelength(x))==
-                                                min(abs(mask_frame[i-1,2]-wavelength(x)))):
-                                                which(abs(mask_frame[i,1]-wavelength(x))==
-                                                min(abs(mask_frame[i,1]-wavelength(x)))))],
-                      c((mask_frame[i,1]+1):(mask_frame[i,2]-1)))
+    wavelength <- c(wavelength(x)[c(1:which(abs(mask_frame[1,1]-wavelength(x))==
+                                          min(abs(mask_frame[1,1]-wavelength(x)))))],
+                    seq(mask_frame[1,1], mask_frame[1,2], length.out = mask_frame[1,3] + 2)[2:(mask_frame[1,3]+1)])
+    i <- 1
+    if (nrow(mask_frame) > 1)
+    {
+      for (i in 2:nrow(mask_frame))
+        wavelength <- c(wavelength, wavelength(x)[c(which(abs(mask_frame[i-1,2]-wavelength(x))==
+                                                  min(abs(mask_frame[i-1,2]-wavelength(x)))):
+                                                  which(abs(mask_frame[i,1]-wavelength(x))==
+                                                  min(abs(mask_frame[i,1]-wavelength(x)))))],
+                        seq(mask_frame[i,1], mask_frame[i,2], length.out = mask_frame[i,3] + 2)[2:(mask_frame[i,3]+1)])
+    }
+    if (wavelength[length(wavelength)]<wavelength(x)[length(wavelength(x))])
+      wavelength <- c(wavelength, wavelength(x)[c(which(abs(mask_frame[i,2]-wavelength(x))==
+                                                min(abs(mask_frame[i,2]-wavelength(x)))):
+                                                length(wavelength(x)))])
+  } else {  
+    
+    
+    wavelength <- c(wavelength(x)[c(1:which(abs(mask_frame[1,1]-wavelength(x))==
+                                          min(abs(mask_frame[1,1]-wavelength(x)))))],
+                    c((mask_frame[1,1]+1):(mask_frame[1,2]-1)))
+    i <- 1
+    if (nrow(mask_frame) > 1)
+    {
+      for (i in 2:nrow(mask_frame))
+        wavelength <- c(wavelength, wavelength(x)[c(which(abs(mask_frame[i-1,2]-wavelength(x))==
+                                                  min(abs(mask_frame[i-1,2]-wavelength(x)))):
+                                                  which(abs(mask_frame[i,1]-wavelength(x))==
+                                                  min(abs(mask_frame[i,1]-wavelength(x)))))],
+                        c((mask_frame[i,1]+1):(mask_frame[i,2]-1)))
+    }
+    if (wavelength[length(wavelength)]<wavelength(x)[length(wavelength(x))])
+      wavelength <- c(wavelength, wavelength(x)[c(which(abs(mask_frame[i,2]-wavelength(x))==
+                                                min(abs(mask_frame[i,2]-wavelength(x)))):
+                                                length(wavelength(x)))])
   }
-  if (wavelength[length(wavelength)]<wavelength(x)[length(wavelength(x))])
-    wavelength <- c(wavelength, wavelength(x)[c(which(abs(mask_frame[i,2]-wavelength(x))==
-                                               min(abs(mask_frame[i,2]-wavelength(x)))):
-                                               length(wavelength(x)))])
+  
   wavelength(x) <- wavelength
   attr(x, "setmask") <- FALSE
   attr(x, "dropped") <- mask_frame

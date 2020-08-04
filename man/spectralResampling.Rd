@@ -7,6 +7,7 @@
 \alias{Landsat_7_response}
 \alias{Landsat_8_response}
 \alias{Sentinel2A_response}
+\alias{Sentinel2B_response}
 % \alias{TerraModis_response}
 \alias{Quickbird_response}
 \alias{RapidEye_response}

@@ -18,7 +18,8 @@ list.available.sensors <- function(returnHelp = FALSE)
                  "Landsat7",
                  "EnMAP",
                  "Landsat8",
-                 "Sentinel2"
+                 "Sentinel2a",
+                 "Sentinel2b"
                  )
   if (returnHelp)
   {
@@ -302,9 +303,22 @@ get.sensor.characteristics <- function (
   }
   
   if (sensor==available[13]) # Sentinel 2A
-  {
-    centre <- c(443,490,560,665,705,740,783,842,865,945,1375,1610,2190)
-    width  <- c(20,65,35,30,15,15,20,115,20,20,30,90,180)
+  {    
+    centre <- c(442.7,492.4,559.8,664.6,704.1,740.5,782.8,832.8,864.7,945.1,1373.5,1613.7,2202.4)
+    width  <- c(21,66,36,31,15,15,20,106,21,20,31,91,175)
+    
+    lb <- centre - width/2
+    ub <- centre + width/2
+    nch <- length(lb)
+    found <- TRUE
+    fwhm <- FALSE
+    if (response_function) response <- .get_response_function(sensor)
+  }
+  
+  if (sensor==available[14]) # Sentinel 2B
+  {        
+    centre <- c(442.3,492.1,559,665,703.8,739.1,779.7,833,864,943.2,1376.9,1610.4,2185.7)
+    width  <- c(21,66,36,31,16,15,20,106,22,21,30,94,185)
     
     lb <- centre - width/2
     ub <- centre + width/2

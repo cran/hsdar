@@ -1,39 +1,37 @@
-if (!isGeneric("safs")) {
-  setGeneric("safs")
-}
-
-
-setMethod("safs", signature(x = "Speclib"),
+# if (!isGeneric("Boruta")) {
+#   setGeneric("Boruta")
+# }
+# if (!isGeneric("train.formula")) {
+#   setGeneric("train.formula")
+# }
+setMethod("Boruta", signature(x = "Speclib"),
           definition = function(x,
                                 y,
-                                cutoff = .95,
-                                returnData = TRUE,
-                                na.rm = FALSE,
-                                ...)
+                                ..., 
+                                returnData = TRUE, 
+                                includeTentative = FALSE,
+                                na.rm = FALSE
+                               )
 {
   y_missing <- missing(y)
   
   if (y_missing)
   {
     y <- .getResponseVar(x, 
-                         advice = c("safs", "setResponse", 
-                                    "This is only required if you do not specify 'y'."))
+                         advice = c("Boruta", "setResponse", 
+                                    "This is only required if you do not specify 'y'.")) 
   }
   
   useSIAsPredicants <- !is.na(.getPredicantVar(x, stopifmissing = FALSE))[1]
   
   x_dat <- as.data.frame(spectra(x))
-  if (is.finite(cutoff))
-  {
-    x_dat <- x_dat[, -findCorrelation(cor(x_dat), cutoff)]
-    x_dat <- as.data.frame(x_dat)
-  }
   
   spec_nam <- names(x_dat)
   
   if (useSIAsPredicants)
   {
-    addVar <- .getPredicantVar(x)  
+    addVar <- .getPredicantVar(x) 
+    
     
     if (na.rm)
     {
@@ -45,7 +43,6 @@ setMethod("safs", signature(x = "Speclib"),
         addVar <- addVar[,valid_data]
       }
     }
-    
     x_dat <- cbind(x_dat, addVar)
     if (nlevels(as.factor(names(x_dat))) != ncol(x_dat))
     {
@@ -53,18 +50,20 @@ setMethod("safs", signature(x = "Speclib"),
       stop("Names in predictor data.frame not unique")
     }
   }
-
-  dots <- list(...)
-  res <- if (!any(names(dots) == "safsControl"))
-           safs(x_dat, y, safsControl = safsControl(functions = rfSA), ...)
-         else
-           safs(x_dat, y, ...)
+  
+  res <- Boruta(x = x_dat, y = y, ...)
   if (!returnData)
     return(res)
+    
+  pred <- if (includeTentative)
+  {
+    names(res$finalDecision)[res$finalDecision %in% c("Tentative", "Confirmed")]
+  } else {
+    names(res$finalDecision)[res$finalDecision == "Confirmed"]
+  }
   
-  pred <- res$optVariables# predictors(res) ## BUG? in caret
-
   x <- x[,sapply(spec_nam, FUN = function(x, pred) any(pred == x), pred), usagehistory = FALSE]
+  
   
   if (useSIAsPredicants)
   {
@@ -83,42 +82,37 @@ setMethod("safs", signature(x = "Speclib"),
         tmp <- SI(x)[,sapply(names(SI(x)), FUN = function(x, pred) any(pred == x), pred)]
       }
       SI(x) <- tmp
-    }         
+    }
     x <- .updateCaretParameters(x, c("response", "predictor"))
   }
   
-  x <- .setCaretParameter(x, "safs_result", res)
-  usagehistory(x) <- "Supervised feature selection using simulated annealing"
+  x <- .setCaretParameter(x, "Boruta_result", res)
+  usagehistory(x) <- "Important variables selected using Boruta"
   return(x)
 })
 
-setMethod("safs", signature(x = "Nri"),
+
+setMethod("Boruta", signature(x = "Nri"),
           definition = function(x,
                                 y,
-                                cutoff = .95,
-                                returnData = TRUE,
-                                na.rm = FALSE,
-                                ...)
-{  
+                                ..., 
+                                returnData = TRUE, 
+                                includeTentative = FALSE,
+                                na.rm = FALSE)
+{
   y_missing <- missing(y)
   
   if (y_missing)
   {
-    y <- .getResponseVar(x,
-                         advice = c("safs", "setResponse", 
-                                    "This is only required if you do not specify 'y'."))
+    y <- .getResponseVar(x, 
+                         advice = c("Boruta", "setResponse", 
+                                    "This is only required if you do not specify 'y'.")) 
   }  
     
   useSIAsPredicants <- !is.na(.getPredicantVar(x, stopifmissing = FALSE))[1]
   
-  nri_vals_all <- as.data.frame(x)
-  if (is.finite(cutoff))
-  {
-    nri_vals <- nri_vals_all[, -findCorrelation(cor(nri_vals_all), cutoff)]
-  } else {
-    nri_vals <- nri_vals_all
-  }  
-  nri_vals <- as.data.frame(nri_vals)
+  nri_vals <- as.data.frame(x)
+  nri_vals_all <- nri_vals
   
   if (useSIAsPredicants)
   {
@@ -143,16 +137,17 @@ setMethod("safs", signature(x = "Nri"),
     }
   }
 
-  dots <- list(...)
-  res <- if (!any(names(dots) == "safsControl"))
-           safs(nri_vals, y, safsControl = safsControl(functions = rfSA), ...)
-         else
-           safs(nri_vals, y, ...)
-
+ 
+  res <- Boruta(x = nri_vals, y = y, ...)
   if (!returnData)
     return(res)
-  
-  pred <- res$optVariables# predictors(res) ## BUG? in caret
+    
+  pred <- if (includeTentative)
+  {
+    names(res$finalDecision)[res$finalDecision %in% c("Tentative", "Confirmed")]
+  } else {
+    names(res$finalDecision)[res$finalDecision == "Confirmed"]
+  }
   
   is.pred.col <- sapply(names(nri_vals_all), FUN = function(x, pred) any(pred == x), pred)
   
@@ -172,7 +167,7 @@ setMethod("safs", signature(x = "Nri"),
 
   if (useSIAsPredicants)
   {
-    warning(paste("SI data.frame will only contain relevant variables", 
+    warning(paste("Attibute data.frame will only contain relevant variables", 
                   if (y_missing) " and the response variable", ".", sep = ""))
     if (y_missing)
       pred <- c(pred, names(SI(x))[.getCaretParameter(x, "response")])
@@ -191,27 +186,28 @@ setMethod("safs", signature(x = "Nri"),
     x <- .updateCaretParameters(x, c("response", "predictor"))
   }
   
-  return(.setCaretParameter(x, "safs_result", res))
+  x <- .setCaretParameter(x, "Boruta_result", res)
+  usagehistory(x) <- "Important variables selected using Boruta"
+  return(x)
 })
 
-
-setMethod("safs", signature(x = "Specfeat"),
+setMethod("Boruta", signature(x = "Specfeat"),
           definition = function(x,
                                 y,
-                                cutoff = .95,
-                                returnData = TRUE,
-                                na.rm = FALSE,
-                                ...)
+                                ..., 
+                                returnData = TRUE, 
+                                includeTentative = FALSE,
+                                na.rm = FALSE
+                               )
 {
   x <- .as.speclib.specfeat(x, na.rm = na.rm)
-
   if (missing(y))
   {
-    return(safs(x, cutoff = cutoff, returnData = returnData, na.rm = na.rm, ...))
+    return(Boruta(x, includeTentative = includeTentative, returnData = returnData, na.rm = na.rm, ...))
   } else {
-    return(safs(x, y, cutoff = cutoff, returnData = returnData, na.rm = na.rm, ...))
+    return(Boruta(x, y, includeTentative = includeTentative, returnData = returnData, na.rm = na.rm, ...))
   }
 })
 
-get_safs  <- function(x)
-  .getCaretParameter(x, "safs_result")
+get_Boruta  <- function(x)
+  .getCaretParameter(x, "Boruta_result")

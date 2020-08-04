@@ -503,7 +503,7 @@ setMethod("as.data.frame", signature(x = "Specfeat"),
   }
 )
 
-.as.speclib.specfeat <- function(x)
+.as.speclib.specfeat <- function(x, na.rm = FALSE)
 {
   wl <- .get.feature.wavelength(x)
   rep <- .get.rep.feature.parts(wl, x)
@@ -519,6 +519,12 @@ setMethod("as.data.frame", signature(x = "Specfeat"),
   }
   wl <- unlist(lapply(rep[[2]], function(x, wl) wl[x], wavelength(x)))
   
+  if (na.rm)
+  {
+    valid_data <- apply(res, 2, function(x) all(is.finite(x)))
+    res <- res[,valid_data]
+    wl <- wl[valid_data]
+  }
   wavelength(x) <- wl
   spectra(x) <- res
   
