@@ -85,5 +85,12 @@
   usagehistory(backup) <- usagehistory(res)[length(usagehistory(res))]
   wavelength(backup) <- wavelength(res)
   backup@spectra@spectra_ra <- out
+  
+  if (toString(ca[1]) == "transformSpeclib")
+  {
+    backup@transformation <- res@transformation
+    backup@ylabel <- res@ylabel
+  }
+  
   return(backup)
 }

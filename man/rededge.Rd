@@ -31,7 +31,7 @@ The minimum reflectance is the reflectance at (\eqn{\lambda 0}{l0}).
 The inflection point is the root of the 2nd derivative function between the maximum value and 
 the minimum value. The shoulder wavelength is the first root beyond the minimum value of the 2nd derivation. The following figure shows the locaqtion of the red edge parameters in an example second derivation and reflectance spectrum.
 
-\if{html}{\figure{rededge.png}{width="35\%" alt="Figure: rededge.png"}}
+\if{html}{\figure{rededge.png}{options: width="35\%" alt="Figure: rededge.png"}}
 \if{latex}{\figure{rededge.pdf}{options: width=10cm}}
 
 }

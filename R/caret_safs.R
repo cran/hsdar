@@ -25,7 +25,9 @@ setMethod("safs", signature(x = "Speclib"),
   x_dat <- as.data.frame(spectra(x))
   if (is.finite(cutoff))
   {
-    x_dat <- x_dat[, -findCorrelation(cor(x_dat), cutoff)]
+    x_dat_cor <- cor(x_dat)
+    x_dat_cor[!is.finite(x_dat_cor)] <- 0
+    x_dat <- x_dat[, -findCorrelation(x_dat_cor, cutoff)]
     x_dat <- as.data.frame(x_dat)
   }
   
@@ -114,7 +116,9 @@ setMethod("safs", signature(x = "Nri"),
   nri_vals_all <- as.data.frame(x)
   if (is.finite(cutoff))
   {
-    nri_vals <- nri_vals_all[, -findCorrelation(cor(nri_vals_all), cutoff)]
+    nri_vals_all_cor <- cor(nri_vals_all)
+    nri_vals_all_cor[!is.finite(nri_vals_all_cor)] <- 0
+    nri_vals <- nri_vals_all[, -findCorrelation(nri_vals_all_cor, cutoff)]
   } else {
     nri_vals <- nri_vals_all
   }  

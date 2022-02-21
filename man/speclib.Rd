@@ -74,7 +74,7 @@ is.speclib(x)
 
 \arguments{
 \item{spectra}{
-Data frame, matrix of raster object of class 'RasterBrick' or 'SpatialGridDataFrame' with spectral data. Alternatively, spectra may be the path to a raster file containing hyperspectral data.
+Data frame, matrix or raster object of class 'RasterBrick' or 'SpatialGridDataFrame' with spectral data. Alternatively, spectra may be the path to a raster file containing hyperspectral data.
 }
 \item{x,object}{
 Object to be converted to or from Speclib. For conversion to Speclib it can be a of class \code{'data frame'}, \code{'matrix'}, \code{'list'} or \code{'character string'}. In the latter case x is interpreted as path to raster object and read by \code{readGDAL}. For conversion from \code{Speclib} the object must be of class \code{Speclib}.

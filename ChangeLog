@@ -1,4 +1,12 @@
 ------------------------------------------------------------------------------------------
+--- 19-Februar-2022, version 1.0.4 (under development)
+- Bug fixes:
+  - .blockwise handles transformSpeclib correctly
+  - safs can handle variables with zero variance if cutoff value is finite
+  - Option "difference" added to help page of "transformSpeclib"
+  - Options for figures included in the man pages changed
+  
+------------------------------------------------------------------------------------------
 --- 04-August-2020, version 1.0.3 
 - New functionalities: 
   - Wrapper for Boruta as feature selection method integrated

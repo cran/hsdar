@@ -32,8 +32,32 @@ setMethod("predictHyperspec",
     addVar <- .getPredicantVar(newdata)
     all_vals <- cbind(all_vals, addVar)
   }
-
-  return(predict(object = object, newdata = all_vals, ...))
+  
+  
+  preds_obj <- predictors(object)
+#   preds_obj <- preds_obj[-length(preds_obj)]
+  missing <- sapply(preds_obj, function(x,y) return(!(x %in% y)), names(all_vals))
+  
+  
+  
+  if (any(missing))
+  {
+    k <- 1:length(missing)
+    k <- k[missing]
+    missing <- missing[missing]
+    cat("There are missing predictors:\n")
+    for (i in 1:length(missing))
+      cat(paste0("  - ", preds_obj[k[i]], "\n"))
+    cat("\n * The following predictors were used to train the model:\n")
+    print(preds_obj)
+    cat("\n * Newdata includes the following variables:\n")
+    print(names(all_vals))
+    cat("\n\n Did you set additional predictor variables from SI?\n")
+  }
+  res <- try(predict(object = object, newdata = all_vals, ...))
+  if (inherits(res, "try-error"))
+    return(all_vals)
+  return(res)
 })
 
 setMethod("predictHyperspec",
@@ -68,6 +92,15 @@ setMethod("predictHyperspec",
     all_vals <- cbind(all_vals, addVar)
   }
 
+  preds_obj <- predictors(object)
+  missing <- sapply(preds_obj, function(x,y) if (! x%in%y) return(x) else return(NULL), names(all_vals))
+  if (length(missing) > 0)
+  {
+    cat("There are missing predictors:\n")
+    for (i in 1:length(missing))
+      cat(paste0("  - ", missing[i], "\n"))
+  }
+  
   return(predict(object = object, newdata = all_vals, ...))
 })
 

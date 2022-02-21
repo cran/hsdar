@@ -497,7 +497,13 @@ setMethod("as.data.frame", signature(x = "Specfeat"),
             }, x$features[[i]], rep[[1]][[i]], rep[[2]][[i]])))
     }
     res <- as.data.frame(res, row.names = row.names, optional = optional, ...)
-    names(res) <- paste("V", unlist(lapply(rep[[2]], function(x, wl) wl[x], wavelength(x))), sep = "_")
+    n_f <- paste("B", unlist(lapply(rep[[2]], function(x, wl) wl[x], wavelength(x))), sep = "_")
+    if (length(n_f) == length(bandnames(x)))
+    {
+      names(res) <- bandnames(x)
+    } else {
+      names(res) <- n_f
+    }
     return(res)
 
   }

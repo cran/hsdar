@@ -1,8 +1,8 @@
 Package: hsdar
 Type: Package
 Title: Manage, Analyse and Simulate Hyperspectral Data
-Version: 1.0.3
-Date: 2020-08-04
+Version: 1.0.4
+Date: 2022-02-20
 Authors@R: c(
 	person("Lukas W.", "Lehnert", role = c("cre", "aut"),
 			email = "lukaslehnert@googlemail.com", 
@@ -20,9 +20,9 @@ LazyLoad: yes
 BuildVignettes: yes
 Copyright: see file COPYRIGHTS
 NeedsCompilation: yes
-Packaged: 2020-08-04 13:20:39 UTC; lehnert
+Packaged: 2022-02-21 11:25:39 UTC; lehnert
 Author: Lukas W. Lehnert [cre, aut] (<https://orcid.org/0000-0002-5229-2282>),
   Hanna Meyer [ctb],
   Joerg Bendix [ctb]
 Repository: CRAN
-Date/Publication: 2020-08-04 14:30:02 UTC
+Date/Publication: 2022-02-21 12:20:02 UTC

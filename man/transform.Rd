@@ -39,13 +39,15 @@ sides. In contrast to a convex hull, the segmented hull is able to identify smal
 features. 
 
 Specify \code{method = "ch"} for the convex hull and \code{method = "sh"} for the segmented hull.
-The output might be \code{"raw"}, \code{"bd"} or \code{"ratio"}:
+The output might be \code{"raw"}, \code{"bd"}, \code{"difference"} or \code{"ratio"}:
 \itemize{
 \item{"raw":}{ the continuum line is returned} 
 \item{"bd":}{ the spectra are transformed to band depth by
 \deqn{BD_\lambda = 1-\frac{R_\lambda}{CV_\lambda},} 
 where \eqn{BD} is the band depth, \eqn{R} is the reflectance and \eqn{CV} is the continuum value at
 the wavelength \eqn{\lambda}.}
+\item{"difference":}{ the spectra are transformed by 
+\deqn{diff_\lambda = CV_\lambda - R_\lambda}}
 \item{"ratio":}{ the spectra are transformed by 
 \deqn{ratio_\lambda = \frac{R_\lambda}{CV_\lambda}.}
 }
